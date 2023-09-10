@@ -98,7 +98,7 @@
         }
         .buttons{
             position: absolute;
-            bottom: 27%;
+            bottom: 25%;
         }
         .btn {
             background-color: #00abf4;
@@ -181,8 +181,12 @@
                 align-items: center;
                 justify-content: center;
                 flex-direction: column;
-                gap: 2rem;
+                gap: 1.7rem;
                 height: 100vh;
+                padding-top: 40px;
+            }
+            .about h2{
+                font-size: 30px;
             }
 
             span {
@@ -204,6 +208,33 @@
                 height: 90%;
                 border-radius: 50%;
                 border: 0.2rem solid #081b29;
+                animation: glow 3s linear infinite;
+            }
+            @keyframes glow{
+                0%{
+                    box-shadow: 0px 0px 0px;
+                }
+                10%{
+                    box-shadow: 0px 0px 5px;
+                }
+                20%{
+                    box-shadow: 0px 0px 10px;
+                }
+                40%{
+                    box-shadow: 0px 0px 15px;
+                }
+                60%{
+                    box-shadow: 0px 0px 20px;
+                }
+                80%{
+                    box-shadow: 0px 0px 15px;
+                }
+                90%{
+                    box-shadow: 0px 0px 10px;
+                }
+                100%{
+                    box-shadow: 0px 0px 5px;
+                }
             }
 
             .about-img .orbit {
@@ -214,10 +245,25 @@
                 width: 100%;
                 height: 100%;
                 border-radius: 50%;
-                border-top: .2rem solid #081b29;
-                border-bottom: .2rem solid #081b29;
+                border-top: .2rem solid transparent;
+                border-bottom: .2rem solid transparent;
                 border-left: .2rem solid #0fc5c5;
                 border-right: .2rem solid #0fc5c5;
+                animation: orbit 8s linear infinite;
+                transform-origin: center;
+            }
+             .about-img .orbit2 {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(0);
+                width: 110%;
+                height: 110%;
+                border-radius: 50%;
+                border-top: .2rem solid #0fc5c5;
+                border-bottom: .2rem solid #0fc5c5;
+                border-left: .2rem solid transparent;
+                border-right: .2rem solid transparent;
                 animation: orbit 8s linear infinite;
                 transform-origin: center;
             }
@@ -230,7 +276,7 @@
 
             .about-content {
                 text-align: center;
-                width: 60%;
+                width: 70%;
             }
 
             .about-content h3 {
@@ -238,6 +284,7 @@
                 display: inline-block;
                 font-size: 40px;
                 margin-bottom: 5px;
+                color: #00abf4;
             }
 
             .about-content p {
@@ -265,6 +312,9 @@
             }
             #menu-icon {
                     display: block;
+                }
+                .buttons{
+                    bottom: 20%;
                 }
 
                 .nav {
@@ -360,13 +410,13 @@
 </head>
 <body>
     <div class="header">
-            <a href="personal.html" class="logo"><img src="pflogo.png" alt="Digital Dynamo"></a>
+            <a href="#home" class="logo"><img src="pflogo.png" alt="Digital Dynamo"></a>
 
             <div class="bx bx-menu" id="menu-icon"></div>
         <nav class="nav">
             <a href="#home" class="active">Home</a>
-            <a href="#Projects">Projects</a>
-            <a href="#services">Services</a>
+            <a href="#projects">Projects</a>
+            <a href="#">?????</a>
             <a href="#about">About</a>
             <span class="active-nav"></span>
         </nav>
@@ -380,12 +430,12 @@
             </p>
         </div>
         <div class="buttons">
-            <a href="https://github.com/Digital-Dynamo38"><button class="btn">Hire me!</button></a>
-            <a href=""><button class="btn">Merchs</button></a>
+            <a href="https://"><button class="btn">Hire me!</button></a>
+            <a href=""><button class="btn">Contact!</button></a>
         </div>
         <div class="social">
             <a href="https://www.facebook.com/profile.php?id=100075358218099"><i class='bx bxl-facebook-circle'></i></a>
-            <a href="https://github.com/Digital-Dynamo38"><i class='bx bxl-github'></i></a>
+            <a href="https"><i class='bx bxl-github'></i></a>
             <a href="#"><i class='bx bxl-tiktok'></i></a>
             <a href="#"><i class='bx bxl-youtube' ></i></a>
         </div>
@@ -441,9 +491,11 @@
     </section>
     <!-- About Section Design -->
     <section class="about" id="about">
+        <h2>About Me!</h2>
         <div class="about-img">
             <img src="pfp.jpg" alt="">
             <span class="orbit"></span>
+            <span class="orbit2"></span>
         </div>
         <div class="about-content">
             <h3>Aayush Neupane!</h3>
@@ -508,4 +560,4 @@ window.addEventListener('scroll', setActiveSection);
 setActiveSection();
     </script>
 </body>
-</html>
+</html>    

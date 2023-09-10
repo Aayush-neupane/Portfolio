@@ -20,7 +20,7 @@
             overflow-x: hidden;
         }
         .header{
-            background: transparent;
+            background: #081b29;
             position: fixed;
             top: 0;
             left: 0;
@@ -61,8 +61,9 @@
             font-size: 56px;
             color: #00abf4;
         }
-        .home-content h3{
+        #profession{
             font-size: 40px;
+            color: #ededed;
         }
         .home-content p{
             font-size: 25px;
@@ -236,11 +237,17 @@
                 position: relative;
                 display: inline-block;
                 font-size: 40px;
+                margin-bottom: 5px;
             }
 
             .about-content p {
                 position: relative;
                 font-size: 25px;
+            }
+            .about-content hr{
+                width: 70%;
+                margin-bottom: 15px;
+                margin-left: 15%;
             }
 
         @media (max-width: 768px){
@@ -298,12 +305,17 @@
 
                 .nav a {
                     display: block;
-                    font-size: 2rem;
-                    margin: 3rem 0;
+                    font-size: 1.7rem;
+                    margin-top: 0;
+                    margin-bottom: 0;
                     transform: translateX(-20rem);
                     transition-delay: 0s;
+                    padding: 25px;
                 }
 
+                .nav a:hover {
+                    background: #314251 ;
+                }
                 .nav.active a {
                     transform: translateX(0);
                     transition-delay: .25s;
@@ -332,6 +344,16 @@
                 .display p {
                     font-size: 14px;
                 }
+                .about-content h3{
+                    font-size: 30px;
+
+                }
+                .about-content p{
+                    font-size: 15px;
+                }
+                .about-content{
+                    width: 80%
+                }
             }
     </style>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -342,7 +364,7 @@
 
             <div class="bx bx-menu" id="menu-icon"></div>
         <nav class="nav">
-            <a href="#personal" class="active">Home</a>
+            <a href="#home" class="active">Home</a>
             <a href="#Projects">Projects</a>
             <a href="#services">Services</a>
             <a href="#about">About</a>
@@ -352,7 +374,7 @@
     <section class="home" id="home">
         <div class="home-content">
             <h1>Hi! I am Aayush.</h1>
-            <h3><span id="profession"></span></h3>
+            <h2><span id="profession"></span></h2>
             <p>
                 Hi! My name is Aayush Neupane. I am a student learning about computer science and web developing.
             </p>
@@ -425,19 +447,20 @@
         </div>
         <div class="about-content">
             <h3>Aayush Neupane!</h3>
-            <p>From 2021 to 2023, I ventured into programming, progressing from basic languages like HTML, CSS, and
-                JavaScript. At first, it was difficult to learn, but I practiced more and more. My only dream was to
-                become a hacker and web developer.I gained patience, resilience, and a passion for continuous learning.
-                As 2023 unfolds, I'm excited to embrace new challenges and technologies, knowing my journey is just
-                beginning.
-            </p>
+            <hr>
+            <p>Hey, I'm Aayush Neupane, and I'm a computer science student with a passion for web development and graphic design. Coding and design have become my creative outlets, allowing me to turn ideas into realitiy.
+                Beyond that, I'm also a music enthusiast, and anime/movies enjoyer.I also have a hobby of writing poems and songs. These hobbies provide a comforting break from stress and work, allowing me to create more creative ideas. </p>
         </div>
     </section> 
-    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"> </script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>    
     <script>
         let typed = new Typed('#profession', {
             strings: ['<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>'],
             typeSpeed: 100,
+            backSpeed: 50,
+            backDelay: 200,
+            startDelay: 300,
+            loop: true
         });
         let menuIcon = document.querySelector('#menu-icon');
         let navbar = document.querySelector('.nav');

@@ -1,129 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIGITAL DYNAMO!</title>
-    <style>
-        /*By Digital Dynamo*/
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', 'sans-serif';
-            scroll-behavior: smooth;
-        }
-        body{
-            background-color: #081b29;
-            color: #ededed;
-            overflow-x: hidden;
-        }
-        .header{
-            background: #081b29;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 10%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 10000;
-            transition: .5s;
-        }
-        .logo img{
-          width: 200px;
-        }
-        .nav a{
-            text-decoration: none;
-            font-size: 25px;
-            color: #ededed;
-            font-weight: 500;
-            margin-left: 40px;
-            transition: .4s;
-        }
-        .nav a:hover, .nav a.active{
-            color: #00abf4;
-        }
-        .home{
-            display: flex;
-            align-items: center;
-            height: 100vh;
-            padding: 0 10%;
-        }
-        .home-content{
-            max-width: 700px;
-            line-height: 1.5;
-            letter-spacing: 1px;
-        }
-        .home-content h1{
-            font-size: 56px;
-            color: #00abf4;
-        }
-        #profession{
-            font-size: 40px;
-            color: #ededed;
-        }
-        .home-content p{
-            font-size: 25px;
-        }
-        .social {
-          position: absolute;
-          bottom: 40px;
-          width: 250px;
-          display: flex;
-          justify-content: space-between;
-        }
-        .social a{
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: transparent;
-            border: 1px solid #00abf4;
-            border-radius: 50%;
-            font-size: 25px;
-            color: #00abf0;
-            text-decoration: none;
-            padding: 0%;
-            transition: 1s;
-            cursor: pointer;
-        }
-        .social a:hover{
-            background: #00abf4;
-            color: #081b29;
-        }
-        .buttons{
-            position: absolute;
-            bottom: 25%;
-        }
-        .btn {
-            background-color: #00abf4;
-            color: #000000;
-            padding: 10px 20px;
-            margin-right: 20px;
-            border: .5px solid #00abf0;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: 1s;
-        }
-        
-        .btn:hover {
-            background-color: #000000;
-            color: #00abf4;
-        }
-        a{
-            text-decoration: none;
-        }
-        #menu-icon {
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DIGITAL DYNAMO!</title>
+        <style>
+            /*By Digital Dynamo*/
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', 'sans-serif';
+                scroll-behavior: smooth;
+            }
+
+            body {
+                background-color: #081b29;
+                color: #ededed;
+                overflow-x: hidden;
+            }
+
+            .header {
+                background: #081b29;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                padding: 20px 10%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                z-index: 10000;
+                transition: .5s;
+            }
+
+            .logo img {
+                width: 200px;
+            }
+
+            .nav a {
+                text-decoration: none;
+                font-size: 25px;
+                color: #ededed;
+                font-weight: 500;
+                margin-left: 40px;
+                transition: .4s;
+            }
+
+            .nav a:hover, .nav a.active {
+                color: #00abf4;
+            }
+
+            .home {
+                display: flex;
+                align-items: center;
+                height: 100vh;
+                padding: 0 10%;
+            }
+
+            .home-content {
+                max-width: 700px;
+                line-height: 1.5;
+                letter-spacing: 1px;
+            }
+
+            .home-content h1 {
+                font-size: 56px;
+                color: #00abf4;
+            }
+
+            #profession {
+                font-size: 40px;
+                color: #ededed;
+            }
+
+            .home-content p {
+                font-size: 25px;
+            }
+
+            .social {
+                position: absolute;
+                bottom: 40px;
+                width: 250px;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .social a {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                background: transparent;
+                border: 1px solid #00abf4;
+                border-radius: 50%;
+                font-size: 25px;
+                color: #00abf0;
+                text-decoration: none;
+                padding: 0%;
+                transition: 1s;
+                cursor: pointer;
+            }
+
+            .social a:hover {
+                background: #00abf4;
+                color: #081b29;
+            }
+
+            .buttons {
+                position: absolute;
+                bottom: 25%;
+            }
+
+            .btn {
+                background-color: #00abf4;
+                color: #000000;
+                padding: 10px 20px;
+                margin-right: 20px;
+                border: .5px solid #00abf0;
+                border-radius: 15px;
+                cursor: pointer;
+                font-size: 18px;
+                transition: 1s;
+            }
+
+            .btn:hover {
+                background-color: #000000;
+                color: #00abf4;
+            }
+
+            a {
+                text-decoration: none;
+            }
+
+            #menu-icon {
                 font-size: 3.6rem;
                 cursor: pointer;
                 display: none;
             }
+
             .container {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
@@ -185,7 +203,8 @@
                 height: 100vh;
                 padding-top: 40px;
             }
-            .about h2{
+
+            .about h2 {
                 font-size: 30px;
             }
 
@@ -210,29 +229,37 @@
                 border: 0.2rem solid #081b29;
                 animation: glow 3s linear infinite;
             }
-            @keyframes glow{
-                0%{
+
+            @keyframes glow {
+                0% {
                     box-shadow: 0px 0px 0px;
                 }
-                10%{
+
+                10% {
                     box-shadow: 0px 0px 5px;
                 }
-                20%{
+
+                20% {
                     box-shadow: 0px 0px 10px;
                 }
-                40%{
+
+                40% {
                     box-shadow: 0px 0px 15px;
                 }
-                60%{
+
+                60% {
                     box-shadow: 0px 0px 20px;
                 }
-                80%{
+
+                80% {
                     box-shadow: 0px 0px 15px;
                 }
-                90%{
+
+                90% {
                     box-shadow: 0px 0px 10px;
                 }
-                100%{
+
+                100% {
                     box-shadow: 0px 0px 5px;
                 }
             }
@@ -252,7 +279,8 @@
                 animation: orbit 8s linear infinite;
                 transform-origin: center;
             }
-             .about-img .orbit2 {
+
+            .about-img .orbit2 {
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -291,36 +319,42 @@
                 position: relative;
                 font-size: 25px;
             }
-            .about-content hr{
+
+            .about-content hr {
                 width: 70%;
                 margin-bottom: 15px;
                 margin-left: 15%;
             }
 
-        @media screen and (max-width: 430px) and (max-height:850px ){
-            .home-content h1{
-                font-size: 30px;
-            }
-            .home-content h3{
-                font-size: 15px;
-            }
-            .home-content p{
-                font-size: 8px;
-            }
-            .logo img{
-                width: 120px;
-            }
-            #menu-icon {
-                    display: block;
-                }
-                .buttons{
-                    bottom: 20%;
-                }
-                .header{
-                    padding: 10px 13%;
+            @media screen and (max-width: 470px) {
+                .home-content h1 {
+                    font-size: 30px;
                 }
 
-               
+                #profession {
+                    font-size: 25px;
+                }
+
+                .home-content p {
+                    font-size: 8px;
+                }
+
+                .logo img {
+                    width: 120px;
+                }
+
+                #menu-icon {
+                    display: block;
+                }
+
+                .buttons {
+                    bottom: 23%;
+                }
+
+                .header {
+                    padding: 8px 7%;
+                }
+
                 .container {
                     grid-template-columns: repeat(2, 1fr);
                     gap: 8px;
@@ -332,61 +366,72 @@
                     height: auto;
                     margin-left: 5%;
                     box-shadow: 0px 0px 10px #4b4949;
+                    margin-top: 70px;
                 }
 
                 .display img {
-                    height: 120px;
+                    height: 100px;
                 }
 
                 .display h2 {
-                    font-size: 12px;
+                    font-size: 10px;
                 }
 
                 .display p {
-                    font-size: 10px;
+                    font-size: 8px;
                 }
 
-                .about-content h3{
+                .about-content h3 {
                     font-size: 23px;
-
                 }
-                .about-content p{
+
+                .about-content p {
                     font-size: 10px;
                 }
-                .about-content{
+
+                .about-content {
                     width: 90%
                 }
-                .about-img img{
+
+                .about-img img {
                     width: 70%;
                     height: 70%;
                 }
-                .about-img .orbit{
+
+                .about-img .orbit {
                     width: 80%;
                     height: 80%;
                 }
-                .about-img .orbit2{
+
+                .about-img .orbit2 {
                     width: 90%;
                     height: 90%;
                 }
             }
-            @media screen and (max-width: 768px){
-            .home-content h1{
-                font-size:40px;
-            }
-            .home-content h3{
-                font-size: 25px;
-            }
-            .home-content p{
-                font-size: 18px;
-            }
-            .logo img{
-                width: 150px;
-            }
-            #menu-icon {
+
+            @media screen and (max-width: 900px) {
+                .home-content h1 {
+                    font-size:40px;
+                }
+
+                #profession {
+                    font-size: 30px;
+                }
+
+                .home-content p {
+                    font-size: 18px;
+                }
+
+                .logo img {
+                    width: 150px;
+                }
+
+                #menu-icon {
                     display: block;
                 }
-                .buttons{
-                    bottom: 20%;
+
+                .buttons {
+                    bottom: 27%;
                 }
 
                 .nav {
@@ -438,10 +483,12 @@
                 .nav a:hover {
                     background: #314251 ;
                 }
+
                 .nav.active a {
                     transform: translateX(0);
                     transition-delay: .25s;
                 }
+
                 .container {
                     grid-template-columns: repeat(2, 1fr);
                     gap: 15px;
@@ -453,6 +500,7 @@
                     height: auto;
                     margin-left: 10%;
                     box-shadow: 0px 0px 15px #4b4949;
+                    margin-top: 100px;
                 }
 
                 .display img {
@@ -466,170 +514,186 @@
                 .display p {
                     font-size: 14px;
                 }
-                .about-content h3{
-                    font-size: 30px;
 
+                .about-content h3 {
+                    font-size: 30px;
                 }
-                .about-content p{
+
+                .about-content p {
                     font-size: 15px;
                 }
-                .about-content{
+
+                .about-content {
                     width: 80%
                 }
             }
-    </style>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
-<body>
-    <div class="header">
-            <a href="#home" class="logo"><img src="pflogo.png" alt="Digital Dynamo"></a>
-
+        </style>
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+    <body>
+        <div class="header">
+            <a href="#home" class="logo">
+                <img src="pflogo.png" alt="Digital Dynamo">
+            </a>
             <div class="bx bx-menu" id="menu-icon"></div>
-        <nav class="nav">
-            <a href="#home" class="active">Home</a>
-            <a href="#projects">Projects</a>
-            <a href="#">?????</a>
-            <a href="#about">About</a>
-            <span class="active-nav"></span>
-        </nav>
-    </div>
-    <section class="home" id="home">
-        <div class="home-content">
-            <h1>Hi! I am Aayush.</h1>
-            <h2><span id="profession"></span></h2>
-            <p>
-                Hi! My name is Aayush Neupane. I am a student learning about computer science and web developing.
+            <nav class="nav">
+                <a href="#home" class="active">Home</a>
+                <a href="#projects">Projects</a>
+                <a href="#">?????</a>
+                <a href="#about">About</a>
+                <span class="active-nav"></span>
+            </nav>
+        </div>
+        <section class="home" id="home">
+            <div class="home-content">
+                <h1>Hi! I am Aayush.</h1>
+                <h2>
+                    <span id="profession"></span>
+                </h2>
+                <p>Hi! My name is Aayush Neupane. I am a student learning about computer science and web developing.
             </p>
-        </div>
-        <div class="buttons">
-            <a href="https://"><button class="btn">Hire me!</button></a>
-            <a href=""><button class="btn">Contact!</button></a>
-        </div>
-        <div class="social">
-            <a href="https://www.facebook.com/profile.php?id=100075358218099"><i class='bx bxl-facebook-circle'></i></a>
-            <a href="https"><i class='bx bxl-github'></i></a>
-            <a href="#"><i class='bx bxl-tiktok'></i></a>
-            <a href="#"><i class='bx bxl-youtube' ></i></a>
-        </div>
-    </section>
-    <section id="projects" class="container">
-        <div class="display">
-            <a href="analogwatch.html">
-                <img src="watch.png" alt="Clock">
-                <h2>Analog and digital watch</h2>
-                <p>Analog and Digital watch using HTML, CSS and JavaScript.</p>
-            </a>
-        </div>
-        <div class="display">
-            <a href="claculator.html">
-                <img src="calculator.png" alt="calculator">
-                <h2>Calculator</h2>
-                <p>Functional calculator using HTML, CSS and Javascript.</p>
-            </a>
-        </div>
-        <div class="display">
-            <a href="signup.html">
-                <img src="signup.png" alt="Sign-Up">
-                <h2>Sign-Up page</h2>
-                <p>signup page with password verification and loading animation.</p>
-            </a>
-        </div>
-        <div class="display">
-            <a href="anime-stream.html">
-                <img src="anime.png" alt="anime-stream">
-                <h2>Anime-streaming site</h2>
-                <p>Anime-streaming site with side Navigation bar and loading animation.</p>
-            </a>
-        </div>
-        <div class="display">
-            <a href="chess.html">
-                <img src="chess.png" alt="Chess">
-                <h2>Chess</h2>
-                <p>Chess interface with only HTML and CSS.</p>
-            </a>
-        </div>
-        <div class="display">
-            <a href="digital-dynamo38.github.io/lover_test/">
-                <img src="Screenshot 2023-09-09 16.40.50.png" alt="love calculator">
-                <h2>Love Calculator</h2>
-                <p>Test your and your crush/lover love. </p>
-            </a>
-        </div>
+            </div>
+            <div class="buttons">
+                <a href="https://">
+                    <button class="btn">Hire me!</button>
+                </a>
+                <a href="">
+                    <button class="btn">Contact!</button>
+                </a>
+            </div>
+            <div class="social">
+                <a href="https://www.facebook.com/profile.php?id=100075358218099">
+                    <i class='bx bxl-facebook-circle'></i>
+                </a>
+                <a href="https">
+                    <i class='bx bxl-github'></i>
+                </a>
+                <a href="#">
+                    <i class='bx bxl-tiktok'></i>
+                </a>
+                <a href="#">
+                    <i class='bx bxl-youtube'></i>
+                </a>
+            </div>
+        </section>
+        <section id="projects" class="container">
+            <div class="display">
+                <a href="analogwatch.html">
+                    <img src="watch.png" alt="Clock">
+                    <h2>Analog and digital watch</h2>
+                    <p>Analog and Digital watch using HTML, CSS and JavaScript.</p>
+                </a>
+            </div>
+            <div class="display">
+                <a href="claculator.html">
+                    <img src="calculator.png" alt="calculator">
+                    <h2>Calculator</h2>
+                    <p>Functional calculator using HTML, CSS and Javascript.</p>
+                </a>
+            </div>
+            <div class="display">
+                <a href="signup.html">
+                    <img src="signup.png" alt="Sign-Up">
+                    <h2>Sign-Up page</h2>
+                    <p>signup page with password verification and loading animation.</p>
+                </a>
+            </div>
+            <div class="display">
+                <a href="anime-stream.html">
+                    <img src="anime.png" alt="anime-stream">
+                    <h2>Anime-streaming site</h2>
+                    <p>Anime-streaming site with side Navigation bar and loading animation.</p>
+                </a>
+            </div>
+            <div class="display">
+                <a href="chess.html">
+                    <img src="chess.png" alt="Chess">
+                    <h2>Chess</h2>
+                    <p>Chess interface with only HTML and CSS.</p>
+                </a>
+            </div>
+            <div class="display">
+                <a href="digital-dynamo38.github.io/lover_test/">
+                    <img src="Screenshot 2023-09-09 16.40.50.png" alt="love calculator">
+                    <h2>Love Calculator</h2>
+                    <p>Test your and your crush/lover love. </p>
+                </a>
+            </div>
+            <!-- ... -->
+        </section>
+        <section id="services" class="container">
+        <!-- Your services section content here -->
         <!-- ... -->
-    </section>
-    <section id="services" class="container">
-    <!-- Your services section content here -->
-    <!-- ... -->
-    </section>
-    <!-- About Section Design -->
-    <section class="about" id="about">
-        <h2>About Me!</h2>
-        <div class="about-img">
-            <img src="pfp.jpg" alt="">
-            <span class="orbit"></span>
-            <span class="orbit2"></span>
-        </div>
-        <div class="about-content">
-            <h3>Aayush Neupane!</h3>
-            <hr>
-            <p>Hey, I'm Aayush Neupane, and I'm a computer science student with a passion for web development and graphic design. Coding and design have become my creative outlets, allowing me to turn ideas into realitiy.
+        </section>
+        <!-- About Section Design -->
+        <section class="about" id="about">
+            <h2>About Me!</h2>
+            <div class="about-img">
+                <img src="pfp.jpg" alt="">
+                <span class="orbit"></span>
+                <span class="orbit2"></span>
+            </div>
+            <div class="about-content">
+                <h3>Aayush Neupane!</h3>
+                <hr>
+                <p>Hey, I'm Aayush Neupane, and I'm a computer science student with a passion for web development and graphic design. Coding and design have become my creative outlets, allowing me to turn ideas into realitiy.
                 Beyond that, I'm also a music enthusiast, and anime/movies enjoyer.I also have a hobby of writing poems and songs. These hobbies provide a comforting break from stress and work, allowing me to create more creative ideas. </p>
-        </div>
-    </section> 
-    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>    
-    <script>
-        let typed = new Typed('#profession', {
-            strings: ['<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>','<i>Web Developer </i>','<i>App Developer</i>','<i>Graphic Designer</i>','<i>Freelancer</i>'],
-            typeSpeed: 100,
-            backSpeed: 50,
-            backDelay: 200,
-            startDelay: 300,
-            loop: true
-        });
-        let menuIcon = document.querySelector('#menu-icon');
-        let navbar = document.querySelector('.nav');
+            </div>
+        </section>
+        <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+        <script>
+            let typed = new Typed('#profession',{
+                strings: ['<i>Web Developer </i>', '<i>App Developer</i>', '<i>Designer</i>', '<i>Freelancer</i>'],
+                typeSpeed: 100,
+                backSpeed: 50,
+                backDelay: 200,
+                startDelay: 300,
+                loop: true
+            });
+            let menuIcon = document.querySelector('#menu-icon');
+            let navbar = document.querySelector('.nav');
 
-        menuIcon.onclick = () => {
-            menuIcon.classList.toggle('bx-x');
-            navbar.classList.toggle('active');
-        }
-        let navLinks = document.querySelectorAll('.nav a');
+            menuIcon.onclick = ()=>{
+                menuIcon.classList.toggle('bx-x');
+                navbar.classList.toggle('active');
+            }
+            let navLinks = document.querySelectorAll('.nav a');
 
-function closeNavMenu() {
-    menuIcon.classList.remove('bx-x');
-    navbar.classList.remove('active');
-}
+            function closeNavMenu() {
+                menuIcon.classList.remove('bx-x');
+                navbar.classList.remove('active');
+            }
 
-navLinks.forEach((link)=>{
-    link.addEventListener('click', closeNavMenu);
-}
-);
-
-function setActiveSection() {
-    let scrollY = window.scrollY;
-
-    document.querySelectorAll('section').forEach((section)=>{
-        let sectionTop = section.offsetTop;
-        let sectionHeight = section.clientHeight;
-        let sectionId = section.getAttribute('id');
-
-        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
             navLinks.forEach((link)=>{
-                link.classList.remove('active');
+                link.addEventListener('click', closeNavMenu);
             }
             );
 
-            document.querySelector(`.nav a[href="#${sectionId}"]`).classList.add('active');
-        }
-    }
-    );
+            function setActiveSection() {
+                let scrollY = window.scrollY;
 
-    closeNavMenu();
-}
+                document.querySelectorAll('section').forEach((section)=>{
+                    let sectionTop = section.offsetTop;
+                    let sectionHeight = section.clientHeight;
+                    let sectionId = section.getAttribute('id');
 
-window.addEventListener('scroll', setActiveSection);
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        navLinks.forEach((link)=>{
+                            link.classList.remove('active');
+                        }
+                        );
 
-setActiveSection();
-    </script>
-</body>
-</html>    
+                        document.querySelector(`.nav a[href="#${sectionId}"]`).classList.add('active');
+                    }
+                }
+                );
+
+                closeNavMenu();
+            }
+
+            window.addEventListener('scroll', setActiveSection);
+
+            setActiveSection();
+        </script>                   
+    </body>
+</html>

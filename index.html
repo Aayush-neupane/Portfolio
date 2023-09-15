@@ -141,14 +141,33 @@
                 cursor: pointer;
                 display: none;
             }
+            #projects{
+                background-color: #112e42;
+                padding: 100px 0;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+
+            }
+            #projects h1{
+                    text-align: center;
+                    font-size: 60px;
+                    color: #00abf4;
+                    width: 100%;
+                    margin: 20px;
+                    margin-top: 40px;
+            }
+            .hr{
+                width: 40%;
+            }
 
             .container {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
-                padding: 20px 10%;
-                background-color: #112e42;
+                gap: 80px;
+                padding: 20px 5%;
             }
+
 
             .display {
                 width: 320px;
@@ -160,7 +179,7 @@
                 align-items: center;
                 padding: 5px;
                 flex-direction: column;
-                margin-top: 150px;
+                margin-bottom: 100px;
                 margin-left: 10%
             }
 
@@ -348,12 +367,12 @@
                     font-size: 3.2rem;
                 }
                 .social{
-                    width: 170px;
+                    width: 200px;
                 }
                 .social a{
-                    width: 25px;
-                    height: 25px;
-                    font-size: 10px;
+                    width: 40px;
+                    height: 40px;
+                    font-size: 25px;
                 }
 
                 .buttons {
@@ -369,25 +388,28 @@
                     gap: 8px;
                     padding: 15px 3%;
                 }
+                .hr{
+                    width: 80%;
+                }
 
                 .display {
                     width: 75%;
                     height: auto;
                     margin-left: 5%;
                     box-shadow: 0px 0px 10px #4b4949;
-                    margin-top: 70px;
+                    margin-bottom: 50px;
                 }
 
                 .display img {
-                    height: 70px;
+                    height: 60px;
                 }
 
                 .display h2 {
-                    font-size: 10px;
+                    font-size: 80px;
                 }
 
                 .display p {
-                    font-size: 8px;
+                    font-size: 6px;
                 }
 
                 .about-content h3 {
@@ -510,17 +532,18 @@
                     gap: 15px;
                     padding: 20px 5%;
                 }
+                
 
                 .display {
                     width: 80%;
                     height: auto;
                     margin-left: 10%;
                     box-shadow: 0px 0px 15px #4b4949;
-                    margin-top: 100px;
+                    margin-bottom: 70px;
                 }
 
                 .display img {
-                    height: 168px;
+                    height: 120px;
                 }
 
                 .display h2 {
@@ -591,62 +614,68 @@
                 </a>
             </div>
         </section>
-        <section id="projects" class="container">
-            <div class="display">
-                <a href="https://digital-dynamo38.github.io/watch/">
-                    <img src="watch.png" alt="Clock">
-                    <h2>Analog and digital watch</h2>
-                    <p>Analog and Digital watch using HTML, CSS & JS.</p>
-                </a>
-            </div>
-            <div class="display">
-                <a href="https://digital-dynamo38.github.io/watch/stopwatch.html">
-                    <img src="timer.png" alt="Clock">
-                    <h2>Stopwatch</h2>
-                    <p>A functional stopwatch using HTML, CSS & JS.</p>
-                </a>
-            </div>
-            <div class="display">
-                <a href="https://digital-dynamo38.github.io/calculator/">
-                    <img src="calculator.png" alt="calculator">
-                    <h2>Calculator</h2>
-                    <p>Functional calculator using HTML, CSS and Javascript.</p>
-                </a>
-            </div>
-            <div class="display">
-                <a href="https://digital-dynamo38.github.io/anime-stream.to/">
-                    <img src="anime.png" alt="anime-stream">
-                    <h2>Anime-streaming site</h2>
-                    <p>Anime-streaming site with side Navigation bar and loading animation.</p>
-                </a>
-            </div>
-            <div class="display">
-                <a href="https://digital-dynamo38.github.io/anime-stream.to/signup.html">
-                    <img src="signup.png" alt="Sign-Up">
-                    <h2>Sign-Up page</h2>
-                    <p>signup page with password verification and loading animation.</p>
-                </a>
-            </div>
-            <div class="display">
-                <a href="https://digital-dynamo38.github.io/chess/">
-                    <img src="chess.png" alt="Chess">
-                    <h2>Chess</h2>
-                    <p>Chess interface with only HTML and CSS.</p>
-                </a>
-            </div>
-            <div class="display">
-                <a href="https://digital-dynamo38.github.io/love-match-cal/">
-                    <img src="loveCal.png" alt="love calculator">
-                    <h2>Love Calculator</h2>
-                    <p>Test your and your crush/lover love. </p>
-                </a>
-            </div>
-            <div class="display">
-                <a href="https://digital-dynamo38.github.io/proposal/">
-                    <img src="love.png" alt="love calculator">
-                    <h2>Love Letter</h2>
-                    <p>A complex love letter locked with a pin code using HTML, CSS & JS. </p>
-                </a>
+        .hr
+        <section id="projects" >
+            <h1>Projects</h1>
+            <hr class="hr">
+
+            <div class="container">    
+                <div class="display">
+                    <a href="https://digital-dynamo38.github.io/watch/">
+                        <img src="watch.png" alt="Clock">
+                        <h2>Analog and digital watch</h2>
+                        <p>Analog and Digital watch using HTML, CSS & JS.</p>
+                    </a>
+                </div>
+                <div class="display">
+                    <a href="https://digital-dynamo38.github.io/watch/stopwatch.html">
+                        <img src="timer.png" alt="Clock">
+                        <h2>Stopwatch</h2>
+                        <p>A functional stopwatch using HTML, CSS & JS.</p>
+                    </a>
+                </div>
+                <div class="display">
+                    <a href="https://digital-dynamo38.github.io/calculator/">
+                        <img src="calculator.png" alt="calculator">
+                        <h2>Calculator</h2>
+                        <p>Functional calculator using HTML, CSS and Javascript.</p>
+                    </a>
+                </div>
+                <div class="display">
+                    <a href="https://digital-dynamo38.github.io/anime-stream.to/">
+                        <img src="anime.png" alt="anime-stream">
+                        <h2>Anime-streaming site</h2>
+                        <p>Anime-streaming site with side Navigation bar and loading animation.</p>
+                    </a>
+                </div>
+                <div class="display">
+                    <a href="https://digital-dynamo38.github.io/anime-stream.to/signup.html">
+                        <img src="signup.png" alt="Sign-Up">
+                        <h2>Sign-Up page</h2>
+                        <p>signup page with password verification and loading animation.</p>
+                    </a>
+                </div>
+                <div class="display">
+                    <a href="https://digital-dynamo38.github.io/chess/">
+                        <img src="chess.png" alt="Chess">
+                        <h2>Chess</h2>
+                        <p>Chess interface with only HTML and CSS.</p>
+                    </a>
+                </div>
+                <div class="display">
+                    <a href="">
+                        <img src="loveCal.png" alt="love calculator">
+                        <h2>Love Calculator</h2>
+                        <p>Test your and your crush/lover love. </p>
+                    </a>
+                </div>
+                <div class="display">
+                    <a href="https://digital-dynamo38.github.io/proposal/">
+                        <img src="love.png" alt="love calculator">
+                        <h2>Love Letter</h2>
+                        <p>A complex love letter locked with a pin code using HTML, CSS & JS. </p>
+                    </a>
+                </div>
             </div>
             <!-- ... -->
         </section>
@@ -698,27 +727,33 @@
             }
             );
 
+            function getTotalHeight(element) {
+                const style = getComputedStyle(element);
+                const marginTop = parseFloat(style.marginTop);
+                const marginBottom = parseFloat(style.marginBottom);
+                return element.offsetHeight + marginTop + marginBottom;
+            }
+            
             function setActiveSection() {
                 let scrollY = window.scrollY;
-
-                document.querySelectorAll('section').forEach((section)=>{
+            
+                document.querySelectorAll('section').forEach((section) => {
                     let sectionTop = section.offsetTop;
-                    let sectionHeight = section.clientHeight;
+                    let sectionHeight = getTotalHeight(section); // Get the total height including margins
                     let sectionId = section.getAttribute('id');
-
+            
                     if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-                        navLinks.forEach((link)=>{
+                        navLinks.forEach((link) => {
                             link.classList.remove('active');
-                        }
-                        );
-
+                        });
+            
                         document.querySelector(`.nav a[href="#${sectionId}"]`).classList.add('active');
                     }
-                }
-                );
-
+                });
+            
                 closeNavMenu();
             }
+            
 
             window.addEventListener('scroll', setActiveSection);
 

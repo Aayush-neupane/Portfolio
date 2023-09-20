@@ -5,6 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>DIGITAL DYNAMO!</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital@1&family=Roboto&display=swap" rel="stylesheet">
         <style>
             /*By Digital Dynamo*/
             * {
@@ -18,7 +21,7 @@
             body {
                 background-color: #081b29;
                 color: #ededed;
-                overflow-x: hidden;
+                overflow-wrap: break-word;
             }
 
             .header {
@@ -57,6 +60,9 @@
                 align-items: center;
                 height: 100vh;
                 padding: 0 10%;
+            }
+            #home, #projects, #about, .header{
+                display: none;
             }
 
             .home-content {
@@ -388,6 +394,56 @@
                 color: #ededed;
                 font-size: 25px;
             }
+            .wrapper {
+                background-color: #081b29; 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                width: 100vw;
+            }
+
+            svg {
+                font-family: "Ruge Boogie", sans-serif;
+                width: 100%;
+                height: 100%;
+            }
+            
+            svg text {
+                animation: stroke 5s 1 alternate;
+                stroke-width: 2;
+                stroke: #24bae4;
+                font-size: 100px;
+                white-space: pre-line;
+            }
+            
+            @keyframes stroke {
+                0% {
+                    fill: transparent;
+                    stroke: rgba(54, 95, 160, 1);
+                    stroke-dashoffset: 25%;
+                    stroke-dasharray: 0 50%;
+                    stroke-width: 2;
+                }
+                70% {
+                    fill: transparent;
+                    stroke: rgba(72, 138, 204, 1);
+                }
+                80% {
+                    fill:transparent;
+                    stroke: rgba(72, 138, 204, 1);
+                    stroke-width: 3;
+                }
+                100% {
+                    fill: #00abf4;
+                    stroke: rgba(72, 138, 204, 1);
+                    stroke-dashoffset: -25%;
+                    stroke-dasharray: 50% 0;
+                    stroke-width: 0;
+                }
+            }
+            
+
 
 
 
@@ -538,6 +594,9 @@
                     width: 80%;
                     height: 80%;
                 }
+                svg text{
+                    font-size: 50px;
+                }
             }
 
             @media screen and (max-width: 470px) {
@@ -666,11 +725,53 @@
                     font-size: 1.2rem;
                     padding: 15px;
                 }
+                svg text{
+                    font-size: 40px;
+                }
+                @keyframes stroke {
+                0% {
+                    fill: transparent;
+                    stroke: rgba(54, 95, 160, 1);
+                    stroke-dashoffset: 10%;
+                    stroke-dasharray: 0 20%;
+                    stroke-width: 0;
+                }
+                70% {
+                    fill: transparent;
+                    stroke: rgba(72, 138, 204, 1);
+                }
+                80% {
+                    fill:transparent;
+                    stroke: rgba(72, 138, 204, 1);
+                    stroke-width: 1;
+                }
+                100% {
+                    fill: #00abf4;
+                    stroke: rgba(72, 138, 204, 1);
+                    stroke-dashoffset: -11%;
+                    stroke-dasharray: 20% 0;
+                    stroke-width: 0;
+                }
             }
+            }
+            #home, #projects, #about, .header{
+                display: none;
+            }
+
+            
         </style>
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     </head>
     <body>
+        <div class="wrapper">
+            <svg>
+                <text x="50%" y="50%" dy=".35em" text-anchor="middle" class="text">
+                    DIGITAL
+
+                    DYNAMO
+                </text>
+            </svg>
+        </div>
         <div class="header">
             <a href="#home" class="logo">
                 <img src="pflogo.png" alt="Digital Dynamo">
@@ -746,6 +847,13 @@
                         <img src="anime.png" alt="anime-stream">
                         <h2>Anime-streaming site</h2>
                         <p>Anime-streaming site with side Navigation bar and loading animation.</p>
+                    </a>
+                </div>
+                <div class="display">
+                    <a href="https:">
+                        <img src="fb.png" alt="Favebook clone">
+                        <h2>Facebook Clone</h2>
+                        <p>Facebook clone with minor function using HTML, CSS and JS!</p>
                     </a>
                 </div>
                 <div class="display">
@@ -902,6 +1010,26 @@
             );
 
             showCurrentSection();
+
+            /*INTRO ANIMATION JS*/
+            
+            const animationContainer = document.querySelector('.wrapper');
+            const animationText = document.querySelector('.text');
+            
+            animationText.addEventListener('animationend', () => {
+              animationContainer.remove();
+              
+              let home = document.getElementById('home');
+              let projects = document.getElementById('projects');
+              let about = document.getElementById('about');
+              let header = document.querySelector('.header');
+
+              home.style.display= 'flex';
+              projects.style.display= 'flex';
+              header.style.display= 'flex';
+              about.style.display= 'flex';
+            });
+
         </script>
     </body>
 </html>

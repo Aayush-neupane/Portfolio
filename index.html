@@ -16,7 +16,7 @@
                 box-sizing: border-box;
                 font-family: 'Poppins', 'sans-serif';
                 scroll-behavior: smooth;
-            }
+            }n
 
             body {
                 background-color: #081b29;
@@ -252,10 +252,47 @@
                 height: 90%;
                 border-radius: 50%;
                 border: 0.2rem solid #081b29;
-                animation: glow 3s linear infinite;
+                animation: glow 2s linear infinite;
                 cursor: pointer;
             }
 
+
+            .about-img .orbit {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(0);
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                border-top: .2rem solid transparent;
+                border-bottom: .2rem solid transparent;
+                border-left: .2rem solid #0fc5c5;
+                border-right: .2rem solid #0fc5c5;
+                animation: orbit 8s linear infinite,
+                           change1 3s linear infinite;
+                transform-origin: center;
+
+            }
+
+            .about-img .orbit2 {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(0);
+                width: 110%;
+                height: 110%;
+                border-radius: 50%;
+                border-top: .2rem solid #0fc5c5;
+                border-bottom: .2rem solid #0fc5c5;
+                border-left: .2rem solid transparent;
+                border-right: .2rem solid transparent;
+                animation: orbit 8s linear infinite,
+                           change2 3s linear infinite;
+                transform-origin: center;
+
+            }
+                     
             @keyframes glow {
                 0% {
                     box-shadow: 0px 0px 0px;
@@ -289,37 +326,36 @@
                     box-shadow: 0px 0px 5px;
                 }
             }
+            @keyframes change1{
 
-            .about-img .orbit {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(0);
-                width: 100%;
-                height: 100%;
-                border-radius: 50%;
-                border-top: .2rem solid transparent;
-                border-bottom: .2rem solid transparent;
-                border-left: .2rem solid #0fc5c5;
-                border-right: .2rem solid #0fc5c5;
-                animation: orbit 8s linear infinite;
-                transform-origin: center;
+                0%{
+                  border-left: .2rem solid #0fc5c5;
+                  border-right: .2rem solid #0fc5c5;
+                }
+                50%{
+                   border-left: .2rem solid #09e8a1;
+                   border-right: .2rem solid #09e8a1;
+
+                }
+                100%{
+                  border-left: .2rem solid #0fc5c5;
+                  border-right: .2rem solid #0fc5c5;
+                }
             }
-
-            .about-img .orbit2 {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(0);
-                width: 110%;
-                height: 110%;
-                border-radius: 50%;
+                        
+            @keyframes change2{
+                0%{
+                border-top: .2rem solid #09e8a1;
+                border-bottom: .2rem solid #09e8a1;
+                }
+                50%{
                 border-top: .2rem solid #0fc5c5;
                 border-bottom: .2rem solid #0fc5c5;
-                border-left: .2rem solid transparent;
-                border-right: .2rem solid transparent;
-                animation: orbit 8s linear infinite;
-                transform-origin: center;
+                }
+                100%{
+                border-top: .2rem solid #09e8a1;
+                border-bottom: .2rem solid #09e8a1;
+                }
             }
 
             @keyframes orbit {
@@ -763,15 +799,17 @@
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     </head>
     <body>
+        <!--intro animation*!-->
         <div class="wrapper">
             <svg>
                 <text x="50%" y="50%" dy=".35em" text-anchor="middle" class="text">
                     DIGITAL
-
                     DYNAMO
                 </text>
             </svg>
         </div>
+
+        <!--header-->
         <div class="header">
             <a href="#home" class="logo">
                 <img src="pflogo.png" alt="Digital Dynamo">
@@ -785,6 +823,10 @@
                 <span class="active-nav"></span>
             </nav>
         </div>
+
+        <!--main contents-->
+
+        <!--home conetents-->
         <section class="home" id="home">
             <div class="home-content">
                 <h2>Hi! I am Aayush.</h2>
@@ -817,6 +859,7 @@
             </div>
         </section>
         
+        <!--projects content-->
         <section id="projects">
             <h1>Projects</h1>
             <hr class="hr">
@@ -886,6 +929,8 @@
                 </div>
             </div>
         </section>
+
+        <!--about contents-->
         <section class="about" id="about">
             <h2>About Me!</h2>
             <div class="about-img">
@@ -922,8 +967,12 @@
                 <button class="scroll next" id="nextSectionBtn">&gt;</button>
             </div>
         </section>
-        <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+        
+        <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script><!--js for typing animation-->
         <script>
+
+            /*js for typing animation*/ 
             let typed = new Typed('#profession',{
                 strings: ['<i>Web Developer </i>', '<i>App Developer</i>', '<i>Designer</i>', '<i>Freelancer</i>'],
                 typeSpeed: 100,
@@ -932,6 +981,8 @@
                 startDelay: 300,
                 loop: true
             });
+
+            //js for toogling the active class and opening & closing of menu bar
             let menuIcon = document.querySelector('#menu-icon');
             let navbar = document.querySelector('.nav');
 
@@ -960,17 +1011,16 @@
                 let id = sec.getAttribute('id');
 
                 if (top >= offset && top < offset + height) {
-                    //active navbar icons
                     navLinks.forEach(links => {
                         links.classList.remove('active');
                         document.querySelector('.header .nav a[href*=' + id + ']').classList.add('active');
                     });
                 }
             });
-        }
+        }          
+        closeNavMenu();
             
-            closeNavMenu();
-            
+        //js for changing the page of the about setion
             const prevSectionBtn = document.getElementById("prevSectionBtn");
             const nextSectionBtn = document.getElementById("nextSectionBtn");
             const contentNumber = document.getElementById("contentnumber");

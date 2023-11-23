@@ -18,7 +18,7 @@
                 box-sizing: border-box;
                 font-family: 'Poppins', 'sans-serif';
                 scroll-behavior: smooth;
-            }n
+            }
 
             body {
                 background-color: #081b29;
@@ -93,6 +93,7 @@
             .p {
                 font-size: 25px;
                 color: #ededed;
+                width: 700px;
             }
 
             .social {
@@ -262,7 +263,7 @@
                 height: 90%;
                 border-radius: 50%;
                 border: 0.2rem solid #081b29;
-                animation: glow 2s linear infinite;
+                animation: glow 2s infinite alternate;
                 cursor: pointer;
             }
 
@@ -297,8 +298,8 @@
                 border-bottom: .2rem solid #0fc5c5;
                 border-left: .2rem solid transparent;
                 border-right: .2rem solid transparent;
-                animation: orbit 8s linear infinite,
-                           change2 3s linear infinite;
+                animation: orbit 8s infinite linear,
+                           change2 3s infinite alternate;
                 transform-origin: center;
 
             }
@@ -308,32 +309,9 @@
                     box-shadow: 0px 0px 0px;
                 }
 
-                10% {
-                    box-shadow: 0px 0px 5px;
-                }
-
-                20% {
-                    box-shadow: 0px 0px 10px;
-                }
-
-                40% {
-                    box-shadow: 0px 0px 15px;
-                }
-
-                60% {
-                    box-shadow: 0px 0px 20px;
-                }
-
-                80% {
-                    box-shadow: 0px 0px 15px;
-                }
-
-                90% {
-                    box-shadow: 0px 0px 10px;
-                }
-
+            
                 100% {
-                    box-shadow: 0px 0px 5px;
+                    box-shadow: 0px 0px 20px;
                 }
             }
             @keyframes change1{
@@ -483,17 +461,14 @@
                     opacity: 1;
                 }
                 95%{
-                    fill: #00abf4;
-                    opacity: 1;
 
-                }
-                99% {
-                    fill: transparent;
+                    fill: #00abf0;
                     stroke: rgba(72, 138, 204, 1);
                     stroke-dashoffset: -21%;
                     stroke-dasharray: 40% 0;
                     stroke-width: 2;
                     opacity: 0.8;
+
                 }
                 100%{
                     stroke-width: 0;
@@ -501,11 +476,6 @@
                 }
             }
             
-
-            
-
-
-
 
             @media screen and (max-width: 900px) {
                 .home-content h2 {
@@ -518,6 +488,7 @@
 
                 .home-content p {
                     font-size: 18px;
+                    width: 450px;
                 }
 
                 .logo img {
@@ -575,7 +546,7 @@
                     margin-top: 0;
                     margin-bottom: 0;
                     transform: translateX(-20rem);
-                    transition-delay: 0s;
+                    transition-delay: .8s;
                     padding: 25px;
                 }
 
@@ -592,13 +563,13 @@
                 }
 
                 .container {
-                    grid-template-columns: repeat(2, 1fr);
+                    grid-template-columns: repeat(3, 1fr);
                     gap: 10px;
                     padding: 10px 2%;
                 }
 
                 .display {
-                    width: 80%;
+                    width: auto;
                     height: auto;
                     margin-left: 10%;
                     box-shadow: 0px 0px 15px #4b4949;
@@ -673,8 +644,9 @@
                     font-size: 25px;
                 }
 
-                .p {
-                    font-size: 10px;
+                .home-content p {
+                    font-size: 18px;
+                    width: 300px;
                 }
                 .buttons{
                     bottom:35%;
@@ -856,7 +828,7 @@
             <nav class="nav">
                 <a href="#home" class="active">Home</a>
                 <a href="#projects">Projects</a>
-                <a href="#">?????</a>
+                <a href="#">Contact</a>
                 <a href="#about">About</a>
                 <span class="active-nav"></span>
             </nav>
@@ -871,10 +843,10 @@
                 <h3>
                     <span id="profession"></span>
                 </h3>
-                <p class="p">Hi! My name is Aayush Neupane. I am a student learning about computer science and web developing. </p>
+                <p class="p">Hi! My name is Aayush Neupane and I go by the alias: 'Digital Dynamo'. I am a student learning about computer science and web developing. To learn more about me: <a href="#about">Click this!</a> </p>
             </div>
             <div class="buttons">
-                <a href="https://">
+                <a href="">
                     <button class="btn">Hire me!</button>
                 </a>
                 <a href="">
@@ -885,10 +857,10 @@
                 <a href="https://www.facebook.com/profile.php?id=100075358218099">
                     <i class='bx bxl-facebook-circle'></i>
                 </a>
-                <a href="https">
+                <a href="https://github.com/Digital-Dynamo38">
                     <i class='bx bxl-github'></i>
                 </a>
-                <a href="#">
+                <a href="https://www.tiktok.com/@digital_dynamo1207">
                     <i class='bx bxl-tiktok'></i>
                 </a>
                 <a href="#">
@@ -959,7 +931,7 @@
                     </a>
                 </div>
                 <div class="display">
-                    <a href="https://digital-dynamo38.github.io">
+                    <a href="https://digital-dynamo38.github.io/proposal/">
                         <img src="love.png" alt="love calculator">
                         <h2>Love Letter</h2>
                         <p>A complex love letter locked with a pin code using HTML, CSS &JS.</p>
@@ -998,7 +970,13 @@
                       I remain humble and eager to grow further in this dynamic field.
                       <a href="">read more.....</a>
                 </p>
-            </div>       
+            </div> 
+            <div class="about-content " id="section4">
+                <h3></h3>
+                <p>
+                    <a href="">read more.....</a>
+                </p>
+            </div>      
             <div class="scroll-nav">
                 <button class="scroll pre" id="prevSectionBtn" disabled>&lt;</button>
                 <span id="contentnumber">1</span>

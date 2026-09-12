@@ -24,3 +24,10 @@ yarn-error.log*
 
 # vite output
 /dist
+
+# personal content: data jsons carry email, phone, location
+/public/data/
+# personal resume pdf
+/public/assets/resume.pdf
+# env secrets
+.env

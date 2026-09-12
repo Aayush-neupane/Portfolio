@@ -1,0 +1,219 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ——— Premium Portfolio Design System (OKLCH, dark-first) ——— */
+@theme {
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --color-bg: oklch(0.13 0.005 250);
+  --color-elevated: oklch(0.16 0.005 250);
+  --color-subtle: oklch(0.19 0.005 250);
+  --color-border: oklch(0.25 0.006 250);
+  --color-linestrong: oklch(0.33 0.008 250);
+  --color-text: oklch(0.93 0.004 250);
+  --color-muted: oklch(0.62 0.01 250);
+  --color-accent: oklch(0.65 0.18 25);
+  --color-accent-deep: oklch(0.52 0.155 25);
+  --color-accent-soft: oklch(0.25 0.05 28);
+}
+
+/* Light mode: inverted palette, darker crimson */
+.light {
+  --color-bg: oklch(0.965 0.003 250);
+  --color-elevated: oklch(1 0 0);
+  --color-subtle: oklch(0.93 0.004 250);
+  --color-border: oklch(0.86 0.006 250);
+  --color-linestrong: oklch(0.74 0.008 250);
+  --color-text: oklch(0.2 0.006 250);
+  --color-muted: oklch(0.45 0.01 250);
+  --color-accent: oklch(0.52 0.155 25);
+  --color-accent-deep: oklch(0.44 0.15 25);
+  --color-accent-soft: oklch(0.94 0.03 28);
+}
+
+body {
+  @apply bg-bg text-text font-sans antialiased;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Lenis smooth-scroll base */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Nav links: underline sweeps from center */
+.nav-link { position: relative; }
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -5px;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after { transform: scaleX(1); }
+.nav-link.active { color: var(--color-accent); }
+
+/* Form error shake */
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-3px); }
+  40%, 60% { transform: translateX(3px); }
+}
+.shake { animation: shake 0.4s ease; }
+
+/* Loading screen: SVG stroke-draw */
+.loader-word {
+  font-family: var(--font-mono);
+  font-size: 30px;
+  letter-spacing: 0.4em;
+  fill: transparent;
+  stroke: var(--color-muted);
+  stroke-width: 1;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  animation: draw-word 1.5s ease forwards;
+}
+@keyframes draw-word { to { stroke-dashoffset: 0; } }
+.loader-fade { animation: loader-fade 0.4s ease forwards; }
+@keyframes loader-fade { to { opacity: 0; visibility: hidden; } }
+
+/* Theme toggle icon morph */
+.theme-icon { transition: transform 0.5s ease, opacity 0.5s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html.lenis, .lenis-smooth { scroll-behavior: auto !important; }
+}
+
+/* ——— Social brand hover treatments (About) ——— */
+.social-link svg {
+  transition: stroke 0.25s ease, transform 0.25s ease, fill 0.25s ease;
+}
+.social-link:hover svg { transform: translateY(-2px); }
+.social-link .social-label { transition: color 0.25s ease; }
+
+.social-ig:hover .social-label {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.social-ig:hover svg { stroke: url(#grad-ig); }
+
+.social-fb:hover .social-label {
+  background: linear-gradient(45deg, #1877f2, #3b82f6, #60a5fa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.social-fb:hover svg { stroke: url(#grad-fb); }
+
+.social-wa:hover .social-label {
+  background: linear-gradient(45deg, #25d366, #128c7e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.social-wa:hover svg { stroke: #25d366; }
+
+/* ——— FA brand buttons (Contact) ——— */
+.fa-btn svg path { transition: fill 0.25s ease; }
+.fa-btn .fa-label { transition: color 0.25s ease; }
+.fa-ig:hover { border-color: rgba(220, 39, 67, 0.6); }
+.fa-ig:hover svg path { fill: url(#grad-ig); }
+.fa-ig:hover .fa-label {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.fa-fb:hover { border-color: rgba(59, 130, 246, 0.6); }
+.fa-fb:hover svg path { fill: url(#grad-fb); }
+.fa-fb:hover .fa-label {
+  background: linear-gradient(45deg, #1877f2, #3b82f6, #60a5fa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.fa-wa:hover { border-color: rgba(37, 211, 102, 0.6); }
+.fa-wa:hover svg path { fill: #25d366; }
+.fa-wa:hover .fa-label {
+  background: linear-gradient(45deg, #25d366, #128c7e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ——— Hero scroll cue ——— */
+.scroll-cue-line { animation: cue-drop 1.9s ease-in-out infinite; }
+@keyframes cue-drop {
+  0% { transform: translateY(-110%); }
+  100% { transform: translateY(220%); }
+}
+
+/* ——— Loader curtain lift ——— */
+.loader-lift {
+  transform: translateY(-100%);
+  transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ——— Filmstrip sprocket holes ——— */
+.sprockets {
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-border) 0 10px,
+    transparent 10px 26px
+  );
+  border-radius: 2px;
+}
+
+/* ——— Masonry full-width breaks (no Tailwind equivalent) ——— */
+.span-all-columns {
+  column-span: all;
+}
+
+/* Touch and small-screen hardening */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+html,
+body {
+  overflow-x: clip;
+}
+button,
+a,
+[role='tab'] {
+  touch-action: manipulation;
+}
+@media (hover: none) {
+  .nav-link::after {
+    display: none;
+  }
+}

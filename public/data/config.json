@@ -1,0 +1,50 @@
+{
+  "site": {
+    "title": "Aayush Neupane's Portfolio",
+    "description": "Clean, modern portfolio showcasing professional work and skills",
+    "author": "Aayush Neupane",
+    "keywords": "portfolio, developer, designer, professional, web development, game development, React, Node.js, MongoDB, Unity Hub"
+  },
+  "navigation": [
+    {
+      "id": "home",
+      "label": "Home",
+      "href": "#home"
+    },
+    {
+      "id": "about",
+      "label": "About",
+      "href": "#about"
+    },
+    {
+      "id": "skills",
+      "label": "Skills",
+      "href": "#skills"
+    },
+    {
+      "id": "projects",
+      "label": "Projects",
+      "href": "#projects"
+    },
+    {
+      "id": "resume",
+      "label": "Resume",
+      "href": "#resume"
+    },
+    {
+      "id": "gallery",
+      "label": "Gallery",
+      "href": "#/gallery"
+    },
+    {
+      "id": "contact",
+      "label": "Contact",
+      "href": "#contact"
+    }
+  ],
+  "theme": {
+    "primaryColor": "#2563eb",
+    "fontFamily": "Inter",
+    "darkMode": true
+  }
+}

@@ -1,0 +1,268 @@
+import { useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Github, Instagram, Linkedin, Loader2, Mail, MapPin, Send } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const schema = z.object({
+  name: z.string().trim().min(2, 'Please enter your name (min 2 characters).'),
+  email: z.string().trim().email('Please enter a valid email address.'),
+  message: z.string().trim().min(10, 'Tell me a little more (min 10 characters).'),
+});
+
+const inputClass =
+  'w-full rounded-lg border border-border bg-elevated px-4 py-3 text-text placeholder:text-muted/70 text-base transition-colors duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40';
+
+export default function Contact({ profile, social }) {
+  const rootRef = useRef(null);
+  const [sent, setSent] = useState(false);
+  const [shakeKey, setShakeKey] = useState(0);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm({ resolver: zodResolver(schema), mode: 'onTouched' });
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('[data-reveal]').forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+          }
+        );
+      });
+    }, root);
+    return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    if (!sent) return;
+    const t = setTimeout(() => setSent(false), 3000);
+    return () => clearTimeout(t);
+  }, [sent]);
+
+  const onValid = async (data) => {
+    void data;
+    await new Promise((r) => setTimeout(r, 500));
+    setSent(true);
+    reset();
+  };
+
+  const onInvalid = () => setShakeKey((k) => k + 1);
+
+  const email = social?.email || profile?.email || 'theghostoftheuchiha38@gmail.com';
+  const socials = [
+    { label: 'GitHub', href: 'https://github.com/aayush-neupane', Icon: Github },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aayush-neupane-38a9b7240/', Icon: Linkedin },
+    { label: 'Instagram', href: 'https://www.instagram.com/dynamic_aayush38', Icon: Instagram },
+  ];
+
+  return (
+    <section id="contact" ref={rootRef} className="scroll-mt-20 border-t border-border">
+      <div className="mx-auto grid w-full max-w-6xl gap-12 px-6 py-24 md:py-32 lg:grid-cols-2">
+        <div>
+          <p
+            data-reveal
+            className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent"
+          >
+            Contact
+          </p>
+          <h2
+            data-reveal
+            className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text"
+          >
+            Let&apos;s Work Together
+          </h2>
+          <p data-reveal className="mt-5 max-w-md leading-[1.6] text-muted">
+            Got a project, a question, or just want to say hi? My inbox is
+            always open. I read everything myself and usually reply within a day
+            or so.
+          </p>
+
+          <div data-reveal className="mt-8 space-y-4 text-sm">
+            <a
+              href={`mailto:${email}`}
+              className="inline-flex items-center gap-2.5 text-text transition-colors hover:text-accent"
+            >
+              <Mail className="h-4 w-4 text-accent" aria-hidden="true" />
+              {email}
+            </a>
+            <p className="flex items-center gap-2.5 text-muted">
+              <MapPin className="h-4 w-4 text-accent" aria-hidden="true" />
+              Jhapa, Nepal · working worldwide
+            </p>
+          </div>
+
+          <div data-reveal className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+            {socials.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm text-muted underline decoration-border underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+              >
+                <Icon className="h-4 w-4" aria-hidden="true" />
+                {label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div data-reveal>
+          <form
+            key={shakeKey}
+            onSubmit={handleSubmit(onValid, onInvalid)}
+            noValidate
+            className={`rounded-xl border border-border bg-elevated p-6 md:p-8 ${
+              shakeKey > 0 && Object.keys(errors).length > 0 ? 'shake' : ''
+            }`}
+          >
+            <div className="space-y-5">
+              <div>
+                <label htmlFor="contact-name" className="mb-1.5 block text-sm font-medium text-text">
+                  Name
+                </label>
+                <input
+                  id="contact-name"
+                  type="text"
+                  autoComplete="name"
+                  placeholder="Your name"
+                  aria-invalid={!!errors.name}
+                  className={inputClass}
+                  {...register('name')}
+                />
+                {errors.name && (
+                  <p role="alert" className="mt-1.5 text-sm text-accent">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="contact-email" className="mb-1.5 block text-sm font-medium text-text">
+                  Email
+                </label>
+                <input
+                  id="contact-email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  aria-invalid={!!errors.email}
+                  className={inputClass}
+                  {...register('email')}
+                />
+                {errors.email && (
+                  <p role="alert" className="mt-1.5 text-sm text-accent">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="contact-message" className="mb-1.5 block text-sm font-medium text-text">
+                  Message
+                </label>
+                <textarea
+                  id="contact-message"
+                  rows={5}
+                  placeholder="Tell me about your project…"
+                  aria-invalid={!!errors.message}
+                  className={`${inputClass} resize-y`}
+                  {...register('message')}
+                />
+                {errors.message && (
+                  <p role="alert" className="mt-1.5 text-sm text-accent">
+                    {errors.message.message}
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                    Sending…
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <Send className="h-4 w-4" aria-hidden="true" />
+                  </>
+                )}
+              </button>
+
+              <div className="flex items-center gap-4 pt-1" aria-hidden="true">
+                <span className="h-px flex-1 bg-border" />
+                <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted">
+                  OR
+                </span>
+                <span className="h-px flex-1 bg-border" />
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <a
+                  href="https://www.instagram.com/dynamic_aayush38"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="fa-btn fa-ig inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:-translate-y-px"
+                >
+                  <FontAwesomeIcon icon={faInstagram} className="text-base leading-none" />
+                  <span className="fa-label">Instagram</span>
+                </a>
+                <a
+                  href="https://www.facebook.com/khatra.manxey.071129"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="fa-btn fa-fb inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:-translate-y-px"
+                >
+                  <FontAwesomeIcon icon={faFacebookF} className="text-base leading-none" />
+                  <span className="fa-label">Facebook</span>
+                </a>
+                <a
+                  href="https://wa.me/9779862862023"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="fa-btn fa-wa inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:-translate-y-px"
+                >
+                  <FontAwesomeIcon icon={faWhatsapp} className="text-base leading-none" />
+                  <span className="fa-label">WhatsApp</span>
+                </a>
+              </div>
+
+              <div aria-live="polite" className="min-h-6">
+                {sent && (
+                  <p className="rounded-lg border border-accent/40 bg-accent-soft px-4 py-2.5 text-center text-sm font-medium text-accent">
+                    Message sent. I&apos;ll get back to you soon.
+                  </p>
+                )}
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}

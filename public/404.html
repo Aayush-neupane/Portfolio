@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | Yaman Chapagain</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0f13 0%, #1a1a1f 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fafafa;
+    }
+    
+    .container {
+      text-align: center;
+      padding: 2rem;
+      max-width: 600px;
+    }
+    
+    .error-code {
+      font-size: 120px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    p {
+      color: #a1a1aa;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .home-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+    }
+    
+    .social-links {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    
+    .social-link {
+      color: #a1a1aa;
+      text-decoration: none;
+      font-size: 20px;
+      transition: color 0.3s ease;
+    }
+    
+    .social-link:hover {
+      color: #6366f1;
+    }
+    
+    @media (max-width: 480px) {
+      .error-code {
+        font-size: 80px;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="error-code">404</div>
+    <h1>Oops! Page Not Found</h1>
+    <p>The page you're looking for doesn't exist or has been moved.<br>Let's get you back on track.</p>
+    
+    <a href="/" class="home-btn">
+      <i class="fas fa-home"></i>
+      Back to Home
+    </a>
+    
+    <div class="social-links">
+      <a href="https://github.com/Aayush-neupane" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+      <a href="https://www.facebook.com/khatra.manxey.071129" target="_blank" class="social-link"><i class="fab fa-facebook"></i></a>
+      <a href="https://instagram.com/dynamic_aayush38" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+      <a href="https://wa.me/9779862862023" target="_blank" class="social-link"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
+</body>
+</html>

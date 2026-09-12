@@ -1,0 +1,196 @@
+/* Skills.css - Modern Design */
+.skills {
+  padding: var(--spacing-5xl) 0;
+  background: var(--color-background);
+  position: relative;
+  overflow: hidden;
+}
+
+.skills::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.skills-tabs {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-3xl);
+  flex-wrap: wrap;
+}
+
+.skills-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 2rem;
+  border: none;
+  background: var(--color-surface);
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border: 1px solid var(--color-border-light);
+}
+
+.skills-tab i {
+  font-size: 14px;
+}
+
+.skills-tab:hover,
+.skills-tab.active {
+  background: var(--gradient-primary);
+  color: white;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.skills-panel {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all var(--transition-normal);
+}
+
+.skills-panel.active {
+  display: block;
+  animation: fadeInUp 0.6s forwards;
+}
+
+.skills-visualization {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-2xl);
+}
+
+.skills-chart {
+  background: var(--color-surface);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-xl);
+  border: 1px solid var(--color-border-light);
+}
+
+.skill-bar-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.skill-bar-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xs);
+}
+
+.skill-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.skill-percent {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.skill-bar-container {
+  height: 8px;
+  background: var(--color-surface-alt);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+}
+
+.skill-bar {
+  height: 100%;
+  border-radius: var(--border-radius-full);
+  width: 0;
+  transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: var(--gradient-primary);
+}
+
+.skills-grid-mini {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+}
+
+.skill-mini-card {
+  background: var(--color-surface);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--color-border-light);
+  transition: all var(--transition-normal);
+}
+
+.skill-mini-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.skill-mini-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.skill-mini-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.skill-mini-level {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: var(--border-radius-full);
+  color: var(--color-primary);
+}
+
+.skill-mini-progress {
+  height: 4px;
+  background: var(--color-surface-alt);
+  border-radius: var(--border-radius-full);
+  margin-bottom: var(--spacing-sm);
+  overflow: hidden;
+}
+
+.skill-mini-progress-bar {
+  height: 100%;
+  border-radius: var(--border-radius-full);
+  transition: width 1s ease;
+  background: var(--gradient-primary);
+}
+
+.skill-mini-years {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+@media (max-width: 1024px) {
+  .skills-visualization {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .skills-tabs {
+    flex-direction: column;
+  }
+  .skills-tab {
+    width: 100%;
+    justify-content: center;
+  }
+  .skills-grid-mini {
+    grid-template-columns: 1fr;
+  }
+}

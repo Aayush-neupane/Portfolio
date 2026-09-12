@@ -1,0 +1,91 @@
+{
+  "summary": "Motivated 18-year-old web developer and game developer from Nepal with experience building real-world web projects and creating games. Started game development in 2024 and web development in 2022. Passionate about learning new technologies and creating useful and creative digital projects.",
+  
+  "experience": [
+    {
+      "id": 1,
+      "title": "Independent Web Developer",
+      "company": "Personal Projects",
+      "location": "Nepal",
+      "startDate": "2022",
+      "endDate": "Present",
+      "description": "Developing personal web projects including chat applications and tracking websites. Learning frontend and backend development while building real-world projects.",
+      "achievements": [
+        "Built real-time chat application",
+        "Created anime and manga tracking website",
+        "Learned full-stack web development basics"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Graphic Designer",
+      "company": "Freelance",
+      "location": "Nepal",
+      "startDate": "2025",
+      "endDate": "Present",
+      "description": "Designing graphics for various clients and personal projects. Gaining experience in UI/UX design and brand identity development.",
+      "achievements": [
+        "Designed logos for multiple startups",
+        "Designed Business cards and flyers for local businesses",
+        "Created marketing materials for local businesses",
+        "Developed a consistent brand identity for a client"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Game Developer",
+      "company": "Freelance / Personal Work",
+      "location": "Nepal",
+      "startDate": "2024",
+      "endDate": "Present",
+      "description": "Creating games using Unity and other game development tools. Learning game design principles and implementing them in real-world projects.",
+      "achievements": [
+        "2 years of game development experience",
+        "Experienced with Unity and other game development tools",
+        "Improved game design and implementation skills"
+      ]
+    }
+  ],
+
+  "education": [
+    {
+      "id": 1,
+      "degree": "Higher Level education",
+      "institution": "Siddhartha boarding secondary school",
+      "location": "Nepal",
+      "graduationYear": "2025-2026",
+      "gpa": "3.53"
+    },
+    {
+      "id": 2,
+      "degree": "Secondary Level education",
+      "institution": "Shree Bhanu secondary school",
+      "location": "Nepal",
+      "graduationYear": "2023",
+      "gpa": "3.43"
+    }
+  ],
+
+  "certifications": [
+    {
+      "name": "web development hackathon",
+      "issuer": "Madan Bhandari Memorial College, Morang",
+      "year": "2025"
+    },
+    {
+      "name": "Participation in game development competition",
+      "issuer": "Vishwa Adarsha College, Sunsari",
+      "year": "2025"
+    },
+    {
+      "name": "2nd place in Webathon",
+      "issuer": "Madan Bhandari Memorial College, Morang",
+      "year": "2026"
+    }
+  ],
+
+  "resumeFile": {
+    "downloadUrl": "/assets/resume.pdf",
+    "viewUrl": "/assets/resume.pdf"
+  }
+}

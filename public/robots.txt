@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aayushneupane.netlify.app/sitemap.xml

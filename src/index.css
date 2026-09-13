@@ -78,7 +78,24 @@ html.lenis, html.lenis body { height: auto; }
 }
 .shake { animation: shake 0.4s ease; }
 
-/* Loading screen: SVG stroke-draw */
+/* Loading screen: logo + SVG stroke-draw */
+.loader-logo {
+  display: block;
+  margin-inline: auto;
+  transform-origin: center;
+  animation: loader-logo-in 0.7s ease both, loader-logo-float 2.2s ease-in-out 0.7s infinite;
+  filter: drop-shadow(0 0 24px var(--color-accent-soft));
+}
+@keyframes loader-logo-in {
+  from { opacity: 0; transform: scale(0.85) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes loader-logo-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+/* Navbar brand mark: white logo, so darken it on light theme (no chip/border) */
+.light .brand-mark { filter: brightness(0); }
 .loader-word {
   font-family: var(--font-mono);
   font-size: 30px;

@@ -64,11 +64,25 @@ function LoadingScreen({ leaving }) {
         leaving ? 'loader-lift' : ''
       }`}
     >
-      <svg viewBox="0 0 320 60" className="h-14 w-72" role="presentation">
-        <text x="50%" y="40" textAnchor="middle" className="loader-word">
-          AAYUSH
-        </text>
-      </svg>
+      <div className="flex flex-col items-center gap-3">
+        <div className="flex w-full justify-center">
+          <img
+            src={withBase('/assets/images/profile/logo.png')}
+            alt=""
+            width={80}
+            height={80}
+            decoding="async"
+            fetchPriority="high"
+            draggable={false}
+            className="loader-logo block h-16 w-16 object-contain md:h-20 md:w-20"
+          />
+        </div>
+        <svg viewBox="0 0 320 60" className="block h-14 w-72 overflow-visible" role="presentation">
+          <text x="50%" y="40" dx="0.2em" textAnchor="middle" className="loader-word">
+            AAYUSH
+          </text>
+        </svg>
+      </div>
       <div className="flex w-64 items-center gap-3 font-mono text-[0.7rem] lowercase tracking-[0.08em] text-muted">
         <span className="inline-block h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-accent" />
         <span className="truncate">{LOADER_WORDS[word % LOADER_WORDS.length]}…</span>

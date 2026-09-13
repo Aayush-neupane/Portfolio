@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import ThemeToggle from '../ThemeToggle/ThemeToggle.jsx';
+import { withBase } from '../../utils/paths.js';
 
 const FALLBACK_LINKS = [
   { id: 'home', label: 'Home', href: '#home' },
@@ -47,9 +48,21 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery }) 
         <a
           href="#home"
           onClick={(e) => go(e, '#home')}
-          className="font-mono text-sm font-bold uppercase tracking-[0.2em] text-text transition-colors hover:text-accent"
+          aria-label="Aayush Neupane — home"
+          className="flex items-center gap-0 font-mono text-sm font-bold uppercase tracking-[0.2em] text-text transition-colors hover:text-accent"
         >
-          Aayush N<span className="text-accent">.</span>
+          <img
+            src={withBase('/assets/images/profile/logo.png')}
+            alt=""
+            width={22}
+            height={22}
+            decoding="async"
+            draggable={false}
+            className="brand-mark h-[22px] w-[22px] shrink-0 object-contain"
+          />
+          <span>
+            <span className="text-accent">.</span> Neupane
+          </span>
         </a>
 
         <div className="hidden items-center gap-8 md:flex">

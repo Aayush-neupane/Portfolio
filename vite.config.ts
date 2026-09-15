@@ -4,5 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/',
+  // Relative base: works at a domain root (Netlify) and under a subpath
+  // (GitHub Pages /Portfolio/) without rebuilding.
+  base: './',
 });

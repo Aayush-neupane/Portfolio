@@ -8,6 +8,7 @@ const FALLBACK_LINKS = [
   { id: 'about', label: 'About', href: '#about' },
   { id: 'skills', label: 'Skills', href: '#skills' },
   { id: 'projects', label: 'Projects', href: '#projects' },
+  { id: 'services', label: 'Services', href: '#services' },
   { id: 'resume', label: 'Resume', href: '#resume' },
   { id: 'gallery', label: 'Gallery', href: '#/gallery' },
   { id: 'contact', label: 'Contact', href: '#contact' },
@@ -38,7 +39,7 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery }) 
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-200 ${scrolled ? 'border-b border-border bg-bg' : 'border-b border-transparent bg-transparent'
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-200 ${scrolled ? 'border-b border-border bg-bg/80 backdrop-blur-md' : 'border-b border-transparent bg-transparent'
         }`}
     >
       <nav
@@ -49,29 +50,33 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery }) 
           href="#home"
           onClick={(e) => go(e, '#home')}
           aria-label="Aayush Neupane — home"
-          className="flex items-center gap-0 font-mono text-sm font-bold uppercase tracking-[0.2em] text-text transition-colors hover:text-accent"
+          className="flex items-end gap-0 font-mono text-sm font-bold uppercase leading-none tracking-[0.2em] text-text transition-colors hover:text-accent"
         >
           <img
-            src={withBase('/assets/images/profile/logo.png')}
+            src={withBase('/assets/images/profile/logotrp.png')}
             alt=""
-            width={22}
-            height={22}
+            width={40}
+            height={40}
             decoding="async"
             draggable={false}
-            className="brand-mark h-[22px] w-[22px] shrink-0 object-contain"
+            className="brand-mark block h-[40px] w-[40px] shrink-0 translate-y-[8px] object-contain"
           />
-          <span>
-            <span className="text-accent">.</span> Neupane
+          <span className="-ml-[4px] inline-flex items-baseline gap-[9px] pb-[3px] leading-none">
+            <span
+              aria-hidden="true"
+              className="inline-block h-[4px] w-[4px] shrink-0 rounded-full bg-accent"
+            />
+            <span className="leading-none">Neupane</span>
           </span>
         </a>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-5 md:flex lg:gap-8">
           {items.map((item) => (
             <a
               key={item.id}
               href={item.href}
               onClick={(e) => go(e, item.href)}
-              aria-current={isActive(item) ? 'true' : undefined}
+              aria-current={isActive(item) ? 'page' : undefined}
               className={`nav-link text-sm font-medium transition-colors hover:text-accent ${isActive(item) ? 'active' : 'text-muted'
                 }`}
             >
@@ -96,7 +101,7 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery }) 
       </nav>
 
       <div
-        className={`overflow-hidden border-b transition-[max-height] duration-200 ease-out md:hidden ${open ? 'max-h-96 border-border bg-bg' : 'max-h-0 border-transparent'
+        className={`overflow-hidden border-b transition-[max-height] duration-200 ease-out md:hidden ${open ? 'max-h-96 border-border bg-bg/95 backdrop-blur-md' : 'max-h-0 border-transparent'
           }`}
       >
         <nav aria-label="Mobile" className="flex flex-col gap-1 px-6 py-4">

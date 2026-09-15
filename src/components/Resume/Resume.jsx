@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Download, GraduationCap } from 'lucide-react';
+import { withBase } from '../../utils/paths.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,8 +12,8 @@ export default function Resume({ data }) {
   const rootRef = useRef(null);
   const d = data || FALLBACK;
   const file = d.resumeFile || {};
-  const viewUrl = file.viewUrl || '/assets/resume.pdf';
-  const downloadUrl = file.downloadUrl || '/assets/resume.pdf';
+  const viewUrl = withBase(file.viewUrl || '/assets/resume.pdf');
+  const downloadUrl = withBase(file.downloadUrl || '/assets/resume.pdf');
 
   useEffect(() => {
     const root = rootRef.current;
@@ -116,7 +117,19 @@ export default function Resume({ data }) {
                   {job.title}
                 </h4>
                 <p className="mt-1 text-sm text-muted">
-                  {job.company}
+                  {job.website ? (
+                    <a
+                      href={job.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 font-medium text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-deep hover:decoration-accent"
+                    >
+                      {job.company}
+                      <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    </a>
+                  ) : (
+                    job.company
+                  )}
                   {job.location ? ` · ${job.location}` : ''}
                 </p>
                 {job.description && (

@@ -31,3 +31,4 @@ yarn-error.log*
 /public/assets/resume.pdf
 # env secrets
 .env
+/public/assets/gallery/

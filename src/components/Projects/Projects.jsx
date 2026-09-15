@@ -7,7 +7,7 @@ import { scrollToTarget } from '../../utils/scroll.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TABS = ['All', 'Web Apps', 'Tools', 'Landing Pages', 'Ed-Tech'];
+const TABS = ['All', 'Web Apps', 'Tools', 'Games', 'Landing Pages', 'Ed-Tech'];
 
 function normalizeCategory(p) {
   const c = String(p.category || p.status || '').toLowerCase();
@@ -26,12 +26,45 @@ function isValidUrl(u) {
 function ProjectVisual({ project, large }) {
   const [failed, setFailed] = useState(false);
   const src = project.image;
+  const alt = `${project.title || 'Project'} preview screenshot`;
+  if (large) {
+    return (
+      <div className="overflow-hidden rounded-lg border border-border bg-subtle">
+        <div
+          aria-hidden="true"
+          className="flex items-center gap-1.5 border-b border-border bg-elevated px-4 py-2.5"
+        >
+          <span className="h-2.5 w-2.5 rounded-full bg-border" />
+          <span className="h-2.5 w-2.5 rounded-full bg-border" />
+          <span className="h-2.5 w-2.5 rounded-full bg-accent/60" />
+          <span className="ml-3 hidden truncate font-mono text-[0.65rem] tracking-wide text-muted sm:block">
+            {project.title}
+          </span>
+        </div>
+        <div className="relative aspect-[16/10]">
+          <div className="absolute inset-0 flex flex-col justify-between p-5" aria-hidden="true">
+            <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted">
+              {String(project.id).padStart(2, '0')}
+            </span>
+            <span className="font-display text-3xl leading-none text-muted/70 md:text-4xl">
+              {project.title?.charAt(0) || 'A'}
+            </span>
+          </div>
+          {src && !failed && (
+            <img
+              src={src}
+              alt={alt}
+              loading="lazy" decoding="async"
+              onError={() => setFailed(true)}
+              className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+            />
+          )}
+        </div>
+      </div>
+    );
+  }
   return (
-    <div
-      className={`relative overflow-hidden rounded-lg border border-border bg-subtle ${
-        large ? 'aspect-[16/10]' : 'aspect-[16/9]'
-      }`}
-    >
+    <div className="relative aspect-[16/9] overflow-hidden rounded-lg border border-border bg-subtle">
       <div className="absolute inset-0 flex flex-col justify-between p-5" aria-hidden="true">
         <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted">
           {String(project.id).padStart(2, '0')}
@@ -43,10 +76,10 @@ function ProjectVisual({ project, large }) {
       {src && !failed && (
         <img
           src={src}
-          alt=""
-          loading="lazy"
+          alt={alt}
+          loading="lazy" decoding="async"
           onError={() => setFailed(true)}
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+          className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
         />
       )}
     </div>
@@ -163,7 +196,7 @@ export default function Projects({ projects, onViewAll }) {
           data-reveal
           className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text"
         >
-          Projects
+          Selected <em className="italic">work.</em>
         </h2>
 
         <div

@@ -2,20 +2,20 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Facebook, Instagram, MessageCircle } from 'lucide-react';
+import { withBase } from '../../utils/paths.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const DETAILS = [
-  { label: 'Location', value: 'Jhapa, Nepal' },
-  { label: 'Focus', value: 'Full-Stack Web' },
-  { label: 'Currently', value: 'Building & Shipping' },
-  { label: 'Available', value: 'Freelance & Collab' },
+  { label: 'Base', value: 'Jhapa, Nepal · UTC+5:45' },
+  { label: 'Stack', value: 'React · TypeScript · Supabase' },
+  { label: 'Experience', value: 'Building for the web since 2022' },
+  { label: 'Open to', value: 'Freelance' },
 ];
 
-const SOCIALS = [
+const SOCIALS_BASE = [
   { key: 'ig', cls: 'social-ig', label: 'Instagram', href: 'https://www.instagram.com/dynamic_aayush38', Icon: Instagram },
   { key: 'fb', cls: 'social-fb', label: 'Facebook', href: 'https://www.facebook.com/khatra.manxey.071129', Icon: Facebook },
-  { key: 'wa', cls: 'social-wa', label: 'WhatsApp', href: 'https://wa.me/9779862862023', Icon: MessageCircle },
 ];
 
 function Portrait() {
@@ -29,9 +29,9 @@ function Portrait() {
       <div className="relative overflow-hidden rounded-xl border border-border bg-subtle transition-colors duration-200 group-hover:border-linestrong">
         {!failed ? (
           <img
-            src="/assets/images/profile/me.JPG"
+            src={withBase('/assets/images/profile/me.JPG')}
             alt="Portrait of Aayush Neupane"
-            loading="lazy"
+            loading="lazy" decoding="async"
             onError={() => setFailed(true)}
             className="aspect-[4/5] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
@@ -48,7 +48,7 @@ function Portrait() {
   );
 }
 
-export default function About({ profile }) {
+export default function About({ profile, whatsapp }) {
   const rootRef = useRef(null);
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export default function About({ profile }) {
           >
             Developer who
             <br />
-            cares about craft.
+            cares about <em className="italic">craft.</em>
           </h2>
 
           <Portrait />
@@ -101,7 +101,13 @@ export default function About({ profile }) {
             </p>
 
             <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-3">
-              {SOCIALS.map(({ key, cls, label, href, Icon }) => (
+              {(() => {
+                const waNumber = whatsapp?.phoneNumber || '';
+                const waText = whatsapp?.defaultMessage || 'Hi Aayush, I found your portfolio and want to chat.';
+                const socials = waNumber
+                  ? [...SOCIALS_BASE, { key: 'wa', cls: 'social-wa', label: 'WhatsApp', href: `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`, Icon: MessageCircle }]
+                  : SOCIALS_BASE;
+                return socials.map(({ key, cls, label, href, Icon }) => (
                 <li key={key}>
                   <a
                     href={href}
@@ -114,22 +120,27 @@ export default function About({ profile }) {
                     <span className="social-platform social-label">{label}</span>
                   </a>
                 </li>
-              ))}
+              ))
+              })()}
             </ul>
           </nav>
         </div>
 
         <div>
           <p data-reveal className="text-base leading-[1.6] text-muted md:text-lg">
-            I&apos;m Aayush, an 18-year-old developer from Jhapa, Nepal. I started
-            building for the web in 2022 and never looked back. Today I work across
-            React apps and Unity games, with the occasional deep dive in between.
+            I&apos;m Aayush, a web developer from Jhapa, Nepal. Since 2022
+            I&apos;ve been turning ideas into sites people actually use — a
+            booking site for a Canadian detailing business, a virtual classroom
+            platform, and a hardware control deck for a real RC build.
           </p>
           <p data-reveal className="mt-5 text-base leading-[1.6] text-muted md:text-lg">
-            I care about the unglamorous details: spacing, timing, error states,
-            the words on the buttons. Away from the keyboard, I&apos;m usually out
-            with my camera, or learning how systems break so the ones I build hold
-            up.
+            My bar is the unglamorous stuff: spacing, timing, error states, the
+            words on the buttons. Every project on this page was held to it.
+          </p>
+
+          <p data-reveal className="mt-6 font-mono text-xs tracking-[0.08em] text-muted">
+            <span className="uppercase text-accent">Now — </span>
+            <span className="text-text">{profile?.now || 'Shipping freelance web apps.'}</span>
           </p>
 
           <dl data-reveal className="mt-9 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -145,6 +156,35 @@ export default function About({ profile }) {
               </div>
             ))}
           </dl>
+
+          <div data-reveal className="mt-4 rounded-xl border border-border bg-elevated">
+            <p className="border-b border-border px-5 py-3 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
+              Recognition
+            </p>
+            <ul>
+              <li className="flex items-baseline gap-3 border-b border-border px-5 py-3.5">
+                <span className="font-mono text-xs text-accent">01</span>
+                <p className="text-sm text-text">
+                  2nd place, Webathon{' '}
+                  <span className="text-muted">— Madan Bhandari Memorial College, 2026</span>
+                </p>
+              </li>
+              <li className="flex items-baseline gap-3 border-b border-border px-5 py-3.5">
+                <span className="font-mono text-xs text-accent">02</span>
+                <p className="text-sm text-text">
+                  Web development hackathon{' '}
+                  <span className="text-muted">— Madan Bhandari Memorial College, 2025</span>
+                </p>
+              </li>
+              <li className="flex items-baseline gap-3 px-5 py-3.5">
+                <span className="font-mono text-xs text-accent">03</span>
+                <p className="text-sm text-text">
+                  Hackathon participant{' '}
+                  <span className="text-muted">— White House College, Birtamode, 2026</span>
+                </p>
+              </li>
+            </ul>
+          </div>
           <span className="sr-only">{profile?.location || ''}</span>
         </div>
       </div>

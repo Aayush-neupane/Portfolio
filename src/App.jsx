@@ -14,13 +14,16 @@ import Gallery from './components/Gallery/Gallery.jsx';
 import GalleryPage from './components/Gallery/GalleryPage.jsx';
 import ProjectsPage from './components/Projects/ProjectsPage.jsx';
 import Contact from './components/Contact/Contact.jsx';
+import Services from './components/Services/Services.jsx';
 import Footer from './components/Footer/Footer.jsx';
+import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
 import { scrollToTarget } from './utils/scroll.js';
+import { withBase } from './utils/paths.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'resume', 'gallery', 'contact'];
+const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'services', 'resume', 'gallery', 'contact'];
 const GALLERY_ROUTE = '#/gallery';
 const PROJECTS_ROUTE = '#/projects';
 
@@ -43,7 +46,7 @@ function LoadingScreen({ leaving }) {
     }
     let raf = 0;
     const t0 = performance.now();
-    const dur = 1700;
+    const dur = 1200;
     const tick = (t) => {
       const p = Math.min(1, (t - t0) / dur);
       setPct(Math.round(p * 100));
@@ -64,17 +67,17 @@ function LoadingScreen({ leaving }) {
         leaving ? 'loader-lift' : ''
       }`}
     >
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-1">
         <div className="flex w-full justify-center">
           <img
-            src={withBase('/assets/images/profile/logo.png')}
+            src={withBase('/assets/images/profile/logotrp.png')}
             alt=""
-            width={80}
-            height={80}
+            width={144}
+            height={144}
             decoding="async"
             fetchPriority="high"
             draggable={false}
-            className="loader-logo block h-16 w-16 object-contain md:h-20 md:w-20"
+            className="loader-logo block h-32 w-32 object-contain md:h-36 md:w-36"
           />
         </div>
         <svg viewBox="0 0 320 60" className="block h-14 w-72 overflow-visible" role="presentation">
@@ -104,6 +107,11 @@ async function fetchJson(path, fallback) {
   }
 }
 
+/** Rewrite root-absolute asset paths from data JSONs for the deploy base. */
+function withImages(items, key) {
+  return (items || []).map((item) => ({ ...item, [key]: withBase(item[key]) }));
+}
+
 function scrollTopImmediate() {
   if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true });
   else window.scrollTo(0, 0);
@@ -115,6 +123,7 @@ export default function App() {
   const [projects, setProjects] = useState([]);
   const [archive, setArchive] = useState([]);
   const [social, setSocial] = useState(null);
+  const [whatsapp, setWhatsapp] = useState(null);
   const [resume, setResume] = useState(null);
   const [gallery, setGallery] = useState([]);
   const [featured, setFeatured] = useState([]);
@@ -193,27 +202,50 @@ export default function App() {
     let cancelled = false;
     const started = Date.now();
     Promise.all([
-      fetchJson('/data/config.json', { navigation: [] }),
-      fetchJson('/data/profile.json', { profile: {}, hero: {} }),
-      fetchJson('/data/projects.json', { projects: [] }),
-      fetchJson('/data/social.json', {}),
-      fetchJson('/data/resume.json', null),
-      fetchJson('/data/gallery.json', { photos: [] }),
-    ]).then(([cfg, prof, proj, soc, res, gal]) => {
+      fetchJson(withBase('/data/config.json'), { navigation: [] }),
+      fetchJson(withBase('/data/profile.json'), { profile: {}, hero: {} }),
+      fetchJson(withBase('/data/projects.json'), { projects: [] }),
+      fetchJson(withBase('/data/social.json'), {}),
+      fetchJson(withBase('/data/resume.json'), null),
+      fetchJson(withBase('/data/gallery.json'), { photos: [] }),
+      fetchJson(withBase('/data/whatsapp.json'), {}),
+    ]).then(([cfg, prof, proj, soc, res, gal, wa]) => {
       if (cancelled) return;
       setConfig(cfg);
-      setProfile(prof.profile || prof.hero || {});
-      setProjects(proj.featured || proj.projects || []);
-      setArchive(proj.archive || []);
+      setProfile({
+        ...(prof.profile || prof.hero || {}),
+        tagline: prof.hero?.tagline || prof.profile?.tagline,
+      });
+      setProjects(withImages(proj.featured || proj.projects || [], 'image'));
+      setArchive(withImages(proj.archive || [], 'image'));
       setSocial(soc);
+      setWhatsapp(wa);
       setResume(res);
-      setGallery(gal.photos || []);
-      setFeatured(gal.featured || []);
-      const wait = Math.max(0, 1900 - (Date.now() - started));
+      setGallery(withImages(gal.photos || [], 'src'));
+      setFeatured(withImages(gal.featured || [], 'src'));
+      let seen = false;
+      try {
+        seen = sessionStorage.getItem('an-seen') === '1';
+      } catch {
+        seen = false;
+      }
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const baseWait = reduced ? 0 : seen ? 500 : 1400;
+      const liftMs = reduced ? 0 : 750;
+      const wait = Math.max(0, baseWait - (Date.now() - started));
       setTimeout(() => {
         if (cancelled) return;
+        try {
+          sessionStorage.setItem('an-seen', '1');
+        } catch {
+          /* private mode */
+        }
+        if (reduced) {
+          setReady(true);
+          return;
+        }
         setLeaving(true);
-        setTimeout(() => !cancelled && setReady(true), 750);
+        setTimeout(() => !cancelled && setReady(true), liftMs);
       }, wait);
     });
     return () => {
@@ -313,8 +345,8 @@ export default function App() {
         </main>
       ) : (
         <main>
-          <Hero profile={profile} projectCount={projects.length} />
-          <About profile={profile} />
+          <Hero profile={profile} />
+          <About profile={profile} whatsapp={whatsapp} />
           <Skills />
           <TextReveal3D
             eyebrow="Philosophy"
@@ -323,13 +355,15 @@ export default function App() {
             support="It is why I obsess over spacing, timing, and the states nobody screenshots. Every project on this page was held to it."
           />
           <Projects projects={projects} onViewAll={() => handleNav(PROJECTS_ROUTE)} />
+          <Services onContact={() => handleNav('#contact')} />
           <Resume data={resume} />
           <Gallery photos={featured.length > 0 ? featured : gallery.slice(0, 6)} onViewAll={() => handleNav(GALLERY_ROUTE)} />
-          <Contact profile={profile} social={social} />
+          <Contact profile={profile} social={social} whatsapp={whatsapp} />
         </main>
       )}
       </ErrorBoundary>
       <Footer />
+      <WhatsAppFloat whatsapp={whatsapp} />
     </div>
   );
 }

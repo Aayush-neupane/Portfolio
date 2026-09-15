@@ -94,7 +94,7 @@ export default function Skills() {
             data-reveal
             className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text"
           >
-            Skills &amp; Tools
+            Skills &amp; <em className="italic">tools.</em>
           </h2>
           <p data-reveal className="mt-5 leading-[1.6] text-muted">
             No progress bars or percentages, just an honest list of the tools I

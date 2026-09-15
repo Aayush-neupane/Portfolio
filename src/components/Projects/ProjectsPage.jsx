@@ -22,12 +22,73 @@ function RowThumb({ project }) {
     <div className={frame}>
       <img
         src={project.image}
-        alt=""
-        loading="lazy"
+        alt={`${project.title || 'Project'} thumbnail`}
+        loading="lazy" decoding="async"
         onError={() => setFailed(true)}
-        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
       />
     </div>
+  );
+}
+
+const EARLY_IDS = new Set([108, 109, 110, 111, 112, 113]);
+
+function RowItem({ project: p, index }) {
+  const live = isValidUrl(p.liveUrl) ? p.liveUrl : null;
+  const repo = isValidUrl(p.githubUrl) ? p.githubUrl : null;
+  return (
+    <li
+      key={p.id ?? index}
+      className="group grid gap-4 py-5 transition-colors duration-200 hover:bg-subtle sm:grid-cols-[auto_7rem_1fr_auto] sm:items-center sm:gap-6 sm:px-4"
+    >
+      <span aria-hidden="true" className="font-mono text-xs text-muted transition-colors group-hover:text-accent">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <RowThumb project={p} />
+      <div className="min-w-0">
+        <h2 className="truncate font-display text-xl text-text transition-colors group-hover:text-accent md:text-2xl">
+          {p.title}
+        </h2>
+        <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted">
+          {p.description}
+        </p>
+        {(p.techStack || []).length > 0 && (
+          <p className="mt-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-muted">
+            {(p.techStack || []).slice(0, 4).join(' · ')}
+          </p>
+        )}
+      </div>
+      <div className="flex items-center gap-4 sm:justify-end">
+        {live && (
+          <a
+            href={live}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-sm font-medium text-muted transition-colors hover:text-accent"
+          >
+            Live
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </a>
+        )}
+        {repo && (
+          <a
+            href={repo}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${p.title} source code`}
+            className="inline-flex items-center gap-1 text-sm font-medium text-muted transition-colors hover:text-accent"
+          >
+            <Github className="h-4 w-4" aria-hidden="true" />
+            Code
+          </a>
+        )}
+        {!live && !repo && (
+          <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted/60">
+            {p.status || 'archived'}
+          </span>
+        )}
+      </div>
+    </li>
   );
 }
 
@@ -43,6 +104,8 @@ export default function ProjectsPage({ projects, onBack }) {
     () => (filter === 'All' ? items : items.filter((p) => p.category === filter)),
     [items, filter]
   );
+  const main = useMemo(() => filtered.filter((p) => !EARLY_IDS.has(p.id)), [filtered]);
+  const early = useMemo(() => filtered.filter((p) => EARLY_IDS.has(p.id)), [filtered]);
 
   return (
     <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-32 md:pt-40">
@@ -103,65 +166,28 @@ export default function ProjectsPage({ projects, onBack }) {
       </div>
 
       <ol className="mt-8 divide-y divide-border border-y border-border">
-        {filtered.map((p, i) => {
-          const live = isValidUrl(p.liveUrl) ? p.liveUrl : null;
-          const repo = isValidUrl(p.githubUrl) ? p.githubUrl : null;
-          return (
-            <li
-              key={p.id ?? i}
-              className="group grid gap-4 py-5 transition-colors duration-200 hover:bg-subtle sm:grid-cols-[auto_7rem_1fr_auto] sm:items-center sm:gap-6 sm:px-4"
-            >
-              <span aria-hidden="true" className="font-mono text-xs text-muted transition-colors group-hover:text-accent">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <RowThumb project={p} />
-              <div className="min-w-0">
-                <h2 className="truncate font-display text-xl text-text transition-colors group-hover:text-accent md:text-2xl">
-                  {p.title}
-                </h2>
-                <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted">
-                  {p.description}
-                </p>
-                {(p.techStack || []).length > 0 && (
-                  <p className="mt-2 font-mono text-[0.7rem] uppercase tracking-[0.1em] text-muted">
-                    {(p.techStack || []).slice(0, 4).join(' · ')}
-                  </p>
-                )}
-              </div>
-              <div className="flex items-center gap-4 sm:justify-end">
-                {live && (
-                  <a
-                    href={live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm font-medium text-muted transition-colors hover:text-accent"
-                  >
-                    Live
-                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-                  </a>
-                )}
-                {repo && (
-                  <a
-                    href={repo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${p.title} source code`}
-                    className="inline-flex items-center gap-1 text-sm font-medium text-muted transition-colors hover:text-accent"
-                  >
-                    <Github className="h-4 w-4" aria-hidden="true" />
-                    Code
-                  </a>
-                )}
-                {!live && !repo && (
-                  <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted/60">
-                    {p.status || 'archived'}
-                  </span>
-                )}
-              </div>
-            </li>
-          );
-        })}
+        {main.map((p, i) => (
+          <RowItem key={p.id ?? i} project={p} index={i} />
+        ))}
       </ol>
+      {early.length > 0 && (
+        <details className="group/early mt-6 rounded-xl border border-border bg-elevated">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 transition-colors hover:text-accent [&::-webkit-details-marker]:hidden">
+            <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
+              Early experiments · {early.length}
+            </span>
+            <span className="text-sm text-muted transition-transform duration-200 group-open/early:rotate-45">
+              <span aria-hidden="true" className="font-mono text-lg leading-none">+</span>
+              <span className="sr-only">Toggle early experiments</span>
+            </span>
+          </summary>
+          <ol className="divide-y divide-border border-t border-border px-1 pb-2">
+            {early.map((p, i) => (
+              <RowItem key={p.id ?? i} project={p} index={main.length + i} />
+            ))}
+          </ol>
+        </details>
+      )}
       {filtered.length === 0 && (
         <p className="py-12 text-center text-muted">Nothing in this category yet.</p>
       )}

@@ -36,6 +36,7 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
             width={photo.w}
             height={photo.h}
             loading={eager ? 'eager' : 'lazy'}
+            decoding="async"
             draggable={false}
             onError={() => setFailed(true)}
             onLoad={() => {
@@ -146,6 +147,7 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
           <img
             src={photo.src}
             alt={photo.title}
+            decoding="async"
             onError={() => setFailed(true)}
             className="max-h-[62vh] w-auto max-w-full rounded-lg object-contain"
           />

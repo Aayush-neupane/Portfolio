@@ -19,10 +19,11 @@ const schema = z.object({
 const inputClass =
   'w-full rounded-lg border border-border bg-elevated px-4 py-3 text-text placeholder:text-muted/70 text-base transition-colors duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40';
 
-export default function Contact({ profile, social }) {
+export default function Contact({ profile, social, whatsapp }) {
   const rootRef = useRef(null);
+  const formRef = useRef(null);
   const [sent, setSent] = useState(false);
-  const [shakeKey, setShakeKey] = useState(0);
+  const [failed, setFailed] = useState(false);
 
   const {
     register,
@@ -55,20 +56,48 @@ export default function Contact({ profile, social }) {
 
   useEffect(() => {
     if (!sent) return;
-    const t = setTimeout(() => setSent(false), 3000);
+    const t = setTimeout(() => setSent(false), 6000);
     return () => clearTimeout(t);
   }, [sent]);
 
   const onValid = async (data) => {
-    void data;
-    await new Promise((r) => setTimeout(r, 500));
-    setSent(true);
-    reset();
+    setFailed(false);
+    const to = social?.email || profile?.email || 'theghostoftheuchiha38@gmail.com';
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(to)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          message: data.message,
+          _subject: `Portfolio inquiry from ${data.name}`,
+          _honey: '',
+          _captcha: 'false',
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setSent(true);
+      reset();
+    } catch {
+      // Backend unreachable (or first-time FormSubmit activation) — surface mailto fallback.
+      setFailed(true);
+    }
   };
 
-  const onInvalid = () => setShakeKey((k) => k + 1);
+  const onInvalid = () => {
+    // Restart the shake without remounting — a key-change would wipe typed input.
+    const form = formRef.current;
+    if (!form) return;
+    form.classList.remove('shake');
+    void form.offsetWidth;
+    form.classList.add('shake');
+  };
 
-  const email = social?.email || profile?.email || 'theghostoftheuchiha38@gmail.com';
+  const email = social?.email || profile?.email || '';
+  const waNumber = whatsapp?.phoneNumber || '';
+  const waText = whatsapp?.defaultMessage || 'Hi Aayush, I found your portfolio and want to chat.';
+  const waLink = waNumber ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}` : '';
   const socials = [
     { label: 'GitHub', href: 'https://github.com/aayush-neupane', Icon: Github },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aayush-neupane-38a9b7240/', Icon: Linkedin },
@@ -89,7 +118,7 @@ export default function Contact({ profile, social }) {
             data-reveal
             className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text"
           >
-            Let&apos;s Work Together
+            Let&apos;s work <em className="italic">together.</em>
           </h2>
           <p data-reveal className="mt-5 max-w-md leading-[1.6] text-muted">
             Got a project, a question, or just want to say hi? My inbox is
@@ -98,13 +127,15 @@ export default function Contact({ profile, social }) {
           </p>
 
           <div data-reveal className="mt-8 space-y-4 text-sm">
-            <a
-              href={`mailto:${email}`}
-              className="inline-flex items-center gap-2.5 text-text transition-colors hover:text-accent"
-            >
-              <Mail className="h-4 w-4 text-accent" aria-hidden="true" />
-              {email}
-            </a>
+            {email && (
+              <a
+                href={`mailto:${email}?subject=${encodeURIComponent('Project inquiry from your portfolio')}`}
+                className="inline-flex items-center gap-2.5 text-text transition-colors hover:text-accent"
+              >
+                <Mail className="h-4 w-4 text-accent" aria-hidden="true" />
+                {email}
+              </a>
+            )}
             <p className="flex items-center gap-2.5 text-muted">
               <MapPin className="h-4 w-4 text-accent" aria-hidden="true" />
               Jhapa, Nepal · working worldwide
@@ -125,16 +156,52 @@ export default function Contact({ profile, social }) {
               </a>
             ))}
           </div>
+
+          <ol data-reveal className="mt-10 space-y-0 rounded-xl border border-border bg-elevated">
+            {[
+              { step: '01', title: 'You describe the project', text: 'Goals, references, deadline — a few lines are enough.' },
+              { step: '02', title: 'Fixed quote in 48 hours', text: 'Scope, timeline, and price upfront. No hourly fog.' },
+              { step: '03', title: 'Build in weekly demos', text: 'You see progress early and steer before it costs.' },
+            ].map((s, i, arr) => (
+              <li
+                key={s.step}
+                className={`flex gap-4 px-5 py-4 ${i < arr.length - 1 ? 'border-b border-border' : ''}`}
+              >
+                <span className="font-mono text-xs text-accent">{s.step}</span>
+                <div>
+                  <p className="text-sm font-semibold text-text">{s.title}</p>
+                  <p className="mt-0.5 text-sm text-muted">{s.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div data-reveal className="mt-6 space-y-2">
+            <details className="rounded-xl border border-border bg-elevated px-5 py-3.5">
+              <summary className="cursor-pointer list-none text-sm font-semibold text-text [&::-webkit-details-marker]:hidden">
+                How fast do you reply?
+              </summary>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                Within 24 hours — fastest on WhatsApp. Based in Jhapa (UTC+5:45), working worldwide async.
+              </p>
+            </details>
+            <details className="rounded-xl border border-border bg-elevated px-5 py-3.5">
+              <summary className="cursor-pointer list-none text-sm font-semibold text-text [&::-webkit-details-marker]:hidden">
+                How long does a landing page take?
+              </summary>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">
+                Typically 1–2 weeks from content to launch, including mobile polish and basic SEO.
+              </p>
+            </details>
+          </div>
         </div>
 
         <div data-reveal>
           <form
-            key={shakeKey}
+            ref={formRef}
             onSubmit={handleSubmit(onValid, onInvalid)}
             noValidate
-            className={`rounded-xl border border-border bg-elevated p-6 md:p-8 ${
-              shakeKey > 0 && Object.keys(errors).length > 0 ? 'shake' : ''
-            }`}
+            className="rounded-xl border border-border bg-elevated p-6 md:p-8"
           >
             <div className="space-y-5">
               <div>
@@ -241,21 +308,35 @@ export default function Contact({ profile, social }) {
                   <FontAwesomeIcon icon={faFacebookF} className="text-base leading-none" />
                   <span className="fa-label">Facebook</span>
                 </a>
-                <a
-                  href="https://wa.me/9779862862023"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="fa-btn fa-wa inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:-translate-y-px"
-                >
-                  <FontAwesomeIcon icon={faWhatsapp} className="text-base leading-none" />
-                  <span className="fa-label">WhatsApp</span>
-                </a>
+                {waLink && (
+                  <a
+                    href={waLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="fa-btn fa-wa inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:-translate-y-px"
+                  >
+                    <FontAwesomeIcon icon={faWhatsapp} className="text-base leading-none" />
+                    <span className="fa-label">WhatsApp</span>
+                  </a>
+                )}
               </div>
 
-              <div aria-live="polite" className="min-h-6">
+              <div aria-live="polite" className="min-h-6 space-y-2">
                 {sent && (
                   <p className="rounded-lg border border-accent/40 bg-accent-soft px-4 py-2.5 text-center text-sm font-medium text-accent">
-                    Message sent. I&apos;ll get back to you soon.
+                    Message sent. I&apos;ll get back to you within 24 hours.
+                  </p>
+                )}
+                {failed && (
+                  <p className="rounded-lg border border-border bg-subtle px-4 py-2.5 text-center text-sm leading-relaxed text-muted">
+                    Couldn&apos;t send automatically.{' '}
+                    <a
+                      href={`mailto:${email}?subject=${encodeURIComponent('Portfolio inquiry')}`}
+                      className="font-semibold text-accent underline underline-offset-2 hover:text-accent-deep"
+                    >
+                      Email me directly
+                    </a>{' '}
+                    instead — I reply within a day.
                   </p>
                 )}
               </div>

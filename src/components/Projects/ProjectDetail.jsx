@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Github, Link2 } from 'lucide-react';
 import Magnetic from '../Magnetic/Magnetic.jsx';
 
@@ -6,27 +6,107 @@ function isValidUrl(u) {
   return typeof u === 'string' && /^https?:\/\//.test(u) && u !== 'https://' && u !== 'http://';
 }
 
-function DetailVisual({ project }) {
+function DetailVisual({ project, enterFrom, onEntered }) {
   const [failed, setFailed] = useState(false);
-  if (!project.image || failed) {
-    return (
-      <div
-        aria-hidden="true"
-        className="grid aspect-[16/8] place-items-center overflow-hidden rounded-2xl border border-border bg-subtle"
-      >
-        <span className="font-display text-[10rem] leading-none text-muted/50">
-          {project.title?.charAt(0) || '·'}
-        </span>
-      </div>
+  const boxRef = useRef(null);
+  const willZoom =
+    !!enterFrom &&
+    enterFrom.rect &&
+    String(enterFrom.id) === String(project.id) &&
+    typeof window !== 'undefined' &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [arrived, setArrived] = useState(!willZoom);
+
+  useEffect(() => {
+    if (!willZoom) return undefined;
+    const box = boxRef.current;
+    let finished = false;
+    const done = () => {
+      if (finished) return;
+      finished = true;
+      setArrived(true);
+      onEntered?.();
+    };
+    if (!box) {
+      done();
+      return undefined;
+    }
+    const to = box.getBoundingClientRect();
+    const from = enterFrom.rect;
+    const ghost = document.createElement('img');
+    if (enterFrom.src) ghost.src = enterFrom.src;
+    ghost.alt = '';
+    ghost.setAttribute('aria-hidden', 'true');
+    Object.assign(ghost.style, {
+      position: 'fixed',
+      left: `${from.left}px`,
+      top: `${from.top}px`,
+      width: `${from.width}px`,
+      height: `${from.height}px`,
+      objectFit: 'cover',
+      objectPosition: 'top',
+      borderRadius: '12px',
+      zIndex: 250,
+      pointerEvents: 'none',
+      margin: '0',
+    });
+    document.body.appendChild(ghost);
+    const anim = ghost.animate(
+      [
+        {
+          left: `${from.left}px`,
+          top: `${from.top}px`,
+          width: `${from.width}px`,
+          height: `${from.height}px`,
+          borderRadius: '12px',
+        },
+        {
+          left: `${to.left}px`,
+          top: `${to.top}px`,
+          width: `${to.width}px`,
+          height: `${to.height}px`,
+          borderRadius: '16px',
+        },
+      ],
+      { duration: 450, easing: 'cubic-bezier(.22,1,.36,1)' }
     );
-  }
-  return (
+    anim.onfinish = () => {
+      ghost.remove();
+      done();
+    };
+    // Fallback: never leave the hero invisible (no WAAPI, dropped frames).
+    const fallback = setTimeout(() => {
+      ghost.remove();
+      done();
+    }, 1200);
+    const rawFinish = anim.onfinish;
+    anim.onfinish = (e) => {
+      clearTimeout(fallback);
+      rawFinish(e);
+    };
+    return () => {
+      clearTimeout(fallback);
+      try {
+        anim.cancel();
+      } catch {
+        /* already finished */
+      }
+      ghost.remove();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const frame = (inner) => (
     <div className="relative">
       <div
         aria-hidden="true"
         className="absolute -inset-3 rounded-3xl bg-accent/10 blur-2xl"
       />
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-subtle">
+      <div
+        className={`relative overflow-hidden rounded-2xl border border-border bg-subtle transition-opacity duration-300 ${
+          arrived ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
         <div
           aria-hidden="true"
           className="flex items-center gap-1.5 border-b border-border bg-elevated px-4 py-2.5"
@@ -38,19 +118,32 @@ function DetailVisual({ project }) {
             {project.title}
           </span>
         </div>
-        <div className="relative aspect-[16/8]">
-          <img
-            src={project.image}
-            alt={`${project.title || 'Project'} preview screenshot`}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-            onError={() => setFailed(true)}
-            className="absolute inset-0 h-full w-full object-cover object-top"
-          />
+        <div ref={boxRef} className="relative aspect-[16/8]">
+          {inner}
         </div>
       </div>
     </div>
+  );
+
+  if (!project.image || failed) {
+    return frame(
+      <div aria-hidden="true" className="absolute inset-0 grid place-items-center">
+        <span className="font-display text-[10rem] leading-none text-muted/50">
+          {project.title?.charAt(0) || '·'}
+        </span>
+      </div>
+    );
+  }
+  return frame(
+    <img
+      src={project.image}
+      alt={`${project.title || 'Project'} preview screenshot`}
+      loading="eager"
+      fetchPriority="high"
+      decoding="async"
+      onError={() => setFailed(true)}
+      className="absolute inset-0 h-full w-full object-cover object-top"
+    />
   );
 }
 
@@ -126,6 +219,8 @@ export default function ProjectDetail({
   index,
   total,
   all,
+  enterFrom,
+  onEntered,
 }) {
   if (!project) {
     return (
@@ -230,7 +325,7 @@ export default function ProjectDetail({
       </header>
 
       <div className="mt-10 md:mt-14">
-        <DetailVisual project={project} />
+        <DetailVisual project={project} enterFrom={enterFrom} onEntered={onEntered} />
       </div>
 
       <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-4">

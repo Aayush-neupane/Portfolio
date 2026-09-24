@@ -29,6 +29,7 @@
       "image": "/assets/images/projects/help.com.webp",
       "techStack": [
         "React",
+        "TypeScript",
         "TanStack Query",
         "Tailwind CSS"
       ],
@@ -131,6 +132,7 @@
       "image": "/assets/images/projects/store.webp",
       "techStack": [
         "React",
+        "TypeScript",
         "Express",
         "PostgreSQL",
         "Tailwind CSS"
@@ -173,6 +175,7 @@
       "image": "/assets/images/projects/photography.webp",
       "techStack": [
         "React",
+        "TypeScript",
         "Vite",
         "CSS"
       ],

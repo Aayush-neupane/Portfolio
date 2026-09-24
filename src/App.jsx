@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './components/Navbar/Navbar.jsx';
 import ScrollProgress from './components/ScrollProgress/ScrollProgress.jsx';
+import Cursor from './components/Cursor/Cursor.jsx';
 import Hero from './components/Hero/Hero.jsx';
 import About from './components/About/About.jsx';
 import Skills from './components/Skills/Skills.jsx';
@@ -433,6 +434,7 @@ export default function App() {
         </defs>
       </svg>
       <ScrollProgress />
+      <Cursor />
       <Navbar
         links={config?.navigation}
         activeSection={isGallery || isProjects || isDetail ? '' : activeSection}

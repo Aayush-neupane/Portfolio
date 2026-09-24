@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Github, Link2 } from 'lucide-react';
+import Magnetic from '../Magnetic/Magnetic.jsx';
 
 function isValidUrl(u) {
   return typeof u === 'string' && /^https?:\/\//.test(u) && u !== 'https://' && u !== 'http://';
@@ -192,29 +193,33 @@ export default function ProjectDetail({
         <p className="mt-6 max-w-3xl text-base leading-[1.7] text-muted md:text-lg">
           {project.description}
         </p>
-        <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
-          {live && (
-            <a
-              href={live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep hover:shadow-lg"
-            >
-              View Live
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </a>
-          )}
-          {repo && (
-            <a
-              href={repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:-translate-y-px hover:border-linestrong hover:text-accent"
-            >
-              <Github className="h-4 w-4" aria-hidden="true" />
-              Source Code
-            </a>
-          )}
+          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+            {live && (
+              <Magnetic strength={0.25} className="inline-block">
+                <a
+                  href={live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep hover:shadow-lg"
+                >
+                  View Live
+                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                </a>
+              </Magnetic>
+            )}
+            {repo && (
+              <Magnetic strength={0.25} className="inline-block">
+                <a
+                  href={repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:-translate-y-px hover:border-linestrong hover:text-accent"
+                >
+                  <Github className="h-4 w-4" aria-hidden="true" />
+                  Source Code
+                </a>
+              </Magnetic>
+            )}
           {!live && !repo && (
             <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
               <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -324,20 +329,21 @@ export default function ProjectDetail({
           </div>
           <div className="mt-6 grid gap-5 md:grid-cols-3">
             {related.map((r) => (
-              <button
-                key={r.id}
-                type="button"
-                onClick={() => onOpen && onOpen(r)}
-                className="group rounded-xl border border-border bg-elevated p-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-linestrong"
-              >
-                <RelatedThumb project={r} />
-                <p className="mt-4 truncate font-display text-xl text-text transition-colors group-hover:text-accent">
-                  {r.title}
-                </p>
-                <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted">
-                  {r.description}
-                </p>
-              </button>
+              <Magnetic key={r.id} strength={0.12} className="block">
+                <button
+                  type="button"
+                  onClick={() => onOpen && onOpen(r)}
+                  className="group w-full rounded-xl border border-border bg-elevated p-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-linestrong"
+                >
+                  <RelatedThumb project={r} />
+                  <p className="mt-4 truncate font-display text-xl text-text transition-colors group-hover:text-accent">
+                    {r.title}
+                  </p>
+                  <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted">
+                    {r.description}
+                  </p>
+                </button>
+              </Magnetic>
             ))}
           </div>
         </section>
@@ -349,46 +355,50 @@ export default function ProjectDetail({
           className="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2 md:mt-20"
         >
           {prev ? (
-            <button
-              type="button"
-              onClick={() => onOpen(prev)}
-              className="group flex items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:-translate-y-px hover:border-accent/60"
-            >
-              <ArrowLeft
-                className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:-translate-x-1 group-hover:text-accent"
-                aria-hidden="true"
-              />
-              <span className="min-w-0">
-                <span className="block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
-                  Previous project
+            <Magnetic strength={0.12} className="block">
+              <button
+                type="button"
+                onClick={() => onOpen(prev)}
+                className="group flex w-full items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:-translate-y-px hover:border-accent/60"
+              >
+                <ArrowLeft
+                  className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:-translate-x-1 group-hover:text-accent"
+                  aria-hidden="true"
+                />
+                <span className="min-w-0">
+                  <span className="block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
+                    Previous project
+                  </span>
+                  <span className="mt-1.5 block truncate font-display text-2xl text-text transition-colors group-hover:text-accent">
+                    {prev.title}
+                  </span>
                 </span>
-                <span className="mt-1.5 block truncate font-display text-2xl text-text transition-colors group-hover:text-accent">
-                  {prev.title}
-                </span>
-              </span>
-            </button>
+              </button>
+            </Magnetic>
           ) : (
             <span />
           )}
           {next ? (
-            <button
-              type="button"
-              onClick={() => onOpen(next)}
-              className="group flex items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:-translate-y-px hover:border-accent/60"
-            >
-              <span className="min-w-0">
-                <span className="block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
-                  Next project
+            <Magnetic strength={0.12} className="block">
+              <button
+                type="button"
+                onClick={() => onOpen(next)}
+                className="group flex w-full items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:-translate-y-px hover:border-accent/60"
+              >
+                <span className="min-w-0">
+                  <span className="block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
+                    Next project
+                  </span>
+                  <span className="mt-1.5 block truncate font-display text-2xl text-text transition-colors group-hover:text-accent">
+                    {next.title}
+                  </span>
                 </span>
-                <span className="mt-1.5 block truncate font-display text-2xl text-text transition-colors group-hover:text-accent">
-                  {next.title}
-                </span>
-              </span>
-              <ArrowRight
-                className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:translate-x-1 group-hover:text-accent"
-                aria-hidden="true"
-              />
-            </button>
+                <ArrowRight
+                  className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:translate-x-1 group-hover:text-accent"
+                  aria-hidden="true"
+                />
+              </button>
+            </Magnetic>
           ) : (
             <span />
           )}

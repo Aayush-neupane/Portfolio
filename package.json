@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender-projects.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -122,8 +122,55 @@ function withImages(items, key) {
   return (items || []).map((item) => ({ ...item, [key]: withBase(item[key]) }));
 }
 
-function scrollTopImmediate() {
-  const lenis = window.__lenis;
+/** Find-or-create a head tag, then set/remove the given attributes. */
+function upsertHead(tag, keyAttr, keyValue, attrs) {
+  let el = document.head.querySelector(`${tag}[${keyAttr}="${keyValue}"]`);
+  if (!el) {
+    el = document.createElement(tag);
+    el.setAttribute(keyAttr, keyValue);
+    document.head.appendChild(el);
+  }
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null) el.removeAttribute(k);
+    else el.setAttribute(k, v);
+  }
+}
+
+/**
+ * Keep document head in sync with the route (title, description, canonical,
+ * OG/Twitter tags). Image + page URLs are made absolute from the live
+ * origin, so they stay correct on every host (Pages, Netlify, custom domain).
+ */
+function syncHead({ description, path, image, type }) {
+  const origin = window.location.origin;
+  const basePath = window.location.pathname.replace(/\/$/, '');
+  const url = `${origin}${basePath}${path === '/' ? '' : path}`;
+  if (description != null) {
+    upsertHead('meta', 'name', 'description', { content: description });
+  }
+  let canonical = document.head.querySelector('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.setAttribute('rel', 'canonical');
+    document.head.appendChild(canonical);
+  }
+  canonical.setAttribute('href', url);
+  upsertHead('meta', 'property', 'og:url', { content: url });
+  upsertHead('meta', 'property', 'og:type', { content: type || 'website' });
+  if (image != null) {
+    const absolute = /^https?:\/\//.test(image) ? image : `${origin}${image}`;
+    upsertHead('meta', 'property', 'og:image', { content: absolute });
+    upsertHead('meta', 'name', 'twitter:image', { content: absolute });
+  }
+}
+
+function setHeadText(kind, key, value) {
+  // kind: 'property' (og:) or 'name' (twitter:) — mirrors title into tags.
+  if (value == null) return;
+  upsertHead('meta', kind, key, { content: value });
+}
+
+function scrollTopImmediate() {  const lenis = window.__lenis;
   if (lenis) {
     try {
       // force:true bypasses stopped/locked guards; immediate cancels in-flight tweens.
@@ -174,13 +221,48 @@ export default function App() {
   }, []);
 
   useLayoutEffect(() => {
-    document.title = isGallery
+    const headTitle = isGallery
       ? 'Gallery — Aayush Neupane'
       : isProjects
         ? 'Projects — Aayush Neupane'
         : isDetail
           ? `${detailProject?.title || 'Project'} — Aayush Neupane`
           : 'Aayush Neupane';
+    document.title = headTitle;
+    if (isDetail) {
+      const desc = detailProject?.description || 'A project by Aayush Neupane.';
+      syncHead({
+        description: desc,
+        path: `/project/${detailId}`,
+        image: detailProject?.image || '/assets/images/profile/logo.jpg',
+        type: 'article',
+      });
+      setHeadText('property', 'og:title', headTitle);
+      setHeadText('property', 'og:description', desc);
+      setHeadText('name', 'twitter:title', headTitle);
+      setHeadText('name', 'twitter:description', desc);
+    } else if (isGallery) {
+      syncHead({
+        description: 'Photo gallery of Aayush Neupane — streets, skies, gardens, heritage and night frames.',
+        path: '/',
+      });
+      setHeadText('property', 'og:title', headTitle);
+      setHeadText('name', 'twitter:title', headTitle);
+    } else if (isProjects) {
+      syncHead({
+        description: 'Every experiment by Aayush Neupane — games, tools and weekend builds.',
+        path: '/',
+      });
+      setHeadText('property', 'og:title', headTitle);
+      setHeadText('name', 'twitter:title', headTitle);
+    } else {
+      syncHead({
+        description: 'Aayush Neupane builds websites and games from Jhapa, Nepal. React, TypeScript, Supabase, Unity. Open for freelance web projects.',
+        path: '/',
+        image: '/assets/images/profile/logo.jpg',
+        type: 'website',
+      });
+    }
     if (!ready) return undefined;
     // Home-route scrolling is owned by section nav / back-to-card flows.
     // Sub-routes always open at the very top — and stay there: re-assert

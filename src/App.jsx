@@ -13,6 +13,7 @@ import Resume from './components/Resume/Resume.jsx';
 import Gallery from './components/Gallery/Gallery.jsx';
 import GalleryPage from './components/Gallery/GalleryPage.jsx';
 import ProjectsPage from './components/Projects/ProjectsPage.jsx';
+import ProjectDetail from './components/Projects/ProjectDetail.jsx';
 import Contact from './components/Contact/Contact.jsx';
 import Services from './components/Services/Services.jsx';
 import Footer from './components/Footer/Footer.jsx';
@@ -26,11 +27,18 @@ gsap.registerPlugin(ScrollTrigger);
 const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'services', 'resume', 'gallery', 'contact'];
 const GALLERY_ROUTE = '#/gallery';
 const PROJECTS_ROUTE = '#/projects';
+const PROJECT_DETAIL_PREFIX = '#/project/';
 
 function routeFromHash() {
   return typeof window !== 'undefined' && window.location.hash.startsWith('#/')
     ? window.location.hash
     : '';
+}
+
+function detailIdFromRoute(route) {
+  return route.startsWith(PROJECT_DETAIL_PREFIX)
+    ? decodeURIComponent(route.slice(PROJECT_DETAIL_PREFIX.length))
+    : null;
 }
 
 const LOADER_WORDS = ['brewing milk tea', 'aligning pixels', 'chasing good light', 'warming up the server'];
@@ -134,6 +142,13 @@ export default function App() {
 
   const isGallery = route === GALLERY_ROUTE;
   const isProjects = route === PROJECTS_ROUTE;
+  const detailId = detailIdFromRoute(route);
+  const isDetail = detailId !== null;
+  const allProjects = [...projects, ...archive];
+  const detailIndex = isDetail
+    ? allProjects.findIndex((p) => String(p.id) === detailId)
+    : -1;
+  const detailProject = detailIndex >= 0 ? allProjects[detailIndex] : null;
 
   useEffect(() => {
     const onHash = () => setRoute(routeFromHash());
@@ -146,11 +161,13 @@ export default function App() {
       ? 'Gallery — Aayush Neupane'
       : isProjects
         ? 'Projects — Aayush Neupane'
-        : 'Aayush Neupane';
+        : isDetail
+          ? `${detailProject?.title || 'Project'} — Aayush Neupane`
+          : 'Aayush Neupane';
     if (!ready) return;
     scrollTopImmediate();
     ScrollTrigger.refresh();
-  }, [isGallery, isProjects, ready]);
+  }, [isGallery, isProjects, isDetail, detailId, ready]);
 
   const settleRoute = useCallback(() => {
     requestAnimationFrame(() => {
@@ -330,9 +347,9 @@ export default function App() {
       <ScrollProgress />
       <Navbar
         links={config?.navigation}
-        activeSection={isGallery || isProjects ? '' : activeSection}
+        activeSection={isGallery || isProjects || isDetail ? '' : activeSection}
         onNavClick={handleNav}
-        isGallery={isGallery}
+        isGallery={isGallery || isProjects || isDetail}
       />
       <ErrorBoundary key={route || 'home'}>
       {isGallery ? (
@@ -341,7 +358,38 @@ export default function App() {
         </main>
       ) : isProjects ? (
         <main>
-          <ProjectsPage projects={archive} onBack={() => handleNav('#home')} />
+          <ProjectsPage
+            projects={archive}
+            onBack={() => handleNav('#home')}
+            onOpen={(p) => handleNav(`${PROJECT_DETAIL_PREFIX}${p?.id}`)}
+          />
+        </main>
+      ) : isDetail ? (
+        <main>
+          <ProjectDetail
+            project={detailProject}
+            prev={
+              detailProject && allProjects.length > 1
+                ? allProjects[(detailIndex - 1 + allProjects.length) % allProjects.length]
+                : null
+            }
+            next={
+              detailProject && allProjects.length > 1
+                ? allProjects[(detailIndex + 1) % allProjects.length]
+                : null
+            }
+            onBack={() =>
+              archive.some((p) => String(p.id) === detailId)
+                ? handleNav(PROJECTS_ROUTE)
+                : handleNav('#projects')
+            }
+            backLabel={
+              archive.some((p) => String(p.id) === detailId)
+                ? 'Back to all projects'
+                : 'Back to selected work'
+            }
+            onOpen={(p) => handleNav(`${PROJECT_DETAIL_PREFIX}${p?.id}`)}
+          />
         </main>
       ) : (
         <main>
@@ -354,7 +402,11 @@ export default function App() {
             emphasis={['scroll', 'past']}
             support="It is why I obsess over spacing, timing, and the states nobody screenshots. Every project on this page was held to it."
           />
-          <Projects projects={projects} onViewAll={() => handleNav(PROJECTS_ROUTE)} />
+          <Projects
+            projects={projects}
+            onViewAll={() => handleNav(PROJECTS_ROUTE)}
+            onOpen={(p) => handleNav(`${PROJECT_DETAIL_PREFIX}${p?.id}`)}
+          />
           <Services onContact={() => handleNav('#contact')} />
           <Resume data={resume} />
           <Gallery photos={featured.length > 0 ? featured : gallery.slice(0, 6)} onViewAll={() => handleNav(GALLERY_ROUTE)} />

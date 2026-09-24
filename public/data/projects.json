@@ -111,7 +111,7 @@
       "id": 8,
       "title": "Damak Department Store",
       "description": "Full-stack e-commerce for a department store in Damak, Jhapa: storefront, cart, Fonepay QR plus cash-on-delivery checkout, and admin and rider flows. React, Express, PostgreSQL, Cloudflare R2.",
-      "image": "",
+      "image": "/assets/images/projects/store.png",
       "techStack": [
         "React",
         "Express",

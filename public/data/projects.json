@@ -158,7 +158,7 @@
       "id": 11,
       "title": "Aurora Type",
       "description": "Bilingual typing test in English and Nepali with 15, 30, and 60 second modes, live WPM, and local best tracking. React and Tailwind CSS.",
-      "image": "",
+      "image": "/assets/images/projects/type.png",
       "techStack": [
         "React",
         "TypeScript",

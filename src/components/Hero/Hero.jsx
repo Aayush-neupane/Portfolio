@@ -32,13 +32,16 @@ function CountUp({ to, suffix = '' }) {
   );
 }
 
-export default function Hero({ profile }) {
+export default function Hero({ profile, now, onProject }) {
   const rootRef = useRef(null);
   const name = profile?.name || 'Aayush Neupane';
   const [first, ...restName] = name.split(' ');
   const tagline =
     profile?.tagline ||
     'I build fast, usable websites with React and TypeScript — and games with Unity. Based in Jhapa, Nepal, open for freelance.';
+  const nowText = now?.text || 'Shipping Excurion';
+  const nowSub = now?.sub || null;
+  const nowProjectId = now?.link?.projectId ?? null;
   const hour = new Date().getHours();
   const greeting =
     hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
@@ -217,8 +220,22 @@ export default function Hero({ profile }) {
                   <span className="text-accent">Open to work</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="uppercase tracking-[0.14em] text-muted">Now</span>
-                  <span className="text-text">Shipping Excurion</span>
+                  <span className="uppercase tracking-[0.14em] text-muted">{now?.label || 'Now'}</span>
+                  {nowProjectId != null && onProject ? (
+                    <button
+                      type="button"
+                      onClick={() => onProject({ id: nowProjectId })}
+                      className="text-right transition-colors hover:text-accent"
+                    >
+                      <span className="text-text">{nowText}</span>
+                      {nowSub && <span className="mt-0.5 block text-[0.65rem] normal-case tracking-normal text-muted">{nowSub}</span>}
+                    </button>
+                  ) : (
+                    <span className="text-right">
+                      <span className="text-text">{nowText}</span>
+                      {nowSub && <span className="mt-0.5 block text-[0.65rem] normal-case tracking-normal text-muted">{nowSub}</span>}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

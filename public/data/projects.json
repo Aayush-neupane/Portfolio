@@ -127,7 +127,7 @@
       "id": 9,
       "title": "AURORA Cube",
       "description": "Interactive 3D Rubik's Cube studio: scrambles, step-by-step solve guide, timer with statistics, and scan-to-solve. React, Three.js, Zustand.",
-      "image": "",
+      "image": "/assets/images/projects/cube.png",
       "techStack": [
         "React",
         "Three.js",

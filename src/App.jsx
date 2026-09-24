@@ -177,17 +177,34 @@ export default function App() {
         : isDetail
           ? `${detailProject?.title || 'Project'} — Aayush Neupane`
           : 'Aayush Neupane';
-    if (!ready) return;
+    if (!ready) return undefined;
+    // Home-route scrolling is owned by section nav / back-to-card flows.
+    // Sub-routes always open at the very top — and stay there: re-assert
+    // briefly to beat any late layout settling or async scroll restoration.
+    if (!(isGallery || isProjects || isDetail)) return undefined;
     scrollTopImmediate();
     ScrollTrigger.refresh();
-    // Re-assert after paint: images/fonts/layout settle and any async
-    // scroll-restoration runs after the synchronous jump above.
-    const raf = requestAnimationFrame(() => {
+    let n = 0;
+    const id = setInterval(() => {
+      if (window.scrollY <= 0 || n++ >= 2) {
+        clearInterval(id);
+        return;
+      }
       scrollTopImmediate();
-      ScrollTrigger.refresh();
-    });
-    return () => cancelAnimationFrame(raf);
+    }, 100);
+    return () => clearInterval(id);
   }, [isGallery, isProjects, isDetail, detailId, ready]);
+
+  // Late image/font settling after a full document load can shift scroll on
+  // sub-routes; pin it back to top once everything has arrived.
+  useEffect(() => {
+    if (document.readyState === 'complete') return undefined;
+    const onLoad = () => {
+      if (window.location.hash.startsWith('#/')) scrollTopImmediate();
+    };
+    window.addEventListener('load', onLoad);
+    return () => window.removeEventListener('load', onLoad);
+  }, []);
 
   const settleRoute = useCallback(() => {
     requestAnimationFrame(() => {

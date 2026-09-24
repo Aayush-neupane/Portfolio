@@ -15,7 +15,12 @@
       "liveUrl": "https://crystalcabindetailing.ca/",
       "githubUrl": "https://github.com/Aayush-neupane/CrystalCabin",
       "status": "completed",
-      "category": "web apps"
+      "category": "web apps",
+      "highlights": [
+        "Turns visitors into booked jobs with packages, proof-of-work gallery and scheduling flow",
+        "GSAP motion design that stays fast on real phones",
+        "Supabase-backed bookings with an admin-ready data model"
+      ]
     },
     {
       "id": 2,
@@ -30,7 +35,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "web apps"
+      "category": "web apps",
+      "highlights": [
+        "Unites donors, volunteers, NGOs and hospitals on one calm platform",
+        "Editorial layout with highly readable type at every viewport",
+        "TanStack Query caching keeps critical data fast and fresh"
+      ]
     },
     {
       "id": 3,
@@ -45,7 +55,12 @@
       "liveUrl": "https://www.excurion.com/",
       "githubUrl": "https://github.com/Aayush-neupane/Excurion",
       "status": "completed",
-      "category": "ed-tech"
+      "category": "ed-tech",
+      "highlights": [
+        "Live lessons on an infinite tldraw whiteboard",
+        "Distraction-free classroom tuned for real teaching",
+        "Fully typed React + TypeScript codebase end to end"
+      ]
     },
     {
       "id": 4,
@@ -60,7 +75,12 @@
       "liveUrl": "https://aurora-hmi.netlify.app/",
       "githubUrl": "https://github.com/Aayush-neupane/AuroraCarDeck",
       "status": "completed",
-      "category": "tools"
+      "category": "tools",
+      "highlights": [
+        "Drives a real ESP32-powered RC car from the browser",
+        "Live gauges, gear states and camera stream in one cockpit",
+        "Zero-dependency vanilla JS — no build step, no bloat"
+      ]
     },
     {
       "id": 5,
@@ -75,7 +95,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "landing pages"
+      "category": "landing pages",
+      "highlights": [
+        "Sealed envelope, wax-seal press and a letter reveal in one flow",
+        "Hand-choreographed vanilla JS timing throughout",
+        "Built to make exactly one person cry happy tears"
+      ]
     },
     {
       "id": 6,
@@ -83,20 +108,27 @@
       "description": "A dark, high-contrast gym landing with programs, trainers, and pricing. Hand-built with HTML, CSS, and JS for a college hackathon.",
       "image": "/assets/images/projects/flexfits.webp",
       "techStack": [
-        "HTML",
-        "CSS",
-        "JavaScript"
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "TanStack Query",
+        "Recharts"
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "landing pages"
+      "category": "landing pages",
+      "highlights": [
+        "Dark, high-contrast gym experience with programs, trainers and pricing",
+        "Validated forms plus data-rich charts and dashboards",
+        "Framer Motion and GSAP interactions on every screen"
+      ]
     },
     {
       "id": 8,
       "title": "Damak Department Store",
       "description": "Full-stack e-commerce for a department store in Damak, Jhapa: storefront, cart, Fonepay QR plus cash-on-delivery checkout, and admin and rider flows. React, Express, PostgreSQL, Cloudflare R2.",
-      "image": "/assets/images/projects/store.png",
+      "image": "/assets/images/projects/store.webp",
       "techStack": [
         "React",
         "Express",
@@ -106,13 +138,18 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "web apps"
+      "category": "web apps",
+      "highlights": [
+        "Storefront, cart and checkout for a real department store",
+        "Fonepay dynamic QR plus cash-on-delivery payments",
+        "Admin, rider and delivery flows on one PostgreSQL backbone"
+      ]
     },
     {
       "id": 9,
       "title": "AURORA Cube",
       "description": "Interactive 3D Rubik's Cube studio: scrambles, step-by-step solve guide, timer with statistics, and scan-to-solve. React, Three.js, Zustand.",
-      "image": "/assets/images/projects/cube.png",
+      "image": "/assets/images/projects/cube.webp",
       "techStack": [
         "React",
         "Three.js",
@@ -122,13 +159,18 @@
       "liveUrl": "https://",
       "githubUrl": "https://github.com/Aayush-neupane/cube",
       "status": "completed",
-      "category": "games"
+      "category": "games",
+      "highlights": [
+        "Full 3D cube rendered in Three.js with scrambles and smooth turns",
+        "Step-by-step solve guide plus scan-to-solve assistance",
+        "Timer, statistics and persistent settings with Zustand"
+      ]
     },
     {
       "id": 10,
       "title": "Photography Portfolio",
       "description": "Photography portfolio for streets, skies, and gardens around Jhapa and Kathmandu. Galleries, journal, and enquiry flow in a warm editorial layout.",
-      "image": "/assets/images/projects/photography.png",
+      "image": "/assets/images/projects/photography.webp",
       "techStack": [
         "React",
         "Vite",
@@ -137,7 +179,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "landing pages"
+      "category": "landing pages",
+      "highlights": [
+        "Galleries spanning heritage, sunsets, night skies and streets",
+        "Journal plus enquiry flow in a warm editorial layout",
+        "Lightbox, overlays and shutter sounds tuned like a camera"
+      ]
     }
   ],
   "archive": [
@@ -154,7 +201,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://github.com/Aayush-neupane/shop-management",
       "status": "completed",
-      "category": "web apps"
+      "category": "web apps",
+      "highlights": [
+        "Storefront listings with search that feels instant",
+        "Admin dashboard for managing shops and offers",
+        "Local persistence that keeps working offline"
+      ]
     },
     {
       "id": 102,
@@ -169,7 +221,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "web apps"
+      "category": "web apps",
+      "highlights": [
+        "Shoe-store concept with complete product listings",
+        "Cart flow running all the way through checkout",
+        "Clean componentized storefront interface"
+      ]
     },
     {
       "id": 103,
@@ -186,7 +243,12 @@
       "liveUrl": "https://animexstream.netlify.app/",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "web apps"
+      "category": "web apps",
+      "highlights": [
+        "Anime watchlists with episode progress tracking",
+        "Viewing statistics across the whole library",
+        "Node.js and MongoDB backend behind a fast frontend"
+      ]
     },
     {
       "id": 104,
@@ -201,7 +263,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "tools"
+      "category": "tools",
+      "highlights": [
+        "Inventory, billing and sales tracking for local shops",
+        "Designed around real shop-counter workflows",
+        "Zero learning curve for busy shop owners"
+      ]
     },
     {
       "id": 105,
@@ -215,7 +282,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://github.com/aayush-neupane/DrFlight",
       "status": "completed",
-      "category": "games"
+      "category": "games",
+      "highlights": [
+        "2D Unity platformer with tight, responsive controls",
+        "Level progression built for high-score chasing",
+        "Gameplay programmed in C# and shipped as a playable build"
+      ]
     },
     {
       "id": 106,
@@ -230,7 +302,12 @@
       "liveUrl": "https://poseidon.netlify.app/",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "games"
+      "category": "games",
+      "highlights": [
+        "Underwater browser platformer starring a shark",
+        "Obstacle-dodging gameplay in pure JavaScript",
+        "Runs anywhere instantly with zero install"
+      ]
     },
     {
       "id": 107,
@@ -245,7 +322,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "games"
+      "category": "games",
+      "highlights": [
+        "The unbeatable classic in clean vanilla JS",
+        "Instant play with no build step and no dependencies",
+        "Small enough to read end to end in one sitting"
+      ]
     },
     {
       "id": 108,
@@ -261,7 +343,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "tools"
+      "category": "tools",
+      "highlights": [
+        "Real-time weather for any city on earth",
+        "OpenWeatherMap API integration done right",
+        "Async data flow with graceful error states"
+      ]
     },
     {
       "id": 109,
@@ -276,7 +363,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "tools"
+      "category": "tools",
+      "highlights": [
+        "Tidy task manager with local persistence",
+        "Small, fast and done — exactly as advertised",
+        "Zero-framework vanilla JavaScript"
+      ]
     },
     {
       "id": 110,
@@ -291,7 +383,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "tools"
+      "category": "tools",
+      "highlights": [
+        "Clean arithmetic with a carefully laid out keypad",
+        "Instant, keyboard-friendly input handling",
+        "Everyone builds one; this one has genuinely nice buttons"
+      ]
     },
     {
       "id": 111,
@@ -306,7 +403,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "tools"
+      "category": "tools",
+      "highlights": [
+        "Live analog hands rendered alongside digital readout",
+        "Pure CSS visuals driven by precise JS time",
+        "Ticks accurately without drifting over hours"
+      ]
     },
     {
       "id": 112,
@@ -321,7 +423,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "tools"
+      "category": "tools",
+      "highlights": [
+        "Exact age breakdown from any birth date",
+        "Precise date math with edge cases handled",
+        "One input, one answer, zero fuss"
+      ]
     },
     {
       "id": 113,
@@ -336,7 +443,12 @@
       "liveUrl": "https://",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "tools"
+      "category": "tools",
+      "highlights": [
+        "Start, stop, lap and reset that simply work",
+        "Accurate timing with a lap history view",
+        "Distraction-free, single-purpose interface"
+      ]
     },
     {
       "id": 114,
@@ -351,13 +463,18 @@
       "liveUrl": "https://signature38.netlify.app/",
       "githubUrl": "https://",
       "status": "completed",
-      "category": "tools"
+      "category": "tools",
+      "highlights": [
+        "Draw with stabilized, auto-refined strokes",
+        "Exports cropped transparent PNGs at high resolution",
+        "Dark mode with white ink; everything stays in the browser"
+      ]
     },
     {
       "id": 115,
       "title": "Aurora Type",
       "description": "Bilingual typing test in English and Nepali with 15, 30, and 60 second modes, live WPM, and local best tracking. React and Tailwind CSS.",
-      "image": "/assets/images/projects/type.png",
+      "image": "/assets/images/projects/type.webp",
       "techStack": [
         "React",
         "TypeScript",
@@ -366,7 +483,12 @@
       "liveUrl": "https://auroratype.netlify.app/",
       "githubUrl": "https://github.com/Aayush-neupane/typing-test",
       "status": "completed",
-      "category": "tools"
+      "category": "tools",
+      "highlights": [
+        "English and Nepali typing tests at 15, 30 and 60 seconds",
+        "Live WPM readout with local best tracking",
+        "Progressive interface that stays out of the typist’s flow"
+      ]
     }
   ]
 }

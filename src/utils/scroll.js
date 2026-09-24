@@ -3,10 +3,11 @@ export function scrollToTarget(selector) {
   if (!el) return;
   if (window.__lenis) {
     // Re-sync internal scroll state with the real one first. After a page
-    // swap the scroller's cached position is stale, which would otherwise
-    // land the smooth scroll a section early (or late).
+    // swap the scroller's cached position AND page dimensions are stale,
+    // which would otherwise land the smooth scroll a section early (or late).
     try {
       window.__lenis.reset();
+      window.__lenis.resize();
     } catch {
       /* older lenis — scroll still works, just less exact */
     }

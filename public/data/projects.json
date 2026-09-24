@@ -153,6 +153,21 @@
       "githubUrl": "https://",
       "status": "completed",
       "category": "landing pages"
+    },
+    {
+      "id": 11,
+      "title": "Aurora Type",
+      "description": "Bilingual typing test in English and Nepali with 15, 30, and 60 second modes, live WPM, and local best tracking. React and Tailwind CSS.",
+      "image": "",
+      "techStack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS"
+      ],
+      "liveUrl": "https://auroratype.netlify.app/",
+      "githubUrl": "https://github.com/Aayush-neupane/typing-test",
+      "status": "completed",
+      "category": "tools"
     }
   ],
   "archive": [

@@ -122,6 +122,22 @@
       "githubUrl": "https://",
       "status": "completed",
       "category": "web apps"
+    },
+    {
+      "id": 9,
+      "title": "AURORA Cube",
+      "description": "Interactive 3D Rubik's Cube studio: scrambles, step-by-step solve guide, timer with statistics, and scan-to-solve. React, Three.js, Zustand.",
+      "image": "",
+      "techStack": [
+        "React",
+        "Three.js",
+        "TypeScript",
+        "Zustand"
+      ],
+      "liveUrl": "https://",
+      "githubUrl": "https://github.com/Aayush-neupane/cube",
+      "status": "completed",
+      "category": "games"
     }
   ],
   "archive": [

@@ -146,6 +146,7 @@ export default function App() {
   const [social, setSocial] = useState(null);
   const [whatsapp, setWhatsapp] = useState(null);
   const [resume, setResume] = useState(null);
+  const [nowStatus, setNowStatus] = useState(null);
   const [gallery, setGallery] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [ready, setReady] = useState(false);
@@ -308,9 +309,10 @@ export default function App() {
       fetchJson(withBase('/data/projects.json'), { projects: [] }),
       fetchJson(withBase('/data/social.json'), {}),
       fetchJson(withBase('/data/resume.json'), null),
+      fetchJson(withBase('/data/now.json'), null),
       fetchJson(withBase('/data/gallery.json'), { photos: [] }),
       fetchJson(withBase('/data/whatsapp.json'), {}),
-    ]).then(([cfg, prof, proj, soc, res, gal, wa]) => {
+    ]).then(([cfg, prof, proj, soc, res, nowSt, gal, wa]) => {
       if (cancelled) return;
       setConfig(cfg);
       setProfile({
@@ -322,6 +324,7 @@ export default function App() {
       setSocial(soc);
       setWhatsapp(wa);
       setResume(res);
+      setNowStatus(nowSt);
       setGallery(withImages(gal.photos || [], 'src'));
       setFeatured(withImages(gal.featured || [], 'src'));
       let seen = false;
@@ -477,7 +480,7 @@ export default function App() {
         </main>
       ) : (
         <main>
-          <Hero profile={profile} />
+          <Hero profile={profile} now={nowStatus} onProject={openProject} />
           <About profile={profile} whatsapp={whatsapp} />
           <Skills />
           <TextReveal3D

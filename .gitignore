@@ -29,6 +29,8 @@ yarn-error.log*
 /public/data/*
 # ...except the project list, which is public and must be versioned
 !/public/data/projects.json
+# ...and the now-status line, also public
+!/public/data/now.json
 # personal resume pdf
 /public/assets/resume.pdf
 # env secrets

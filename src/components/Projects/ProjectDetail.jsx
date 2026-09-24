@@ -37,6 +37,7 @@ function DetailVisual({ project }) {
           src={project.image}
           alt={`${project.title || 'Project'} preview screenshot`}
           loading="eager"
+          fetchPriority="high"
           decoding="async"
           onError={() => setFailed(true)}
           className="absolute inset-0 h-full w-full object-cover object-top"
@@ -212,6 +213,24 @@ export default function ProjectDetail({
                   </li>
                 ))}
               </ol>
+            </div>
+          )}
+
+          {(project.highlights || []).length > 0 && (
+            <div className="mt-7 rounded-xl border border-border bg-elevated p-5 md:p-6">
+              <h2 className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-accent">
+                Key details
+              </h2>
+              <ul className="mt-4 space-y-3.5">
+                {(project.highlights || []).map((h) => (
+                  <li key={h} className="flex items-start gap-3 text-[0.95rem] leading-relaxed text-text">
+                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent/15">
+                      <Check className="h-3 w-3 text-accent" aria-hidden="true" />
+                    </span>
+                    {h}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 

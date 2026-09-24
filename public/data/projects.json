@@ -93,21 +93,6 @@
       "category": "landing pages"
     },
     {
-      "id": 7,
-      "title": "Signature",
-      "description": "Draw your signature and download it as a cropped, transparent PNG. Stabilized strokes, auto-refined curves, dark mode with white ink. Everything happens locally in the browser.",
-      "image": "/assets/images/projects/signature.svg",
-      "techStack": [
-        "React",
-        "TypeScript",
-        "Canvas API"
-      ],
-      "liveUrl": "https://signature38.netlify.app/",
-      "githubUrl": "https://",
-      "status": "completed",
-      "category": "tools"
-    },
-    {
       "id": 8,
       "title": "Damak Department Store",
       "description": "Full-stack e-commerce for a department store in Damak, Jhapa: storefront, cart, Fonepay QR plus cash-on-delivery checkout, and admin and rider flows. React, Express, PostgreSQL, Cloudflare R2.",
@@ -153,21 +138,6 @@
       "githubUrl": "https://",
       "status": "completed",
       "category": "landing pages"
-    },
-    {
-      "id": 11,
-      "title": "Aurora Type",
-      "description": "Bilingual typing test in English and Nepali with 15, 30, and 60 second modes, live WPM, and local best tracking. React and Tailwind CSS.",
-      "image": "/assets/images/projects/type.png",
-      "techStack": [
-        "React",
-        "TypeScript",
-        "Tailwind CSS"
-      ],
-      "liveUrl": "https://auroratype.netlify.app/",
-      "githubUrl": "https://github.com/Aayush-neupane/typing-test",
-      "status": "completed",
-      "category": "tools"
     }
   ],
   "archive": [
@@ -365,6 +335,36 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
+      "status": "completed",
+      "category": "tools"
+    },
+    {
+      "id": 114,
+      "title": "Signature",
+      "description": "Draw your signature and download it as a cropped, transparent PNG. Stabilized strokes, auto-refined curves, dark mode with white ink. Everything happens locally in the browser.",
+      "image": "/assets/images/projects/signature.svg",
+      "techStack": [
+        "React",
+        "TypeScript",
+        "Canvas API"
+      ],
+      "liveUrl": "https://signature38.netlify.app/",
+      "githubUrl": "https://",
+      "status": "completed",
+      "category": "tools"
+    },
+    {
+      "id": 115,
+      "title": "Aurora Type",
+      "description": "Bilingual typing test in English and Nepali with 15, 30, and 60 second modes, live WPM, and local best tracking. React and Tailwind CSS.",
+      "image": "/assets/images/projects/type.png",
+      "techStack": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS"
+      ],
+      "liveUrl": "https://auroratype.netlify.app/",
+      "githubUrl": "https://github.com/Aayush-neupane/typing-test",
       "status": "completed",
       "category": "tools"
     }

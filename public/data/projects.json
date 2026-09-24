@@ -138,6 +138,21 @@
       "githubUrl": "https://github.com/Aayush-neupane/cube",
       "status": "completed",
       "category": "games"
+    },
+    {
+      "id": 10,
+      "title": "Photography Portfolio",
+      "description": "Photography portfolio for streets, skies, and gardens around Jhapa and Kathmandu. Galleries, journal, and enquiry flow in a warm editorial layout.",
+      "image": "",
+      "techStack": [
+        "React",
+        "Vite",
+        "CSS"
+      ],
+      "liveUrl": "https://",
+      "githubUrl": "https://",
+      "status": "completed",
+      "category": "landing pages"
     }
   ],
   "archive": [

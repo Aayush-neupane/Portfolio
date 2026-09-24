@@ -217,3 +217,37 @@ a,
     display: none;
   }
 }
+
+/* Footer social buttons light up in each brand's color on hover */
+.social-btn {
+  --brand: var(--color-accent, #e85854);
+}
+.social-btn:hover {
+  color: var(--brand);
+  border-color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+}
+.social-github {
+  --brand: #181717;
+}
+html.dark .social-github {
+  --brand: #ffffff;
+}
+.social-codepen {
+  --brand: #000000;
+}
+html.dark .social-codepen {
+  --brand: #ffffff;
+}
+.social-youtube {
+  --brand: #ff0000;
+}
+.social-instagram {
+  --brand: #e1306c;
+}
+.social-facebook {
+  --brand: #1877f2;
+}
+.social-linkedin {
+  --brand: #0a66c2;
+}

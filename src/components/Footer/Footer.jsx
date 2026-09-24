@@ -3,12 +3,12 @@ import { scrollToTop } from '../../utils/scroll.js';
 import { withBase } from '../../utils/paths.js';
 
 const SOCIALS = [
-  { label: 'GitHub', href: 'https://github.com/aayush-neupane', Icon: Github },
-  { label: 'YouTube', href: 'https://www.youtube.com/c/AayushNeupane', Icon: Youtube },
-  { label: 'CodePen', href: 'https://codepen.io/aayush-neupane', Icon: Codepen },
-  { label: 'Instagram', href: 'https://www.instagram.com/dynamic_aayush38', Icon: Instagram },
-  { label: 'Facebook', href: 'https://www.facebook.com/khatra.manxey.071129', Icon: Facebook },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aayush-neupane-38a9b7240/', Icon: Linkedin },
+  { label: 'GitHub', href: 'https://github.com/aayush-neupane', Icon: Github, brand: 'social-github' },
+  { label: 'YouTube', href: 'https://www.youtube.com/c/AayushNeupane', Icon: Youtube, brand: 'social-youtube' },
+  { label: 'CodePen', href: 'https://codepen.io/aayush-neupane', Icon: Codepen, brand: 'social-codepen' },
+  { label: 'Instagram', href: 'https://www.instagram.com/dynamic_aayush38', Icon: Instagram, brand: 'social-instagram' },
+  { label: 'Facebook', href: 'https://www.facebook.com/khatra.manxey.071129', Icon: Facebook, brand: 'social-facebook' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aayush-neupane-38a9b7240/', Icon: Linkedin, brand: 'social-linkedin' },
 ];
 
 export default function Footer() {
@@ -45,14 +45,14 @@ export default function Footer() {
             </span>
           </a>
           <ul aria-label="Social links" className="flex items-center gap-2">
-            {SOCIALS.map(({ label, href, Icon }) => (
+            {SOCIALS.map(({ label, href, Icon, brand }) => (
               <li key={label}>
                 <a
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Aayush Neupane on ${label}`}
-                  className="grid h-10 w-10 place-items-center rounded-full border border-border bg-elevated text-muted transition-all duration-200 hover:-translate-y-px hover:border-accent hover:text-accent"
+                  className={`social-btn ${brand} grid h-10 w-10 place-items-center rounded-full border border-border bg-elevated text-muted transition-all duration-200 hover:-translate-y-px`}
                 >
                   <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
                 </a>

@@ -260,18 +260,32 @@ export default function App() {
   );
 
   // Back from a detail page: land on the card/row that was just viewed.
+  // Retries while the fresh page mounts (slow devices), then falls back.
   const backFromDetail = useCallback(
     (id) => {
       const inArchive = archive.some((p) => String(p.id) === String(id));
+      const land = (tries = 0) => {
+        const sel = inArchive ? `#project-row-${id}` : `#project-card-${id}`;
+        const el = document.getElementById(sel.slice(1));
+        if (!el) {
+          if (tries < 4) {
+            setTimeout(() => land(tries + 1), 150);
+          } else if (inArchive) {
+            scrollTopImmediate();
+          } else {
+            scrollToTarget('#projects');
+          }
+          return;
+        }
+        scrollToTarget(sel);
+      };
       killTriggers();
       if (inArchive) {
         setRoute(PROJECTS_ROUTE);
         if (window.location.hash !== PROJECTS_ROUTE) window.location.hash = PROJECTS_ROUTE;
         setTimeout(() => {
           ScrollTrigger.refresh();
-          const el = document.getElementById(`project-row-${id}`);
-          if (el) scrollToTarget(`#project-row-${id}`);
-          else scrollTopImmediate();
+          land();
         }, 250);
         return;
       }
@@ -279,9 +293,7 @@ export default function App() {
       if (window.location.hash) window.location.hash = '';
       setTimeout(() => {
         ScrollTrigger.refresh();
-        const el = document.getElementById(`project-card-${id}`);
-        if (el) scrollToTarget(`#project-card-${id}`);
-        else scrollToTarget('#projects');
+        land();
       }, 250);
     },
     [archive, killTriggers]

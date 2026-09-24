@@ -349,7 +349,8 @@ export default function App() {
         links={config?.navigation}
         activeSection={isGallery || isProjects || isDetail ? '' : activeSection}
         onNavClick={handleNav}
-        isGallery={isGallery || isProjects || isDetail}
+        isGallery={isGallery}
+        route={route}
       />
       <ErrorBoundary key={route || 'home'}>
       {isGallery ? (
@@ -378,6 +379,9 @@ export default function App() {
                 ? allProjects[(detailIndex + 1) % allProjects.length]
                 : null
             }
+            index={detailIndex}
+            total={allProjects.length}
+            all={allProjects}
             onBack={() =>
               archive.some((p) => String(p.id) === detailId)
                 ? handleNav(PROJECTS_ROUTE)

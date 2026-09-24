@@ -86,6 +86,22 @@ function ProjectVisual({ project, large }) {
   );
 }
 
+function cardNavProps(project, onOpen) {
+  if (!onOpen) return {};
+  return {
+    onClick: () => onOpen(project),
+    onKeyDown: (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onOpen(project);
+      }
+    },
+    tabIndex: 0,
+    role: 'link',
+    'aria-label': `${project.title} — open details`,
+  };
+}
+
 function TechTags({ tech }) {
   if (!tech || tech.length === 0) return null;
   return (
@@ -102,39 +118,30 @@ function TechTags({ tech }) {
   );
 }
 
-function ProjectLinks({ project, onDetails }) {
+function ProjectLinks({ project }) {
   const live = isValidUrl(project.liveUrl) ? project.liveUrl : null;
   const repo = isValidUrl(project.githubUrl) ? project.githubUrl : null;
   const primary = live || repo;
-  if (!primary && !onDetails) return null;
+  if (!primary) return null;
+  const stop = (e) => e.stopPropagation();
   return (
     <div className="mt-5 flex items-center gap-4">
-      {primary && (
-        <a
-          href={primary}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent-deep"
-        >
-          View Project
-          <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
-        </a>
-      )}
-      {onDetails && (
-        <button
-          type="button"
-          onClick={() => onDetails(project)}
-          className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-accent"
-        >
-          Details
-          <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-        </button>
-      )}
+      <a
+        href={primary}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={stop}
+        className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent-deep"
+      >
+        View Project
+        <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+      </a>
       {live && repo && (
         <a
           href={repo}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={stop}
           aria-label={`${project.title} source code on GitHub`}
           className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-accent"
         >
@@ -256,7 +263,8 @@ export default function Projects({ projects, onViewAll, onOpen }) {
                 initial={reduce ? false : { opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, ease: 'easeOut' }}
-                className="group grid gap-6 rounded-xl border border-border bg-elevated p-5 transition-all duration-200 hover:-translate-y-1 hover:border-linestrong md:p-7 lg:grid-cols-2 lg:gap-8"
+                {...cardNavProps(featured, onOpen)}
+                className={`group grid gap-6 rounded-xl border border-border bg-elevated p-5 transition-all duration-200 hover:-translate-y-1 hover:border-linestrong md:p-7 lg:grid-cols-2 lg:gap-8 ${onOpen ? 'cursor-pointer' : ''}`}
               >
                 <ProjectVisual project={featured} large />
                 <div className="flex flex-col justify-center">
@@ -296,9 +304,10 @@ export default function Projects({ projects, onViewAll, onOpen }) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={reduce ? undefined : { opacity: 0, scale: 0.97 }}
                     transition={{ duration: 0.3, ease: 'easeOut' }}
+                    {...cardNavProps(p, onOpen)}
                     className={`group flex flex-col rounded-xl border border-border bg-elevated p-5 transition-all duration-200 hover:-translate-y-1 hover:border-linestrong ${
                       i % 2 === 1 ? 'flex-col-reverse justify-end' : ''
-                    }`}
+                    }${onOpen ? ' cursor-pointer' : ''}`}
                   >
                     <ProjectVisual project={p} />
                     <div className={i % 2 === 1 ? 'mb-5' : 'mt-5'}>

@@ -36,10 +36,12 @@ const EARLY_IDS = new Set([108, 109, 110, 111, 112, 113]);
 function RowItem({ project: p, index, onOpen }) {
   const live = isValidUrl(p.liveUrl) ? p.liveUrl : null;
   const repo = isValidUrl(p.githubUrl) ? p.githubUrl : null;
+  const stop = (e) => e.stopPropagation();
   return (
     <li
       key={p.id ?? index}
-      className="group grid gap-4 py-5 transition-colors duration-200 hover:bg-subtle sm:grid-cols-[auto_7rem_1fr_auto] sm:items-center sm:gap-6 sm:px-4"
+      onClick={onOpen ? () => onOpen(p) : undefined}
+      className={`group grid gap-4 py-5 transition-colors duration-200 hover:bg-subtle sm:grid-cols-[auto_7rem_1fr_auto] sm:items-center sm:gap-6 sm:px-4 ${onOpen ? 'cursor-pointer' : ''}`}
     >
       <span aria-hidden="true" className="font-mono text-xs text-muted transition-colors group-hover:text-accent">
         {String(index + 1).padStart(2, '0')}
@@ -47,7 +49,14 @@ function RowItem({ project: p, index, onOpen }) {
       <RowThumb project={p} />
       <div className="min-w-0">
         {onOpen ? (
-          <button type="button" onClick={() => onOpen(p)} className="block min-w-0 max-w-full text-left">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpen(p);
+            }}
+            className="block min-w-0 max-w-full text-left"
+          >
             <h2 className="truncate font-display text-xl text-text transition-colors hover:text-accent md:text-2xl">
               {p.title}
             </h2>
@@ -67,21 +76,12 @@ function RowItem({ project: p, index, onOpen }) {
         )}
       </div>
       <div className="flex items-center gap-4 sm:justify-end">
-        {onOpen && (
-          <button
-            type="button"
-            onClick={() => onOpen(p)}
-            className="inline-flex items-center gap-1 text-sm font-medium text-muted transition-colors hover:text-accent"
-          >
-            Details
-            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-          </button>
-        )}
         {live && (
           <a
             href={live}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={stop}
             className="inline-flex items-center gap-1 text-sm font-medium text-muted transition-colors hover:text-accent"
           >
             Live
@@ -93,6 +93,7 @@ function RowItem({ project: p, index, onOpen }) {
             href={repo}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={stop}
             aria-label={`${p.title} source code`}
             className="inline-flex items-center gap-1 text-sm font-medium text-muted transition-colors hover:text-accent"
           >

@@ -14,7 +14,7 @@ const FALLBACK_LINKS = [
   { id: 'contact', label: 'Contact', href: '#contact' },
 ];
 
-export default function Navbar({ links, activeSection, onNavClick, isGallery }) {
+export default function Navbar({ links, activeSection, onNavClick, isGallery, route }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const items = links && links.length > 0 ? links : FALLBACK_LINKS;
@@ -33,7 +33,7 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery }) 
   };
 
   const isActive = (item) => {
-    if (item.href.startsWith('#/')) return isGallery || activeSection === item.id;
+    if (item.href.startsWith('#/')) return route ? item.href === route : (isGallery || activeSection === item.id);
     return !isGallery && activeSection === item.id;
   };
 

@@ -11,37 +11,43 @@ function DetailVisual({ project }) {
     return (
       <div
         aria-hidden="true"
-        className="grid aspect-[16/10] place-items-center overflow-hidden rounded-xl border border-border bg-subtle"
+        className="grid aspect-[16/8] place-items-center overflow-hidden rounded-2xl border border-border bg-subtle"
       >
-        <span className="font-display text-8xl text-muted/60">
+        <span className="font-display text-[10rem] leading-none text-muted/50">
           {project.title?.charAt(0) || '·'}
         </span>
       </div>
     );
   }
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-subtle">
+    <div className="relative">
       <div
         aria-hidden="true"
-        className="flex items-center gap-1.5 border-b border-border bg-elevated px-4 py-2.5"
-      >
-        <span className="h-2.5 w-2.5 rounded-full bg-border" />
-        <span className="h-2.5 w-2.5 rounded-full bg-border" />
-        <span className="h-2.5 w-2.5 rounded-full bg-accent/60" />
-        <span className="ml-3 hidden truncate font-mono text-[0.65rem] tracking-wide text-muted sm:block">
-          {project.title}
-        </span>
-      </div>
-      <div className="relative aspect-[16/10]">
-        <img
-          src={project.image}
-          alt={`${project.title || 'Project'} preview screenshot`}
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-          onError={() => setFailed(true)}
-          className="absolute inset-0 h-full w-full object-cover object-top"
-        />
+        className="absolute -inset-3 rounded-3xl bg-accent/10 blur-2xl"
+      />
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-subtle">
+        <div
+          aria-hidden="true"
+          className="flex items-center gap-1.5 border-b border-border bg-elevated px-4 py-2.5"
+        >
+          <span className="h-2.5 w-2.5 rounded-full bg-border" />
+          <span className="h-2.5 w-2.5 rounded-full bg-border" />
+          <span className="h-2.5 w-2.5 rounded-full bg-accent/60" />
+          <span className="ml-3 hidden truncate font-mono text-[0.65rem] tracking-wide text-muted sm:block">
+            {project.title}
+          </span>
+        </div>
+        <div className="relative aspect-[16/8]">
+          <img
+            src={project.image}
+            alt={`${project.title || 'Project'} preview screenshot`}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            onError={() => setFailed(true)}
+            className="absolute inset-0 h-full w-full object-cover object-top"
+          />
+        </div>
       </div>
     </div>
   );
@@ -145,6 +151,7 @@ export default function ProjectDetail({
   const live = isValidUrl(project.liveUrl) ? project.liveUrl : null;
   const repo = isValidUrl(project.githubUrl) ? project.githubUrl : null;
   const tech = project.techStack || [];
+  const highlights = project.highlights || [];
   const related = (all || [])
     .filter((p) => String(p.id) !== String(project.id) && (p.category || '') === (project.category || '') && project.category)
     .slice(0, 3);
@@ -154,121 +161,159 @@ export default function ProjectDetail({
       : null;
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-32 md:pt-40">
-      <button
-        type="button"
-        onClick={onBack}
-        className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
-      >
-        <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-        {backLabel || 'Back'}
-      </button>
-
-      <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-12">
-        <div>
-          <DetailVisual project={project} />
-          <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-4">
-            {[
-              { term: 'Project', value: position || '—' },
-              { term: 'Category', value: project.category || '—' },
-              { term: 'Stack', value: tech.length > 0 ? `${tech.length} tech` : '—' },
-              { term: 'Status', value: project.status || 'archived' },
-            ].map(({ term, value }) => (
-              <div key={term} className="bg-elevated px-4 py-3.5">
-                <dt className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
-                  {term}
-                </dt>
-                <dd className="mt-1.5 flex items-center gap-2 truncate font-mono text-sm capitalize text-text">
-                  {term === 'Status' && (
-                    <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                  )}
-                  {value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-
-        <div className="flex flex-col justify-center">
-          <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent">
-            {[project.category, project.status].filter(Boolean).join(' · ')}
-          </p>
-          <h1 className="mt-4 font-display text-[clamp(2.2rem,4.5vw,3.5rem)] leading-[1.02] text-text">
-            {project.title}
-          </h1>
-          <p className="mt-5 leading-[1.7] text-muted">{project.description}</p>
-
-          {tech.length > 0 && (
-            <div className="mt-7">
-              <h2 className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
-                Built with
-              </h2>
-              <ol className="mt-3 divide-y divide-border border-y border-border">
-                {tech.map((t, i) => (
-                  <li key={t} className="flex items-baseline gap-4 py-2.5">
-                    <span aria-hidden="true" className="font-mono text-xs tabular-nums text-accent">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <span className="text-[0.95rem] text-text">{t}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
+    <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-28 md:pt-36">
+      <div className="flex items-center justify-between gap-4">
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
+        >
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          {backLabel || 'Back'}
+        </button>
+        <div className="flex items-center gap-5">
+          {position && (
+            <span aria-hidden="true" className="font-mono text-xs tabular-nums tracking-[0.2em] text-muted">
+              {position}
+            </span>
           )}
-
-          {(project.highlights || []).length > 0 && (
-            <div className="mt-7 rounded-xl border border-border bg-elevated p-5 md:p-6">
-              <h2 className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-accent">
-                Key details
-              </h2>
-              <ul className="mt-4 space-y-3.5">
-                {(project.highlights || []).map((h) => (
-                  <li key={h} className="flex items-start gap-3 text-[0.95rem] leading-relaxed text-text">
-                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent/15">
-                      <Check className="h-3 w-3 text-accent" aria-hidden="true" />
-                    </span>
-                    {h}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
-            {live && (
-              <a
-                href={live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep"
-              >
-                View Live
-                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-              </a>
-            )}
-            {repo && (
-              <a
-                href={repo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-6 py-2.5 text-sm font-medium text-text transition-all duration-200 hover:-translate-y-px hover:border-linestrong hover:text-accent"
-              >
-                <Github className="h-4 w-4" aria-hidden="true" />
-                Source Code
-              </a>
-            )}
-            {!live && !repo && (
-              <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted/60">
-                {project.status || 'archived'}
-              </span>
-            )}
-            <CopyLinkButton project={project} />
-          </div>
+          <CopyLinkButton project={project} />
         </div>
       </div>
 
+      <header className="mt-10 md:mt-14">
+        <p className="flex items-center gap-3 font-mono text-xs font-medium uppercase tracking-[0.22em] text-accent">
+          <span aria-hidden="true" className="inline-block h-px w-10 bg-accent" />
+          {[project.category, project.status].filter(Boolean).join(' · ')}
+        </p>
+        <h1 className="mt-5 max-w-5xl font-display text-[clamp(2.8rem,7vw,5.5rem)] leading-[0.98] tracking-[-0.02em] text-text">
+          {project.title}
+        </h1>
+        <p className="mt-6 max-w-3xl text-base leading-[1.7] text-muted md:text-lg">
+          {project.description}
+        </p>
+        <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+          {live && (
+            <a
+              href={live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep hover:shadow-lg"
+            >
+              View Live
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </a>
+          )}
+          {repo && (
+            <a
+              href={repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:-translate-y-px hover:border-linestrong hover:text-accent"
+            >
+              <Github className="h-4 w-4" aria-hidden="true" />
+              Source Code
+            </a>
+          )}
+          {!live && !repo && (
+            <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+              {project.status || 'archived'}
+            </span>
+          )}
+        </div>
+      </header>
+
+      <div className="mt-10 md:mt-14">
+        <DetailVisual project={project} />
+      </div>
+
+      <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-4">
+        {[
+          { term: 'Status', value: project.status || 'archived', dot: true },
+          { term: 'Category', value: project.category || '—' },
+          { term: 'Stack', value: tech.length > 0 ? `${tech.length} technologies` : '—' },
+          { term: 'Access', value: live && repo ? 'Live + open source' : live ? 'Live demo' : repo ? 'Open source' : 'Private' },
+        ].map(({ term, value, dot }) => (
+          <div key={term} className="bg-elevated px-4 py-3.5">
+            <dt className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
+              {term}
+            </dt>
+            <dd className="mt-1.5 flex items-center gap-2 truncate font-mono text-sm capitalize text-text">
+              {dot && (
+                <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+              )}
+              {value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+
+      <div className="mt-14 grid gap-10 md:mt-20 lg:grid-cols-[1fr_340px] lg:gap-14">
+        {highlights.length > 0 && (
+          <section aria-label="Key details">
+            <h2 className="flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted">
+              <span aria-hidden="true" className="font-display text-lg italic text-accent">01</span>
+              Why it stands out
+            </h2>
+            <ul className="mt-2 divide-y divide-border">
+              {highlights.map((h, i) => (
+                <li key={h} className="flex items-start gap-5 py-5">
+                  <span aria-hidden="true" className="font-display text-2xl leading-none text-muted/50 tabular-nums">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <p className="font-display text-xl leading-snug text-text md:text-2xl">
+                    {h}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <aside aria-label="Build facts" className="lg:pt-1">
+          <div className="rounded-xl border border-border bg-elevated p-6 lg:sticky lg:top-24">
+            <h2 className="flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted">
+              <span aria-hidden="true" className="font-display text-lg italic text-accent">02</span>
+              Under the hood
+            </h2>
+            {tech.length > 0 ? (
+              <ol className="mt-4 space-y-1">
+                {tech.map((t, i) => (
+                  <li
+                    key={t}
+                    className="flex items-center justify-between gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-subtle"
+                  >
+                    <span className="text-[0.95rem] font-medium text-text">{t}</span>
+                    <span aria-hidden="true" className="font-mono text-[0.65rem] tabular-nums text-muted">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="mt-4 text-sm text-muted">Stack details coming soon.</p>
+            )}
+            <div className="mt-5 border-t border-border pt-5 font-mono text-[0.7rem] uppercase leading-loose tracking-[0.14em] text-muted">
+              <p className="flex justify-between gap-3">
+                <span>Status</span>
+                <span className="text-text">{project.status || 'archived'}</span>
+              </p>
+              <p className="flex justify-between gap-3">
+                <span>Live</span>
+                <span className={live ? 'text-accent' : 'text-muted'}>{live ? 'Online' : 'Offline'}</span>
+              </p>
+              <p className="flex justify-between gap-3">
+                <span>Source</span>
+                <span className={repo ? 'text-accent' : 'text-muted'}>{repo ? 'Public' : 'Private'}</span>
+              </p>
+            </div>
+          </div>
+        </aside>
+      </div>
+
       {related.length > 0 && (
-        <section aria-label="Related projects" className="mt-20">
+        <section aria-label="Related projects" className="mt-20 md:mt-24">
           <div className="flex items-end justify-between gap-4">
             <h2 className="font-display text-2xl text-text md:text-3xl">
               More like this<span className="text-accent">.</span>
@@ -301,23 +346,23 @@ export default function ProjectDetail({
       {(prev || next) && (
         <nav
           aria-label="More projects"
-          className="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2"
+          className="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2 md:mt-20"
         >
           {prev ? (
             <button
               type="button"
               onClick={() => onOpen(prev)}
-              className="group flex items-center gap-3 rounded-xl border border-border bg-elevated p-5 text-left transition-all duration-200 hover:-translate-y-px hover:border-linestrong"
+              className="group flex items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:-translate-y-px hover:border-accent/60"
             >
               <ArrowLeft
-                className="h-5 w-5 shrink-0 text-muted transition-colors group-hover:text-accent"
+                className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:-translate-x-1 group-hover:text-accent"
                 aria-hidden="true"
               />
               <span className="min-w-0">
                 <span className="block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
-                  Previous
+                  Previous project
                 </span>
-                <span className="mt-1 block truncate font-display text-xl text-text transition-colors group-hover:text-accent">
+                <span className="mt-1.5 block truncate font-display text-2xl text-text transition-colors group-hover:text-accent">
                   {prev.title}
                 </span>
               </span>
@@ -329,18 +374,18 @@ export default function ProjectDetail({
             <button
               type="button"
               onClick={() => onOpen(next)}
-              className="group flex items-center justify-end gap-3 rounded-xl border border-border bg-elevated p-5 text-right transition-all duration-200 hover:-translate-y-px hover:border-linestrong"
+              className="group flex items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:-translate-y-px hover:border-accent/60"
             >
               <span className="min-w-0">
                 <span className="block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
-                  Next
+                  Next project
                 </span>
-                <span className="mt-1 block truncate font-display text-xl text-text transition-colors group-hover:text-accent">
+                <span className="mt-1.5 block truncate font-display text-2xl text-text transition-colors group-hover:text-accent">
                   {next.title}
                 </span>
               </span>
               <ArrowRight
-                className="h-5 w-5 shrink-0 text-muted transition-colors group-hover:text-accent"
+                className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:translate-x-1 group-hover:text-accent"
                 aria-hidden="true"
               />
             </button>

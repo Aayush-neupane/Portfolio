@@ -149,6 +149,7 @@ export default function App() {
   const [whatsapp, setWhatsapp] = useState(null);
   const [resume, setResume] = useState(null);
   const [nowStatus, setNowStatus] = useState(null);
+  const [zoom, setZoom] = useState(null);
   const [gallery, setGallery] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [ready, setReady] = useState(false);
@@ -256,7 +257,26 @@ export default function App() {
   );
 
   const openProject = useCallback(
-    (p) => {
+    (p, el) => {
+      // Capture the card thumbnail geometry for the shared-element zoom.
+      let from = null;
+      try {
+        const img = el && el.querySelector ? el.querySelector('img') : null;
+        const node = img || el;
+        if (node && node.getBoundingClientRect) {
+          const r = node.getBoundingClientRect();
+          if (r.width > 2 && r.height > 2) {
+            from = {
+              id: String(p?.id),
+              src: (img && (img.currentSrc || img.src)) || null,
+              rect: { left: r.left, top: r.top, width: r.width, height: r.height },
+            };
+          }
+        }
+      } catch {
+        /* zoom is decorative — fall back to a plain mount */
+      }
+      setZoom(from);
       handleNav(`${PROJECT_DETAIL_PREFIX}${p?.id}`);
     },
     [handleNav]
@@ -472,6 +492,8 @@ export default function App() {
             index={detailIndex}
             total={allProjects.length}
             all={allProjects}
+            enterFrom={zoom}
+            onEntered={() => setZoom(null)}
             onBack={() => backFromDetail(detailId)}
             backLabel={
               archive.some((p) => String(p.id) === detailId)

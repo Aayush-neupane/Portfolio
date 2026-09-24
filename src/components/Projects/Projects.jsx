@@ -89,11 +89,11 @@ function ProjectVisual({ project, large }) {
 function cardNavProps(project, onOpen) {
   if (!onOpen) return {};
   return {
-    onClick: () => onOpen(project),
+    onClick: (e) => onOpen(project, e.currentTarget),
     onKeyDown: (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        onOpen(project);
+        onOpen(project, null);
       }
     },
     tabIndex: 0,

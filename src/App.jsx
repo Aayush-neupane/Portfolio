@@ -121,8 +121,21 @@ function withImages(items, key) {
 }
 
 function scrollTopImmediate() {
-  if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true });
-  else window.scrollTo(0, 0);
+  const lenis = window.__lenis;
+  if (lenis) {
+    try {
+      // force:true bypasses stopped/locked guards; immediate cancels in-flight tweens.
+      lenis.scrollTo(0, { immediate: true, force: true });
+      lenis.reset();
+    } catch {
+      /* older lenis — fall through to native */
+    }
+  }
+  // Native belt-and-suspenders: covers no-lenis, reduced-motion, and any
+  // async scroll-restoration the smooth scroller might apply afterwards.
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
 }
 
 export default function App() {
@@ -167,6 +180,13 @@ export default function App() {
     if (!ready) return;
     scrollTopImmediate();
     ScrollTrigger.refresh();
+    // Re-assert after paint: images/fonts/layout settle and any async
+    // scroll-restoration runs after the synchronous jump above.
+    const raf = requestAnimationFrame(() => {
+      scrollTopImmediate();
+      ScrollTrigger.refresh();
+    });
+    return () => cancelAnimationFrame(raf);
   }, [isGallery, isProjects, isDetail, detailId, ready]);
 
   const settleRoute = useCallback(() => {
@@ -213,6 +233,41 @@ export default function App() {
       scrollToTarget(href);
     },
     [route, settleRoute, killTriggers]
+  );
+
+  const openProject = useCallback(
+    (p) => {
+      handleNav(`${PROJECT_DETAIL_PREFIX}${p?.id}`);
+    },
+    [handleNav]
+  );
+
+  // Back from a detail page: land on the card/row that was just viewed.
+  const backFromDetail = useCallback(
+    (id) => {
+      const inArchive = archive.some((p) => String(p.id) === String(id));
+      killTriggers();
+      if (inArchive) {
+        setRoute(PROJECTS_ROUTE);
+        if (window.location.hash !== PROJECTS_ROUTE) window.location.hash = PROJECTS_ROUTE;
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+          const el = document.getElementById(`project-row-${id}`);
+          if (el) scrollToTarget(`#project-row-${id}`);
+          else scrollTopImmediate();
+        }, 250);
+        return;
+      }
+      setRoute('');
+      if (window.location.hash) window.location.hash = '';
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+        const el = document.getElementById(`project-card-${id}`);
+        if (el) scrollToTarget(`#project-card-${id}`);
+        else scrollToTarget('#projects');
+      }, 250);
+    },
+    [archive, killTriggers]
   );
 
   useEffect(() => {
@@ -362,7 +417,7 @@ export default function App() {
           <ProjectsPage
             projects={archive}
             onBack={() => handleNav('#home')}
-            onOpen={(p) => handleNav(`${PROJECT_DETAIL_PREFIX}${p?.id}`)}
+            onOpen={openProject}
           />
         </main>
       ) : isDetail ? (
@@ -382,17 +437,13 @@ export default function App() {
             index={detailIndex}
             total={allProjects.length}
             all={allProjects}
-            onBack={() =>
-              archive.some((p) => String(p.id) === detailId)
-                ? handleNav(PROJECTS_ROUTE)
-                : handleNav('#projects')
-            }
+            onBack={() => backFromDetail(detailId)}
             backLabel={
               archive.some((p) => String(p.id) === detailId)
                 ? 'Back to all projects'
                 : 'Back to selected work'
             }
-            onOpen={(p) => handleNav(`${PROJECT_DETAIL_PREFIX}${p?.id}`)}
+            onOpen={openProject}
           />
         </main>
       ) : (
@@ -409,7 +460,7 @@ export default function App() {
           <Projects
             projects={projects}
             onViewAll={() => handleNav(PROJECTS_ROUTE)}
-            onOpen={(p) => handleNav(`${PROJECT_DETAIL_PREFIX}${p?.id}`)}
+            onOpen={openProject}
           />
           <Services onContact={() => handleNav('#contact')} />
           <Resume data={resume} />

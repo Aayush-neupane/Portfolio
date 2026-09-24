@@ -259,6 +259,7 @@ export default function Projects({ projects, onViewAll, onOpen }) {
             {featured && (
               <motion.article
                 key={featured.id}
+                id={`project-card-${featured.id}`}
                 layout={!reduce}
                 initial={reduce ? false : { opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -299,6 +300,7 @@ export default function Projects({ projects, onViewAll, onOpen }) {
                 {rest.map((p, i) => (
                   <motion.article
                     key={p.id}
+                    id={`project-card-${p.id}`}
                     layout={!reduce}
                     initial={reduce ? false : { opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}

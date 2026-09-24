@@ -66,6 +66,16 @@ try {
 <meta name="twitter:image" content="${esc(img)}" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="index, follow" />
+<script type="application/ld+json">${esc(JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'CreativeWork',
+      name: p.title,
+      description: p.description,
+      url: pretty,
+      image: img,
+      author: { '@type': 'Person', name: 'Aayush Neupane', url: 'https://aayush38.com.np/' },
+      keywords: (p.techStack || []).join(', '),
+    }))}</script>
 <script>try{var m=location.pathname.match(/\\/project\\/([^/]+)\\/?$/);var pid=m?decodeURIComponent(m[1]):"${esc(id)}";var base=location.pathname.replace(/\\/project\\/[^/]+\\/?$/,"")||"/";base=base.replace(/\\/$/,"");location.replace(base+"/#/project/"+pid);}catch(e){}</script>
 </head>
 <body>

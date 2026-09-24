@@ -4,7 +4,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './components/Navbar/Navbar.jsx';
 import ScrollProgress from './components/ScrollProgress/ScrollProgress.jsx';
-import Cursor from './components/Cursor/Cursor.jsx';
 import Hero from './components/Hero/Hero.jsx';
 import About from './components/About/About.jsx';
 import Skills from './components/Skills/Skills.jsx';
@@ -138,13 +137,10 @@ function upsertHead(tag, keyAttr, keyValue, attrs) {
 
 /**
  * Keep document head in sync with the route (title, description, canonical,
- * OG/Twitter tags). Image + page URLs are made absolute from the live
- * origin, so they stay correct on every host (Pages, Netlify, custom domain).
+ * OG/Twitter tags). URLs are made absolute from the live origin, so they
+ * stay correct on every host (Pages, Netlify, custom domain).
  */
-function syncHead({ description, path, image, type }) {
-  const origin = window.location.origin;
-  const basePath = window.location.pathname.replace(/\/$/, '');
-  const url = `${origin}${basePath}${path === '/' ? '' : path}`;
+function syncHead({ description, url, image, type }) {
   if (description != null) {
     upsertHead('meta', 'name', 'description', { content: description });
   }
@@ -158,10 +154,42 @@ function syncHead({ description, path, image, type }) {
   upsertHead('meta', 'property', 'og:url', { content: url });
   upsertHead('meta', 'property', 'og:type', { content: type || 'website' });
   if (image != null) {
-    const absolute = /^https?:\/\//.test(image) ? image : `${origin}${image}`;
-    upsertHead('meta', 'property', 'og:image', { content: absolute });
-    upsertHead('meta', 'name', 'twitter:image', { content: absolute });
+    upsertHead('meta', 'property', 'og:image', { content: image });
+    upsertHead('meta', 'name', 'twitter:image', { content: image });
   }
+}
+
+/** Per-project CreativeWork structured data (or removed off detail pages). */
+function syncProjectJsonLd(project, url, image) {
+  const key = 'project-jsonld';
+  const el = document.head.querySelector(`script[data-jsonld="${key}"]`);
+  if (!project) {
+    el?.remove();
+    return;
+  }
+  const node =
+    el ||
+    (() => {
+      const s = document.createElement('script');
+      s.setAttribute('type', 'application/ld+json');
+      s.setAttribute('data-jsonld', key);
+      document.head.appendChild(s);
+      return s;
+    })();
+  node.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.title,
+    description: project.description,
+    url,
+    image,
+    author: {
+      '@type': 'Person',
+      name: 'Aayush Neupane',
+      url: 'https://aayush38.com.np/',
+    },
+    keywords: (project.techStack || []).join(', '),
+  });
 }
 
 function setHeadText(kind, key, value) {
@@ -229,39 +257,48 @@ export default function App() {
           ? `${detailProject?.title || 'Project'} — Aayush Neupane`
           : 'Aayush Neupane';
     document.title = headTitle;
+    const origin = window.location.origin;
+    const basePath = window.location.pathname.replace(/\/$/, '');
+    const abs = (p) => (/^https?:\/\//.test(p) ? p : `${origin}${p}`);
     if (isDetail) {
       const desc = detailProject?.description || 'A project by Aayush Neupane.';
+      const pageUrl = `${origin}${basePath}/project/${detailId}`;
+      const pageImg = abs(detailProject?.image || '/assets/images/profile/logo.jpg');
       syncHead({
         description: desc,
-        path: `/project/${detailId}`,
-        image: detailProject?.image || '/assets/images/profile/logo.jpg',
+        url: pageUrl,
+        image: pageImg,
         type: 'article',
       });
       setHeadText('property', 'og:title', headTitle);
       setHeadText('property', 'og:description', desc);
       setHeadText('name', 'twitter:title', headTitle);
       setHeadText('name', 'twitter:description', desc);
+      syncProjectJsonLd(detailProject, pageUrl, pageImg);
     } else if (isGallery) {
       syncHead({
         description: 'Photo gallery of Aayush Neupane — streets, skies, gardens, heritage and night frames.',
-        path: '/',
+        url: `${origin}${basePath}`,
       });
       setHeadText('property', 'og:title', headTitle);
       setHeadText('name', 'twitter:title', headTitle);
+      syncProjectJsonLd(null);
     } else if (isProjects) {
       syncHead({
         description: 'Every experiment by Aayush Neupane — games, tools and weekend builds.',
-        path: '/',
+        url: `${origin}${basePath}`,
       });
       setHeadText('property', 'og:title', headTitle);
       setHeadText('name', 'twitter:title', headTitle);
+      syncProjectJsonLd(null);
     } else {
       syncHead({
         description: 'Aayush Neupane builds websites and games from Jhapa, Nepal. React, TypeScript, Supabase, Unity. Open for freelance web projects.',
-        path: '/',
-        image: '/assets/images/profile/logo.jpg',
+        url: `${origin}${basePath}`,
+        image: abs('/assets/images/profile/logo.jpg'),
         type: 'website',
       });
+      syncProjectJsonLd(null);
     }
     if (!ready) return undefined;
     // Home-route scrolling is owned by section nav / back-to-card flows.
@@ -536,7 +573,6 @@ export default function App() {
         </defs>
       </svg>
       <ScrollProgress />
-      <Cursor />
       <Navbar
         links={config?.navigation}
         activeSection={isGallery || isProjects || isDetail ? '' : activeSection}

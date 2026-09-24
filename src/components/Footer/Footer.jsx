@@ -62,12 +62,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-border pt-6 text-sm text-muted sm:flex-row sm:items-center">
-          <div>
-            <p>© {year} Aayush Neupane. All rights reserved.</p>
-            <p className="mt-1.5 font-mono text-xs uppercase tracking-[0.14em]">
-              Designed &amp; built by Aayush · React · Tailwind · GSAP
-            </p>
-          </div>
+          <p>© {year} Aayush Neupane. All rights reserved.</p>
           <button
             type="button"
             onClick={scrollToTop}
@@ -77,6 +72,33 @@ export default function Footer() {
             Top
             <ArrowUp className="h-3.5 w-3.5" aria-hidden="true" />
           </button>
+        </div>
+
+        <div className="mt-6 border-t border-border pt-5">
+          <a
+            href="https://dynamic-aayush38.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Aayush Neupane — portfolio"
+            className="mx-auto flex w-full max-w-xl items-center justify-center gap-2.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted transition-colors duration-200 hover:text-text"
+          >
+            <img
+              src={withBase('/assets/images/profile/logotrp.png')}
+              alt="Aayush Neupane"
+              width={28}
+              height={28}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              className="h-7 w-7 rounded-full border border-linestrong object-cover"
+            />
+            <span>
+              Developed by{' '}
+              <span className="text-text underline-offset-4 hover:underline">
+                Aayush Neupane
+              </span>
+            </span>
+          </a>
         </div>
       </div>
     </footer>

@@ -217,3 +217,13 @@ a,
     display: none;
   }
 }
+
+/* Custom cursor takes over the pointer on fine-pointer devices */
+@media (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor *,
+  html.has-cursor *::before,
+  html.has-cursor *::after {
+    cursor: none !important;
+  }
+}

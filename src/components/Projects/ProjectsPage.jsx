@@ -33,7 +33,7 @@ function RowThumb({ project }) {
 
 const EARLY_IDS = new Set([108, 109, 110, 111, 112, 113]);
 
-function RowItem({ project: p, index }) {
+function RowItem({ project: p, index, onOpen }) {
   const live = isValidUrl(p.liveUrl) ? p.liveUrl : null;
   const repo = isValidUrl(p.githubUrl) ? p.githubUrl : null;
   return (
@@ -46,9 +46,17 @@ function RowItem({ project: p, index }) {
       </span>
       <RowThumb project={p} />
       <div className="min-w-0">
-        <h2 className="truncate font-display text-xl text-text transition-colors group-hover:text-accent md:text-2xl">
-          {p.title}
-        </h2>
+        {onOpen ? (
+          <button type="button" onClick={() => onOpen(p)} className="block min-w-0 max-w-full text-left">
+            <h2 className="truncate font-display text-xl text-text transition-colors hover:text-accent md:text-2xl">
+              {p.title}
+            </h2>
+          </button>
+        ) : (
+          <h2 className="truncate font-display text-xl text-text transition-colors group-hover:text-accent md:text-2xl">
+            {p.title}
+          </h2>
+        )}
         <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted">
           {p.description}
         </p>
@@ -59,6 +67,16 @@ function RowItem({ project: p, index }) {
         )}
       </div>
       <div className="flex items-center gap-4 sm:justify-end">
+        {onOpen && (
+          <button
+            type="button"
+            onClick={() => onOpen(p)}
+            className="inline-flex items-center gap-1 text-sm font-medium text-muted transition-colors hover:text-accent"
+          >
+            Details
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </button>
+        )}
         {live && (
           <a
             href={live}
@@ -92,7 +110,7 @@ function RowItem({ project: p, index }) {
   );
 }
 
-export default function ProjectsPage({ projects, onBack }) {
+export default function ProjectsPage({ projects, onBack, onOpen }) {
   const [filter, setFilter] = useState('All');
   const items = projects || [];
 
@@ -167,7 +185,7 @@ export default function ProjectsPage({ projects, onBack }) {
 
       <ol className="mt-8 divide-y divide-border border-y border-border">
         {main.map((p, i) => (
-          <RowItem key={p.id ?? i} project={p} index={i} />
+          <RowItem key={p.id ?? i} project={p} index={i} onOpen={onOpen} />
         ))}
       </ol>
       {early.length > 0 && (
@@ -183,7 +201,7 @@ export default function ProjectsPage({ projects, onBack }) {
           </summary>
           <ol className="divide-y divide-border border-t border-border px-1 pb-2">
             {early.map((p, i) => (
-              <RowItem key={p.id ?? i} project={p} index={main.length + i} />
+              <RowItem key={p.id ?? i} project={p} index={main.length + i} onOpen={onOpen} />
             ))}
           </ol>
         </details>

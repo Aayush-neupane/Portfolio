@@ -102,22 +102,34 @@ function TechTags({ tech }) {
   );
 }
 
-function ProjectLinks({ project }) {
+function ProjectLinks({ project, onDetails }) {
   const live = isValidUrl(project.liveUrl) ? project.liveUrl : null;
   const repo = isValidUrl(project.githubUrl) ? project.githubUrl : null;
   const primary = live || repo;
-  if (!primary) return null;
+  if (!primary && !onDetails) return null;
   return (
     <div className="mt-5 flex items-center gap-4">
-      <a
-        href={primary}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent-deep"
-      >
-        View Project
-        <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
-      </a>
+      {primary && (
+        <a
+          href={primary}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent-deep"
+        >
+          View Project
+          <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+        </a>
+      )}
+      {onDetails && (
+        <button
+          type="button"
+          onClick={() => onDetails(project)}
+          className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-accent"
+        >
+          Details
+          <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+        </button>
+      )}
       {live && repo && (
         <a
           href={repo}
@@ -134,7 +146,7 @@ function ProjectLinks({ project }) {
   );
 }
 
-export default function Projects({ projects, onViewAll }) {
+export default function Projects({ projects, onViewAll, onOpen }) {
   const [filter, setFilter] = useState('All');
   const rootRef = useRef(null);
   const reduce =
@@ -269,7 +281,7 @@ export default function Projects({ projects, onViewAll }) {
                       {featured.status}
                     </p>
                   )}
-                  <ProjectLinks project={featured} />
+                  <ProjectLinks project={featured} onDetails={onOpen} />
                 </div>
               </motion.article>
             )}
@@ -313,7 +325,7 @@ export default function Projects({ projects, onViewAll }) {
                           {p.status}
                         </p>
                       )}
-                      <ProjectLinks project={p} />
+                      <ProjectLinks project={p} onDetails={onOpen} />
                     </div>
                   </motion.article>
                 ))}

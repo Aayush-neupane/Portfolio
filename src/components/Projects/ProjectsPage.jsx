@@ -40,6 +40,7 @@ function RowItem({ project: p, index, onOpen }) {
   return (
     <li
       key={p.id ?? index}
+      id={`project-row-${p.id ?? index}`}
       onClick={onOpen ? () => onOpen(p) : undefined}
       className={`group grid gap-4 py-5 transition-colors duration-200 hover:bg-subtle sm:grid-cols-[auto_7rem_1fr_auto] sm:items-center sm:gap-6 sm:px-4 ${onOpen ? 'cursor-pointer' : ''}`}
     >

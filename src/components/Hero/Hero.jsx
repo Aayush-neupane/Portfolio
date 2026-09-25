@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { isReducedMotion } from '../../utils/motion.js';
 import gsap from 'gsap';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -8,7 +9,7 @@ import Magnetic from '../Magnetic/Magnetic.jsx';
 function CountUp({ to, suffix = '' }) {
   const [val, setVal] = useState(0);
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (isReducedMotion()) {
       setVal(to);
       return;
     }
@@ -49,7 +50,7 @@ export default function Hero({ profile, now, onProject }) {
   const canTilt = useMemo(
     () =>
       typeof window !== 'undefined' &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+      !isReducedMotion() &&
       !window.matchMedia('(pointer: coarse)').matches,
     []
   );
@@ -73,7 +74,7 @@ export default function Hero({ profile, now, onProject }) {
     const root = rootRef.current;
     if (!root) return;
     const targets = root.querySelectorAll('[data-reveal]');
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (isReducedMotion()) {
       gsap.set(targets, { opacity: 1, y: 0 });
       return;
     }
@@ -89,7 +90,7 @@ export default function Hero({ profile, now, onProject }) {
 
   useEffect(() => {
     const root = rootRef.current;
-    if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!root || isReducedMotion()) return;
     const ctx = gsap.context(() => {
       gsap.to('[data-parallax]', {
         y: -56,

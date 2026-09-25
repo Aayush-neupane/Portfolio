@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { isReducedMotion } from '../../utils/motion.js';
 import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -56,7 +57,7 @@ export default function Skills() {
   const [tab, setTab] = useState(CATS[0].id);
   const reduce =
     typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    isReducedMotion();
   const active = CATS.find((c) => c.id === tab) || CATS[0];
 
   useEffect(() => {

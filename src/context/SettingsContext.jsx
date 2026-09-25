@@ -1,6 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-const SettingsContext = createContext({ theme: 'dark', toggleTheme: () => {} });
+const SettingsContext = createContext({
+  theme: 'dark',
+  toggleTheme: () => {},
+  saver: false,
+  toggleSaver: () => {},
+});
 
 export const useSettings = () => useContext(SettingsContext);
 
@@ -27,8 +32,27 @@ export function SettingsProvider({ children }) {
 
   const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
 
+  const [saver, setSaver] = useState(() => {
+    try {
+      return localStorage.getItem('an-saver') === '1';
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('saver', saver);
+    try {
+      localStorage.setItem('an-saver', saver ? '1' : '0');
+    } catch {
+      /* storage unavailable */
+    }
+  }, [saver]);
+
+  const toggleSaver = () => setSaver((s) => !s);
+
   return (
-    <SettingsContext.Provider value={{ theme, toggleTheme }}>
+    <SettingsContext.Provider value={{ theme, toggleTheme, saver, toggleSaver }}>
       {children}
     </SettingsContext.Provider>
   );

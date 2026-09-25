@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -105,7 +106,10 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
   }, [onClose, onPrev, onNext]);
 
   if (!photo) return null;
-  return (
+  // Portaled to <body> so no ancestor stacking context can ever trap the
+  // overlay beneath the fixed navbar. Exit animations still work — presence
+  // is tracked by component, not by DOM location.
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -178,7 +182,8 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
           </p>
         )}
       </div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }
 

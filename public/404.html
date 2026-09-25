@@ -1,117 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 - Page Not Found | Aayush Neupane</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0f0f13 0%, #1a1a1f 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fafafa;
-    }
-    
-    .container {
-      text-align: center;
-      padding: 2rem;
-      max-width: 600px;
-    }
-    
-    .error-code {
-      font-size: 120px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #e85854 0%, #b13a38 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 1rem;
-    }
-    
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    
-    p {
-      color: #a1a1aa;
-      margin-bottom: 2rem;
-      line-height: 1.6;
-    }
-    
-    .home-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 28px;
-      background: linear-gradient(135deg, #e85854 0%, #b13a38 100%);
-      color: white;
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .home-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(232, 88, 84, 0.4);
-    }
-    
-    .social-links {
-      margin-top: 2rem;
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-    }
-    
-    .social-link {
-      color: #a1a1aa;
-      text-decoration: none;
-      font-size: 20px;
-      transition: color 0.3s ease;
-    }
-    
-    .social-link:hover {
-      color: #e85854;
-    }
-    
-    @media (max-width: 480px) {
-      .error-code {
-        font-size: 80px;
-      }
-      h1 {
-        font-size: 1.5rem;
-      }
-    }
-  </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>404 — Lost? | Aayush Neupane</title>
+<meta name="robots" content="noindex" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0c0c0f;
+    color: #fafafa;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.25rem;
+  }
+  .wrap { width: 100%; max-width: 640px; text-align: center; }
+  .code {
+    font-size: clamp(4rem, 14vw, 7rem);
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, #e85854 0%, #b13a38 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  h1 { font-size: 1.5rem; margin-top: 0.75rem; }
+  p.sub { color: #a1a1aa; margin-top: 0.6rem; line-height: 1.6; }
+  .search {
+    margin-top: 1.75rem;
+    display: flex;
+    gap: 0.5rem;
+    background: #141419;
+    border: 1px solid #26262e;
+    border-radius: 999px;
+    padding: 0.4rem 0.4rem 0.4rem 1.1rem;
+  }
+  .search:focus-within { border-color: #e85854; }
+  .search input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: #fafafa;
+    font-size: 0.95rem;
+  }
+  .search input::placeholder { color: #63636b; }
+  .results { margin-top: 1.25rem; display: grid; gap: 0.6rem; text-align: left; }
+  .card {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+    background: #141419;
+    border: 1px solid #26262e;
+    border-radius: 14px;
+    padding: 0.7rem;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .card:hover { border-color: #e85854; transform: translateY(-1px); }
+  .card img {
+    width: 88px;
+    height: 56px;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 8px;
+    background: #1c1c22;
+    flex-shrink: 0;
+  }
+  .card .t { font-weight: 700; font-size: 0.95rem; }
+  .card .d {
+    color: #a1a1aa;
+    font-size: 0.8rem;
+    margin-top: 0.15rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .home {
+    display: inline-flex;
+    margin-top: 1.75rem;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #e85854 0%, #b13a38 100%);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  .hint { margin-top: 1rem; color: #63636b; font-size: 0.8rem; }
+</style>
 </head>
 <body>
-  <div class="container">
-    <div class="error-code">404</div>
-    <h1>Oops! Page Not Found</h1>
-    <p>The page you're looking for doesn't exist or has been moved.<br>Let's get you back on track.</p>
-    
-    <a href="/" class="home-btn">
-      <i class="fas fa-home"></i>
-      Back to Home
-    </a>
-    
-    <div class="social-links">
-      <a href="https://github.com/Aayush-neupane" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
-      <a href="https://www.facebook.com/khatra.manxey.071129" target="_blank" class="social-link"><i class="fab fa-facebook"></i></a>
-      <a href="https://instagram.com/dynamic_aayush38" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
-      <a href="https://wa.me/9779862862023" target="_blank" class="social-link"><i class="fab fa-whatsapp"></i></a>
+  <main class="wrap">
+    <div class="code" aria-hidden="true">404</div>
+    <h1>Off the map.</h1>
+    <p class="sub">That page doesn't exist — but the work does. Search it:</p>
+    <div class="search">
+      <input id="q" type="search" placeholder="Try ‘cube’, ‘store’, ‘game’…" autocomplete="off" aria-label="Search projects" />
     </div>
-  </div>
+    <div id="results" class="results" aria-live="polite"></div>
+    <a id="home" class="home" href="/">Back to Home</a>
+    <p class="hint">Wrong turn? The search above looks through every project.</p>
+  </main>
+<script>
+(function () {
+  // Deploy base: GitHub Pages serves under /Portfolio, others at root.
+  var base = /^\/Portfolio(\/|$)/.test(location.pathname) ? '/Portfolio' : '';
+  document.getElementById('home').setAttribute('href', base + '/');
+
+  var box = document.getElementById('results');
+  var all = [];
+
+  function imgFor(p) {
+    if (p.image && p.image.charAt(0) === '/') return base + p.image;
+    return null;
+  }
+  function hrefFor(p) {
+    return base + '/#/project/' + encodeURIComponent(p.id);
+  }
+  function card(p) {
+    var a = document.createElement('a');
+    a.className = 'card';
+    a.href = hrefFor(p);
+    var thumb = imgFor(p)
+      ? '<img src="' + imgFor(p) + '" alt="" loading="lazy" />'
+      : '<span style="font-size:1.6rem;width:88px;text-align:center;flex-shrink:0">' + (p.title || '?').charAt(0) + '</span>';
+    a.innerHTML =
+      thumb +
+      '<span><span class="t">' + escapeHtml(p.title || 'Untitled') + '</span><br />' +
+      '<span class="d">' + escapeHtml(p.description || '') + '</span></span>';
+    return a;
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function render(list, label) {
+    box.innerHTML = '';
+    if (label) {
+      var h = document.createElement('p');
+      h.className = 'hint';
+      h.style.margin = '0 0 0.25rem 0.25rem';
+      h.style.textAlign = 'left';
+      h.textContent = label;
+      box.appendChild(h);
+    }
+    list.slice(0, 3).forEach(function (p) { box.appendChild(card(p)); });
+  }
+
+  fetch(base + '/data/projects.json')
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (d) {
+      all = (d.featured || []).concat(d.archive || []);
+      render(all, all.length ? 'Suggested projects' : '');
+      document.getElementById('q').addEventListener('input', function (e) {
+        var q = e.target.value.trim().toLowerCase();
+        if (!q) { render(all, 'Suggested projects'); return; }
+        var hits = all.filter(function (p) {
+          return ((p.title || '') + ' ' + (p.description || '') + ' ' + (p.category || '') + ' ' + (p.techStack || []).join(' ')).toLowerCase().indexOf(q) !== -1;
+        });
+        render(hits, hits.length ? hits.length + ' match' + (hits.length > 1 ? 'es' : '') : 'No matches — try these instead');
+        if (!hits.length) render(all, 'No matches — try these instead');
+      });
+    })
+    .catch(function () {
+      box.innerHTML = '';
+    });
+})();
+</script>
 </body>
 </html>

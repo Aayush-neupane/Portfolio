@@ -32,6 +32,12 @@ const GALLERY_ROUTE = '#/gallery';
 const PROJECTS_ROUTE = '#/projects';
 const STATS_ROUTE = '#/stats';
 const PROJECT_DETAIL_PREFIX = '#/project/';
+// Stats UI only exists in local dev — never in production builds served
+// publicly. Counts themselves stay on-device either way.
+const SHOW_STATS =
+  import.meta.env.DEV ||
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1';
 
 function routeFromHash() {
   return typeof window !== 'undefined' && window.location.hash.startsWith('#/')
@@ -237,7 +243,7 @@ export default function App() {
 
   const isGallery = route === GALLERY_ROUTE;
   const isProjects = route === PROJECTS_ROUTE;
-  const isStats = route === STATS_ROUTE;
+  const isStats = SHOW_STATS && route === STATS_ROUTE;
   const detailId = detailIdFromRoute(route);
   const isDetail = detailId !== null;
   const allProjects = [...projects, ...archive];

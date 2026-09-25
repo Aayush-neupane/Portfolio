@@ -36,7 +36,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "in-progress",
       "category": "web apps",
       "highlights": [
         "Unites donors, volunteers, NGOs and hospitals on one calm platform",
@@ -56,7 +56,7 @@
       ],
       "liveUrl": "https://www.excurion.com/",
       "githubUrl": "https://github.com/Aayush-neupane/Excurion",
-      "status": "completed",
+      "status": "in-progress",
       "category": "ed-tech",
       "highlights": [
         "Live lessons on an infinite tldraw whiteboard",
@@ -141,7 +141,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "in-progress",
       "category": "web apps",
       "highlights": [
         "Storefront, cart and checkout for a real department store",
@@ -162,7 +162,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://github.com/Aayush-neupane/cube",
-      "status": "completed",
+      "status": "in-progress",
       "category": "games",
       "highlights": [
         "Full 3D cube rendered in Three.js with scrambles and smooth turns",
@@ -205,7 +205,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://github.com/Aayush-neupane/shop-management",
-      "status": "completed",
+      "status": "archived",
       "category": "web apps",
       "highlights": [
         "Storefront listings with search that feels instant",
@@ -225,7 +225,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "prototype",
       "category": "web apps",
       "highlights": [
         "Shoe-store concept with complete product listings",
@@ -247,7 +247,7 @@
       ],
       "liveUrl": "https://animexstream.netlify.app/",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "prototype",
       "category": "web apps",
       "highlights": [
         "Anime watchlists with episode progress tracking",
@@ -267,7 +267,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "in-progress",
       "category": "tools",
       "highlights": [
         "Inventory, billing and sales tracking for local shops",
@@ -286,7 +286,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://github.com/aayush-neupane/DrFlight",
-      "status": "completed",
+      "status": "archived",
       "category": "games",
       "highlights": [
         "2D Unity platformer with tight, responsive controls",
@@ -306,7 +306,7 @@
       ],
       "liveUrl": "https://poseidon.netlify.app/",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "prototype",
       "category": "games",
       "highlights": [
         "Underwater browser platformer starring a shark",
@@ -347,7 +347,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "archived",
       "category": "tools",
       "highlights": [
         "Real-time weather for any city on earth",
@@ -367,7 +367,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "archived",
       "category": "tools",
       "highlights": [
         "Tidy task manager with local persistence",
@@ -387,7 +387,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "archived",
       "category": "tools",
       "highlights": [
         "Clean arithmetic with a carefully laid out keypad",
@@ -407,7 +407,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "archived",
       "category": "tools",
       "highlights": [
         "Live analog hands rendered alongside digital readout",
@@ -427,7 +427,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "archived",
       "category": "tools",
       "highlights": [
         "Exact age breakdown from any birth date",
@@ -447,7 +447,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://",
-      "status": "completed",
+      "status": "archived",
       "category": "tools",
       "highlights": [
         "Start, stop, lap and reset that simply work",
@@ -509,7 +509,7 @@
       ],
       "liveUrl": "https://",
       "githubUrl": "https://github.com/Aayush-neupane/Fastest-Finger",
-      "status": "completed",
+      "status": "in-progress",
       "category": "games",
       "highlights": [
         "Solo sprints against a ghost running at your best pace",

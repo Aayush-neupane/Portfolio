@@ -517,7 +517,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!ready || isGallery || isProjects) return;
+    if (!ready || isGallery || isProjects || isDetail) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -531,7 +531,7 @@ export default function App() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, [ready, isGallery, isProjects]);
+  }, [ready, isGallery, isProjects, isDetail, route]);
 
   useEffect(() => {
     if (ready) ScrollTrigger.refresh();

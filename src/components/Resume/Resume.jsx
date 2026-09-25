@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { isReducedMotion } from '../../utils/motion.js';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Download, GraduationCap } from 'lucide-react';
@@ -19,7 +18,7 @@ export default function Resume({ data }) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    if (isReducedMotion()) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const ctx = gsap.context(() => {
       gsap.utils.toArray('[data-reveal]').forEach((el, i) => {
         gsap.fromTo(

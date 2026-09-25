@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { isReducedMotion } from '../../utils/motion.js';
 import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -193,7 +192,7 @@ export default function Gallery({ photos, onViewAll }) {
   const [prog, setProg] = useState(0);
   const reduce =
     typeof window !== 'undefined' &&
-    isReducedMotion();
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const items = photos || [];
 
   const measure = useCallback(() => {

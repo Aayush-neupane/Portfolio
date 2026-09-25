@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import { isReducedMotion } from './utils/motion.js';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -50,7 +49,7 @@ function LoadingScreen({ leaving }) {
   const [word, setWord] = useState(0);
 
   useEffect(() => {
-    if (isReducedMotion()) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setPct(100);
       return;
     }
@@ -475,7 +474,7 @@ export default function App() {
       } catch {
         seen = false;
       }
-      const reduced = isReducedMotion();
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const baseWait = reduced ? 0 : seen ? 500 : 1400;
       const liftMs = reduced ? 0 : 750;
       const wait = Math.max(0, baseWait - (Date.now() - started));
@@ -500,7 +499,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (isReducedMotion()) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
     lenis.on('scroll', ScrollTrigger.update);
     window.__lenis = lenis;

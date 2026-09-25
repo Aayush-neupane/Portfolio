@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { isReducedMotion } from '../../utils/motion.js';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 /**
@@ -15,7 +14,7 @@ export default function Magnetic({ children, strength = 0.28, className = '' }) 
 
   const enabled =
     typeof window !== 'undefined' &&
-    !isReducedMotion() &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
     !window.matchMedia('(pointer: coarse)').matches;
 
   const onMove = (e) => {

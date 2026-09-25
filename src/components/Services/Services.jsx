@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { isReducedMotion } from '../../utils/motion.js';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Globe, LayoutGrid, Wrench } from 'lucide-react';
@@ -33,7 +32,7 @@ export default function Services({ onContact }) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    if (isReducedMotion()) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const ctx = gsap.context(() => {
       gsap.utils.toArray('[data-reveal]').forEach((el) => {
         gsap.fromTo(

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Menu, X, Zap } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import ThemeToggle from '../ThemeToggle/ThemeToggle.jsx';
-import { useSettings } from '../../context/SettingsContext.jsx';
 import { withBase } from '../../utils/paths.js';
 
 const FALLBACK_LINKS = [
@@ -18,7 +17,6 @@ const FALLBACK_LINKS = [
 export default function Navbar({ links, activeSection, onNavClick, isGallery, route }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { saver, toggleSaver } = useSettings();
   const items = links && links.length > 0 ? links : FALLBACK_LINKS;
 
   useEffect(() => {
@@ -85,38 +83,10 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
               {item.label}
             </a>
           ))}
-          <button
-            type="button"
-            onClick={toggleSaver}
-            aria-pressed={saver}
-            title={saver ? 'Lite mode on: reduced motion, lighter images' : 'Turn on Lite mode'}
-            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-2 font-mono text-[0.65rem] uppercase tracking-[0.14em] transition-all duration-200 ${
-              saver
-                ? 'bg-accent text-white'
-                : 'border border-border bg-elevated text-muted hover:border-linestrong hover:text-text'
-            }`}
-          >
-            <Zap className="h-3.5 w-3.5" aria-hidden="true" />
-            Lite
-          </button>
           <ThemeToggle />
         </div>
 
         <div className="flex items-center gap-3 md:hidden">
-          <button
-            type="button"
-            onClick={toggleSaver}
-            aria-pressed={saver}
-            title={saver ? 'Lite mode on: reduced motion, lighter images' : 'Turn on Lite mode'}
-            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-2 font-mono text-[0.65rem] uppercase tracking-[0.14em] transition-all duration-200 ${
-              saver
-                ? 'bg-accent text-white'
-                : 'border border-border bg-elevated text-muted hover:border-linestrong hover:text-text'
-            }`}
-          >
-            <Zap className="h-3.5 w-3.5" aria-hidden="true" />
-            Lite
-          </button>
           <ThemeToggle />
           <button
             type="button"

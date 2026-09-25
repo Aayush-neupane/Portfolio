@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { isReducedMotion } from '../../utils/motion.js';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -23,7 +22,7 @@ export default function TextReveal3D({ text, eyebrow, emphasis = [], support }) 
     if (!root) return;
     const inners = root.querySelectorAll('[data-word-inner]');
     const tail = root.querySelector('[data-support]');
-    if (isReducedMotion()) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       gsap.set([inners, tail], { opacity: 1, rotateX: 0, yPercent: 0, y: 0 });
       return;
     }

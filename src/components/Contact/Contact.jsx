@@ -330,6 +330,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   rows={5}
                   placeholder="Tell me about your project…"
                   aria-invalid={!!errors.message}
+                  data-lenis-prevent
                   className={`${inputClass} resize-y`}
                   {...register('message')}
                 />

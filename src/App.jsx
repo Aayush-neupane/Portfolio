@@ -225,6 +225,7 @@ export default function App() {
   const [resume, setResume] = useState(null);
   const [nowStatus, setNowStatus] = useState(null);
   const [zoom, setZoom] = useState(null);
+  const [contactDraft, setContactDraft] = useState(null);
   const [gallery, setGallery] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [ready, setReady] = useState(false);
@@ -397,6 +398,27 @@ export default function App() {
       }
       setZoom(from);
       handleNav(`${PROJECT_DETAIL_PREFIX}${p?.id}`);
+    },
+    [handleNav]
+  );
+
+  // Prefill the contact form, then take the visitor to it.
+  const inquireAbout = useCallback(
+    (project) => {
+      if (project?.title) {
+        setContactDraft({
+          subject: `Project inquiry: ${project.title}`,
+          message: `Hi Aayush,\n\nI came across your "${project.title}" project and I'd like to discuss something similar.\n\nA bit about what I need:\n- \n\nThanks!`,
+          nonce: Date.now(),
+        });
+      } else {
+        setContactDraft({
+          subject: 'New project inquiry',
+          message: `Hi Aayush,\n\nI have an idea I'd like to build:\n\n- \n\nMy timeline:\nMy budget range:\n\nThanks!`,
+          nonce: Date.now(),
+        });
+      }
+      handleNav('#contact');
     },
     [handleNav]
   );
@@ -612,6 +634,7 @@ export default function App() {
             all={allProjects}
             enterFrom={zoom}
             onEntered={() => setZoom(null)}
+            onInquire={inquireAbout}
             onBack={() => backFromDetail(detailId)}
             backLabel={
               archive.some((p) => String(p.id) === detailId)
@@ -636,12 +659,13 @@ export default function App() {
             projects={projects}
             onViewAll={() => handleNav(PROJECTS_ROUTE)}
             onOpen={openProject}
+            onInquire={inquireAbout}
           />
           <Playground />
           <Services onContact={() => handleNav('#contact')} />
           <Resume data={resume} />
           <Gallery photos={featured.length > 0 ? featured : gallery.slice(0, 6)} onViewAll={() => handleNav(GALLERY_ROUTE)} />
-          <Contact profile={profile} social={social} whatsapp={whatsapp} />
+          <Contact profile={profile} social={social} whatsapp={whatsapp} draft={contactDraft} onSentClear={() => setContactDraft(null)} />
         </main>
       )}
       </ErrorBoundary>

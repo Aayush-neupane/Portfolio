@@ -13,13 +13,14 @@ gsap.registerPlugin(ScrollTrigger);
 const schema = z.object({
   name: z.string().trim().min(2, 'Please enter your name (min 2 characters).'),
   email: z.string().trim().email('Please enter a valid email address.'),
+  subject: z.string().trim().max(120, 'Keep the subject under 120 characters.').optional().default(''),
   message: z.string().trim().min(10, 'Tell me a little more (min 10 characters).'),
 });
 
 const inputClass =
   'w-full rounded-lg border border-border bg-elevated px-4 py-3 text-text placeholder:text-muted/70 text-base transition-colors duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40';
 
-export default function Contact({ profile, social, whatsapp }) {
+export default function Contact({ profile, social, whatsapp, draft, onSentClear }) {
   const rootRef = useRef(null);
   const formRef = useRef(null);
   const closeRef = useRef(null);
@@ -31,8 +32,30 @@ export default function Contact({ profile, social, whatsapp }) {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors, isSubmitting },
-  } = useForm({ resolver: zodResolver(schema), mode: 'onTouched' });
+  } = useForm({
+    resolver: zodResolver(schema),
+    mode: 'onTouched',
+    defaultValues: {
+      name: '',
+      email: '',
+      subject: draft?.subject || '',
+      message: draft?.message || '',
+    },
+  });
+
+  // Prefill subject + message when an Inquire button is used elsewhere.
+  // Keeps whatever name/email the visitor already typed.
+  useEffect(() => {
+    if (!draft) return;
+    reset({
+      ...getValues(),
+      subject: draft.subject || '',
+      message: draft.message || '',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draft?.nonce]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -67,16 +90,17 @@ export default function Contact({ profile, social, whatsapp }) {
           name: data.name,
           email: data.email,
           message: data.message,
-          _subject: `Portfolio inquiry from ${data.name}`,
+          _subject: data.subject || `Portfolio inquiry from ${data.name}`,
           _autoresponse: `Hi ${data.name}, thanks for reaching out through my portfolio! I've received your message and will personally reply within 24 hours. — Aayush Neupane`,
           _honey: '',
           _captcha: 'false',
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      setLastSent({ name: data.name, email: data.email, message: data.message });
+      setLastSent({ name: data.name, email: data.email, subject: data.subject || '', message: data.message });
       setSent(true);
-      reset();
+      onSentClear?.();
+      reset({ name: '', email: '', subject: '', message: '' });
     } catch {
       // Backend unreachable (or first-time FormSubmit activation) — surface mailto fallback.
       setFailed(true);
@@ -121,14 +145,15 @@ export default function Contact({ profile, social, whatsapp }) {
   const waText = whatsapp?.defaultMessage || 'Hi Aayush, I found your portfolio and want to chat.';
   const waLink = waNumber ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}` : '';
   // Deep link carrying the visitor's actual brief (truncated for URL safety).
+  const briefSubject = lastSent?.subject || (lastSent ? `Project brief from ${lastSent.name}` : '');
   const briefText = lastSent
-    ? `Hi Aayush, I'm ${lastSent.name} (${lastSent.email}). My project brief: ${lastSent.message.slice(0, 600)}`
+    ? `Hi Aayush, I'm ${lastSent.name} (${lastSent.email}).${lastSent.subject ? ` Re: ${lastSent.subject}.` : ''} My project brief: ${lastSent.message.slice(0, 600)}`
     : '';
   const briefWaLink = waNumber && lastSent
     ? `https://wa.me/${waNumber}?text=${encodeURIComponent(briefText)}`
     : '';
   const briefMailLink = lastSent
-    ? `mailto:${email}?subject=${encodeURIComponent(`Project brief from ${lastSent.name}`)}&body=${encodeURIComponent(`${lastSent.message}\n\n— ${lastSent.name} (${lastSent.email})`)}`
+    ? `mailto:${email}?subject=${encodeURIComponent(briefSubject)}&body=${encodeURIComponent(`${lastSent.message}\n\n— ${lastSent.name} (${lastSent.email})`)}`
     : '';
   const socials = [
     { label: 'GitHub', href: 'https://github.com/aayush-neupane', Icon: Github },
@@ -272,6 +297,26 @@ export default function Contact({ profile, social, whatsapp }) {
                 {errors.email && (
                   <p role="alert" className="mt-1.5 text-sm text-accent">
                     {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="contact-subject" className="mb-1.5 block text-sm font-medium text-text">
+                  Subject <span className="font-normal text-muted">(optional)</span>
+                </label>
+                <input
+                  id="contact-subject"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="What is this about?"
+                  aria-invalid={!!errors.subject}
+                  className={inputClass}
+                  {...register('subject')}
+                />
+                {errors.subject && (
+                  <p role="alert" className="mt-1.5 text-sm text-accent">
+                    {errors.subject.message}
                   </p>
                 )}
               </div>

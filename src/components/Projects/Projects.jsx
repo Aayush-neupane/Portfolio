@@ -153,7 +153,7 @@ function ProjectLinks({ project }) {
   );
 }
 
-export default function Projects({ projects, onViewAll, onOpen }) {
+export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
   const [filter, setFilter] = useState('All');
   const rootRef = useRef(null);
   const reduce =
@@ -360,7 +360,7 @@ export default function Projects({ projects, onViewAll, onOpen }) {
                   </p>
                   <button
                     type="button"
-                    onClick={() => scrollToTarget('#contact')}
+                    onClick={() => (onInquire ? onInquire(null) : scrollToTarget('#contact'))}
                     className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent-deep"
                   >
                     Let&apos;s talk

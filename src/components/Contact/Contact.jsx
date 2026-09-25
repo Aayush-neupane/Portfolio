@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Github, Instagram, Linkedin, Loader2, Mail, MapPin, Send } from 'lucide-react';
+import { Github, Instagram, Linkedin, Loader2, Mail, MapPin, Send, X } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
@@ -22,6 +22,7 @@ const inputClass =
 export default function Contact({ profile, social, whatsapp }) {
   const rootRef = useRef(null);
   const formRef = useRef(null);
+  const closeRef = useRef(null);
   const [sent, setSent] = useState(false);
   const [failed, setFailed] = useState(false);
   const [lastSent, setLastSent] = useState(null);
@@ -92,6 +93,30 @@ export default function Contact({ profile, social, whatsapp }) {
   };
 
   const email = social?.email || profile?.email || '';
+  const showReply = sent && lastSent;
+
+  useEffect(() => {
+    if (!showReply) return undefined;
+    closeRef.current?.focus();
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setSent(false);
+        setLastSent(null);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [showReply]);
+
+  const closeReply = () => {
+    setSent(false);
+    setLastSent(null);
+  };
   const waNumber = whatsapp?.phoneNumber || '9779862862023';
   const waText = whatsapp?.defaultMessage || 'Hi Aayush, I found your portfolio and want to chat.';
   const waLink = waNumber ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}` : '';
@@ -329,39 +354,6 @@ export default function Contact({ profile, social, whatsapp }) {
               </div>
 
               <div aria-live="polite" className="min-h-6 space-y-2">
-                {sent && lastSent && (
-                  <div className="rounded-lg border border-accent/40 bg-accent-soft px-4 py-3.5 text-sm">
-                    <p className="font-semibold text-text">
-                      Thanks {lastSent.name} — brief received.
-                    </p>
-                    <p className="mt-1 leading-relaxed text-muted">
-                      It&apos;s in my inbox. I reply within 24 hours — want it
-                      faster? Continue where you left off:
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-2.5">
-                      {briefWaLink && (
-                        <a
-                          href={briefWaLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep"
-                        >
-                          <FontAwesomeIcon icon={faWhatsapp} aria-hidden="true" />
-                          WhatsApp it over
-                        </a>
-                      )}
-                      {briefMailLink && (
-                        <a
-                          href={briefMailLink}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-4 py-2 text-xs font-medium text-text transition-all duration-200 hover:-translate-y-px hover:border-linestrong hover:text-accent"
-                        >
-                          <Mail className="h-3.5 w-3.5" aria-hidden="true" />
-                          Email instead
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                )}
                 {sent && !lastSent && (
                   <p className="rounded-lg border border-accent/40 bg-accent-soft px-4 py-2.5 text-center text-sm font-medium text-accent">
                     Message sent. I&apos;ll get back to you within 24 hours.
@@ -384,6 +376,64 @@ export default function Contact({ profile, social, whatsapp }) {
           </form>
         </div>
       </div>
+
+      {showReply && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Message sent — thanks ${lastSent.name}`}
+          className="fixed inset-0 z-[250] flex items-center justify-center bg-black/60 p-5 backdrop-blur-sm"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closeReply();
+          }}
+        >
+          <div className="w-full max-w-md rounded-2xl border border-border bg-elevated p-6 text-sm shadow-2xl md:p-8">
+            <div className="flex items-start justify-between gap-4">
+              <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-accent">
+                Auto-reply
+              </p>
+              <button
+                ref={closeRef}
+                type="button"
+                onClick={closeReply}
+                aria-label="Close"
+                className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted transition-colors hover:border-linestrong hover:text-text"
+              >
+                <X className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
+            <h3 className="mt-3 font-display text-3xl leading-tight text-text">
+              Thanks {lastSent.name}!
+            </h3>
+            <p className="mt-2 leading-relaxed text-muted">
+              Your brief is in my inbox — I personally reply within 24 hours.
+              Want it faster? Continue where you left off:
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2.5">
+              {briefWaLink && (
+                <a
+                  href={briefWaLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-5 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep"
+                >
+                  <FontAwesomeIcon icon={faWhatsapp} aria-hidden="true" />
+                  WhatsApp it over
+                </a>
+              )}
+              {briefMailLink && (
+                <a
+                  href={briefMailLink}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg px-5 py-2.5 text-xs font-medium text-text transition-all duration-200 hover:-translate-y-px hover:border-linestrong hover:text-accent"
+                >
+                  <Mail className="h-3.5 w-3.5" aria-hidden="true" />
+                  Email instead
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

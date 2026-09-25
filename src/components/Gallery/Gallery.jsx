@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
@@ -19,14 +19,37 @@ const LAYOUT = [
 export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, onLoad, eager, large, hideStory }) {
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const tiltRef = useRef(null);
+  const canTilt = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(pointer: fine)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    []
+  );
+  const onTiltMove = (e) => {
+    const el = tiltRef.current;
+    if (!el || !canTilt) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(700px) rotateX(${(-py * 7).toFixed(2)}deg) rotateY(${(px * 9).toFixed(2)}deg)`;
+  };
+  const onTiltLeave = () => {
+    if (tiltRef.current) tiltRef.current.style.transform = '';
+  };
   return (
     <button
       type="button"
       onClick={() => onOpen(index)}
+      onMouseMove={onTiltMove}
+      onMouseLeave={onTiltLeave}
       aria-label={`Open photo: ${photo.title}`}
       className={className || 'group w-64 shrink-0 text-left md:w-80'}
     >
       <div
+        ref={tiltRef}
+        style={{ transition: 'transform 0.18s ease-out' }}
         className={`relative overflow-hidden rounded-lg border bg-subtle transition-all duration-300 group-hover:border-linestrong group-focus-visible:border-accent ${dimmed ? 'border-border' : 'border-linestrong'
           }`}
       >
@@ -231,6 +254,14 @@ export default function Gallery({ photos, onViewAll }) {
               const p = self.progress;
               setProg(p);
               setPos(Math.min(items.length, Math.floor(p * items.length) + 1));
+              // Lean the reel with scroll velocity; eases back when still.
+              const skew = gsap.utils.clamp(-7, 7, self.getVelocity() / -350);
+              gsap.to(track, {
+                skewX: skew,
+                duration: 0.4,
+                ease: 'power2.out',
+                overwrite: 'auto',
+              });
             },
           },
         }

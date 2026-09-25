@@ -14,7 +14,6 @@ import Gallery from './components/Gallery/Gallery.jsx';
 import GalleryPage from './components/Gallery/GalleryPage.jsx';
 import ProjectsPage from './components/Projects/ProjectsPage.jsx';
 import ProjectDetail from './components/Projects/ProjectDetail.jsx';
-import StatsPage from './components/Stats/StatsPage.jsx';
 import Playground from './components/Playground/Playground.jsx';
 import Contact from './components/Contact/Contact.jsx';
 import Services from './components/Services/Services.jsx';
@@ -22,7 +21,6 @@ import Footer from './components/Footer/Footer.jsx';
 import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
 import { scrollToTarget } from './utils/scroll.js';
-import { recordProject, recordRoute } from './utils/analytics.js';
 import { withBase } from './utils/paths.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -30,14 +28,7 @@ gsap.registerPlugin(ScrollTrigger);
 const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'services', 'resume', 'gallery', 'contact'];
 const GALLERY_ROUTE = '#/gallery';
 const PROJECTS_ROUTE = '#/projects';
-const STATS_ROUTE = '#/stats';
 const PROJECT_DETAIL_PREFIX = '#/project/';
-// Stats UI only exists in local dev — never in production builds served
-// publicly. Counts themselves stay on-device either way.
-const SHOW_STATS =
-  import.meta.env.DEV ||
-  window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1';
 
 function routeFromHash() {
   return typeof window !== 'undefined' && window.location.hash.startsWith('#/')
@@ -243,7 +234,6 @@ export default function App() {
 
   const isGallery = route === GALLERY_ROUTE;
   const isProjects = route === PROJECTS_ROUTE;
-  const isStats = SHOW_STATS && route === STATS_ROUTE;
   const detailId = detailIdFromRoute(route);
   const isDetail = detailId !== null;
   const allProjects = [...projects, ...archive];
@@ -263,11 +253,9 @@ export default function App() {
       ? 'Gallery — Aayush Neupane'
       : isProjects
         ? 'Projects — Aayush Neupane'
-        : isStats
-          ? 'Stats — Aayush Neupane'
-          : isDetail
-            ? `${detailProject?.title || 'Project'} — Aayush Neupane`
-            : 'Aayush Neupane';
+        : isDetail
+          ? `${detailProject?.title || 'Project'} — Aayush Neupane`
+          : 'Aayush Neupane';
     document.title = headTitle;
     const origin = window.location.origin;
     const basePath = window.location.pathname.replace(/\/$/, '');
@@ -313,11 +301,10 @@ export default function App() {
       syncProjectJsonLd(null);
     }
     if (!ready) return undefined;
-    recordRoute(route);
     // Home-route scrolling is owned by section nav / back-to-card flows.
     // Sub-routes always open at the very top — and stay there: re-assert
     // briefly to beat any late layout settling or async scroll restoration.
-    if (!(isGallery || isProjects || isStats || isDetail)) return undefined;
+    if (!(isGallery || isProjects || isDetail)) return undefined;
     scrollTopImmediate();
     ScrollTrigger.refresh();
     let n = 0;
@@ -329,7 +316,7 @@ export default function App() {
       scrollTopImmediate();
     }, 100);
     return () => clearInterval(id);
-  }, [isGallery, isProjects, isStats, isDetail, detailId, ready]);
+  }, [isGallery, isProjects, isDetail, detailId, ready]);
 
   // Late image/font settling after a full document load can shift scroll on
   // sub-routes; pin it back to top once everything has arrived.
@@ -390,7 +377,6 @@ export default function App() {
 
   const openProject = useCallback(
     (p, el) => {
-      recordProject(p?.id, p?.title);
       // Capture the card thumbnail geometry for the shared-element zoom.
       let from = null;
       try {
@@ -531,7 +517,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!ready || isGallery || isProjects || isStats || isDetail) return;
+    if (!ready || isGallery || isProjects || isDetail) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -545,7 +531,7 @@ export default function App() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, [ready, isGallery, isProjects, isStats, isDetail, route]);
+  }, [ready, isGallery, isProjects, isDetail, route]);
 
   useEffect(() => {
     if (ready) ScrollTrigger.refresh();
@@ -589,7 +575,7 @@ export default function App() {
       <ScrollProgress />
       <Navbar
         links={config?.navigation}
-        activeSection={isGallery || isProjects || isStats || isDetail ? '' : activeSection}
+        activeSection={isGallery || isProjects || isDetail ? '' : activeSection}
         onNavClick={handleNav}
         isGallery={isGallery}
         route={route}
@@ -606,10 +592,6 @@ export default function App() {
             onBack={() => handleNav('#home')}
             onOpen={openProject}
           />
-        </main>
-      ) : isStats ? (
-        <main>
-          <StatsPage onBack={() => handleNav('#home')} />
         </main>
       ) : isDetail ? (
         <main>

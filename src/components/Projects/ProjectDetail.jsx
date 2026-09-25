@@ -255,6 +255,7 @@ export default function ProjectDetail({
   all,
   enterFrom,
   onEntered,
+  onInquire,
 }) {
   if (!project) {
     return (
@@ -349,12 +350,22 @@ export default function ProjectDetail({
                 </a>
               </Magnetic>
             )}
-          {!live && !repo && (
-            <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
-              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
-              {project.status || 'archived'}
-            </span>
-          )}
+            {!live && !repo && (
+              <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
+                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+                {project.status || 'archived'}
+              </span>
+            )}
+            {onInquire && (
+              <button
+                type="button"
+                onClick={() => onInquire(project)}
+                className="inline-flex items-center gap-1.5 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:-translate-y-px hover:bg-accent hover:text-white"
+              >
+                Inquire
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              </button>
+            )}
         </div>
       </header>
 

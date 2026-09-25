@@ -8,6 +8,7 @@
       "techStack": [
         "React",
         "TypeScript",
+        "Node.js",
         "Vite",
         "GSAP",
         "Supabase"
@@ -133,6 +134,7 @@
       "techStack": [
         "React",
         "TypeScript",
+        "Node.js",
         "Express",
         "PostgreSQL",
         "Tailwind CSS"

@@ -67,7 +67,7 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
               setLoaded(true);
               onLoad?.();
             }}
-            className={`${imgClass || 'h-auto w-full'} transition-all duration-500 group-hover:scale-[1.03] ${!loaded ? 'opacity-0' : dimmed ? 'opacity-70 saturate-[.8]' : 'opacity-100'
+            className={`${imgClass || 'h-auto w-full'} transition-all duration-500 group-hover:scale-[1.03] ${!loaded ? 'opacity-0' : 'opacity-100'}
               }`}
           />
         ) : (

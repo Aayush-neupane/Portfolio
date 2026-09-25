@@ -114,7 +114,7 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
       role="dialog"
       aria-modal="true"
       aria-label={photo.title}
-      className="fixed inset-0 z-[90] flex flex-col bg-black/85 p-4 pb-[env(safe-area-inset-bottom)] md:p-10"
+      className="fixed inset-0 z-[90] flex flex-col bg-black p-4 pb-[env(safe-area-inset-bottom)] md:p-10"
       onClick={onClose}
     >
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between text-white">

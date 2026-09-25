@@ -623,7 +623,7 @@ export default function App() {
       ) : isProjects ? (
         <main>
           <ProjectsPage
-            projects={archive}
+            projects={[...archive].reverse()}
             onBack={() => handleNav('#home')}
             onOpen={openProject}
           />

@@ -242,8 +242,12 @@ html.dark .social-codepen {
 .social-youtube {
   --brand: #ff0000;
 }
-.social-instagram {
-  --brand: #e1306c;
+.social-instagram:hover {
+  border-color: rgba(220, 39, 67, 0.6);
+  background: color-mix(in srgb, #dc2743 10%, transparent);
+}
+.social-instagram:hover svg {
+  stroke: url(#grad-ig);
 }
 .social-facebook {
   --brand: #1877f2;

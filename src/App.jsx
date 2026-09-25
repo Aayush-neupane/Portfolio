@@ -15,6 +15,7 @@ import GalleryPage from './components/Gallery/GalleryPage.jsx';
 import ProjectsPage from './components/Projects/ProjectsPage.jsx';
 import ProjectDetail from './components/Projects/ProjectDetail.jsx';
 import Playground from './components/Playground/Playground.jsx';
+import LinksPage from './components/Links/LinksPage.jsx';
 import Contact from './components/Contact/Contact.jsx';
 import Services from './components/Services/Services.jsx';
 import Footer from './components/Footer/Footer.jsx';
@@ -28,6 +29,7 @@ gsap.registerPlugin(ScrollTrigger);
 const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'services', 'resume', 'gallery', 'contact'];
 const GALLERY_ROUTE = '#/gallery';
 const PROJECTS_ROUTE = '#/projects';
+const LINKS_ROUTE = '#/links';
 const PROJECT_DETAIL_PREFIX = '#/project/';
 
 function routeFromHash() {
@@ -235,6 +237,7 @@ export default function App() {
 
   const isGallery = route === GALLERY_ROUTE;
   const isProjects = route === PROJECTS_ROUTE;
+  const isLinks = route === LINKS_ROUTE;
   const detailId = detailIdFromRoute(route);
   const isDetail = detailId !== null;
   const allProjects = [...projects, ...archive];
@@ -254,9 +257,11 @@ export default function App() {
       ? 'Gallery — Aayush Neupane'
       : isProjects
         ? 'Projects — Aayush Neupane'
-        : isDetail
-          ? `${detailProject?.title || 'Project'} — Aayush Neupane`
-          : 'Aayush Neupane';
+        : isLinks
+          ? 'Links — Aayush Neupane'
+          : isDetail
+            ? `${detailProject?.title || 'Project'} — Aayush Neupane`
+            : 'Aayush Neupane';
     document.title = headTitle;
     const origin = window.location.origin;
     const basePath = window.location.pathname.replace(/\/$/, '');
@@ -292,6 +297,14 @@ export default function App() {
       setHeadText('property', 'og:title', headTitle);
       setHeadText('name', 'twitter:title', headTitle);
       syncProjectJsonLd(null);
+    } else if (isLinks) {
+      syncHead({
+        description: 'Quick links to the work, photography and contact of Aayush Neupane.',
+        url: `${origin}${basePath}`,
+      });
+      setHeadText('property', 'og:title', headTitle);
+      setHeadText('name', 'twitter:title', headTitle);
+      syncProjectJsonLd(null);
     } else {
       syncHead({
         description: 'Aayush Neupane builds websites and games from Jhapa, Nepal. React, TypeScript, Supabase, Unity. Open for freelance web projects.',
@@ -305,7 +318,7 @@ export default function App() {
     // Home-route scrolling is owned by section nav / back-to-card flows.
     // Sub-routes always open at the very top — and stay there: re-assert
     // briefly to beat any late layout settling or async scroll restoration.
-    if (!(isGallery || isProjects || isDetail)) return undefined;
+    if (!(isGallery || isProjects || isLinks || isDetail)) return undefined;
     scrollTopImmediate();
     ScrollTrigger.refresh();
     let n = 0;
@@ -317,7 +330,7 @@ export default function App() {
       scrollTopImmediate();
     }, 100);
     return () => clearInterval(id);
-  }, [isGallery, isProjects, isDetail, detailId, ready]);
+  }, [isGallery, isProjects, isLinks, isDetail, detailId, ready]);
 
   // Late image/font settling after a full document load can shift scroll on
   // sub-routes; pin it back to top once everything has arrived.
@@ -539,7 +552,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!ready || isGallery || isProjects || isDetail) return;
+    if (!ready || isGallery || isProjects || isLinks || isDetail) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -553,7 +566,7 @@ export default function App() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, [ready, isGallery, isProjects, isDetail, route]);
+  }, [ready, isGallery, isProjects, isLinks, isDetail, route]);
 
   useEffect(() => {
     if (ready) ScrollTrigger.refresh();
@@ -597,7 +610,7 @@ export default function App() {
       <ScrollProgress />
       <Navbar
         links={config?.navigation}
-        activeSection={isGallery || isProjects || isDetail ? '' : activeSection}
+        activeSection={isGallery || isProjects || isLinks || isDetail ? '' : activeSection}
         onNavClick={handleNav}
         isGallery={isGallery}
         route={route}
@@ -614,6 +627,10 @@ export default function App() {
             onBack={() => handleNav('#home')}
             onOpen={openProject}
           />
+        </main>
+      ) : isLinks ? (
+        <main>
+          <LinksPage onNav={handleNav} />
         </main>
       ) : isDetail ? (
         <main>

@@ -31,7 +31,35 @@ function DetailVisual({ project, enterFrom, onEntered }) {
       done();
       return undefined;
     }
-    const to = box.getBoundingClientRect();
+    // Wait for the hero image so the target rect has its natural height.
+    // (Same file as the card thumbnail, so this resolves instantly in practice.)
+    const heroImg = box.querySelector('img');
+    if (heroImg && !heroImg.complete) {
+      let started = false;
+      const safety = setTimeout(start, 1500);
+      function start() {
+        if (started) return;
+        started = true;
+        clearTimeout(safety);
+        run();
+      }
+      heroImg.addEventListener('load', start, { once: true });
+      heroImg.addEventListener('error', start, { once: true });
+      return () => {
+        clearTimeout(safety);
+        heroImg.removeEventListener('load', start);
+        heroImg.removeEventListener('error', start);
+      };
+    }
+    return run();
+    function run() {
+      const target = boxRef.current;
+      if (!target) {
+        done();
+        return undefined;
+      }
+      // Prefer the image itself so the ghost lands pixel-true.
+      const to = (target.querySelector('img') || target).getBoundingClientRect();
     const from = enterFrom.rect;
     const ghost = document.createElement('img');
     if (enterFrom.src) ghost.src = enterFrom.src;
@@ -93,11 +121,12 @@ function DetailVisual({ project, enterFrom, onEntered }) {
       }
       ghost.remove();
     };
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const frame = (inner) => (
-    <div className="relative">
+  const frame = (inner, natural) => (
+    <div className="relative mx-auto w-full max-w-4xl">
       <div
         aria-hidden="true"
         className="absolute -inset-3 rounded-3xl bg-accent/10 blur-2xl"
@@ -118,9 +147,13 @@ function DetailVisual({ project, enterFrom, onEntered }) {
             {project.title}
           </span>
         </div>
-        <div ref={boxRef} className="relative aspect-[16/8]">
-          {inner}
-        </div>
+        {natural ? (
+          <div ref={boxRef}>{inner}</div>
+        ) : (
+          <div ref={boxRef} className="relative aspect-[21/9]">
+            {inner}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -128,7 +161,7 @@ function DetailVisual({ project, enterFrom, onEntered }) {
   if (!project.image || failed) {
     return frame(
       <div aria-hidden="true" className="absolute inset-0 grid place-items-center">
-        <span className="font-display text-[10rem] leading-none text-muted/50">
+        <span className="font-display text-7xl leading-none text-muted/50 md:text-8xl">
           {project.title?.charAt(0) || '·'}
         </span>
       </div>
@@ -142,8 +175,9 @@ function DetailVisual({ project, enterFrom, onEntered }) {
       fetchPriority="high"
       decoding="async"
       onError={() => setFailed(true)}
-      className="absolute inset-0 h-full w-full object-cover object-top"
-    />
+      className="block h-auto w-full"
+    />,
+    true
   );
 }
 

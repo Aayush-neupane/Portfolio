@@ -187,7 +187,7 @@ function RelatedThumb({ project }) {
     return (
       <div
         aria-hidden="true"
-        className="grid aspect-[16/9] place-items-center overflow-hidden rounded-lg border border-border bg-subtle"
+        className="tone grid aspect-[16/9] place-items-center overflow-hidden rounded-lg border border-border bg-subtle"
       >
         <span className="font-display text-4xl text-muted/60">
           {project.title?.charAt(0) || '·'}
@@ -196,7 +196,7 @@ function RelatedThumb({ project }) {
     );
   }
   return (
-    <div className="aspect-[16/9] overflow-hidden rounded-lg border border-border bg-subtle">
+    <div className="tone aspect-[16/9] overflow-hidden rounded-lg border border-border bg-subtle">
       <img
         src={project.image}
         alt=""

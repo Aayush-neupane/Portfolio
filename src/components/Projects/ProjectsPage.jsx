@@ -8,7 +8,7 @@ function isValidUrl(u) {
 function RowThumb({ project }) {
   const [failed, setFailed] = useState(false);
   const frame =
-    'h-20 w-28 shrink-0 overflow-hidden rounded-lg border border-border bg-subtle';
+    'tone h-20 w-28 shrink-0 overflow-hidden rounded-lg border border-border bg-subtle';
   if (!project.image || failed) {
     return (
       <div className={`${frame} grid place-items-center`} aria-hidden="true">

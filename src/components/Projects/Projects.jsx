@@ -29,7 +29,7 @@ function ProjectVisual({ project, large }) {
   const alt = `${project.title || 'Project'} preview screenshot`;
   if (large) {
     return (
-      <div className="overflow-hidden rounded-lg border border-border bg-subtle">
+      <div className="tone overflow-hidden rounded-lg border border-border bg-subtle">
         <div
           aria-hidden="true"
           className="flex items-center gap-1.5 border-b border-border bg-elevated px-4 py-2.5"
@@ -64,7 +64,7 @@ function ProjectVisual({ project, large }) {
     );
   }
   return (
-    <div className="relative aspect-[16/9] overflow-hidden rounded-lg border border-border bg-subtle">
+    <div className="tone relative aspect-[16/9] overflow-hidden rounded-lg border border-border bg-subtle">
       <div className="absolute inset-0 flex flex-col justify-between p-5" aria-hidden="true">
         <span className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted">
           {String(project.id).padStart(2, '0')}

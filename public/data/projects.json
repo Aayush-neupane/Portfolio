@@ -190,6 +190,28 @@
         "Journal plus enquiry flow in a warm editorial layout",
         "Lightbox, overlays and shutter sounds tuned like a camera"
       ]
+    },
+    {
+      "id": 12,
+      "title": "Fastest Fingers",
+      "description": "Type-race game in English and Nepali: solo sprints against your best ghost, pass-the-keyboard party matches, and live online rooms with synced countdowns. React, WebSockets, Node.",
+      "image": "/assets/images/projects/fastestfingers.webp",
+      "techStack": [
+        "React",
+        "TypeScript",
+        "WebSocket",
+        "Node.js",
+        "Tailwind CSS"
+      ],
+      "liveUrl": "https://",
+      "githubUrl": "https://github.com/Aayush-neupane/Fastest-Finger",
+      "status": "completed",
+      "category": "games",
+      "highlights": [
+        "Solo sprints against a ghost running at your best pace",
+        "Party mode with a shared passage and live standings",
+        "Online rooms with synced countdowns and head-to-head lanes"
+      ]
     }
   ],
   "archive": [

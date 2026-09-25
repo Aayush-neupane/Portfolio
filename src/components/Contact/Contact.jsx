@@ -67,6 +67,7 @@ export default function Contact({ profile, social, whatsapp }) {
           email: data.email,
           message: data.message,
           _subject: `Portfolio inquiry from ${data.name}`,
+          _autoresponse: `Hi ${data.name}, thanks for reaching out through my portfolio! I've received your message and will personally reply within 24 hours. — Aayush Neupane`,
           _honey: '',
           _captcha: 'false',
         }),

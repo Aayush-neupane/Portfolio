@@ -347,7 +347,9 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
                   initial={reduce ? false : { opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className="group flex min-h-72 flex-col items-center justify-center rounded-xl border border-dashed border-linestrong bg-transparent p-6 text-center transition-all duration-200 hover:-translate-y-1 hover:border-accent"
+                  className={`group flex min-h-72 flex-col items-center justify-center rounded-xl border border-dashed border-linestrong bg-transparent p-6 text-center transition-all duration-200 hover:-translate-y-1 hover:border-accent ${
+                    rest.length % 2 === 0 ? 'md:col-span-2' : ''
+                  }`}
                 >
                   <span className="grid h-11 w-11 place-items-center rounded-full border border-border text-muted transition-colors duration-200 group-hover:border-accent group-hover:text-accent">
                     <Plus className="h-5 w-5" aria-hidden="true" />

@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { isReducedMotion } from '../../utils/motion.js';
+import { liteSrc } from '../../utils/paths.js';
+import { useSettings } from '../../context/SettingsContext.jsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -25,7 +28,8 @@ function isValidUrl(u) {
 
 function ProjectVisual({ project, large }) {
   const [failed, setFailed] = useState(false);
-  const src = project.image;
+  const { saver } = useSettings();
+  const src = saver ? liteSrc(project.image) : project.image;
   const alt = `${project.title || 'Project'} preview screenshot`;
   if (large) {
     return (
@@ -158,7 +162,7 @@ export default function Projects({ projects, onViewAll, onOpen }) {
   const rootRef = useRef(null);
   const reduce =
     typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    isReducedMotion();
 
   const items = useMemo(
     () =>

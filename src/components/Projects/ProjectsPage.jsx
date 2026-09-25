@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { liteSrc } from '../../utils/paths.js';
+import { useSettings } from '../../context/SettingsContext.jsx';
 import { ArrowLeft, ArrowUpRight, Github } from 'lucide-react';
 
 function isValidUrl(u) {
@@ -7,6 +9,7 @@ function isValidUrl(u) {
 
 function RowThumb({ project }) {
   const [failed, setFailed] = useState(false);
+  const { saver } = useSettings();
   const frame =
     'tone h-20 w-28 shrink-0 overflow-hidden rounded-lg border border-border bg-subtle';
   if (!project.image || failed) {
@@ -21,7 +24,7 @@ function RowThumb({ project }) {
   return (
     <div className={frame}>
       <img
-        src={project.image}
+        src={saver ? liteSrc(project.image) : project.image}
         alt={`${project.title || 'Project'} thumbnail`}
         loading="lazy" decoding="async"
         onError={() => setFailed(true)}

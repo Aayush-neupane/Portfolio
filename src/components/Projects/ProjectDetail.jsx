@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { isReducedMotion } from '../../utils/motion.js';
+import { liteSrc } from '../../utils/paths.js';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Github, Link2 } from 'lucide-react';
 import Magnetic from '../Magnetic/Magnetic.jsx';
+import { useSettings } from '../../context/SettingsContext.jsx';
 
 function isValidUrl(u) {
   return typeof u === 'string' && /^https?:\/\//.test(u) && u !== 'https://' && u !== 'http://';
@@ -14,7 +17,7 @@ function DetailVisual({ project, enterFrom, onEntered }) {
     enterFrom.rect &&
     String(enterFrom.id) === String(project.id) &&
     typeof window !== 'undefined' &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    !isReducedMotion();
   const [arrived, setArrived] = useState(!willZoom);
 
   useEffect(() => {
@@ -183,6 +186,7 @@ function DetailVisual({ project, enterFrom, onEntered }) {
 
 function RelatedThumb({ project }) {
   const [failed, setFailed] = useState(false);
+  const { saver } = useSettings();
   if (!project.image || failed) {
     return (
       <div
@@ -198,7 +202,7 @@ function RelatedThumb({ project }) {
   return (
     <div className="tone aspect-[16/9] overflow-hidden rounded-lg border border-border bg-subtle">
       <img
-        src={project.image}
+        src={saver ? liteSrc(project.image) : project.image}
         alt=""
         aria-hidden="true"
         loading="lazy"

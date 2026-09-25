@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { isReducedMotion } from '../../utils/motion.js';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -35,7 +36,7 @@ export default function Contact({ profile, social, whatsapp }) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (isReducedMotion()) return;
     const ctx = gsap.context(() => {
       gsap.utils.toArray('[data-reveal]').forEach((el) => {
         gsap.fromTo(
@@ -62,9 +63,13 @@ export default function Contact({ profile, social, whatsapp }) {
 
   const onValid = async (data) => {
     setFailed(false);
-    const to = social?.email || profile?.email || 'theghostoftheuchiha38@gmail.com';
+    // FormSubmit activation token for theghostoftheuchiha38@gmail.com.
+    // Using the token instead of the naked email hides the address and is
+    // required after clicking "Activate Form" in the FormSubmit email.
+    // Docs: https://formsubmit.co/ — action should be https://formsubmit.co/<token>
+    const token = '3f7975c3bb0213e0c738e9dfbc596461';
     try {
-      const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(to)}`, {
+      const res = await fetch(`https://formsubmit.co/ajax/${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({

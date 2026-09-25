@@ -24,6 +24,7 @@ export default function Contact({ profile, social, whatsapp }) {
   const formRef = useRef(null);
   const [sent, setSent] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [lastSent, setLastSent] = useState(null);
 
   const {
     register,
@@ -54,12 +55,6 @@ export default function Contact({ profile, social, whatsapp }) {
     return () => ctx.revert();
   }, []);
 
-  useEffect(() => {
-    if (!sent) return;
-    const t = setTimeout(() => setSent(false), 6000);
-    return () => clearTimeout(t);
-  }, [sent]);
-
   const onValid = async (data) => {
     setFailed(false);
     const to = social?.email || profile?.email || 'theghostoftheuchiha38@gmail.com';
@@ -77,6 +72,7 @@ export default function Contact({ profile, social, whatsapp }) {
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setLastSent({ name: data.name, email: data.email, message: data.message });
       setSent(true);
       reset();
     } catch {
@@ -95,9 +91,19 @@ export default function Contact({ profile, social, whatsapp }) {
   };
 
   const email = social?.email || profile?.email || '';
-  const waNumber = whatsapp?.phoneNumber || '';
+  const waNumber = whatsapp?.phoneNumber || '9779862862023';
   const waText = whatsapp?.defaultMessage || 'Hi Aayush, I found your portfolio and want to chat.';
   const waLink = waNumber ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}` : '';
+  // Deep link carrying the visitor's actual brief (truncated for URL safety).
+  const briefText = lastSent
+    ? `Hi Aayush, I'm ${lastSent.name} (${lastSent.email}). My project brief: ${lastSent.message.slice(0, 600)}`
+    : '';
+  const briefWaLink = waNumber && lastSent
+    ? `https://wa.me/${waNumber}?text=${encodeURIComponent(briefText)}`
+    : '';
+  const briefMailLink = lastSent
+    ? `mailto:${email}?subject=${encodeURIComponent(`Project brief from ${lastSent.name}`)}&body=${encodeURIComponent(`${lastSent.message}\n\n— ${lastSent.name} (${lastSent.email})`)}`
+    : '';
   const socials = [
     { label: 'GitHub', href: 'https://github.com/aayush-neupane', Icon: Github },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aayush-neupane-38a9b7240/', Icon: Linkedin },
@@ -322,7 +328,40 @@ export default function Contact({ profile, social, whatsapp }) {
               </div>
 
               <div aria-live="polite" className="min-h-6 space-y-2">
-                {sent && (
+                {sent && lastSent && (
+                  <div className="rounded-lg border border-accent/40 bg-accent-soft px-4 py-3.5 text-sm">
+                    <p className="font-semibold text-text">
+                      Thanks {lastSent.name} — brief received.
+                    </p>
+                    <p className="mt-1 leading-relaxed text-muted">
+                      It&apos;s in my inbox. I reply within 24 hours — want it
+                      faster? Continue where you left off:
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2.5">
+                      {briefWaLink && (
+                        <a
+                          href={briefWaLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep"
+                        >
+                          <FontAwesomeIcon icon={faWhatsapp} aria-hidden="true" />
+                          WhatsApp it over
+                        </a>
+                      )}
+                      {briefMailLink && (
+                        <a
+                          href={briefMailLink}
+                          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-4 py-2 text-xs font-medium text-text transition-all duration-200 hover:-translate-y-px hover:border-linestrong hover:text-accent"
+                        >
+                          <Mail className="h-3.5 w-3.5" aria-hidden="true" />
+                          Email instead
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {sent && !lastSent && (
                   <p className="rounded-lg border border-accent/40 bg-accent-soft px-4 py-2.5 text-center text-sm font-medium text-accent">
                     Message sent. I&apos;ll get back to you within 24 hours.
                   </p>

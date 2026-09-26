@@ -53,7 +53,7 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
           className="flex items-end gap-0 font-mono text-sm font-bold uppercase leading-none tracking-[0.2em] text-text transition-colors hover:text-accent"
         >
           <img
-            src={withBase('/assets/images/profile/logotrp.png')}
+            src={withBase('/assets/images/profile/logo-trp.png')}
             alt=""
             width={40}
             height={40}

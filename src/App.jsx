@@ -81,7 +81,7 @@ function LoadingScreen({ leaving }) {
       <div className="flex flex-col items-center gap-1">
         <div className="flex w-full justify-center">
           <img
-            src={withBase('/assets/images/profile/logotrp.png')}
+            src={withBase('/assets/images/profile/logo-trp.png')}
             alt=""
             width={144}
             height={144}

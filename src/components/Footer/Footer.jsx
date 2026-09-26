@@ -27,7 +27,7 @@ export default function Footer() {
             className="flex items-end gap-0 font-mono text-sm font-bold uppercase leading-none tracking-[0.2em] text-text transition-colors hover:text-accent"
           >
             <img
-              src={withBase('/assets/images/profile/logotrp.png')}
+              src={withBase('/assets/images/profile/logo-trp.png')}
               alt=""
               width={36}
               height={36}
@@ -83,7 +83,7 @@ export default function Footer() {
             className="mx-auto flex w-full max-w-xl items-center justify-center gap-2.5 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted transition-colors duration-200 hover:text-text"
           >
             <img
-              src={withBase('/assets/images/profile/logotrp.png')}
+              src={withBase('/assets/images/profile/logo-trp.png')}
               alt="Aayush Neupane"
               width={28}
               height={28}

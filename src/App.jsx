@@ -88,7 +88,7 @@ function LoadingScreen({ leaving }) {
             decoding="async"
             fetchPriority="high"
             draggable={false}
-            className="loader-logo block h-32 w-32 object-contain md:h-36 md:w-36"
+            className="loader-logo logo-adapt block h-32 w-32 object-contain md:h-36 md:w-36"
           />
         </div>
         <svg viewBox="0 0 320 60" className="block h-14 w-72 overflow-visible" role="presentation">

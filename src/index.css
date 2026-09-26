@@ -95,7 +95,8 @@ html.lenis, html.lenis body { height: auto; }
   50% { transform: translateY(-5px); }
 }
 /* Navbar brand mark: white logo, so darken it on light theme (no chip/border) */
-.light .brand-mark { filter: brightness(0); }
+.light .brand-mark,
+.light .logo-adapt { filter: brightness(0); }
 .loader-word {
   font-family: var(--font-mono);
   font-size: 30px;

@@ -34,7 +34,7 @@ export default function Footer() {
               loading="lazy"
               decoding="async"
               draggable={false}
-              className="block h-9 w-9 shrink-0 translate-y-[7px] object-contain"
+              className="block h-9 w-9 shrink-0 translate-y-[7px] object-contain logo-adapt"
             />
             <span className="-ml-[4px] inline-flex items-baseline gap-[9px] pb-[3px] leading-none">
               <span
@@ -90,7 +90,7 @@ export default function Footer() {
               loading="lazy"
               decoding="async"
               draggable={false}
-              className="h-7 w-7 rounded-full border border-linestrong object-cover"
+              className="h-7 w-7 rounded-full border border-linestrong object-cover logo-adapt"
             />
             <span>
               Developed by{' '}

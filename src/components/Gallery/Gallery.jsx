@@ -3,9 +3,67 @@ import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ChevronLeft, ChevronRight, Expand, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Expand, X, Share2, Link2, Check } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
+
+function PhotoShareButton({ photo }) {
+  const [copied, setCopied] = useState(false);
+  const supported = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
+  const url = () =>
+    typeof window !== 'undefined' && photo?.src
+      ? new URL(photo.src, window.location.origin).href
+      : '';
+  const fallbackCopy = async () => {
+    const link = url();
+    try {
+      await navigator.clipboard.writeText(link);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = link;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1600);
+  };
+  const share = async () => {
+    if (!supported) {
+      fallbackCopy();
+      return;
+    }
+    try {
+      await navigator.share({
+        title: `${photo.title} — Aayush Neupane`,
+        text: photo.story || photo.title,
+        url: url(),
+      });
+    } catch {
+      /* dismissed — stay quiet */
+    }
+  };
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        share();
+      }}
+      aria-label={supported ? `Share photo: ${photo.title}` : 'Copy photo link'}
+      className="grid h-11 w-11 place-items-center rounded-full border border-white/25 text-white transition-colors hover:border-accent hover:text-accent"
+    >
+      {supported ? (
+        <Share2 className="h-5 w-5" aria-hidden="true" />
+      ) : copied ? (
+        <Check className="h-5 w-5 text-accent" aria-hidden="true" />
+      ) : (
+        <Link2 className="h-5 w-5" aria-hidden="true" />
+      )}
+    </button>
+  );
+}
 
 const LAYOUT = [
   { align: 'self-start', nudge: 'pt-1', img: 'h-[46vh] md:h-[54vh]' },
@@ -148,15 +206,18 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
         <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/70">
           Frame {pos} / {total}
         </p>
-        <button
-          type="button"
-          onClick={onClose}
-          autoFocus
-          aria-label="Close photo"
-          className="grid h-11 w-11 place-items-center rounded-full border border-white/25 transition-colors hover:border-accent hover:text-accent"
-        >
-          <X className="h-5 w-5" aria-hidden="true" />
-        </button>
+        <div className="flex items-center gap-3">
+          <PhotoShareButton photo={photo} />
+          <button
+            type="button"
+            onClick={onClose}
+            autoFocus
+            aria-label="Close photo"
+            className="grid h-11 w-11 place-items-center rounded-full border border-white/25 transition-colors hover:border-accent hover:text-accent"
+          >
+            <X className="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
       </div>
       <div
         className="mx-auto flex w-full max-w-5xl flex-1 items-center justify-center gap-2 py-4"

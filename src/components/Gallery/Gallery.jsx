@@ -66,15 +66,15 @@ function PhotoShareButton({ photo }) {
 }
 
 const LAYOUT = [
-  { align: 'self-start', nudge: 'pt-1', img: 'h-[46vh] md:h-[54vh]' },
-  { align: 'self-end', nudge: 'pb-8', img: 'h-[38vh] md:h-[42vh]' },
-  { align: 'self-center', nudge: '', img: 'h-[42vh] md:h-[48vh]' },
-  { align: 'self-start', nudge: 'pt-12', img: 'h-[36vh] md:h-[40vh]' },
-  { align: 'self-end', nudge: 'pb-1', img: 'h-[48vh] md:h-[56vh]' },
-  { align: 'self-center', nudge: 'md:-mt-10', img: 'h-[40vh] md:h-[44vh]' },
+  { align: 'self-start', nudge: 'pt-1', img: 'max-h-[46vh] md:max-h-[54vh]' },
+  { align: 'self-end', nudge: 'pb-8', img: 'max-h-[38vh] md:max-h-[42vh]' },
+  { align: 'self-center', nudge: '', img: 'max-h-[42vh] md:max-h-[48vh]' },
+  { align: 'self-start', nudge: 'pt-12', img: 'max-h-[36vh] md:max-h-[40vh]' },
+  { align: 'self-end', nudge: 'pb-1', img: 'max-h-[48vh] md:max-h-[56vh]' },
+  { align: 'self-center', nudge: 'md:-mt-10', img: 'max-h-[40vh] md:max-h-[44vh]' },
 ];
 
-export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, onLoad, eager, large, hideStory }) {
+export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, onLoad, eager, large, hideStory, compact }) {
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const tiltRef = useRef(null);
@@ -147,19 +147,19 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
         </span>
       </div>
       <div className="w-0 min-w-full">
-        <div className={`mt-4 flex items-baseline gap-3 transition-opacity duration-300 ${dimmed ? 'opacity-50' : 'opacity-100'}`}>
-          <span aria-hidden="true" className="shrink-0 font-display text-3xl leading-none text-accent">
+        <div className={`mt-4 flex items-baseline gap-3 transition-opacity duration-300 ${dimmed ? 'opacity-50' : 'opacity-100'} ${compact ? 'mt-2 gap-2' : ''}`}>
+          <span aria-hidden="true" className={`shrink-0 font-display leading-none text-accent ${compact ? 'text-xl' : 'text-3xl'}`}>
             {String(index + 1).padStart(2, '0')}
           </span>
           <div className="min-w-0">
-            <p className={`truncate font-display leading-snug text-text transition-colors duration-200 group-hover:text-accent ${large ? 'text-3xl md:text-4xl' : 'text-2xl'}`}>{photo.title}</p>
-            <p className="mt-1 truncate font-mono text-[0.7rem] uppercase tracking-[0.1em] text-muted">
+            <p className={`truncate font-display leading-snug text-text transition-colors duration-200 group-hover:text-accent ${large ? 'text-3xl md:text-4xl' : compact ? 'text-base' : 'text-2xl'}`}>{photo.title}</p>
+            <p className={`mt-1 truncate font-mono uppercase tracking-[0.1em] text-muted ${compact ? 'text-[0.6rem]' : 'text-[0.7rem]'}`}>
               {photo.location}
               {photo.meta ? ` · ${photo.meta}` : ''}
             </p>
           </div>
         </div>
-        {photo.story && !hideStory && (
+        {photo.story && !hideStory && !compact && (
           <p className={`mt-2 line-clamp-2 leading-relaxed text-muted transition-opacity duration-300 ${large ? 'max-w-2xl md:text-base' : 'text-sm'} ${dimmed ? 'opacity-50' : 'opacity-100'}`}>
             {photo.story}
           </p>
@@ -171,6 +171,7 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
 
 export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
   const [failed, setFailed] = useState(false);
+  const touchRef = useRef({ x: 0, y: 0 });
   useEffect(() => setFailed(false), [photo?.src]);
   useEffect(() => {
     const onKey = (e) => {
@@ -180,11 +181,28 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
     };
     window.addEventListener('keydown', onKey);
     window.__lenis?.stop();
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     return () => {
       window.removeEventListener('keydown', onKey);
       window.__lenis?.start();
+      document.body.style.overflow = prevOverflow;
     };
   }, [onClose, onPrev, onNext]);
+
+  const onTouchStart = (e) => {
+    const t = e.touches[0];
+    touchRef.current = { x: t.clientX, y: t.clientY };
+  };
+  const onTouchEnd = (e) => {
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchRef.current.x;
+    const dy = t.clientY - touchRef.current.y;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0) onNext();
+      else onPrev();
+    }
+  };
 
   if (!photo) return null;
   // Portaled to <body> so no ancestor stacking context can ever trap the
@@ -199,14 +217,16 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
       role="dialog"
       aria-modal="true"
       aria-label={photo.title}
-      className="fixed inset-0 z-[90] flex flex-col bg-black p-4 pb-[env(safe-area-inset-bottom)] md:p-10"
+      className="fixed inset-0 z-[90] flex h-dvh flex-col overflow-hidden bg-black p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-[calc(env(safe-area-inset-top)+1rem)] md:p-10"
       onClick={onClose}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
     >
-      <div className="mx-auto flex w-full max-w-5xl items-center justify-between text-white">
+      <div className="mx-auto flex w-full max-w-5xl shrink-0 items-center justify-between text-white">
         <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/70">
           Frame {pos} / {total}
         </p>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 md:gap-3">
           <PhotoShareButton photo={photo} />
           <button
             type="button"
@@ -220,42 +240,45 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
         </div>
       </div>
       <div
-        className="mx-auto flex w-full max-w-5xl flex-1 items-center justify-center gap-2 py-4"
+        className="relative mx-auto flex w-full max-w-5xl min-h-0 min-w-0 flex-1 items-center justify-center py-3 md:gap-2 md:py-4"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           onClick={onPrev}
           aria-label="Previous photo"
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/25 text-white transition-colors hover:border-accent hover:text-accent"
+          className="absolute left-1 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-black/55 text-white backdrop-blur-sm transition-colors active:border-accent active:text-accent md:static md:h-11 md:w-11 md:translate-y-0 md:bg-transparent md:backdrop-blur-none md:hover:border-accent md:hover:text-accent"
         >
           <ChevronLeft className="h-5 w-5" aria-hidden="true" />
         </button>
-        {!failed ? (
-          <img
-            src={photo.src}
-            alt={photo.title}
-            decoding="async"
-            onError={() => setFailed(true)}
-            className="max-h-[62vh] w-auto max-w-full rounded-lg object-contain"
-          />
-        ) : (
-          <p className="font-mono text-sm text-white/60">Photo coming soon.</p>
-        )}
+        <div className="flex min-h-0 min-w-0 flex-1 items-center justify-center px-12 md:px-0">
+          {!failed ? (
+            <img
+              src={photo.src}
+              alt={photo.title}
+              decoding="async"
+              draggable={false}
+              onError={() => setFailed(true)}
+              className="max-h-[52vh] w-auto max-w-full touch-pan-y select-none rounded-lg object-contain md:max-h-[62vh]"
+            />
+          ) : (
+            <p className="font-mono text-sm text-white/60">Photo coming soon.</p>
+          )}
+        </div>
         <button
           type="button"
           onClick={onNext}
           aria-label="Next photo"
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/25 text-white transition-colors hover:border-accent hover:text-accent"
+          className="absolute right-1 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-black/55 text-white backdrop-blur-sm transition-colors active:border-accent active:text-accent md:static md:h-11 md:w-11 md:translate-y-0 md:bg-transparent md:backdrop-blur-none md:hover:border-accent md:hover:text-accent"
         >
           <ChevronRight className="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
       <div
-        className="mx-auto w-full max-w-5xl text-center"
+        className="mx-auto max-h-[26vh] w-full max-w-5xl shrink-0 overflow-y-auto overscroll-contain text-center md:max-h-none md:overflow-visible"
         onClick={(e) => e.stopPropagation()}
       >
-        <p className="font-display text-2xl text-white">{photo.title}</p>
+        <p className="font-display text-xl text-white md:text-2xl">{photo.title}</p>
         <p className="mt-1 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-white/60">
           {photo.location}
           {photo.meta ? ` · ${photo.meta}` : ''}
@@ -265,6 +288,9 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
             {photo.story}
           </p>
         )}
+        <p className="mt-2 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-white/35 md:hidden">
+          Swipe sideways for more
+        </p>
       </div>
     </motion.div>,
     document.body
@@ -283,6 +309,10 @@ export default function Gallery({ photos, onViewAll }) {
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const items = photos || [];
+  // Same scroll-driven sideways reel on every screen — phones included.
+  // Vertical scroll pins the section and drives the track sideways,
+  // exactly like the desktop experience.
+  const pinEnabled = !reduce;
 
   const measure = useCallback(() => {
     const track = trackRef.current;
@@ -294,7 +324,7 @@ export default function Gallery({ photos, onViewAll }) {
     const root = rootRef.current;
     const track = trackRef.current;
     if (!root || !track || items.length === 0) return;
-    if (reduce) return;
+    if (!pinEnabled) return;
     const ctx = gsap.context(() => {
       gsap.fromTo(
         track,
@@ -314,15 +344,21 @@ export default function Gallery({ photos, onViewAll }) {
               stRef.current = self;
               const p = self.progress;
               setProg(p);
-              setPos(Math.min(items.length, Math.floor(p * items.length) + 1));
-              // Lean the reel with scroll velocity; eases back when still.
-              const skew = gsap.utils.clamp(-7, 7, self.getVelocity() / -350);
-              gsap.to(track, {
-                skewX: skew,
-                duration: 0.4,
-                ease: 'power2.out',
-                overwrite: 'auto',
-              });
+              setPos(Math.min(items.length, Math.round(p * (items.length - 1)) + 1));
+              // Lean the reel with scroll velocity on precise pointers only;
+              // touch scroll velocity spikes and would make phones wobble.
+              if (
+                typeof window !== 'undefined' &&
+                window.matchMedia('(pointer: fine)').matches
+              ) {
+                const skew = gsap.utils.clamp(-7, 7, self.getVelocity() / -350);
+                gsap.to(track, {
+                  skewX: skew,
+                  duration: 0.4,
+                  ease: 'power2.out',
+                  overwrite: 'auto',
+                });
+              }
             },
           },
         }
@@ -353,7 +389,7 @@ export default function Gallery({ photos, onViewAll }) {
       clearTimeout(t);
       ctx.revert();
     };
-  }, [measure, reduce, items.length]);
+  }, [measure, pinEnabled, items.length]);
 
   const goTo = (i) => {
     const st = stRef.current;
@@ -385,26 +421,26 @@ export default function Gallery({ photos, onViewAll }) {
           ))}
         </div>
       ) : (
-        <div className="relative flex h-dvh flex-col overflow-hidden">
+        <div className="relative flex h-svh min-h-[560px] flex-col overflow-hidden md:min-h-[620px]">
           <div
             ref={ghostRef}
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 flex items-center overflow-hidden [justify-content:safe_center]"
           >
             <span
-              className="whitespace-nowrap font-display text-[24vw] italic leading-none text-transparent opacity-60"
+              className="whitespace-nowrap font-display text-[38vw] italic leading-none text-transparent opacity-60 sm:text-[30vw] md:text-[24vw]"
               style={{ WebkitTextStroke: '1px var(--color-border)' }}
             >
               Aayush.
             </span>
           </div>
 
-          <div className="absolute inset-x-0 top-0 z-10 mx-auto flex w-full max-w-6xl flex-wrap items-end justify-between gap-4 px-6 pt-24">
+          <div className="absolute inset-x-0 top-0 z-10 mx-auto flex w-full max-w-6xl flex-wrap items-end justify-between gap-x-4 gap-y-3 px-5 pt-20 sm:px-6 md:pt-24">
             <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent">
               Side quest · keep scrolling
             </p>
-            <div className="flex items-center gap-3">
-              <span aria-hidden="true" className="font-mono text-xs tabular-nums text-muted">
+            <div className="flex shrink-0 items-center gap-2 md:gap-3">
+              <span aria-hidden="true" className="mr-1 font-mono text-xs tabular-nums text-muted">
                 {pad(pos)} / {pad(items.length)}
               </span>
               <button
@@ -429,16 +465,16 @@ export default function Gallery({ photos, onViewAll }) {
           <div className="flex min-h-0 flex-1 items-stretch">
             <div
               ref={trackRef}
-              className="flex h-full w-max items-stretch gap-8 pl-6 pr-[14vw] pt-24 md:gap-14 md:pl-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] md:pt-28"
+              className="flex h-full w-max items-stretch gap-6 pl-5 pr-[14vw] pt-20 sm:gap-8 sm:pl-6 md:gap-14 md:pl-[max(1.5rem,calc((100vw-72rem)/2+1.5rem))] md:pt-28"
             >
-              <div className="w-[80vw] shrink-0 self-center md:w-[28vw]">
-                <h2 className="font-display text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[1.02] text-text">
+              <div className="w-[78vw] shrink-0 self-center sm:w-[60vw] md:w-[28vw]">
+                <h2 className="font-display text-[clamp(2rem,9vw,3.6rem)] leading-[1.02] text-text md:text-[clamp(2.2rem,4.5vw,3.6rem)]">
                   Photos I can&apos;t stop taking<span className="text-accent">.</span>
                 </h2>
-                <p className="mt-5 max-w-sm font-display text-2xl leading-snug text-text">
+                <p className="mt-4 max-w-sm font-display text-xl leading-snug text-text md:mt-5 md:text-2xl">
                   Six evenings I refused to forget, collected frame by frame.
                 </p>
-                <p className="mt-6 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-accent">
+                <p className="mt-5 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-accent md:mt-6">
                   The reel moves sideways →
                 </p>
               </div>
@@ -453,13 +489,13 @@ export default function Gallery({ photos, onViewAll }) {
                       dimmed={i !== active}
                       eager
                       onLoad={() => ScrollTrigger.refresh()}
-                      className="group max-w-[82vw] text-left"
-                      imgClass={`${lay.img} w-auto max-w-full`}
+                      className="group max-w-[78vw] text-left sm:max-w-[60vw] md:max-w-[82vw]"
+                      imgClass={`${lay.img} h-auto w-auto max-w-full`}
                     />
                   </div>
                 );
               })}
-              <div className="grid w-[72vw] shrink-0 self-center place-items-center md:w-[26vw]">
+              <div className="grid w-[68vw] shrink-0 self-center place-items-center sm:w-[46vw] md:w-[26vw]">
                 <div className="text-center">
                   <p className="font-display text-3xl leading-tight text-text md:text-4xl">
                     Want the
@@ -479,7 +515,7 @@ export default function Gallery({ photos, onViewAll }) {
             </div>
           </div>
 
-          <div className="absolute inset-x-0 bottom-8 z-10 mx-auto w-full max-w-6xl px-6">
+          <div className="absolute inset-x-0 bottom-5 z-10 mx-auto w-full max-w-6xl px-5 sm:px-6 md:bottom-8">
             <div className="h-px bg-border">
               <div className="h-px origin-left bg-accent" style={{ transform: `scaleX(${prog})` }} />
             </div>

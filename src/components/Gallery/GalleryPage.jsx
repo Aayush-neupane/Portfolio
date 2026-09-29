@@ -110,7 +110,7 @@ export default function GalleryPage({ photos, onBack }) {
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-32 md:pt-40">
+    <div className="mx-auto w-full max-w-6xl px-5 pb-24 pt-28 sm:px-6 md:pt-40">
       <button
         type="button"
         onClick={onBack}
@@ -129,7 +129,7 @@ export default function GalleryPage({ photos, onBack }) {
         Light, collected patiently. Storms, moons, and small wildflowers, kept
         exactly as the evenings gave them.
       </p>
-      <p className="mt-3 text-sm text-muted">Click any frame to step closer.</p>
+      <p className="mt-3 text-sm text-muted">Tap any frame to step closer.</p>
 
       <div
         ref={gridTopRef}
@@ -146,7 +146,7 @@ export default function GalleryPage({ photos, onBack }) {
               aria-selected={selected}
               type="button"
               onClick={() => setFilter(cat)}
-              className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 sm:px-5 sm:py-2.5 ${
                 selected
                   ? 'bg-accent text-white'
                   : 'border border-border bg-elevated text-muted hover:-translate-y-px hover:border-linestrong hover:text-text'
@@ -170,7 +170,27 @@ export default function GalleryPage({ photos, onBack }) {
         {pageCount > 1 ? ` · page ${safePage + 1} of ${pageCount}` : ''}
       </p>
 
-      <div ref={wrapRef} className="mt-8">
+      {/* Mobile: 2-column masonry — no tiny justified rows, no horizontal overflow */}
+      <div className="mt-6 columns-2 gap-4 sm:hidden">
+        {visible.map((photo, i) => {
+          const gi = safePage * PAGE_SIZE + i;
+          return (
+            <div key={photo.src || gi} className="mb-4 break-inside-avoid">
+              <PhotoFrame
+                photo={photo}
+                index={gi}
+                onOpen={setOpenIndex}
+                hideStory
+                compact
+                className="group w-full text-left"
+                imgClass="h-auto w-full rounded-lg"
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      <div ref={wrapRef} className="mt-8 hidden sm:block">
         {rows.map((row, ri) => (
           <div
             key={ri}
@@ -193,7 +213,7 @@ export default function GalleryPage({ photos, onBack }) {
       </div>
 
       {pageCount > 1 && (
-        <nav aria-label="Gallery pages" className="mt-10 flex items-center justify-center gap-2">
+        <nav aria-label="Gallery pages" className="mt-10 flex flex-wrap items-center justify-center gap-2">
           <button
             type="button"
             onClick={() => goPage(safePage - 1)}

@@ -358,7 +358,7 @@ export default function ProjectDetail({
                   href={live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep hover:shadow-lg"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep hover:shadow-lg"
                 >
                   View Live
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -371,7 +371,7 @@ export default function ProjectDetail({
                   href={repo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:-translate-y-px hover:border-linestrong hover:text-accent"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:border-linestrong hover:text-accent"
                 >
                   <Github className="h-4 w-4" aria-hidden="true" />
                   Source Code
@@ -388,7 +388,7 @@ export default function ProjectDetail({
               <button
                 type="button"
                 onClick={() => onInquire(project)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:-translate-y-px hover:bg-accent hover:text-white"
+                className="inline-flex items-center gap-1.5 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:bg-accent hover:text-white"
               >
                 Inquire
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -527,7 +527,7 @@ export default function ProjectDetail({
               <button
                 type="button"
                 onClick={() => onOpen(prev)}
-                className="group flex w-full items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:-translate-y-px hover:border-accent/60"
+                className="group flex w-full items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:border-accent/60"
               >
                 <ArrowLeft
                   className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:-translate-x-1 group-hover:text-accent"
@@ -551,7 +551,7 @@ export default function ProjectDetail({
               <button
                 type="button"
                 onClick={() => onOpen(next)}
-                className="group flex w-full items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:-translate-y-px hover:border-accent/60"
+                className="group flex w-full items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:border-accent/60"
               >
                 <span className="min-w-0">
                   <span className="block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">

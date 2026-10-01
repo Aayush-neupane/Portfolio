@@ -139,7 +139,7 @@ export default function Services({ onContact, onInquire }) {
               <button
                 type="button"
                 onClick={() => onInquire?.(OFFERS[i])}
-                className={`mt-4 inline-flex items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 hover:-translate-y-px ${
+                className={`mt-4 inline-flex items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
                   popular
                     ? 'bg-accent text-white hover:bg-accent-deep'
                     : 'border border-border text-text hover:border-accent hover:text-accent'

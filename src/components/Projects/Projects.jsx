@@ -236,7 +236,7 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
                 className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
                   active
                     ? 'bg-accent text-white'
-                    : 'border border-border bg-elevated text-muted hover:-translate-y-px hover:border-linestrong hover:text-text'
+                    : 'border border-border bg-elevated text-muted hover:border-linestrong hover:text-text'
                 }`}
               >
                 {tab}

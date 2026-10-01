@@ -81,14 +81,14 @@ function LoadingScreen({ leaving }) {
       <div className="flex flex-col items-center gap-1">
         <div className="flex w-full justify-center">
           <img
-            src={withBase('/assets/images/profile/logotrp.png')}
+            src={withBase('/assets/images/profile/logo-trp.png')}
             alt=""
             width={144}
             height={144}
             decoding="async"
             fetchPriority="high"
             draggable={false}
-            className="loader-logo block h-32 w-32 object-contain md:h-36 md:w-36"
+            className="loader-logo logo-adapt block h-32 w-32 object-contain md:h-36 md:w-36"
           />
         </div>
         <svg viewBox="0 0 320 60" className="block h-14 w-72 overflow-visible" role="presentation">

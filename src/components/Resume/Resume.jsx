@@ -65,7 +65,7 @@ export default function Resume({ data }) {
             <a
               href={downloadUrl}
               download
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep hover:shadow-lg"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep hover:shadow-lg"
             >
               <Download className="h-4 w-4" aria-hidden="true" />
               Download PDF
@@ -74,7 +74,7 @@ export default function Resume({ data }) {
               href={viewUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:-translate-y-px hover:bg-accent hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:bg-accent hover:text-white"
             >
               View Résumé
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />

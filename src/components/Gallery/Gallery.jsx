@@ -362,20 +362,6 @@ export default function Gallery({ photos, onViewAll }) {
               const p = self.progress;
               setProg(p);
               setPos(Math.min(items.length, Math.round(p * (items.length - 1)) + 1));
-              // Lean the reel with scroll velocity on precise pointers only;
-              // touch scroll velocity spikes and would make phones wobble.
-              if (
-                typeof window !== 'undefined' &&
-                window.matchMedia('(pointer: fine)').matches
-              ) {
-                const skew = gsap.utils.clamp(-7, 7, self.getVelocity() / -350);
-                gsap.to(track, {
-                  skewX: skew,
-                  duration: 0.4,
-                  ease: 'power2.out',
-                  overwrite: 'auto',
-                });
-              }
             },
           },
         }
@@ -464,7 +450,7 @@ export default function Gallery({ photos, onViewAll }) {
                 type="button"
                 onClick={() => goTo(Math.max(0, pos - 2))}
                 aria-label="Previous photos"
-                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-bg text-muted transition-all duration-200 hover:-translate-y-px hover:border-accent hover:text-accent"
+                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-bg text-muted transition-all duration-200 hover:border-accent hover:text-accent"
               >
                 <ChevronLeft className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -472,7 +458,7 @@ export default function Gallery({ photos, onViewAll }) {
                 type="button"
                 onClick={() => goTo(Math.min(items.length - 1, pos))}
                 aria-label="Next photos"
-                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-bg text-muted transition-all duration-200 hover:-translate-y-px hover:border-accent hover:text-accent"
+                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-bg text-muted transition-all duration-200 hover:border-accent hover:text-accent"
               >
                 <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -522,7 +508,7 @@ export default function Gallery({ photos, onViewAll }) {
                   <button
                     type="button"
                     onClick={onViewAll}
-                    className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep"
+                    className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep"
                   >
                     Open gallery
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />

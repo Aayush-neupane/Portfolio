@@ -143,7 +143,7 @@ export default function Hero({ profile, now, onProject }) {
               <button
                 type="button"
                 onClick={() => scrollToTarget('#projects')}
-                className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep hover:shadow-lg"
+                className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep hover:shadow-lg"
               >
                 View Work
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -153,7 +153,7 @@ export default function Hero({ profile, now, onProject }) {
               <button
                 type="button"
                 onClick={() => scrollToTarget('#contact')}
-                className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-7 py-3 text-sm font-semibold text-accent transition-all duration-200 hover:-translate-y-px hover:bg-accent hover:text-white"
+                className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-7 py-3 text-sm font-semibold text-accent transition-all duration-200 hover:bg-accent hover:text-white"
               >
                 Get in Touch
               </button>

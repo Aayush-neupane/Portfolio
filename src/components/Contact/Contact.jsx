@@ -20,6 +20,26 @@ const schema = z.object({
 const inputClass =
   'w-full rounded-lg border border-border bg-elevated px-4 py-3 text-text placeholder:text-muted/70 text-base transition-colors duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40';
 
+/** Unsent form contents survive reloads. Cleared on successful send. */
+const DRAFT_KEY = 'an-contact-draft';
+
+function readSavedDraft() {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object') return null;
+    return {
+      name: typeof parsed.name === 'string' ? parsed.name : '',
+      email: typeof parsed.email === 'string' ? parsed.email : '',
+      subject: typeof parsed.subject === 'string' ? parsed.subject : '',
+      message: typeof parsed.message === 'string' ? parsed.message : '',
+    };
+  } catch {
+    return null;
+  }
+}
+
 export default function Contact({ profile, social, whatsapp, draft, onSentClear }) {
   const rootRef = useRef(null);
   const formRef = useRef(null);
@@ -33,6 +53,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
     handleSubmit,
     reset,
     getValues,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
@@ -42,6 +63,9 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
       email: '',
       subject: draft?.subject || '',
       message: draft?.message || '',
+      ...readSavedDraft(),
+      // An explicit Inquire draft always wins over a saved one.
+      ...(draft ? { subject: draft.subject || '', message: draft.message || '' } : null),
     },
   });
 
@@ -56,6 +80,23 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draft?.nonce]);
+
+  // Persist unsent input so a reload or accidental navigation loses nothing.
+  useEffect(() => {
+    const sub = watch((values) => {
+      try {
+        const { name, email, subject, message } = values || {};
+        if (!name && !email && !subject && !message) {
+          localStorage.removeItem(DRAFT_KEY);
+          return;
+        }
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({ name, email, subject, message }));
+      } catch {
+        /* storage unavailable */
+      }
+    });
+    return () => sub.unsubscribe();
+  }, [watch]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -101,6 +142,11 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
       setSent(true);
       onSentClear?.();
       reset({ name: '', email: '', subject: '', message: '' });
+      try {
+        localStorage.removeItem(DRAFT_KEY);
+      } catch {
+        /* storage unavailable */
+      }
     } catch {
       // Backend unreachable (or first-time FormSubmit activation) — surface mailto fallback.
       setFailed(true);

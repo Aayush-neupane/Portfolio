@@ -51,7 +51,10 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
   };
 
   const isActive = (item) => {
-    if (item.href.startsWith('#/')) return route ? item.href === route : (isGallery || activeSection === item.id);
+    if (item.href.startsWith('#/')) {
+      if (!route) return isGallery || activeSection === item.id;
+      return item.href === '#/gallery' ? isGallery : item.href === route;
+    }
     return !isGallery && activeSection === item.id;
   };
 

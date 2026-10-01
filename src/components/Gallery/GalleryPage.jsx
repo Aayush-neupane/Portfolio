@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Lightbox, PhotoFrame } from './Gallery.jsx';
@@ -259,7 +259,7 @@ function buildRows(list, pageStart, width) {
   return rows;
 }
 
-export default function GalleryPage({ photos, onBack }) {
+export default function GalleryPage({ photos, onBack, deepPhotoId }) {
   const [openIndex, setOpenIndex] = useState(null);
   const [page, setPage] = useState(0);
   const [filter, setFilter] = useState('All');
@@ -319,7 +319,28 @@ const rows = useMemo(
   useEffect(() => {
     setPage(0);
     setOpenIndex(null);
-  }, [photos, filter]);
+  }, [photos, filter, deepPhotoId]);
+
+  // Shared frame links (`#/gallery/<id>`) land on the photo: reset any filter,
+  // jump to its page, and open it. Runs once per link, not on every render.
+  const deepOpenedRef = useRef(null);
+  useEffect(() => {
+    if (!deepPhotoId || deepOpenedRef.current === deepPhotoId || items.length === 0) return;
+    const idx = items.findIndex((p) => String(p.id) === String(deepPhotoId));
+    if (idx < 0) return;
+    deepOpenedRef.current = deepPhotoId;
+    setFilter('All');
+    setPage(Math.floor(idx / PAGE_SIZE));
+    setOpenIndex(idx);
+  }, [deepPhotoId, items]);
+
+  const closeLightbox = useCallback(() => {
+    setOpenIndex(null);
+    // Leave the bare gallery route behind so a copied URL stays shareable.
+    if (typeof window !== 'undefined' && window.location.hash.startsWith('#/gallery/')) {
+      window.location.hash = '#/gallery';
+    }
+  }, []);
 
   const step = (dir) =>
     setOpenIndex((i) => (i === null ? i : (i + dir + filtered.length) % filtered.length));
@@ -536,7 +557,7 @@ const rows = useMemo(
             photo={filtered[openIndex]}
             pos={openIndex + 1}
             total={filtered.length}
-            onClose={() => setOpenIndex(null)}
+            onClose={closeLightbox}
             onPrev={() => step(-1)}
             onNext={() => step(1)}
           />

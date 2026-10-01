@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -11,11 +11,18 @@ import TextReveal3D from './components/TextReveal3D/TextReveal3D.jsx';
 import Projects from './components/Projects/Projects.jsx';
 import Resume from './components/Resume/Resume.jsx';
 import Gallery from './components/Gallery/Gallery.jsx';
-import GalleryPage from './components/Gallery/GalleryPage.jsx';
-import ProjectsPage from './components/Projects/ProjectsPage.jsx';
-import ProjectDetail from './components/Projects/ProjectDetail.jsx';
-import Playground from './components/Playground/Playground.jsx';
-import LinksPage from './components/Links/LinksPage.jsx';
+const GalleryPage = lazy(() => import('./components/Gallery/GalleryPage.jsx'));
+const ProjectsPage = lazy(() => import('./components/Projects/ProjectsPage.jsx'));
+const ProjectDetail = lazy(() => import('./components/Projects/ProjectDetail.jsx'));
+const LinksPage = lazy(() => import('./components/Links/LinksPage.jsx'));
+
+function RouteFallback() {
+  return (
+    <main className="grid min-h-svh place-items-center bg-bg" aria-label="Loading page">
+      <span className="h-8 w-8 animate-spin rounded-full border-2 border-border border-t-accent" />
+    </main>
+  );
+}
 import Contact from './components/Contact/Contact.jsx';
 import Services from './components/Services/Services.jsx';
 import Footer from './components/Footer/Footer.jsx';
@@ -43,6 +50,16 @@ function detailIdFromRoute(route) {
   return route.startsWith(PROJECT_DETAIL_PREFIX)
     ? decodeURIComponent(route.slice(PROJECT_DETAIL_PREFIX.length))
     : null;
+}
+
+/** Optional photo id on gallery routes: `#/gallery` or `#/gallery/<id>`. */
+function galleryPhotoIdFromRoute(route) {
+  if (route === GALLERY_ROUTE) return null;
+  if (route.startsWith(`${GALLERY_ROUTE}/`)) {
+    const id = decodeURIComponent(route.slice(GALLERY_ROUTE.length + 1));
+    return id || null;
+  }
+  return null;
 }
 
 const LOADER_WORDS = ['brewing milk tea', 'aligning pixels', 'chasing good light', 'warming up the server'];
@@ -236,7 +253,8 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [route, setRoute] = useState(routeFromHash);
 
-  const isGallery = route === GALLERY_ROUTE;
+  const isGallery = route === GALLERY_ROUTE || route.startsWith(`${GALLERY_ROUTE}/`);
+  const galleryPhotoId = isGallery ? galleryPhotoIdFromRoute(route) : null;
   const isProjects = route === PROJECTS_ROUTE;
   const isLinks = route === LINKS_ROUTE;
   // Headline numbers, derived once from data so Hero/About/Resume agree.
@@ -649,9 +667,10 @@ export default function App() {
         route={route}
       />
       <ErrorBoundary key={route || 'home'}>
+      <Suspense fallback={<RouteFallback />}>
       {isGallery ? (
         <main>
-          <GalleryPage photos={[...featured, ...gallery]} onBack={() => handleNav('#home')} />
+          <GalleryPage photos={[...featured, ...gallery]} deepPhotoId={galleryPhotoId} onBack={() => handleNav('#home')} />
         </main>
       ) : isProjects ? (
         <main>
@@ -718,6 +737,7 @@ export default function App() {
           <Contact profile={profile} social={social} whatsapp={whatsapp} draft={contactDraft} onSentClear={() => setContactDraft(null)} />
         </main>
       )}
+      </Suspense>
       </ErrorBoundary>
       <Footer />
       <WhatsAppFloat whatsapp={whatsapp} />

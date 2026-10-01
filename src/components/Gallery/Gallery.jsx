@@ -11,10 +11,16 @@ gsap.registerPlugin(ScrollTrigger);
 function PhotoShareButton({ photo }) {
   const [copied, setCopied] = useState(false);
   const supported = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
-  const url = () =>
-    typeof window !== 'undefined' && photo?.src
-      ? new URL(photo.src, window.location.origin).href
-      : '';
+  // Prefer a deep link that opens the frame; fall back to the image file.
+  const url = () => {
+    if (typeof window === 'undefined' || !photo) return '';
+    if (photo.id !== undefined && photo.id !== null) {
+      const base = window.location.pathname.replace(/\/$/, '');
+      return `${window.location.origin}${base}#/gallery/${encodeURIComponent(String(photo.id))}`;
+    }
+    if (!photo.src) return '';
+    return new URL(photo.src, window.location.origin).href;
+  };
   const fallbackCopy = async () => {
     const link = url();
     try {

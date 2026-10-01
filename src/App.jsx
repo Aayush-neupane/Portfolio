@@ -14,6 +14,7 @@ import Gallery from './components/Gallery/Gallery.jsx';
 import GalleryPage from './components/Gallery/GalleryPage.jsx';
 import ProjectsPage from './components/Projects/ProjectsPage.jsx';
 import ProjectDetail from './components/Projects/ProjectDetail.jsx';
+import Playground from './components/Playground/Playground.jsx';
 import LinksPage from './components/Links/LinksPage.jsx';
 import Contact from './components/Contact/Contact.jsx';
 import Services from './components/Services/Services.jsx';
@@ -710,6 +711,7 @@ export default function App() {
             onOpen={openProject}
             onInquire={inquireAbout}
           />
+          <Playground />
           <Services onContact={contactFromServices} onInquire={inquireService} />
           <Resume data={resume} />
           <Gallery photos={featured.length > 0 ? featured : gallery.slice(0, 6)} onViewAll={() => handleNav(GALLERY_ROUTE)} />

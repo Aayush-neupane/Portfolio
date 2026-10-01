@@ -3,7 +3,6 @@ import gsap from 'gsap';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { scrollToTarget } from '../../utils/scroll.js';
-import Magnetic from '../Magnetic/Magnetic.jsx';
 
 function CountUp({ to, suffix = '' }) {
   const [val, setVal] = useState(0);
@@ -139,25 +138,21 @@ export default function Hero({ profile, now, onProject, stats }) {
             {tagline}
           </p>
           <div data-reveal className="mt-9 flex flex-wrap items-center gap-4">
-            <Magnetic>
-              <button
-                type="button"
-                onClick={() => scrollToTarget('#projects')}
-                className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep hover:shadow-lg"
-              >
-                View Work
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </button>
-            </Magnetic>
-            <Magnetic>
-              <button
-                type="button"
-                onClick={() => scrollToTarget('#contact')}
-                className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-7 py-3 text-sm font-semibold text-accent transition-all duration-200 hover:bg-accent hover:text-white"
-              >
-                Get in Touch
-              </button>
-            </Magnetic>
+            <button
+              type="button"
+              onClick={() => scrollToTarget('#projects')}
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent-deep hover:shadow-lg"
+            >
+              View Work
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToTarget('#contact')}
+              className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-7 py-3 text-sm font-semibold text-accent transition-colors duration-200 hover:bg-accent hover:text-white"
+            >
+              Get in Touch
+            </button>
           </div>
           <dl
             data-reveal

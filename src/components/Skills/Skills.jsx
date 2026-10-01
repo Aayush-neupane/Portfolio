@@ -162,7 +162,7 @@ export default function Skills() {
                   </span>
                   <div className="min-w-0">
                     <p className="font-medium text-text">{s.name}</p>
-                    <p className="mt-0.5 truncate text-sm text-muted sm:whitespace-normal">
+                    <p className="mt-0.5 line-clamp-2 text-sm text-muted sm:line-clamp-none">
                       {s.note}
                     </p>
                   </div>

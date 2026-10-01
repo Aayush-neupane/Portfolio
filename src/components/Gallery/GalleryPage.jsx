@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Lightbox, PhotoFrame } from './Gallery.jsx';
+import { thumb } from '../../utils/galleryImg.js';
 
 const PAGE_SIZE = 8;
 const GAP = 20;
@@ -175,6 +176,12 @@ function buildBentoBands(list, pageStart, width) {
 function BentoCell({ photo, index, onOpen, className, style }) {
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [src, setSrc] = useState(() => thumb(photo.src));
+  useEffect(() => {
+    setSrc(thumb(photo.src));
+    setFailed(false);
+    setLoaded(false);
+  }, [photo.src]);
   return (
     <button
       type="button"
@@ -185,14 +192,17 @@ function BentoCell({ photo, index, onOpen, className, style }) {
     >
       {!failed ? (
         <img
-          src={photo.src}
+          src={src}
           alt={photo.title}
           width={photo.w}
           height={photo.h}
           loading="lazy"
           decoding="async"
           draggable={false}
-          onError={() => setFailed(true)}
+          onError={() => {
+            if (src !== photo.src) setSrc(photo.src);
+            else setFailed(true);
+          }}
           onLoad={() => setLoaded(true)}
           className={`h-full w-full transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
         />
@@ -201,7 +211,7 @@ function BentoCell({ photo, index, onOpen, className, style }) {
           Drop {photo.src?.split('/').pop()} in public/assets/images/gallery/
         </span>
       )}
-      <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/75 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+      <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/75 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 [@media(hover:none)]:opacity-100">
         <span className="min-w-0">
           <span className="block truncate font-display text-sm text-white">{photo.title}</span>
           <span className="mt-0.5 block truncate font-mono text-[0.55rem] uppercase tracking-[0.12em] text-white/70">

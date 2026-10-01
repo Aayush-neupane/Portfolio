@@ -26,7 +26,7 @@ import { withBase } from './utils/paths.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'services', 'resume', 'gallery', 'contact'];
+const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'playground', 'services', 'resume', 'gallery', 'contact'];
 const GALLERY_ROUTE = '#/gallery';
 const PROJECTS_ROUTE = '#/projects';
 const LINKS_ROUTE = '#/links';

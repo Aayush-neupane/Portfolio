@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && node scripts/prerender-projects.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "gallery:variants": "node scripts/generate-gallery-variants.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.3.1",

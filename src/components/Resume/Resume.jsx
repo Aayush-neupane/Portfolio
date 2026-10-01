@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Download, GraduationCap } from 'lucide-react';
 import { withBase } from '../../utils/paths.js';
+import { startYear } from '../../utils/stats.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -83,7 +84,7 @@ export default function Resume({ data }) {
           <dl data-reveal className="mt-8 flex gap-8 border-t border-border pt-5 font-mono">
             <div>
               <dt className="text-[0.7rem] uppercase tracking-[0.14em] text-muted">Since</dt>
-              <dd className="mt-1 text-lg text-text">2022</dd>
+              <dd className="mt-1 text-lg text-text">{startYear(d.experience) ?? 2022}</dd>
             </div>
             <div>
               <dt className="text-[0.7rem] uppercase tracking-[0.14em] text-muted">Roles</dt>

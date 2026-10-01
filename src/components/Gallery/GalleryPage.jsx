@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Lightbox, PhotoFrame } from './Gallery.jsx';
 import { thumb } from '../../utils/galleryImg.js';
+import { tabListKeyDown } from '../../utils/a11y.js';
 
 const PAGE_SIZE = 8;
 const GAP = 20;
@@ -361,6 +362,7 @@ const rows = useMemo(
         ref={gridTopRef}
         role="tablist"
         aria-label="Filter photos by category"
+        onKeyDown={tabListKeyDown}
         className="mt-8 flex scroll-mt-28 flex-wrap gap-2"
       >
         {cats.map((cat) => {

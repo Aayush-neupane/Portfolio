@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { ArrowLeft, ArrowUpRight, Github } from 'lucide-react';
+import { tabListKeyDown } from '../../utils/a11y.js';
 
 function isValidUrl(u) {
   return typeof u === 'string' && /^https?:\/\//.test(u) && u !== 'https://' && u !== 'http://';
@@ -160,7 +161,7 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
         featured work, more curiosity per pixel.
       </p>
 
-      <div role="tablist" aria-label="Filter archive by category" className="mt-8 flex flex-wrap gap-2">
+      <div role="tablist" aria-label="Filter archive by category" onKeyDown={tabListKeyDown} className="mt-8 flex flex-wrap gap-2">
         {cats.map((cat) => {
           const selected = filter === cat;
           const count = cat === 'All' ? items.length : items.filter((p) => p.category === cat).length;

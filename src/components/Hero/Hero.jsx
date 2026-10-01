@@ -32,7 +32,7 @@ function CountUp({ to, suffix = '' }) {
   );
 }
 
-export default function Hero({ profile, now, onProject }) {
+export default function Hero({ profile, now, onProject, stats }) {
   const rootRef = useRef(null);
   const name = profile?.name || 'Aayush Neupane';
   const [first, ...restName] = name.split(' ');
@@ -168,7 +168,7 @@ export default function Hero({ profile, now, onProject }) {
                 Experience
               </dt>
               <dd className="mt-1 font-mono text-xl text-text">
-                <CountUp to={4} suffix="+ yrs" />
+                <CountUp to={stats?.years ?? 4} suffix="+ yrs" />
               </dd>
             </div>
             <div>
@@ -176,7 +176,7 @@ export default function Hero({ profile, now, onProject }) {
                 Projects
               </dt>
               <dd className="mt-1 font-mono text-xl text-text">
-                <CountUp to={20} suffix="+" />
+                <CountUp to={stats?.projects ?? 20} suffix="+" />
               </dd>
             </div>
             <div>

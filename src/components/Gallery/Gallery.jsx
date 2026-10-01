@@ -183,10 +183,42 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
   const [failed, setFailed] = useState(false);
   const [src, setSrc] = useState(() => (photo ? mid(photo.src) : ''));
   const touchRef = useRef({ x: 0, y: 0 });
+  const dialogRef = useRef(null);
+  const returnFocusRef = useRef(null);
   useEffect(() => {
     setSrc(photo ? mid(photo.src) : '');
     setFailed(false);
   }, [photo?.src]);
+  // Focus trap with focus return: Tab cycles inside the dialog, and closing
+  // hands focus back to whatever opened it.
+  useEffect(() => {
+    returnFocusRef.current = document.activeElement;
+    const node = dialogRef.current;
+    if (!node) return undefined;
+    const onKeyDown = (e) => {
+      if (e.key !== 'Tab') return;
+      const items = [...node.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])')].filter(
+        (el) => !el.disabled && el.offsetParent !== null
+      );
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    node.addEventListener('keydown', onKeyDown);
+    return () => {
+      node.removeEventListener('keydown', onKeyDown);
+      if (returnFocusRef.current instanceof HTMLElement) {
+        returnFocusRef.current.focus({ preventScroll: true });
+      }
+    };
+  }, []);
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'Escape') onClose();
@@ -224,6 +256,7 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
   // is tracked by component, not by DOM location.
   return createPortal(
     <motion.div
+      ref={dialogRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

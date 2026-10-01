@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FlaskConical } from 'lucide-react';
+import { tabListKeyDown } from '../../utils/a11y.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -116,7 +117,7 @@ export default function Skills() {
         </div>
 
         <div data-reveal>
-          <div role="tablist" aria-label="Skill categories" className="flex flex-wrap gap-2">
+          <div role="tablist" aria-label="Skill categories" onKeyDown={tabListKeyDown} className="flex flex-wrap gap-2">
             {CATS.map((c) => {
               const selected = c.id === tab;
               return (

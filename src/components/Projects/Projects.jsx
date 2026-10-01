@@ -4,6 +4,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Github, Plus } from 'lucide-react';
 import { scrollToTarget } from '../../utils/scroll.js';
+import ExperimentCards from './Experiments.jsx';
+import { tabListKeyDown } from '../../utils/a11y.js';
+
+const EXPERIMENTS_TAB = 'Experiments';
+const EXPERIMENT_COUNT = 2;
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -166,9 +171,15 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
     [projects]
   );
 
+  const isExperiments = filter === EXPERIMENTS_TAB;
   const filtered = useMemo(
-    () => (filter === 'All' ? items : items.filter((p) => p._cat === filter)),
-    [items, filter]
+    () =>
+      filter === 'All'
+        ? items
+        : isExperiments
+          ? []
+          : items.filter((p) => p._cat === filter),
+    [items, filter, isExperiments]
   );
 
   const [featured, ...rest] = filtered;
@@ -222,6 +233,7 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
           data-reveal
           role="tablist"
           aria-label="Filter projects by category"
+          onKeyDown={tabListKeyDown}
           className="mt-8 flex flex-wrap gap-2"
         >
           {TABS.map((tab) => {
@@ -250,9 +262,31 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
               </button>
             );
           })}
+          <button
+            role="tab"
+            aria-selected={isExperiments}
+            type="button"
+            onClick={() => setFilter(EXPERIMENTS_TAB)}
+            className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
+              isExperiments
+                ? 'bg-accent text-white'
+                : 'border border-border bg-elevated text-muted hover:border-linestrong hover:text-text'
+            }`}
+          >
+            {EXPERIMENTS_TAB}
+            <span
+              className={`ml-1.5 font-mono text-[0.7rem] tabular-nums ${
+                isExperiments ? 'text-white/80' : 'text-muted'
+              }`}
+            >
+              {EXPERIMENT_COUNT}
+            </span>
+          </button>
         </div>
 
-        {filtered.length === 0 ? (
+        {isExperiments ? (
+          <ExperimentCards />
+        ) : filtered.length === 0 ? (
           <p className="mt-12 text-muted">No projects in this category yet.</p>
         ) : (
           <div className="mt-10">

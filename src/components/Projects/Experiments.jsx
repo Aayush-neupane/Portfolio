@@ -210,71 +210,58 @@ function SignatureWidget() {
   );
 }
 
-export default function Playground() {
+
+/** Live slices of two shipped apps, shown inside the Projects Experiments tab. */
+export default function ExperimentCards() {
   return (
-    <section id="playground" className="scroll-mt-20">
-      <div className="mx-auto w-full max-w-6xl px-6 py-24 md:py-32">
-        <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent">
-          Playground
-        </p>
-        <h2 className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text">
-          Don&apos;t just look — <em className="italic">play.</em>
-        </h2>
-        <p className="mt-4 max-w-xl leading-relaxed text-muted">
-          Live slices of two shipped apps, running right here. No screenshots,
-          no mockups — the real interaction.
-        </p>
-
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong md:p-7">
-            <div className="flex items-center justify-between gap-4">
-              <h3 className="font-display text-2xl text-text">Type test</h3>
-              <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
-                Aurora Type
-              </span>
-            </div>
-            <p className="mt-2 text-sm leading-relaxed text-muted">
-              One sentence. Click in and type — speed and accuracy update live.
-            </p>
-            <div className="mt-5">
-              <TypingWidget />
-            </div>
-            <a
-              href={TYPE_HREF}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent-deep"
-            >
-              Open the full test
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </a>
-          </article>
-
-          <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong md:p-7">
-            <div className="flex items-center justify-between gap-4">
-              <h3 className="font-display text-2xl text-text">Signature pad</h3>
-              <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
-                Signature
-              </span>
-            </div>
-            <p className="mt-2 text-sm leading-relaxed text-muted">
-              Sign with mouse or finger — a teaser of the stroke engine.
-            </p>
-            <div className="mt-5">
-              <SignatureWidget />
-            </div>
-            <a
-              href={SIGN_HREF}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent-deep"
-            >
-              Open the full app
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </a>
-          </article>
+    <div className="mt-10 grid gap-6 lg:grid-cols-2">
+      <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong md:p-7">
+        <div className="flex items-center justify-between gap-4">
+          <h3 className="font-display text-2xl text-text">Type test</h3>
+          <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
+            Aurora Type
+          </span>
         </div>
-      </div>
-    </section>
+        <p className="mt-2 text-sm leading-relaxed text-muted">
+          One sentence. Click in and type — speed and accuracy update live.
+        </p>
+        <div className="mt-5">
+          <TypingWidget />
+        </div>
+        <a
+          href={TYPE_HREF}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent-deep"
+        >
+          Open the full test
+          <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+        </a>
+      </article>
+
+      <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong md:p-7">
+        <div className="flex items-center justify-between gap-4">
+          <h3 className="font-display text-2xl text-text">Signature pad</h3>
+          <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
+            Signature
+          </span>
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-muted">
+          Sign with mouse or finger — a teaser of the stroke engine.
+        </p>
+        <div className="mt-5">
+          <SignatureWidget />
+        </div>
+        <a
+          href={SIGN_HREF}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition-colors hover:text-accent-deep"
+        >
+          Open the full app
+          <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+        </a>
+      </article>
+    </div>
   );
 }

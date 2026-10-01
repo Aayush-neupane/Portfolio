@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,7 +14,6 @@ import Gallery from './components/Gallery/Gallery.jsx';
 import GalleryPage from './components/Gallery/GalleryPage.jsx';
 import ProjectsPage from './components/Projects/ProjectsPage.jsx';
 import ProjectDetail from './components/Projects/ProjectDetail.jsx';
-import Playground from './components/Playground/Playground.jsx';
 import LinksPage from './components/Links/LinksPage.jsx';
 import Contact from './components/Contact/Contact.jsx';
 import Services from './components/Services/Services.jsx';
@@ -23,10 +22,11 @@ import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
 import { scrollToTarget } from './utils/scroll.js';
 import { withBase } from './utils/paths.js';
+import { projectCount, startYear, yearsSince } from './utils/stats.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'playground', 'services', 'resume', 'gallery', 'contact'];
+const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'services', 'resume', 'gallery', 'contact'];
 const GALLERY_ROUTE = '#/gallery';
 const PROJECTS_ROUTE = '#/projects';
 const LINKS_ROUTE = '#/links';
@@ -238,6 +238,15 @@ export default function App() {
   const isGallery = route === GALLERY_ROUTE;
   const isProjects = route === PROJECTS_ROUTE;
   const isLinks = route === LINKS_ROUTE;
+  // Headline numbers, derived once from data so Hero/About/Resume agree.
+  const stats = useMemo(() => {
+    const since = startYear(resume?.experience);
+    return {
+      since: since ?? 2022,
+      years: yearsSince(resume?.experience) ?? 4,
+      projects: projectCount(projects, archive) || 20,
+    };
+  }, [resume, projects, archive]);
   const detailId = detailIdFromRoute(route);
   const isDetail = detailId !== null;
   const allProjects = [...projects, ...archive];
@@ -686,8 +695,8 @@ export default function App() {
         </main>
       ) : (
         <main>
-          <Hero profile={profile} now={nowStatus} onProject={openProject} />
-          <About profile={profile} whatsapp={whatsapp} />
+          <Hero profile={profile} now={nowStatus} onProject={openProject} stats={stats} />
+          <About profile={profile} whatsapp={whatsapp} sinceYear={stats.since} />
           <Skills />
           <TextReveal3D
             eyebrow="Philosophy"
@@ -701,7 +710,6 @@ export default function App() {
             onOpen={openProject}
             onInquire={inquireAbout}
           />
-          <Playground />
           <Services onContact={contactFromServices} onInquire={inquireService} />
           <Resume data={resume} />
           <Gallery photos={featured.length > 0 ? featured : gallery.slice(0, 6)} onViewAll={() => handleNav(GALLERY_ROUTE)} />

@@ -15,6 +15,7 @@ const GalleryPage = lazy(() => import('./components/Gallery/GalleryPage.jsx'));
 const ProjectsPage = lazy(() => import('./components/Projects/ProjectsPage.jsx'));
 const ProjectDetail = lazy(() => import('./components/Projects/ProjectDetail.jsx'));
 const LinksPage = lazy(() => import('./components/Links/LinksPage.jsx'));
+import Playground from './components/Playground/Playground.jsx';
 
 function RouteFallback() {
   return (
@@ -269,6 +270,9 @@ export default function App() {
   const detailId = detailIdFromRoute(route);
   const isDetail = detailId !== null;
   const allProjects = [...projects, ...archive];
+  // Stable identity: GalleryPage resets page/lightbox whenever this changes,
+  // so it must only change when the data actually does.
+  const galleryPhotos = useMemo(() => [...featured, ...gallery], [featured, gallery]);
   const detailIndex = isDetail
     ? allProjects.findIndex((p) => String(p.id) === detailId)
     : -1;
@@ -670,7 +674,7 @@ export default function App() {
       <Suspense fallback={<RouteFallback />}>
       {isGallery ? (
         <main>
-          <GalleryPage photos={[...featured, ...gallery]} deepPhotoId={galleryPhotoId} onBack={() => handleNav('#home')} />
+          <GalleryPage photos={galleryPhotos} deepPhotoId={galleryPhotoId} onBack={() => handleNav('#home')} />
         </main>
       ) : isProjects ? (
         <main>

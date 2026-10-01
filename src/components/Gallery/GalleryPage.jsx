@@ -316,26 +316,32 @@ const rows = useMemo(
     [visible, safePage, cw]
   );
 
+  // Id of the photo currently open from a shared link (or null). Mirrors
+  // openIndex so effects can tell a settled open apart from a cleared one.
+  const openIdRef = useRef(null);
+
   useEffect(() => {
     setPage(0);
     setOpenIndex(null);
-  }, [photos, filter, deepPhotoId]);
+    openIdRef.current = null;
+  }, [photos, filter]);
 
   // Shared frame links (`#/gallery/<id>`) land on the photo: reset any filter,
-  // jump to its page, and open it. Runs once per link, not on every render.
-  const deepOpenedRef = useRef(null);
+  // jump to its page, and open it. Re-runs when data settles so a reset during
+  // loading re-opens instead of stranding the visitor on a closed grid.
   useEffect(() => {
-    if (!deepPhotoId || deepOpenedRef.current === deepPhotoId || items.length === 0) return;
+    if (!deepPhotoId || openIdRef.current === deepPhotoId || items.length === 0) return;
     const idx = items.findIndex((p) => String(p.id) === String(deepPhotoId));
     if (idx < 0) return;
-    deepOpenedRef.current = deepPhotoId;
-    setFilter('All');
+    openIdRef.current = deepPhotoId;
+    if (filter !== 'All') setFilter('All');
     setPage(Math.floor(idx / PAGE_SIZE));
     setOpenIndex(idx);
-  }, [deepPhotoId, items]);
+  }, [deepPhotoId, items, filter]);
 
   const closeLightbox = useCallback(() => {
     setOpenIndex(null);
+    openIdRef.current = null;
     // Leave the bare gallery route behind so a copied URL stays shareable.
     if (typeof window !== 'undefined' && window.location.hash.startsWith('#/gallery/')) {
       window.location.hash = '#/gallery';

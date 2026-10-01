@@ -1,8 +1,8 @@
 /**
  * Responsive gallery variants generated alongside the originals
  * (npm run gallery:variants):
- *  `<name>-thumb.avif` (480px) for grids, rails and cards,
- *  `<name>-mid.avif` (960px) for the lightbox.
+ *  `<name>-thumb.avif` (560px) for grids, rails and cards,
+ *  `<name>-mid.avif` (1200px) for the lightbox.
  * Works on base-prefixed paths too, since the suffix is inserted before the
  * extension. Falls back to the source when there is nothing to derive.
  */

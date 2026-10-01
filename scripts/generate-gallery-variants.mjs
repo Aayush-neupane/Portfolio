@@ -21,8 +21,10 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const galleryDir = join(root, 'public', 'assets', 'images', 'gallery');
 
 const VARIANTS = [
-  { suffix: 'thumb', width: 480, quality: 52, effort: 4 },
-  { suffix: 'mid', width: 960, quality: 60, effort: 4 },
+  // 560px covers the widest grid tile 1:1, so nothing is ever upscaled.
+  { suffix: 'thumb', width: 560, quality: 70, effort: 5 },
+  // 1200px covers the lightbox at full stretch on dense displays.
+  { suffix: 'mid', width: 1200, quality: 80, effort: 5 },
 ];
 
 function loadSharp() {
@@ -60,9 +62,11 @@ for (const photo of photos) {
     continue;
   }
   const inputMtime = statSync(input).mtimeMs;
+  // --force rebuilds everything (e.g. after a quality change).
+  const force = process.argv.includes('--force');
   for (const v of VARIANTS) {
     const out = join(galleryDir, `${base}-${v.suffix}.avif`);
-    if (existsSync(out) && statSync(out).mtimeMs >= inputMtime) {
+    if (!force && existsSync(out) && statSync(out).mtimeMs >= inputMtime) {
       skipped++;
       continue;
     }

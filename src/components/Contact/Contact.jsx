@@ -233,7 +233,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
             ))}
           </ol>
 
-          <div data-reveal className="mt-6 space-y-2">
+          <div data-reveal id="contact-faq" className="mt-6 scroll-mt-28 space-y-2">
             <details className="rounded-xl border border-border bg-elevated px-5 py-3.5">
               <summary className="cursor-pointer list-none text-sm font-semibold text-text [&::-webkit-details-marker]:hidden">
                 How fast do you reply?

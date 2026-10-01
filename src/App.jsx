@@ -57,14 +57,14 @@ function LoadingScreen({ leaving }) {
     }
     let raf = 0;
     const t0 = performance.now();
-    const dur = 1200;
+    const dur = 700;
     const tick = (t) => {
       const p = Math.min(1, (t - t0) / dur);
       setPct(Math.round(p * 100));
       if (p < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    const words = setInterval(() => setWord((w) => w + 1), 450);
+    const words = setInterval(() => setWord((w) => w + 1), 350);
     return () => {
       cancelAnimationFrame(raf);
       clearInterval(words);
@@ -436,6 +436,29 @@ export default function App() {
     [handleNav]
   );
 
+  // Prefill the contact form from a service tier, then take the visitor to it.
+  const inquireService = useCallback(
+    (tier) => {
+      if (tier?.draft) {
+        setContactDraft({
+          subject: tier.draft.subject,
+          message: tier.draft.message,
+          nonce: Date.now(),
+        });
+      }
+      handleNav('#contact');
+    },
+    [handleNav]
+  );
+
+  // Services CTAs: plain link goes to contact, 'faq' jumps to the answers.
+  const contactFromServices = useCallback(
+    (target) => {
+      handleNav(target === 'faq' ? '#contact-faq' : '#contact');
+    },
+    [handleNav]
+  );
+
   // Back from a detail page: land on the card/row that was just viewed.
   // Retries while the fresh page mounts (slow devices), then falls back.
   const backFromDetail = useCallback(
@@ -510,8 +533,8 @@ export default function App() {
         seen = false;
       }
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const baseWait = reduced ? 0 : seen ? 500 : 1400;
-      const liftMs = reduced ? 0 : 750;
+      const baseWait = reduced ? 0 : seen ? 300 : 800;
+      const liftMs = reduced ? 0 : 500;
       const wait = Math.max(0, baseWait - (Date.now() - started));
       setTimeout(() => {
         if (cancelled) return;
@@ -679,7 +702,7 @@ export default function App() {
             onInquire={inquireAbout}
           />
           <Playground />
-          <Services onContact={() => handleNav('#contact')} />
+          <Services onContact={contactFromServices} onInquire={inquireService} />
           <Resume data={resume} />
           <Gallery photos={featured.length > 0 ? featured : gallery.slice(0, 6)} onViewAll={() => handleNav(GALLERY_ROUTE)} />
           <Contact profile={profile} social={social} whatsapp={whatsapp} draft={contactDraft} onSentClear={() => setContactDraft(null)} />

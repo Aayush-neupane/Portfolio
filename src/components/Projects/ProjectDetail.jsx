@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Github, Link2, Share2 } from 'lucide-react';
-import Magnetic from '../Magnetic/Magnetic.jsx';
 
 function isValidUrl(u) {
   return typeof u === 'string' && /^https?:\/\//.test(u) && u !== 'https://' && u !== 'http://';
@@ -353,7 +352,7 @@ export default function ProjectDetail({
         </p>
           <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
             {live && (
-              <Magnetic strength={0.25} className="inline-block">
+              <span className="inline-block">
                 <a
                   href={live}
                   target="_blank"
@@ -363,10 +362,10 @@ export default function ProjectDetail({
                   View Live
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                 </a>
-              </Magnetic>
+              </span>
             )}
             {repo && (
-              <Magnetic strength={0.25} className="inline-block">
+              <span className="inline-block">
                 <a
                   href={repo}
                   target="_blank"
@@ -376,7 +375,7 @@ export default function ProjectDetail({
                   <Github className="h-4 w-4" aria-hidden="true" />
                   Source Code
                 </a>
-              </Magnetic>
+              </span>
             )}
             {!live && !repo && (
               <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
@@ -497,7 +496,7 @@ export default function ProjectDetail({
           </div>
           <div className="mt-6 grid gap-5 md:grid-cols-3">
             {related.map((r) => (
-              <Magnetic key={r.id} strength={0.12} className="block">
+              <span key={r.id} className="block">
                 <button
                   type="button"
                   onClick={() => onOpen && onOpen(r)}
@@ -511,7 +510,7 @@ export default function ProjectDetail({
                     {r.description}
                   </p>
                 </button>
-              </Magnetic>
+              </span>
             ))}
           </div>
         </section>
@@ -523,7 +522,7 @@ export default function ProjectDetail({
           className="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2 md:mt-20"
         >
           {prev ? (
-            <Magnetic strength={0.12} className="block">
+            <span className="block">
               <button
                 type="button"
                 onClick={() => onOpen(prev)}
@@ -542,12 +541,12 @@ export default function ProjectDetail({
                   </span>
                 </span>
               </button>
-            </Magnetic>
+            </span>
           ) : (
             <span />
           )}
           {next ? (
-            <Magnetic strength={0.12} className="block">
+            <span className="block">
               <button
                 type="button"
                 onClick={() => onOpen(next)}
@@ -566,7 +565,7 @@ export default function ProjectDetail({
                   aria-hidden="true"
                 />
               </button>
-            </Magnetic>
+            </span>
           ) : (
             <span />
           )}

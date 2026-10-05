@@ -1,6 +1,52 @@
 {
   "featured": [
     {
+      "id": 7,
+      "title": "Sajilo Damak",
+      "description": "Damak-only on-demand service marketplace for Damak Municipality, Jhapa: customers book verified local pros, pros get assigned work, admins run the operation. Direct booking plus quote requests, server-side boundary validation, completion OTP, money in integer paisa. React, Express, PostgreSQL.",
+      "image": "",
+      "techStack": [
+        "React",
+        "TypeScript",
+        "Express",
+        "PostgreSQL",
+        "Tailwind CSS",
+        "Leaflet"
+      ],
+      "liveUrl": "",
+      "githubUrl": "https://github.com/Aayush-neupane/workers",
+      "status": "in-progress",
+      "category": "web apps",
+      "highlights": [
+        "One build serving four portals: public, customer, pro and admin",
+        "Damak-only booking validation against wards 1-10, enforced server-side",
+        "Completion OTP closes jobs; commission snapshotted per booking in immutable ledgers"
+      ]
+    },
+    {
+      "id": 11,
+      "title": "create.io",
+      "description": "Zero-code website builder: pick a complete predesigned site, drop in content, tune variants and palettes, publish in minutes. Live gallery, builder preview and published page render the same components. Next.js, Prisma, Neon Postgres.",
+      "image": "",
+      "techStack": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Prisma",
+        "Neon",
+        "Tailwind CSS"
+      ],
+      "liveUrl": "https://create-io.netlify.app/",
+      "githubUrl": "https://github.com/Aayush-neupane/create.io",
+      "status": "in-progress",
+      "category": "web apps",
+      "highlights": [
+        "Whole predesigned sites with coherent component libraries, never a blank canvas",
+        "Structured editing with undo, autosave and SEO built in",
+        "Responsive by default across desktop, tablet and mobile"
+      ]
+    },
+    {
       "id": 1,
       "title": "Crystal Cabin Detailing",
       "description": "Booking site for a Canadian car-detailing business. Service packages, a proof-of-work gallery, and a scheduling flow built to turn visitors into booked jobs. React, TypeScript, GSAP motion, Supabase.",
@@ -34,8 +80,8 @@
         "TanStack Query",
         "Tailwind CSS"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "in-progress",
       "category": "web apps",
       "highlights": [
@@ -94,8 +140,8 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "completed",
       "category": "landing pages",
       "highlights": [
@@ -116,8 +162,8 @@
         "TanStack Query",
         "Recharts"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "https://dynamic-flexfits.netlify.app",
+      "githubUrl": "https://github.com/Aayush-neupane/flexfits",
       "status": "completed",
       "category": "landing pages",
       "highlights": [
@@ -139,8 +185,8 @@
         "PostgreSQL",
         "Tailwind CSS"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "https://department999.netlify.app",
+      "githubUrl": "",
       "status": "in-progress",
       "category": "web apps",
       "highlights": [
@@ -160,7 +206,7 @@
         "TypeScript",
         "Zustand"
       ],
-      "liveUrl": "https://",
+      "liveUrl": "https://auroracube.netlify.app",
       "githubUrl": "https://github.com/Aayush-neupane/cube",
       "status": "in-progress",
       "category": "games",
@@ -181,8 +227,8 @@
         "Vite",
         "CSS"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "https://pixel-pic.netlify.app/",
+      "githubUrl": "https://github.com/Aayush-neupane/photo-portfolio",
       "status": "completed",
       "category": "landing pages",
       "highlights": [
@@ -203,8 +249,8 @@
         "JavaScript",
         "LocalStorage"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://github.com/Aayush-neupane/shop-management",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "archived",
       "category": "web apps",
       "highlights": [
@@ -223,8 +269,8 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "prototype",
       "category": "web apps",
       "highlights": [
@@ -246,7 +292,7 @@
         "MongoDB"
       ],
       "liveUrl": "https://animexstream.netlify.app/",
-      "githubUrl": "https://",
+      "githubUrl": "",
       "status": "prototype",
       "category": "web apps",
       "highlights": [
@@ -265,8 +311,8 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "https://dynamic-urlabari.netlify.app",
+      "githubUrl": "",
       "status": "in-progress",
       "category": "tools",
       "highlights": [
@@ -284,7 +330,7 @@
         "C#",
         "Unity"
       ],
-      "liveUrl": "https://",
+      "liveUrl": "",
       "githubUrl": "https://github.com/aayush-neupane/DrFlight",
       "status": "archived",
       "category": "games",
@@ -304,8 +350,8 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "https://poseidon.netlify.app/",
-      "githubUrl": "https://",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "prototype",
       "category": "games",
       "highlights": [
@@ -324,8 +370,8 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "completed",
       "category": "games",
       "highlights": [
@@ -345,8 +391,8 @@
         "JavaScript",
         "REST API"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "archived",
       "category": "tools",
       "highlights": [
@@ -365,8 +411,8 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "archived",
       "category": "tools",
       "highlights": [
@@ -385,8 +431,8 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "archived",
       "category": "tools",
       "highlights": [
@@ -405,8 +451,8 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "archived",
       "category": "tools",
       "highlights": [
@@ -425,8 +471,8 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "archived",
       "category": "tools",
       "highlights": [
@@ -445,8 +491,8 @@
         "CSS",
         "JavaScript"
       ],
-      "liveUrl": "https://",
-      "githubUrl": "https://",
+      "liveUrl": "",
+      "githubUrl": "",
       "status": "archived",
       "category": "tools",
       "highlights": [
@@ -466,7 +512,7 @@
         "Canvas API"
       ],
       "liveUrl": "https://signature38.netlify.app/",
-      "githubUrl": "https://",
+      "githubUrl": "https://github.com/Aayush-neupane/signature",
       "status": "completed",
       "category": "tools",
       "highlights": [
@@ -507,7 +553,7 @@
         "Node.js",
         "Tailwind CSS"
       ],
-      "liveUrl": "https://",
+      "liveUrl": "https://fastest-fingerr.netlify.app/",
       "githubUrl": "https://github.com/Aayush-neupane/Fastest-Finger",
       "status": "in-progress",
       "category": "games",

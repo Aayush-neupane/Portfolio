@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Github, Link2, Share2 } from 'lucide-react';
-import Magnetic from '../Magnetic/Magnetic.jsx';
 
 function isValidUrl(u) {
   return typeof u === 'string' && /^https?:\/\//.test(u) && u !== 'https://' && u !== 'http://';
@@ -353,30 +352,30 @@ export default function ProjectDetail({
         </p>
           <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
             {live && (
-              <Magnetic strength={0.25} className="inline-block">
+              <span className="inline-block">
                 <a
                   href={live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep hover:shadow-lg"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep hover:shadow-lg"
                 >
                   View Live
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                 </a>
-              </Magnetic>
+              </span>
             )}
             {repo && (
-              <Magnetic strength={0.25} className="inline-block">
+              <span className="inline-block">
                 <a
                   href={repo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:-translate-y-px hover:border-linestrong hover:text-accent"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:border-linestrong hover:text-accent"
                 >
                   <Github className="h-4 w-4" aria-hidden="true" />
                   Source Code
                 </a>
-              </Magnetic>
+              </span>
             )}
             {!live && !repo && (
               <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
@@ -388,7 +387,7 @@ export default function ProjectDetail({
               <button
                 type="button"
                 onClick={() => onInquire(project)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:-translate-y-px hover:bg-accent hover:text-white"
+                className="inline-flex items-center gap-1.5 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:bg-accent hover:text-white"
               >
                 Inquire
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -497,7 +496,7 @@ export default function ProjectDetail({
           </div>
           <div className="mt-6 grid gap-5 md:grid-cols-3">
             {related.map((r) => (
-              <Magnetic key={r.id} strength={0.12} className="block">
+              <span key={r.id} className="block">
                 <button
                   type="button"
                   onClick={() => onOpen && onOpen(r)}
@@ -511,7 +510,7 @@ export default function ProjectDetail({
                     {r.description}
                   </p>
                 </button>
-              </Magnetic>
+              </span>
             ))}
           </div>
         </section>
@@ -523,11 +522,11 @@ export default function ProjectDetail({
           className="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2 md:mt-20"
         >
           {prev ? (
-            <Magnetic strength={0.12} className="block">
+            <span className="block">
               <button
                 type="button"
                 onClick={() => onOpen(prev)}
-                className="group flex w-full items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:-translate-y-px hover:border-accent/60"
+                className="group flex w-full items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:border-accent/60"
               >
                 <ArrowLeft
                   className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:-translate-x-1 group-hover:text-accent"
@@ -542,16 +541,16 @@ export default function ProjectDetail({
                   </span>
                 </span>
               </button>
-            </Magnetic>
+            </span>
           ) : (
             <span />
           )}
           {next ? (
-            <Magnetic strength={0.12} className="block">
+            <span className="block">
               <button
                 type="button"
                 onClick={() => onOpen(next)}
-                className="group flex w-full items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:-translate-y-px hover:border-accent/60"
+                className="group flex w-full items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:border-accent/60"
               >
                 <span className="min-w-0">
                   <span className="block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
@@ -566,7 +565,7 @@ export default function ProjectDetail({
                   aria-hidden="true"
                 />
               </button>
-            </Magnetic>
+            </span>
           ) : (
             <span />
           )}

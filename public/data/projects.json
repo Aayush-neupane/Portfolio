@@ -4,7 +4,7 @@
       "id": 7,
       "title": "Sajilo Damak",
       "description": "Damak-only on-demand service marketplace for Damak Municipality, Jhapa: customers book verified local pros, pros get assigned work, admins run the operation. Direct booking plus quote requests, server-side boundary validation, completion OTP, money in integer paisa. React, Express, PostgreSQL.",
-      "image": "",
+      "image": "/assets/images/projects/sajilo-damak.webp",
       "techStack": [
         "React",
         "TypeScript",
@@ -27,7 +27,7 @@
       "id": 11,
       "title": "create.io",
       "description": "Zero-code website builder: pick a complete predesigned site, drop in content, tune variants and palettes, publish in minutes. Live gallery, builder preview and published page render the same components. Next.js, Prisma, Neon Postgres.",
-      "image": "",
+      "image": "/assets/images/projects/createio.webp",
       "techStack": [
         "Next.js",
         "React",

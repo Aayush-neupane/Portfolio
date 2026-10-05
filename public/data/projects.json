@@ -70,27 +70,6 @@
       ]
     },
     {
-      "id": 2,
-      "title": "Help.com",
-      "description": "A humanitarian platform connecting donors, volunteers, NGOs, and hospitals across Nepal. Editorial layout, calm type, fast cached data with TanStack Query.",
-      "image": "/assets/images/projects/help.com.webp",
-      "techStack": [
-        "React",
-        "TypeScript",
-        "TanStack Query",
-        "Tailwind CSS"
-      ],
-      "liveUrl": "",
-      "githubUrl": "",
-      "status": "in-progress",
-      "category": "web apps",
-      "highlights": [
-        "Unites donors, volunteers, NGOs and hospitals on one calm platform",
-        "Editorial layout with highly readable type at every viewport",
-        "TanStack Query caching keeps critical data fast and fresh"
-      ]
-    },
-    {
       "id": 3,
       "title": "Excurion Virtual Classroom",
       "description": "Virtual classroom built for live lessons: real-time sessions with an infinite tldraw whiteboard in a calm, distraction-free space. React and TypeScript throughout.",
@@ -102,7 +81,7 @@
       ],
       "liveUrl": "https://www.excurion.com/",
       "githubUrl": "https://github.com/Aayush-neupane/Excurion",
-      "status": "in-progress",
+      "status": "paused",
       "category": "ed-tech",
       "highlights": [
         "Live lessons on an infinite tldraw whiteboard",
@@ -561,6 +540,27 @@
         "Solo sprints against a ghost running at your best pace",
         "Party mode with a shared passage and live standings",
         "Online rooms with synced countdowns and head-to-head lanes"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Help.com",
+      "description": "A humanitarian platform connecting donors, volunteers, NGOs, and hospitals across Nepal. Editorial layout, calm type, fast cached data with TanStack Query.",
+      "image": "/assets/images/projects/help.com.webp",
+      "techStack": [
+        "React",
+        "TypeScript",
+        "TanStack Query",
+        "Tailwind CSS"
+      ],
+      "liveUrl": "",
+      "githubUrl": "",
+      "status": "archived",
+      "category": "web apps",
+      "highlights": [
+        "Unites donors, volunteers, NGOs and hospitals on one calm platform",
+        "Editorial layout with highly readable type at every viewport",
+        "TanStack Query caching keeps critical data fast and fresh"
       ]
     }
   ]

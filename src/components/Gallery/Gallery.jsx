@@ -12,12 +12,15 @@ gsap.registerPlugin(ScrollTrigger);
 function PhotoShareButton({ photo }) {
   const [copied, setCopied] = useState(false);
   const supported = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
-  // Prefer a deep link that opens the frame; fall back to the image file.
+  // Pretty per-photo link (matches the prerendered /gallery/:id pages), so
+  // shares unfurl with the photo itself as the card image and its title —
+  // crawlers ignore hash fragments, so #/gallery/:id would only show the
+  // generic site card. Falls back to the image file when there is no id.
   const url = () => {
     if (typeof window === 'undefined' || !photo) return '';
     if (photo.id !== undefined && photo.id !== null) {
       const base = window.location.pathname.replace(/\/$/, '');
-      return `${window.location.origin}${base}#/gallery/${encodeURIComponent(String(photo.id))}`;
+      return `${window.location.origin}${base}/gallery/${encodeURIComponent(String(photo.id))}`;
     }
     if (!photo.src) return '';
     return new URL(photo.src, window.location.origin).href;

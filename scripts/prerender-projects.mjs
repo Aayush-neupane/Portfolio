@@ -94,20 +94,106 @@ try {
     n++;
   }
 
+  // Gallery frames get the same treatment: one static stub per photo so a
+  // shared /gallery/:id link unfurls with the photo and its title.
+  let g = 0;
+  try {
+    const galPath = join(root, 'public', 'data', 'gallery.json');
+    if (existsSync(galPath)) {
+      const gal = JSON.parse(readFileSync(galPath, 'utf8'));
+      const seen = new Set();
+      const frames = [...(gal.featured || []), ...(gal.photos || [])].filter((f) => {
+        const key = String(f.id);
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+      for (const f of frames) {
+        const id = encodeURIComponent(String(f.id));
+        const pretty = `${SITE}/gallery/${id}`;
+        const title = `${f.title || 'Photo'} — Aayush Neupane`;
+        const desc = f.story || f.title || 'A photograph by Aayush Neupane.';
+        const img = typeof f.src === 'string' && f.src.startsWith('/')
+          ? `${SITE}${f.src}`
+          : `${SITE}/assets/images/profile/logo.jpg`;
+        const ghtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(desc)}" />
+<link rel="canonical" href="${esc(pretty)}" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Aayush Neupane" />
+<meta property="og:title" content="${esc(title)}" />
+<meta property="og:description" content="${esc(desc)}" />
+<meta property="og:url" content="${esc(pretty)}" />
+<meta property="og:image" content="${esc(img)}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="${esc(title)}" />
+<meta name="twitter:description" content="${esc(desc)}" />
+<meta name="twitter:image" content="${esc(img)}" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="index, follow" />
+<script type="application/ld+json">${esc(JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Photograph',
+          name: f.title,
+          description: desc,
+          url: pretty,
+          image: img,
+          author: { '@type': 'Person', name: 'Aayush Neupane', url: `${SITE}/` },
+        }))}</script>
+<script>try{var m=location.pathname.match(/\\/gallery\\/([^/]+)\\/?$/);var pid=m?decodeURIComponent(m[1]):"${esc(id)}";var base=location.pathname.replace(/\\/gallery\\/[^/]+\\/?$/,"")||"/";base=base.replace(/\\/$/,"");location.replace(base+"/#/gallery/"+pid);}catch(e){}</script>
+</head>
+<body>
+<p>Opening the photo&hellip; <a href="${esc(pretty)}">${esc(f.title || 'Photo')}</a></p>
+</body>
+</html>
+`;
+        const outDir = join(root, 'dist', 'gallery', String(f.id));
+        mkdirSync(outDir, { recursive: true });
+        writeFileSync(join(outDir, 'index.html'), ghtml);
+        g++;
+      }
+    }
+  } catch (err) {
+    console.warn(`prerender: gallery stubs skipped (${err && err.message ? err.message : err})`);
+  }
+
   // Sitemap with one entry per project (dist-only; public source untouched).
   const today = new Date().toISOString().slice(0, 10);
+  const galUrls = [];
+  try {
+    const galPath = join(root, 'public', 'data', 'gallery.json');
+    if (existsSync(galPath)) {
+      const gal = JSON.parse(readFileSync(galPath, 'utf8'));
+      const seen = new Set();
+      for (const f of [...(gal.featured || []), ...(gal.photos || [])]) {
+        const key = String(f.id);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        galUrls.push(
+          `  <url>\n    <loc>${SITE}/gallery/${encodeURIComponent(key)}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>yearly</changefreq>\n    <priority>0.6</priority>\n  </url>`
+        );
+      }
+    }
+  } catch {
+    /* gallery sitemap entries are optional */
+  }
   const urls = [
     `  <url>\n    <loc>${SITE}/</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>1.0</priority>\n  </url>`,
     ...items.map(
       (p) =>
         `  <url>\n    <loc>${SITE}/project/${encodeURIComponent(String(p.id))}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`
     ),
+    ...galUrls,
   ];
   writeFileSync(
     join(root, 'dist', 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`
   );
-  console.log(`prerendered ${n} project pages + sitemap -> dist/`);
+  console.log(`prerendered ${n} project pages + ${g} gallery stubs + sitemap -> dist/`);
 } catch (err) {
   console.warn(`prerender: skipped (${err && err.message ? err.message : err})`);
 }

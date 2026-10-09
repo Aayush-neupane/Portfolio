@@ -8,14 +8,14 @@
 // build — worst case it warns and the deploy proceeds without stubs.
 //
 // Env:
-//   OG_SITE_URL — public origin, e.g. https://aayush38.com.np
+//   OG_SITE_URL — public origin, e.g. https://aayushnp.netlify.app
 //                 (defaults to the canonical domain)
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const SITE = (process.env.OG_SITE_URL || 'https://aayush38.com.np').replace(/\/$/, '');
+const SITE = (process.env.OG_SITE_URL || 'https://aayushnp.netlify.app').replace(/\/$/, '');
 
 function esc(s) {
   return String(s ?? '')
@@ -73,7 +73,7 @@ try {
       description: p.description,
       url: pretty,
       image: img,
-      author: { '@type': 'Person', name: 'Aayush Neupane', url: 'https://aayush38.com.np/' },
+      author: { '@type': 'Person', name: 'Aayush Neupane', url: 'https://aayushnp.netlify.app/' },
       keywords: (p.techStack || []).join(', '),
     }))}</script>
 <script>try{var m=location.pathname.match(/\\/project\\/([^/]+)\\/?$/);var pid=m?decodeURIComponent(m[1]):"${esc(id)}";var base=location.pathname.replace(/\\/project\\/[^/]+\\/?$/,"")||"/";base=base.replace(/\\/$/,"");location.replace(base+"/#/project/"+pid);}catch(e){}</script>

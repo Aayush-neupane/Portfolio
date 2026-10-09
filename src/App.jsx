@@ -211,7 +211,7 @@ function syncProjectJsonLd(project, url, image) {
     author: {
       '@type': 'Person',
       name: 'Aayush Neupane',
-      url: 'https://aayush38.com.np/',
+      url: 'https://aayushnp.netlify.app/',
     },
     keywords: (project.techStack || []).join(', '),
   });

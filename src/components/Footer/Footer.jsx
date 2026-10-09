@@ -104,7 +104,7 @@ export default function Footer() {
           <p>
             © {year}{' '}
             <a
-              href="https://aayush38.com.np/"
+              href="https://aayushnp.netlify.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-text underline-offset-4 hover:underline"

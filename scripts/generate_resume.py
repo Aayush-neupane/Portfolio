@@ -29,9 +29,9 @@ LINKEDIN_LABEL = "LinkedIn"
 LINKEDIN_URL = "https://www.linkedin.com/in/aayush-neupane-38a9b7240/"
 
 SKILLS = [
-    ("Programming", "JavaScript, C++, C#, Python"),
-    ("Frontend", "HTML5, CSS3, React, Bootstrap, Responsive Design"),
-    ("Backend", "Node.js, Express.js, MongoDB, REST APIs"),
+    ("Programming", "JavaScript, TypeScript, C++, C#, Python"),
+    ("Frontend", "HTML5, CSS3, React, Next.js, Bootstrap, Responsive Design"),
+    ("Backend", "Node.js, Express.js, MongoDB, PostgreSQL, REST APIs"),
     ("Game Dev", "Unity, C#, Game Design Basics"),
     ("Design & Tools", "Figma, Canva, VS Code, Git & GitHub"),
     ("Creative", "Photography (Basic), Creative Writing"),

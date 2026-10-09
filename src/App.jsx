@@ -1,21 +1,23 @@
-import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './components/Navbar/Navbar.jsx';
 import ScrollProgress from './components/ScrollProgress/ScrollProgress.jsx';
 import Hero from './components/Hero/Hero.jsx';
-import About from './components/About/About.jsx';
-import Skills from './components/Skills/Skills.jsx';
-import TextReveal3D from './components/TextReveal3D/TextReveal3D.jsx';
-import Projects from './components/Projects/Projects.jsx';
-import Resume from './components/Resume/Resume.jsx';
-import Gallery from './components/Gallery/Gallery.jsx';
+// Below-fold sections load on approach: less JS parsed before first paint,
+// and form/animation libraries ride inside their own chunks.
+const About = lazy(() => import('./components/About/About.jsx'));
+const Skills = lazy(() => import('./components/Skills/Skills.jsx'));
+const TextReveal3D = lazy(() => import('./components/TextReveal3D/TextReveal3D.jsx'));
+const Projects = lazy(() => import('./components/Projects/Projects.jsx'));
+const Resume = lazy(() => import('./components/Resume/Resume.jsx'));
+const Gallery = lazy(() => import('./components/Gallery/Gallery.jsx'));
 const GalleryPage = lazy(() => import('./components/Gallery/GalleryPage.jsx'));
 const ProjectsPage = lazy(() => import('./components/Projects/ProjectsPage.jsx'));
 const ProjectDetail = lazy(() => import('./components/Projects/ProjectDetail.jsx'));
 const LinksPage = lazy(() => import('./components/Links/LinksPage.jsx'));
-import Playground from './components/Playground/Playground.jsx';
+const Playground = lazy(() => import('./components/Playground/Playground.jsx'));
 
 function RouteFallback() {
   return (
@@ -24,8 +26,69 @@ function RouteFallback() {
     </main>
   );
 }
-import Contact from './components/Contact/Contact.jsx';
-import Services from './components/Services/Services.jsx';
+
+/** Mounts children once they near the viewport, so below-fold chunks (and
+ *  their images, animations, and form libraries) stay unfetched until the
+ *  visitor approaches. The placeholder holds vertical space (CLS-safe), and
+ *  crawlers / no-IO browsers get everything immediately for SEO. */
+function LazySection({ minHeight = '60vh', force = false, onVisible, children }) {
+  const ref = useRef(null);
+  const [near, setNear] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    if (typeof IntersectionObserver === 'undefined') return true;
+    return /bot|crawl|spider|slurp|mediapartners|preview/i.test(navigator.userAgent || '');
+  });
+  const notified = useRef(false);
+  useEffect(() => {
+    if (force) {
+      setNear(true);
+      return undefined;
+    }
+  }, [force]);
+  useEffect(() => {
+    if (near) return undefined;
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setNear(true);
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setNear(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '900px 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [near]);
+  useEffect(() => {
+    if (near && !notified.current) {
+      notified.current = true;
+      onVisible?.();
+      // Late mounts grow the page: re-measure scroll triggers once painted.
+      requestAnimationFrame(() => {
+        try {
+          ScrollTrigger.refresh();
+        } catch {
+          /* scroll system unavailable */
+        }
+      });
+    }
+  }, [near, onVisible]);
+  if (!near) return <div ref={ref} style={{ minHeight }} aria-hidden="true" />;
+  return (
+    <div ref={ref}>
+      <Suspense fallback={<div style={{ minHeight }} aria-hidden="true" />}>
+        {children}
+      </Suspense>
+    </div>
+  );
+}
+const Contact = lazy(() => import('./components/Contact/Contact.jsx'));
+const Services = lazy(() => import('./components/Services/Services.jsx'));
 import Footer from './components/Footer/Footer.jsx';
 import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
@@ -258,6 +321,13 @@ export default function App() {
   const [dataReady, setDataReady] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [route, setRoute] = useState(routeFromHash);
+  // Bumped whenever a lazy home section mounts, so the nav observer below
+  // re-attaches to sections that did not exist on first paint.
+  const [mountedTick, setMountedTick] = useState(0);
+  const noteMounted = useCallback(() => setMountedTick((t) => t + 1), []);
+  // Flipped on the first section navigation: mounts every lazy section so
+  // nav jumps always have a live target (the scroll retry covers chunk load).
+  const [forceMount, setForceMount] = useState(false);
 
   const isGallery = route === GALLERY_ROUTE || route.startsWith(`${GALLERY_ROUTE}/`);
   const galleryPhotoId = isGallery ? galleryPhotoIdFromRoute(route) : null;
@@ -433,12 +503,14 @@ export default function App() {
         killTriggers();
         setRoute('');
         if (window.location.hash) window.location.hash = '';
+        setForceMount(true);
         setTimeout(() => {
           ScrollTrigger.refresh();
           scrollToTarget(href);
         }, 160);
         return;
       }
+      setForceMount(true);
       scrollToTarget(href);
     },
     [route, settleRoute, killTriggers]
@@ -523,7 +595,7 @@ export default function App() {
         const sel = inArchive ? `#project-row-${id}` : `#project-card-${id}`;
         const el = document.getElementById(sel.slice(1));
         if (!el) {
-          if (tries < 4) {
+          if (tries < 12) {
             setTimeout(() => land(tries + 1), 150);
           } else if (inArchive) {
             scrollTopImmediate();
@@ -649,7 +721,7 @@ export default function App() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, [dataReady, isGallery, isProjects, isLinks, isDetail, isUnknown, route]);
+  }, [dataReady, isGallery, isProjects, isLinks, isDetail, isUnknown, route, mountedTick]);
 
   useEffect(() => {
     if (dataReady) ScrollTrigger.refresh();
@@ -753,25 +825,43 @@ export default function App() {
       ) : (
         <main>
           <Hero profile={profile} now={nowStatus} onProject={openProject} stats={stats} />
-          <About profile={profile} whatsapp={whatsapp} sinceYear={stats.since} />
-          <Skills />
-          <TextReveal3D
-            eyebrow="Philosophy"
-            text="Details most people scroll past are the whole product."
-            emphasis={['scroll', 'past']}
-            support="It is why I obsess over spacing, timing, and the states nobody screenshots. Every project on this page was held to it."
-          />
-          <Projects
-            projects={projects}
-            onViewAll={() => handleNav(PROJECTS_ROUTE)}
-            onOpen={openProject}
-            onInquire={inquireAbout}
-          />
-          <Playground />
-          <Services onContact={contactFromServices} onInquire={inquireService} />
-          <Resume data={resume} />
-          <Gallery photos={featured.length > 0 ? featured : gallery.slice(0, 6)} onViewAll={() => handleNav(GALLERY_ROUTE)} />
-          <Contact profile={profile} social={social} whatsapp={whatsapp} draft={contactDraft} onSentClear={() => setContactDraft(null)} />
+          <LazySection force={forceMount} onVisible={noteMounted}>
+            <About profile={profile} whatsapp={whatsapp} sinceYear={stats.since} />
+          </LazySection>
+          <LazySection minHeight="50vh" force={forceMount} onVisible={noteMounted}>
+            <Skills />
+          </LazySection>
+          <LazySection minHeight="50vh" force={forceMount} onVisible={noteMounted}>
+            <TextReveal3D
+              eyebrow="Philosophy"
+              text="Details most people scroll past are the whole product."
+              emphasis={['scroll', 'past']}
+              support="It is why I obsess over spacing, timing, and the states nobody screenshots. Every project on this page was held to it."
+            />
+          </LazySection>
+          <LazySection force={forceMount} onVisible={noteMounted}>
+            <Projects
+              projects={projects}
+              onViewAll={() => handleNav(PROJECTS_ROUTE)}
+              onOpen={openProject}
+              onInquire={inquireAbout}
+            />
+          </LazySection>
+          <LazySection force={forceMount} onVisible={noteMounted}>
+            <Playground />
+          </LazySection>
+          <LazySection force={forceMount} onVisible={noteMounted}>
+            <Services onContact={contactFromServices} onInquire={inquireService} />
+          </LazySection>
+          <LazySection force={forceMount} onVisible={noteMounted}>
+            <Resume data={resume} />
+          </LazySection>
+          <LazySection force={forceMount} onVisible={noteMounted}>
+            <Gallery photos={featured.length > 0 ? featured : gallery.slice(0, 6)} onViewAll={() => handleNav(GALLERY_ROUTE)} />
+          </LazySection>
+          <LazySection force={forceMount} onVisible={noteMounted}>
+            <Contact profile={profile} social={social} whatsapp={whatsapp} draft={contactDraft} onSentClear={() => setContactDraft(null)} />
+          </LazySection>
         </main>
       )}
       </Suspense>

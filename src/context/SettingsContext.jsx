@@ -12,22 +12,22 @@ const SettingsContext = createContext({
 export const ACCENTS = {
   crimson: null,
   amber: {
-    '--color-accent': 'oklch(0.70 0.14 78)',
-    '--color-accent-deep': 'oklch(0.55 0.13 78)',
-    '--color-accent-soft': 'oklch(0.27 0.05 78)',
-    swatch: '#dda63e',
+    '--color-accent': 'oklch(0.75 0.17 75)',
+    '--color-accent-deep': 'oklch(0.58 0.15 75)',
+    '--color-accent-soft': 'oklch(0.29 0.06 75)',
+    swatch: '#f0b43c',
   },
   teal: {
-    '--color-accent': 'oklch(0.68 0.13 195)',
-    '--color-accent-deep': 'oklch(0.53 0.12 195)',
-    '--color-accent-soft': 'oklch(0.24 0.05 195)',
-    swatch: '#3fb8a8',
+    '--color-accent': 'oklch(0.74 0.16 190)',
+    '--color-accent-deep': 'oklch(0.58 0.14 190)',
+    '--color-accent-soft': 'oklch(0.26 0.06 190)',
+    swatch: '#3fd2b6',
   },
   plum: {
-    '--color-accent': 'oklch(0.66 0.15 330)',
-    '--color-accent-deep': 'oklch(0.52 0.13 330)',
-    '--color-accent-soft': 'oklch(0.25 0.05 330)',
-    swatch: '#c97bb8',
+    '--color-accent': 'oklch(0.70 0.19 340)',
+    '--color-accent-deep': 'oklch(0.56 0.16 340)',
+    '--color-accent-soft': 'oklch(0.27 0.06 340)',
+    swatch: '#e57ab8',
   },
 };
 

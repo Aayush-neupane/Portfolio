@@ -205,6 +205,11 @@ html.lenis, html.lenis body { height: auto; }
   mask-image: linear-gradient(to bottom, black 0%, transparent 90%);
   -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 90%);
 }
+/* Full-strength grid with no fade-out (philosophy section). */
+.hero-grid-solid {
+  mask-image: none;
+  -webkit-mask-image: none;
+}
 html.light .hero-grid {
   background-image:
     linear-gradient(to right, rgba(23, 19, 16, 0.08) 1px, transparent 1px),

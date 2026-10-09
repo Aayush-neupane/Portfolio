@@ -21,6 +21,8 @@ import Services from './components/Services/Services.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
+import { OrbitCluster, TrackLine } from './components/Loader/Orbit.jsx';
+import { useSettings } from './context/SettingsContext.jsx';
 import { scrollToTarget } from './utils/scroll.js';
 import { withBase } from './utils/paths.js';
 
@@ -47,6 +49,8 @@ function detailIdFromRoute(route) {
 const LOADER_WORDS = ['brewing milk tea', 'aligning pixels', 'chasing good light', 'warming up the server'];
 
 function LoadingScreen({ leaving }) {
+  const { theme } = useSettings();
+  const isLight = theme === 'light';
   const [pct, setPct] = useState(0);
   const [word, setWord] = useState(0);
 
@@ -70,6 +74,36 @@ function LoadingScreen({ leaving }) {
       clearInterval(words);
     };
   }, []);
+
+  // Light mode: orbit loader copied from create.io — haloed mark with the
+  // logo inverted to ink on paper, comet ring, and a tracked line.
+  if (isLight) {
+    return (
+      <div
+        aria-hidden="true"
+        className={`fixed inset-0 z-[100] grid place-items-center overflow-hidden bg-bg ${
+          leaving ? 'loader-lift' : ''
+        }`}
+      >
+        <div className="marketing-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
+        <div className="route-loader-in relative grid w-full max-w-sm justify-items-center px-6 text-center">
+          <OrbitCluster />
+          <p className="mt-8 font-mono text-[9px] uppercase tracking-[0.2em] text-accent-deep">
+            aayush / working
+          </p>
+          <p className="mt-3 min-h-[2.6em] font-display text-3xl tracking-[-0.03em] text-text sm:text-4xl">
+            {LOADER_WORDS[word % LOADER_WORDS.length]}…
+          </p>
+          <div className="mt-6 w-full">
+            <TrackLine />
+          </div>
+          <p className="mt-4 font-mono text-[9px] uppercase tabular-nums tracking-[0.2em] text-muted">
+            {pct}%
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

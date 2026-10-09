@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Github, Link2, Share2 } from 'lucide-react';
+import { OrbitMini } from '../Loader/Orbit.jsx';
 
 function isValidUrl(u) {
   return typeof u === 'string' && /^https?:\/\//.test(u) && u !== 'https://' && u !== 'http://';
@@ -298,7 +299,10 @@ export default function ProjectDetail({
         <h1 className="mt-8 font-display text-[clamp(2rem,4vw,3rem)] text-text">
           Project not found.
         </h1>
-        <p className="mt-4 max-w-xl leading-relaxed text-muted">
+        <div className="mt-6 opacity-80">
+          <OrbitMini size={48} />
+        </div>
+        <p className="mt-6 max-w-xl leading-relaxed text-muted">
           That project id doesn&apos;t match anything in the portfolio. It may
           have been moved or removed.
         </p>

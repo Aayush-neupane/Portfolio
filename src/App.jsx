@@ -73,18 +73,25 @@ function LoadingScreen({ leaving }) {
   const [pct, setPct] = useState(0);
   const [word, setWord] = useState(0);
 
+  // Progress eases toward 90% while booting, then snaps to 100 as the
+  // loader dissolves — the bar never sits full while work remains, and
+  // never lags behind the exit.
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setPct(100);
       return;
     }
+    if (leaving) {
+      setPct(100);
+      return;
+    }
     let raf = 0;
     const t0 = performance.now();
-    const dur = 700;
+    const dur = 950;
     const tick = (t) => {
-      const p = Math.min(1, (t - t0) / dur);
-      setPct(Math.round(p * 100));
-      if (p < 1) raf = requestAnimationFrame(tick);
+      const e = Math.min(1, (t - t0) / dur);
+      setPct(Math.round(90 * (1 - Math.pow(1 - e, 2))));
+      if (e < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     const words = setInterval(() => setWord((w) => w + 1), 350);
@@ -92,7 +99,7 @@ function LoadingScreen({ leaving }) {
       cancelAnimationFrame(raf);
       clearInterval(words);
     };
-  }, []);
+  }, [leaving]);
 
   // One orbit loader for both themes — the mark, rings and grid all resolve
   // through theme vars (the logo inverts to ink on paper in light mode).
@@ -100,7 +107,7 @@ function LoadingScreen({ leaving }) {
     <div
       aria-hidden="true"
       className={`fixed inset-0 z-[100] grid place-items-center overflow-hidden bg-bg ${
-        leaving ? 'loader-lift' : ''
+        leaving ? 'loader-exit' : ''
       }`}
     >
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
@@ -246,7 +253,8 @@ export default function App() {
   const [gallery, setGallery] = useState([]);
   const [featured, setFeatured] = useState([]);
   const [ready, setReady] = useState(false);
-  const [leaving, setLeaving] = useState(false);
+  const [entered, setEntered] = useState(false);
+  const [dataReady, setDataReady] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [route, setRoute] = useState(routeFromHash);
 
@@ -342,7 +350,7 @@ export default function App() {
       });
       syncProjectJsonLd(null);
     }
-    if (!ready) return undefined;
+    if (!dataReady) return undefined;
     // Home-route scrolling is owned by section nav / back-to-card flows.
     // Sub-routes always open at the very top — and stay there: re-assert
     // briefly to beat any late layout settling or async scroll restoration.
@@ -358,7 +366,7 @@ export default function App() {
       scrollTopImmediate();
     }, 100);
     return () => clearInterval(id);
-  }, [isGallery, isProjects, isLinks, isDetail, detailId, ready]);
+  }, [isGallery, isProjects, isLinks, isDetail, detailId, dataReady]);
 
   // Late image/font settling after a full document load can shift scroll on
   // sub-routes; pin it back to top once everything has arrived.
@@ -554,6 +562,9 @@ export default function App() {
       setNowStatus(nowSt);
       setGallery(withImages(gal.photos || [], 'src'));
       setFeatured(withImages(gal.featured || [], 'src'));
+      // Mount the page behind the loader the moment data lands, so the
+      // exit dissolves over settled layout instead of hard-cutting to it.
+      setDataReady(true);
       let seen = false;
       try {
         seen = sessionStorage.getItem('an-seen') === '1';
@@ -561,9 +572,11 @@ export default function App() {
         seen = false;
       }
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const baseWait = reduced ? 0 : seen ? 300 : 800;
-      const liftMs = reduced ? 0 : 500;
-      const wait = Math.max(0, baseWait - (Date.now() - started));
+      // One full orbit beat on first visit, a short one on return — then the
+      // page is already mounted behind the loader, which dissolves over it.
+      const minWait = reduced ? 0 : seen ? 400 : 950;
+      const exitMs = reduced ? 0 : 650;
+      const wait = Math.max(0, minWait - (Date.now() - started));
       setTimeout(() => {
         if (cancelled) return;
         try {
@@ -571,12 +584,12 @@ export default function App() {
         } catch {
           /* private mode */
         }
+        setReady(true);
         if (reduced) {
-          setReady(true);
+          setEntered(true);
           return;
         }
-        setLeaving(true);
-        setTimeout(() => !cancelled && setReady(true), liftMs);
+        setTimeout(() => !cancelled && setEntered(true), exitMs);
       }, wait);
     });
     return () => {
@@ -603,7 +616,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!ready || isGallery || isProjects || isLinks || isDetail) return;
+    if (!dataReady || isGallery || isProjects || isLinks || isDetail) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -617,16 +630,16 @@ export default function App() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, [ready, isGallery, isProjects, isLinks, isDetail, route]);
+  }, [dataReady, isGallery, isProjects, isLinks, isDetail, route]);
 
   useEffect(() => {
-    if (ready) ScrollTrigger.refresh();
-  }, [ready]);
+    if (dataReady) ScrollTrigger.refresh();
+  }, [dataReady]);
 
-  if (!ready) {
+  if (!dataReady) {
     return (
       <div className="min-h-screen bg-bg text-text">
-        <LoadingScreen leaving={leaving} />
+        <LoadingScreen leaving={false} />
       </div>
     );
   }
@@ -742,6 +755,7 @@ export default function App() {
       </ErrorBoundary>
       <Footer />
       <WhatsAppFloat whatsapp={whatsapp} />
+      {!entered && <LoadingScreen leaving={ready} />}
     </div>
   );
 }

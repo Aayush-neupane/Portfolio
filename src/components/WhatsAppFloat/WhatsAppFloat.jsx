@@ -11,7 +11,7 @@ export default function WhatsAppFloat({ whatsapp }) {
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
       title={whatsapp?.businessHours ? `WhatsApp · ${whatsapp.businessHours}` : 'Chat on WhatsApp'}
-      className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-5 z-40 grid h-12 w-12 place-items-center rounded-full bg-[#25d366] text-white shadow-lg transition-transform duration-200 hover:scale-105"
+      className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-5 z-40 grid h-12 w-12 place-items-center rounded-full bg-[#25d366] text-white shadow-lg transition-transform duration-200 hover:scale-105 print:hidden"
     >
       <MessageCircle className="h-5 w-5" aria-hidden="true" />
     </a>

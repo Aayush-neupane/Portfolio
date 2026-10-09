@@ -1,6 +1,6 @@
 import { ArrowUp, Codepen, Facebook, Github, Instagram, Linkedin, Youtube } from 'lucide-react';
 import { scrollToTarget, scrollToTop } from '../../utils/scroll.js';
-import { withBase } from '../../utils/paths.js';
+import LogoMark from '../Logo/LogoMark.jsx';
 
 const SITEMAP = [
   { label: 'About', href: '#about' },
@@ -24,7 +24,7 @@ const SOCIALS = [
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-border">
+    <footer className="border-t border-border print:hidden">
       <div className="mx-auto w-full max-w-6xl px-6 pb-[max(2rem,env(safe-area-inset-bottom))] pt-10">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <a
@@ -34,18 +34,9 @@ export default function Footer() {
               scrollToTop();
             }}
             aria-label="Aayush Neupane — back to top"
-            className="flex items-end gap-0 font-mono text-sm font-bold uppercase leading-none tracking-[0.2em] text-text transition-colors hover:text-accent"
+            className="group flex items-end gap-0 font-mono text-sm font-bold uppercase leading-none tracking-[0.2em] text-text transition-colors hover:text-accent"
           >
-            <img
-              src={withBase('/assets/images/profile/logo.svg')}
-              alt=""
-              width={36}
-              height={36}
-              loading="lazy"
-              decoding="async"
-              draggable={false}
-              className="brand-mark block h-9 w-9 shrink-0 translate-y-[7px] object-contain"
-            />
+            <LogoMark className="h-9 w-9 translate-y-[7px]" imgClassName="brand-mark" />
             <span className="-ml-[4px] inline-flex items-baseline gap-[9px] pb-[3px] leading-none">
               <span
                 aria-hidden="true"

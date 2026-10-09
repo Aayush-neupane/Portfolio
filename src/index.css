@@ -1,5 +1,64 @@
 @import "tailwindcss";
 
+/* Self-hosted fonts (no Google round-trips; works offline via the SW).
+ * Family names match the old Google stack exactly, so nothing else changes. */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("./assets/fonts/plus-jakarta-sans-normal-200-800-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("./assets/fonts/plus-jakarta-sans-italic-200-800-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/instrument-serif-normal-400-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/fonts/instrument-serif-normal-400-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/instrument-serif-italic-400-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/jetbrains-mono-normal-400-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/fonts/jetbrains-mono-normal-700-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/fonts/jetbrains-mono-italic-400-latin.woff2") format("woff2");
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ——— Premium Portfolio Design System (OKLCH, dark-first) ——— */
@@ -419,4 +478,39 @@ html.light .tone::after {
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.28'/%3E%3C/svg%3E"),
     linear-gradient(135deg, rgba(177, 58, 56, 0.1), rgba(255, 255, 255, 0.08) 70%);
+}
+
+/* ——— Print: clean résumé-friendly output ——— */
+@media print {
+  :root {
+    --color-bg: #ffffff;
+    --color-elevated: #f7f5f0;
+    --color-subtle: #ece7da;
+    --color-border: #d9d3c4;
+    --color-linestrong: #b3ac9b;
+    --color-text: #1c1a16;
+    --color-muted: #5d584e;
+    --color-accent: #c0453f;
+    --color-accent-deep: #a0332e;
+    --color-accent-soft: rgba(192, 69, 63, 0.12);
+  }
+  body {
+    background: #fff;
+  }
+  /* Skip ink-heavy decoration and anything already hidden via print:hidden. */
+  .hero-grid,
+  .orbit-sweep,
+  .scroll-cue-line,
+  .loader-orbit-spin,
+  .loader-orbit-spin-rev,
+  .loader-halo,
+  .tone::after {
+    display: none !important;
+  }
+  main a {
+    text-decoration: none;
+  }
+  h1, h2, h3 {
+    break-after: avoid;
+  }
 }

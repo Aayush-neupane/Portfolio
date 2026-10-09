@@ -89,6 +89,7 @@ function LazySection({ minHeight = '60vh', force = false, onVisible, children })
 }
 const Contact = lazy(() => import('./components/Contact/Contact.jsx'));
 const Services = lazy(() => import('./components/Services/Services.jsx'));
+const Support = lazy(() => import('./components/Support/Support.jsx'));
 import Footer from './components/Footer/Footer.jsx';
 import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
@@ -855,6 +856,9 @@ export default function App() {
           </LazySection>
           <LazySection force={forceMount} onVisible={noteMounted}>
             <Resume data={resume} />
+          </LazySection>
+          <LazySection force={forceMount} onVisible={noteMounted}>
+            <Support />
           </LazySection>
           <LazySection force={forceMount} onVisible={noteMounted}>
             <Gallery photos={featured.length > 0 ? featured : gallery.slice(0, 6)} onViewAll={() => handleNav(GALLERY_ROUTE)} />

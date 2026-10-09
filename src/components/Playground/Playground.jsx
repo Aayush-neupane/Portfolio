@@ -212,23 +212,14 @@ function SignatureWidget() {
 
 export default function Playground() {
   return (
-<<<<<<< HEAD
-    <section id="playground" className="scroll-mt-20">
-      <div className="mx-auto w-full max-w-6xl px-6 py-24 md:py-32">
-=======
     <section id="playground" className="relative scroll-mt-20">
       <div className="hero-grid hero-grid-solid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
       <div className="relative mx-auto w-full max-w-6xl px-6 py-24 md:py-32">
->>>>>>> portfolio-remote/rebrand
         <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent">
           Playground
         </p>
         <h2 className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text">
-<<<<<<< HEAD
-          Don&apos;t just look — <em className="italic">play.</em>
-=======
           Don&apos;t just look — <em className="italic text-accent">play.</em>
->>>>>>> portfolio-remote/rebrand
         </h2>
         <p className="mt-4 max-w-xl leading-relaxed text-muted">
           Live slices of two shipped apps, running right here. No screenshots,
@@ -236,11 +227,7 @@ export default function Playground() {
         </p>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
-<<<<<<< HEAD
           <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong md:p-7">
-=======
-          <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-accent/70 md:p-7">
->>>>>>> portfolio-remote/rebrand
             <div className="flex items-center justify-between gap-4">
               <h3 className="font-display text-2xl text-text">Type test</h3>
               <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
@@ -264,11 +251,7 @@ export default function Playground() {
             </a>
           </article>
 
-<<<<<<< HEAD
           <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong md:p-7">
-=======
-          <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-accent/70 md:p-7">
->>>>>>> portfolio-remote/rebrand
             <div className="flex items-center justify-between gap-4">
               <h3 className="font-display text-2xl text-text">Signature pad</h3>
               <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">

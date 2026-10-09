@@ -163,7 +163,7 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
             type="button"
             onClick={() => setOpen(false)}
             aria-label="Close menu"
-            className="route-loader-in mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-border px-7 py-3 text-sm font-medium text-muted transition-colors hover:border-accent/70 hover:text-text"
+            className="route-loader-in mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-border px-7 py-3 text-sm font-medium text-muted transition-colors hover:border-linestrong hover:text-text"
             style={{ animationDelay: `${(items.length + 2) * 55}ms` }}
           >
             Close

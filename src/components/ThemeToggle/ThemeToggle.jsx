@@ -10,7 +10,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className="grid h-11 w-11 place-items-center rounded-lg border border-border bg-elevated text-muted transition-colors duration-200 hover:border-accent/70 hover:text-text"
+      className="grid h-11 w-11 place-items-center rounded-lg border border-border bg-elevated text-muted transition-colors duration-200 hover:border-linestrong hover:text-text"
     >
       <span className="relative block h-5 w-5" aria-hidden="true">
         <Sun

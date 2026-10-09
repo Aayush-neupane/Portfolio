@@ -163,7 +163,7 @@ export default function Resume({ data }) {
               <li
                 key={ed.id}
                 data-reveal
-                className="flex items-start gap-4 rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-accent/70"
+                className="flex items-start gap-4 rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong"
               >
                 <GraduationCap className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
                 <div>
@@ -191,7 +191,7 @@ export default function Resume({ data }) {
                   <li
                     key={i}
                     title={c.issuer ? `${c.issuer}${c.year ? ` · ${c.year}` : ''}` : undefined}
-                    className="rounded-lg border border-border bg-subtle px-3.5 py-1.5 text-sm text-text transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/60 hover:text-accent"
+                    className="rounded-lg border border-border bg-subtle px-3.5 py-1.5 text-sm text-text transition-all duration-200 hover:-translate-y-0.5 hover:border-linestrong hover:text-accent"
                   >
                     {c.name}
                     {c.year ? ` · ${c.year}` : ''}

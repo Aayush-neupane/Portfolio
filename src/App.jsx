@@ -19,8 +19,8 @@ import Playground from './components/Playground/Playground.jsx';
 
 function RouteFallback() {
   return (
-    <main className="grid min-h-svh place-items-center bg-bg" aria-label="Loading page">
-      <OrbitMini size={56} />
+    <main className="min-h-svh bg-bg" aria-label="Loading page">
+      <RouteSkeleton />
       <SlowBadge active label="loading page" />
     </main>
   );
@@ -32,7 +32,8 @@ import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
 import NotFoundPage from './components/NotFound/NotFoundPage.jsx';
 import OfflineGate from './components/Loader/OfflineGate.jsx';
-import { OrbitCluster, OrbitMini, TrackLine } from './components/Loader/Orbit.jsx';
+import { OrbitCluster, TrackLine } from './components/Loader/Orbit.jsx';
+import RouteSkeleton from './components/Loader/RouteSkeleton.jsx';
 import SlowBadge from './components/Loader/SlowBadge.jsx';
 import RouteVeil, { routeLabel } from './components/Loader/RouteVeil.jsx';
 import { scrollToTarget } from './utils/scroll.js';

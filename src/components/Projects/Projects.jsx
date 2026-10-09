@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Github, Plus } from 'lucide-react';
 import { scrollToTarget } from '../../utils/scroll.js';
+import SmartImage from '../Loader/SmartImage.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,7 +25,6 @@ function isValidUrl(u) {
 }
 
 function ProjectVisual({ project, large }) {
-  const [failed, setFailed] = useState(false);
   const src = project.image;
   const alt = `${project.title || 'Project'} preview screenshot`;
   if (large) {
@@ -50,13 +50,14 @@ function ProjectVisual({ project, large }) {
               {project.title?.charAt(0) || 'A'}
             </span>
           </div>
-          {src && !failed && (
-            <img
+          {src && (
+            <SmartImage
               src={src}
               alt={alt}
-              loading="lazy" decoding="async"
-              onError={() => setFailed(true)}
-              className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+              mark={40}
+              caption="preview unavailable"
+              className="absolute inset-0"
+              imgClassName="h-full w-full object-cover object-top group-hover:scale-[1.03]"
             />
           )}
         </div>
@@ -73,13 +74,14 @@ function ProjectVisual({ project, large }) {
           {project.title?.charAt(0) || 'A'}
         </span>
       </div>
-      {src && !failed && (
-        <img
+      {src && (
+        <SmartImage
           src={src}
           alt={alt}
-          loading="lazy" decoding="async"
-          onError={() => setFailed(true)}
-          className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+          mark={40}
+          caption="preview unavailable"
+          className="absolute inset-0"
+          imgClassName="h-full w-full object-cover object-top group-hover:scale-[1.03]"
         />
       )}
     </div>

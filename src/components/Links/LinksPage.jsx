@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import { withBase } from '../../utils/paths.js';
 import { OrbitMini, TrackLine } from '../Loader/Orbit.jsx';
+import SmartImage from '../Loader/SmartImage.jsx';
 
 const WA_HIRE = 'https://wa.me/9779862862023?text=Hi%20Aayush%2C%20I%20found%20your%20links%20page%20and%20want%20to%20discuss%20a%20project.';
 
@@ -28,15 +29,17 @@ export default function LinksPage({ onNav }) {
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-md flex-col items-center px-6 pb-16 pt-24 md:pt-32">
-      <img
+      <SmartImage
         src={withBase('/assets/images/profile/me.JPG')}
         alt="Aayush Neupane"
+        eager
         width={96}
         height={96}
-        loading="eager"
-        decoding="async"
-        draggable={false}
-        className="h-24 w-24 rounded-full border-2 border-linestrong object-cover"
+        mark={30}
+        failMark={34}
+        caption=""
+        className="h-24 w-24 rounded-full border-2 border-linestrong"
+        imgClassName="h-full w-full object-cover"
       />
       <h1 className="mt-5 font-display text-3xl text-text">Aayush Neupane</h1>
       <p className="mt-2 text-center text-sm leading-relaxed text-muted">

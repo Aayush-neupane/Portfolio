@@ -1,15 +1,15 @@
 import { useMemo, useState } from 'react';
 import { ArrowLeft, ArrowUpRight, Github } from 'lucide-react';
+import SmartImage from '../Loader/SmartImage.jsx';
 
 function isValidUrl(u) {
   return typeof u === 'string' && /^https?:\/\//.test(u) && u !== 'https://' && u !== 'http://';
 }
 
 function RowThumb({ project }) {
-  const [failed, setFailed] = useState(false);
   const frame =
     'tone h-20 w-28 shrink-0 overflow-hidden rounded-lg border border-border bg-subtle';
-  if (!project.image || failed) {
+  if (!project.image) {
     return (
       <div className={`${frame} grid place-items-center`} aria-hidden="true">
         <span className="font-display text-3xl text-muted/60">
@@ -20,12 +20,14 @@ function RowThumb({ project }) {
   }
   return (
     <div className={frame}>
-      <img
+      <SmartImage
         src={project.image}
         alt={`${project.title || 'Project'} thumbnail`}
-        loading="lazy" decoding="async"
-        onError={() => setFailed(true)}
-        className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+        mark={26}
+        failMark={30}
+        caption=""
+        className="h-full w-full"
+        imgClassName="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
       />
     </div>
   );

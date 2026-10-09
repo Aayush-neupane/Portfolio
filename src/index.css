@@ -59,7 +59,7 @@ body {
   box-shadow: 0 12px 32px -12px var(--color-accent), 0 4px 12px -6px var(--color-accent);
 }
 .glow-card:hover {
-  box-shadow: 0 24px 60px -24px var(--color-accent);
+  box-shadow: 0 8px 20px -16px var(--color-accent);
 }
 .glow-soft {
   box-shadow: 0 0 90px -45px var(--color-accent);

@@ -23,6 +23,7 @@ import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
 import { OrbitCluster, TrackLine } from './components/Loader/Orbit.jsx';
 import { useSettings } from './context/SettingsContext.jsx';
+import RouteVeil, { routeLabel } from './components/Loader/RouteVeil.jsx';
 import { scrollToTarget } from './utils/scroll.js';
 import { withBase } from './utils/paths.js';
 
@@ -642,6 +643,7 @@ export default function App() {
         </defs>
       </svg>
       <ScrollProgress />
+      <RouteVeil routeKey={route} label={isDetail ? detailProject?.title || 'project' : routeLabel(route)} />
       <Navbar
         links={config?.navigation}
         activeSection={isGallery || isProjects || isLinks || isDetail ? '' : activeSection}

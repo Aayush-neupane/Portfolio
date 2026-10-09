@@ -222,6 +222,15 @@ html.light .hero-card {
   transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
+/* ——— Boot exit: the loader dissolves (fade + slight rise) over the already
+ *  mounted page instead of hard-cutting to it. */
+.loader-exit {
+  opacity: 0;
+  transform: translateY(-2%) scale(0.995);
+  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
+  pointer-events: none;
+}
+
 /* ——— Orbit loader (copied from create.io): rings, halo, tracked line ——— */
 .marketing-grid {
   background-image:

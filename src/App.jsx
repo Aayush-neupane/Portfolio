@@ -33,7 +33,6 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
 import { OrbitCluster, OrbitMini, TrackLine } from './components/Loader/Orbit.jsx';
 import SlowBadge from './components/Loader/SlowBadge.jsx';
 import RouteVeil, { routeLabel } from './components/Loader/RouteVeil.jsx';
-import { useSettings } from './context/SettingsContext.jsx';
 import { scrollToTarget } from './utils/scroll.js';
 import { withBase } from './utils/paths.js';
 import { projectCount, startYear, yearsSince } from './utils/stats.js';
@@ -71,8 +70,6 @@ function galleryPhotoIdFromRoute(route) {
 const LOADER_WORDS = ['brewing milk tea', 'aligning pixels', 'chasing good light', 'warming up the server'];
 
 function LoadingScreen({ leaving }) {
-  const { theme } = useSettings();
-  const isLight = theme === 'light';
   const [pct, setPct] = useState(0);
   const [word, setWord] = useState(0);
 
@@ -97,68 +94,30 @@ function LoadingScreen({ leaving }) {
     };
   }, []);
 
-  // Light mode: orbit loader copied from create.io — haloed mark with the
-  // logo inverted to ink on paper, comet ring, and a tracked line.
-  if (isLight) {
-    return (
-      <div
-        aria-hidden="true"
-        className={`fixed inset-0 z-[100] grid place-items-center overflow-hidden bg-bg ${
-          leaving ? 'loader-lift' : ''
-        }`}
-      >
-        <div className="marketing-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
-        <div className="route-loader-in relative grid w-full max-w-sm justify-items-center px-6 text-center">
-          <OrbitCluster />
-          <p className="mt-8 font-mono text-[9px] uppercase tracking-[0.2em] text-accent-deep">
-            aayush / working
-          </p>
-          <p className="mt-3 min-h-[2.6em] font-display text-3xl tracking-[-0.03em] text-text sm:text-4xl">
-            {LOADER_WORDS[word % LOADER_WORDS.length]}…
-          </p>
-          <div className="mt-6 w-full">
-            <TrackLine />
-          </div>
-          <p className="mt-4 font-mono text-[9px] uppercase tabular-nums tracking-[0.2em] text-muted">
-            {pct}%
-          </p>
-        </div>
-      </div>
-    );
-  }
-
+  // One orbit loader for both themes — the mark, rings and grid all resolve
+  // through theme vars (the logo inverts to ink on paper in light mode).
   return (
     <div
       aria-hidden="true"
-      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center gap-8 bg-bg ${
+      className={`fixed inset-0 z-[100] grid place-items-center overflow-hidden bg-bg ${
         leaving ? 'loader-lift' : ''
       }`}
     >
-      <div className="flex flex-col items-center gap-1">
-        <div className="flex w-full justify-center">
-          <img
-            src={withBase('/assets/images/profile/logo-trp.png')}
-            alt=""
-            width={144}
-            height={144}
-            decoding="async"
-            fetchPriority="high"
-            draggable={false}
-            className="loader-logo logo-adapt block h-32 w-32 object-contain md:h-36 md:w-36"
-          />
+      <div className="hero-grid pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
+      <div className="route-loader-in relative grid w-full max-w-sm justify-items-center px-6 text-center">
+        <OrbitCluster />
+        <p className="mt-8 font-mono text-[9px] uppercase tracking-[0.2em] text-accent-deep">
+          aayush / working
+        </p>
+        <p className="mt-3 min-h-[2.6em] font-display text-3xl tracking-[-0.03em] text-text sm:text-4xl">
+          {LOADER_WORDS[word % LOADER_WORDS.length]}…
+        </p>
+        <div className="mt-6 w-full">
+          <TrackLine />
         </div>
-        <svg viewBox="0 0 320 60" className="block h-14 w-72 overflow-visible" role="presentation">
-          <text x="50%" y="40" dx="0.2em" textAnchor="middle" className="loader-word">
-            AAYUSH
-          </text>
-        </svg>
-      </div>
-      <div className="flex w-64 items-center gap-3 font-mono text-[0.7rem] lowercase tracking-[0.08em] text-muted">
-        <span className="inline-block h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-accent" />
-        <span className="truncate">{LOADER_WORDS[word % LOADER_WORDS.length]}…</span>
-        <span className="ml-auto shrink-0 uppercase tabular-nums tracking-[0.2em] text-text">
+        <p className="mt-4 font-mono text-[9px] uppercase tabular-nums tracking-[0.2em] text-muted">
           {pct}%
-        </span>
+        </p>
       </div>
     </div>
   );

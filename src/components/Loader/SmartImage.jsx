@@ -55,7 +55,7 @@ export default function SmartImage({
   return (
     <span className={`${positioned ? '' : 'relative '}block overflow-hidden ${className}`}>
       {status === 'loading' && (
-        <span className="skeleton absolute inset-0 grid place-items-center" aria-hidden="true">
+        <span className="absolute inset-0 grid place-items-center" aria-hidden="true">
           <OrbitMini size={mark} />
         </span>
       )}

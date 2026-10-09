@@ -46,13 +46,20 @@ export default function SmartImage({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
-  // Still loading past grace → report slow; settle/unmount clears it.
+  // Still loading past grace → report slow; settle/unmount/src-change
+  // clears it. Finishing in the cleanup is what keeps the corner badge
+  // from sticking: without it, swapping sources (lightbox stepping)
+  // orphaned the previous report and the badge never lifted.
   useEffect(() => {
     if (status !== 'loading') return undefined;
     const t = window.setTimeout(() => {
       slowFinish.current = reportSlow();
     }, SLOW_MS);
-    return () => window.clearTimeout(t);
+    return () => {
+      window.clearTimeout(t);
+      slowFinish.current?.();
+      slowFinish.current = null;
+    };
   }, [status, key]);
   useEffect(
     () => () => {

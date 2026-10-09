@@ -20,14 +20,15 @@
   --color-accent-soft: oklch(0.25 0.05 28);
 }
 
-/* Light mode: warm paper (copied from create.io ui-kit paper tokens:
+/* Light mode: warm paper (after the create.io ui-kit paper tokens:
    --background #f1e7d1, --surface #f8f2e4, --surface-2 #e6d7b8,
-   --foreground #292721, --muted #6d675f). No plain white anywhere. */
+   --foreground #292721, --muted #6d675f). Surfaces run a touch deeper than
+   the reference so cards read as cream, never plain white. */
 .light {
   --color-bg: #f1e7d1;
-  --color-elevated: #f8f2e4;
-  --color-subtle: #e6d7b8;
-  --color-border: rgba(41, 39, 33, 0.22);
+  --color-elevated: #f5edda;
+  --color-subtle: #e2d1ad;
+  --color-border: rgba(41, 39, 33, 0.25);
   --color-linestrong: rgba(41, 39, 33, 0.45);
   --color-text: #292721;
   --color-muted: #6d675f;
@@ -210,9 +211,9 @@ html.light .hero-grid {
     linear-gradient(to bottom, rgba(23, 19, 16, 0.08) 1px, transparent 1px);
 }
 
-/* warm paper card instead of plain white in light mode (create.io kit-surface) */
+/* warm paper card instead of plain white in light mode */
 html.light .hero-card {
-  background-color: #f8f2e4;
+  background-color: #f5edda;
 }
 
 /* ——— Loader curtain lift ——— */

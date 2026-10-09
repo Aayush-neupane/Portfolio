@@ -111,17 +111,13 @@ body {
 }
 
 /* Accent glows (plain CSS: always wins the cascade, no utility magic).
- * .glow-btn      — primary buttons, shadow blooms on hover.
- * .glow-card     — cards, soft lift-shadow on hover.
+ * .glow-card     — cards, whisper lift-shadow on hover.
  * .glow-soft     — faint permanent halo (hero build-log). */
-.glow-btn:hover {
-  box-shadow: 0 12px 32px -12px var(--color-accent), 0 4px 12px -6px var(--color-accent);
-}
 .glow-card:hover {
   box-shadow: 0 8px 20px -16px var(--color-accent);
 }
 .glow-soft {
-  box-shadow: 0 0 90px -45px var(--color-accent);
+  box-shadow: 0 0 55px -42px var(--color-accent);
 }
 
 /* Scrollbar carries the accent so the color is present on every screen. */
@@ -291,8 +287,8 @@ html.lenis, html.lenis body { height: auto; }
 /* faint architectural grid for the hero — light lines on dark, dark lines on light */
 .hero-grid {
   background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--color-accent) 20%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--color-accent) 20%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in srgb, var(--color-accent) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-accent) 12%, transparent) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: linear-gradient(to bottom, black 0%, transparent 90%);
   -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 90%);
@@ -309,8 +305,8 @@ html.lenis, html.lenis body { height: auto; }
 }
 html.light .hero-grid {
   background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--color-accent) 26%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--color-accent) 26%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in srgb, var(--color-accent) 16%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-accent) 16%, transparent) 1px, transparent 1px);
 }
 
 /* warm paper card instead of plain white in light mode */

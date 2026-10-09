@@ -389,7 +389,7 @@ export default function ProjectDetail({
                   href={live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep glow-btn"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep"
                 >
                   View Live
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />

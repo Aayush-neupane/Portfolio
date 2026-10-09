@@ -66,7 +66,7 @@ export default function Resume({ data }) {
             <a
               href={downloadUrl}
               download
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep glow-btn"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep"
             >
               <Download className="h-4 w-4" aria-hidden="true" />
               Download PDF

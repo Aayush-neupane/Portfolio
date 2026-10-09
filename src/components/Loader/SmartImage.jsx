@@ -1,14 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { OrbitMark, OrbitMini } from './Orbit.jsx';
-import { reportSlow } from '../../utils/imageBus.js';
-
-/** Still loading after this long → counts as slow (corner orbit badge). */
-const SLOW_MS = 800;
 
 /** Universal image: a logo skeleton while loading, a soft fade-in on
- *  arrival, a logo tile when the source is truly gone, and slow-load
- *  reporting for the corner badge. `sources` are tried in order, so gallery
- *  variants transparently fall back to originals.
+ *  arrival, and a logo tile when the source is truly gone.
+ *  `sources` are tried in order, so gallery variants transparently fall
+ *  back to originals.
  *
  *  Sizing/aspect classes go on `className` (the wrapper); fit classes
  *  (`object-cover`, hover zooms) go on `imgClassName`. */
@@ -35,7 +31,6 @@ export default function SmartImage({
   const key = list.join('|');
   const [idx, setIdx] = useState(0);
   const [status, setStatus] = useState(list.length > 0 ? 'loading' : 'failed');
-  const slowFinish = useRef(null);
   const onLoadRef = useRef(onLoad);
   onLoadRef.current = onLoad;
 
@@ -46,39 +41,9 @@ export default function SmartImage({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
-  // Still loading past grace → report slow; settle/unmount/src-change
-  // clears it. Finishing in the cleanup is what keeps the corner badge
-  // from sticking: without it, swapping sources (lightbox stepping)
-  // orphaned the previous report and the badge never lifted.
-  useEffect(() => {
-    if (status !== 'loading') return undefined;
-    const t = window.setTimeout(() => {
-      slowFinish.current = reportSlow();
-    }, SLOW_MS);
-    return () => {
-      window.clearTimeout(t);
-      slowFinish.current?.();
-      slowFinish.current = null;
-    };
-  }, [status, key]);
-  useEffect(
-    () => () => {
-      slowFinish.current?.();
-      slowFinish.current = null;
-    },
-    []
-  );
-  const settle = (next) => {
-    slowFinish.current?.();
-    slowFinish.current = null;
-    setStatus(next);
-  };
-
   // Cached images may already be complete before listeners attach.
   const handleRef = useCallback((node) => {
     if (node && node.complete && node.naturalWidth > 0) {
-      slowFinish.current?.();
-      slowFinish.current = null;
       setStatus('ready');
       onLoadRef.current?.();
     }
@@ -121,10 +86,10 @@ export default function SmartImage({
             draggable={draggable}
             onError={() => {
               if (idx + 1 < list.length) setIdx(idx + 1);
-              else settle('failed');
+              else setStatus('failed');
             }}
             onLoad={() => {
-              settle('ready');
+              setStatus('ready');
               onLoadRef.current?.();
             }}
             style={imgStyle}

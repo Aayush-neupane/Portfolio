@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Github, Instagram, Linkedin, Loader2, Mail, MapPin, Send, X } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import SlowBadge from '../Loader/SlowBadge.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -404,6 +405,8 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   </>
                 )}
               </button>
+              {/* Slow sends (bad connection) surface a mini orbit pill bottom-right. */}
+              <SlowBadge active={isSubmitting} label="sending message" />
 
               <div className="flex items-center gap-4 pt-1" aria-hidden="true">
                 <span className="h-px flex-1 bg-border" />

@@ -84,14 +84,14 @@ export default function Support() {
           </span>
           <div>
             <p className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent">
-              One small cup · A big thank you
+              Coffee fund
             </p>
             <h2 className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text">
-              Enjoyed something I <em className="italic text-accent">built?</em>
+              Want to fuel the <em className="italic text-accent">next one?</em>
             </h2>
             <p className="mt-4 max-w-xl leading-relaxed text-muted">
-              If a project saved you an afternoon, you can buy me a coffee. It
-              helps me keep building and sharing — or just{' '}
+              Everything here is free. If something here saved you time or
+              sparked an idea, a coffee keeps new work coming — or just{' '}
               <button
                 type="button"
                 onClick={() => scrollToTarget('#contact')}
@@ -102,7 +102,7 @@ export default function Support() {
               .
             </p>
             <p className="mt-4 text-sm text-muted">
-              Your time here already means a lot. Thank you for stopping by.
+              Either way, thanks for stopping by.
             </p>
           </div>
           <a

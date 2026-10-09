@@ -71,6 +71,28 @@ export default function AccentPicker() {
         />
         <span className="absolute inset-0 rounded-full border border-dashed border-border/70" />
       </span>
+      {/* center mark: the logo, drawn as strokes so it follows the accent */}
+      <span
+        aria-hidden="true"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-[color] duration-300"
+        style={{ color: activeDot }}
+      >
+        <svg viewBox="0 0 100 100" fill="none" className="h-[22px] w-[22px]">
+          <path
+            d="M24 76 L50 24 L76 76"
+            stroke="currentColor"
+            strokeWidth="11"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M22 80 Q50 66 78 80"
+            stroke="currentColor"
+            strokeWidth="7"
+            strokeLinecap="round"
+          />
+        </svg>
+      </span>
       {/* planets */}
       {ORDER.map((name) => {
         const def = ACCENTS[name];

@@ -1,5 +1,6 @@
 import { ArrowUpRight } from 'lucide-react';
 import { withBase } from '../../utils/paths.js';
+import { OrbitMini, TrackLine } from '../Loader/Orbit.jsx';
 
 const WA_HIRE = 'https://wa.me/9779862862023?text=Hi%20Aayush%2C%20I%20found%20your%20links%20page%20and%20want%20to%20discuss%20a%20project.';
 
@@ -80,6 +81,16 @@ export default function LinksPage({ onNav }) {
       <p className="mt-8 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted/70">
         dynamic_aayush38
       </p>
+
+      <div className="mt-8 w-full">
+        <TrackLine />
+      </div>
+      <div className="mt-6 flex flex-col items-center gap-3 opacity-80">
+        <OrbitMini size={40} />
+        <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted/70">
+          aayush / links
+        </p>
+      </div>
     </div>
   );
 }

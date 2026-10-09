@@ -20,18 +20,20 @@
   --color-accent-soft: oklch(0.25 0.05 28);
 }
 
-/* Light mode: inverted palette, darker crimson */
+/* Light mode: warm paper (copied from create.io ui-kit paper tokens:
+   --background #f1e7d1, --surface #f8f2e4, --surface-2 #e6d7b8,
+   --foreground #292721, --muted #6d675f). No plain white anywhere. */
 .light {
-  --color-bg: oklch(0.965 0.003 250);
-  --color-elevated: oklch(1 0 0);
-  --color-subtle: oklch(0.93 0.004 250);
-  --color-border: oklch(0.86 0.006 250);
-  --color-linestrong: oklch(0.74 0.008 250);
-  --color-text: oklch(0.2 0.006 250);
-  --color-muted: oklch(0.45 0.01 250);
+  --color-bg: #f1e7d1;
+  --color-elevated: #f8f2e4;
+  --color-subtle: #e6d7b8;
+  --color-border: rgba(41, 39, 33, 0.22);
+  --color-linestrong: rgba(41, 39, 33, 0.45);
+  --color-text: #292721;
+  --color-muted: #6d675f;
   --color-accent: oklch(0.52 0.155 25);
   --color-accent-deep: oklch(0.44 0.15 25);
-  --color-accent-soft: oklch(0.94 0.03 28);
+  --color-accent-soft: rgba(188, 79, 48, 0.18);
 }
 
 body {
@@ -208,9 +210,9 @@ html.light .hero-grid {
     linear-gradient(to bottom, rgba(23, 19, 16, 0.08) 1px, transparent 1px);
 }
 
-/* warm paper card instead of plain white in light mode */
+/* warm paper card instead of plain white in light mode (create.io kit-surface) */
 html.light .hero-card {
-  background-color: #f4efe4;
+  background-color: #f8f2e4;
 }
 
 /* ——— Loader curtain lift ——— */

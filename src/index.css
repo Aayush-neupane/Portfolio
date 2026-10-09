@@ -194,6 +194,16 @@ html.lenis, html.lenis body { height: auto; }
   100% { transform: translateY(220%); }
 }
 
+/* faint architectural grid for the ink hero band */
+.inkgrid {
+  background-image:
+    linear-gradient(to right, rgba(244, 239, 228, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(244, 239, 228, 0.06) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 90%);
+}
+
 /* ——— Loader curtain lift ——— */
 .loader-lift {
   transform: translateY(-100%);

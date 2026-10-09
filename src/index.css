@@ -192,10 +192,10 @@ html.lenis, html.lenis body { height: auto; }
 .social-wa:hover svg { stroke: #25d366; }
 
 /* ——— FA brand buttons (Contact) ——— */
-.fa-btn svg path { transition: fill 0.25s ease; }
+.fa-btn svg { transition: stroke 0.25s ease; }
 .fa-btn .fa-label { transition: color 0.25s ease; }
 .fa-ig:hover { border-color: rgba(220, 39, 67, 0.6); }
-.fa-ig:hover svg path { fill: url(#grad-ig); }
+.fa-ig:hover svg { stroke: url(#grad-ig); }
 .fa-ig:hover .fa-label {
   background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
   -webkit-background-clip: text;
@@ -204,7 +204,7 @@ html.lenis, html.lenis body { height: auto; }
   -webkit-text-fill-color: transparent;
 }
 .fa-fb:hover { border-color: rgba(59, 130, 246, 0.6); }
-.fa-fb:hover svg path { fill: url(#grad-fb); }
+.fa-fb:hover svg { stroke: url(#grad-fb); }
 .fa-fb:hover .fa-label {
   background: linear-gradient(45deg, #1877f2, #3b82f6, #60a5fa);
   -webkit-background-clip: text;
@@ -213,7 +213,7 @@ html.lenis, html.lenis body { height: auto; }
   -webkit-text-fill-color: transparent;
 }
 .fa-wa:hover { border-color: rgba(37, 211, 102, 0.6); }
-.fa-wa:hover svg path { fill: #25d366; }
+.fa-wa:hover svg { stroke: #25d366; }
 .fa-wa:hover .fa-label {
   background: linear-gradient(45deg, #25d366, #128c7e);
   -webkit-background-clip: text;

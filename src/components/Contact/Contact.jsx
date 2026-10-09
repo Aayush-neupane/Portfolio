@@ -4,9 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Github, Instagram, Linkedin, Loader2, Mail, MapPin, Send, X } from 'lucide-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { Facebook, Github, Instagram, Linkedin, Loader2, Mail, MapPin, MessageCircle, Send, X } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -420,7 +418,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   rel="noopener noreferrer"
                   className="fa-btn fa-ig inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200"
                 >
-                  <FontAwesomeIcon icon={faInstagram} className="text-base leading-none" />
+                  <Instagram className="h-4 w-4" aria-hidden="true" />
                   <span className="fa-label">Instagram</span>
                 </a>
                 <a
@@ -429,7 +427,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   rel="noopener noreferrer"
                   className="fa-btn fa-fb inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200"
                 >
-                  <FontAwesomeIcon icon={faFacebookF} className="text-base leading-none" />
+                  <Facebook className="h-4 w-4" aria-hidden="true" />
                   <span className="fa-label">Facebook</span>
                 </a>
                 {waLink && (
@@ -439,7 +437,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                     rel="noopener noreferrer"
                     className="fa-btn fa-wa inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200"
                   >
-                    <FontAwesomeIcon icon={faWhatsapp} className="text-base leading-none" />
+                    <MessageCircle className="h-4 w-4" aria-hidden="true" />
                     <span className="fa-label">WhatsApp</span>
                   </a>
                 )}
@@ -509,7 +507,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 rounded-full bg-accent px-5 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:bg-accent-deep"
                 >
-                  <FontAwesomeIcon icon={faWhatsapp} aria-hidden="true" />
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
                   WhatsApp it over
                 </a>
               )}

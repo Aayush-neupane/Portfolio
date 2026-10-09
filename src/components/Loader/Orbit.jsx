@@ -60,7 +60,7 @@ export function OrbitMark({ size = 80, plain = false }) {
           style={{ inset: 5, borderColor: 'var(--color-border)' }}
         />
         <img
-          src={withBase('/assets/images/profile/logo-trp.png')}
+          src={withBase('/assets/images/profile/logo.svg')}
           alt=""
           width={inner}
           height={inner}

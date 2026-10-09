@@ -19,7 +19,6 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parent.parent
 DATA = json.loads((ROOT / "public" / "data" / "projects.json").read_text())
 OUT_DIR = ROOT / "public" / "assets" / "og"
-LOGO = ROOT / "public" / "assets" / "images" / "profile" / "logo-trp.png"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 W, H = 1200, 630
@@ -122,12 +121,14 @@ def card(project):
         panel, mask = shot_panel(shot)
         img.paste(panel, (700, 90), mask)
 
-    # Footer lockup: logo + name + site.
-    try:
-        logo = Image.open(LOGO).convert("RGBA").resize((104, 104))
-        img.paste(logo, (80, H - 184), logo)
-    except OSError:
-        pass
+    # Footer lockup: vector-style mark (peak + swoosh) + name + site.
+    mx, my, ms = 80, H - 184, 104
+    peak = [(mx + 0.22 * ms, my + 0.72 * ms),
+            (mx + 0.50 * ms, my + 0.22 * ms),
+            (mx + 0.78 * ms, my + 0.72 * ms)]
+    d.line(peak, fill=TEXT, width=max(6, int(ms * 0.11)), joint="curve")
+    d.arc([mx + 0.16 * ms, my + 0.34 * ms, mx + 0.84 * ms, my + 0.96 * ms],
+          start=200, end=340, fill=TEXT, width=max(4, int(ms * 0.07)))
     f_name, f_site = font(40), font(32, bold=False)
     d.text((208, H - 168), "Aayush Neupane", font=f_name, fill=TEXT)
     d.text((208, H - 112), "aayushnp.netlify.app", font=f_site, fill=MUTED)

@@ -207,6 +207,7 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
   return (
     <section id="projects" ref={rootRef} className="relative scroll-mt-20">
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
+      <div className="hero-grid hero-grid-fade-up pointer-events-none absolute inset-x-0 bottom-0 h-80 opacity-50" aria-hidden="true" />
       <div className="relative mx-auto w-full max-w-6xl px-6 py-24 md:py-32">
         <p
           data-reveal

@@ -192,7 +192,7 @@ export default function Hero({ profile, now, onProject, stats }) {
                 : undefined
             }
           >
-            <div className="hero-card rounded-xl border border-border bg-elevated p-6 transition-colors duration-200 hover:border-linestrong md:p-8">
+            <div className="hero-card rounded-xl border border-border bg-elevated p-6 transition-colors duration-200 hover:border-accent/70 md:p-8">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
                   Build log

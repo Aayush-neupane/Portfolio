@@ -163,7 +163,7 @@ export default function Resume({ data }) {
               <li
                 key={ed.id}
                 data-reveal
-                className="flex items-start gap-4 rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong"
+                className="flex items-start gap-4 rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-accent/70"
               >
                 <GraduationCap className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
                 <div>

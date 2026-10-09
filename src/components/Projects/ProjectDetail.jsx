@@ -402,7 +402,7 @@ export default function ProjectDetail({
                   href={repo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:border-linestrong hover:text-accent"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:border-accent/70 hover:text-accent"
                 >
                   <Github className="h-4 w-4" aria-hidden="true" />
                   Source Code
@@ -532,7 +532,7 @@ export default function ProjectDetail({
                 <button
                   type="button"
                   onClick={() => onOpen && onOpen(r)}
-                  className="group w-full rounded-xl border border-border bg-elevated p-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-linestrong"
+                  className="group w-full rounded-xl border border-border bg-elevated p-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-accent/70"
                 >
                   <RelatedThumb project={r} />
                   <p className="mt-4 truncate font-display text-xl text-text transition-colors group-hover:text-accent">

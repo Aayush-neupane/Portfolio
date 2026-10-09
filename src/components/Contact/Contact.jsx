@@ -489,7 +489,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                 type="button"
                 onClick={closeReply}
                 aria-label="Close"
-                className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted transition-colors hover:border-linestrong hover:text-text"
+                className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted transition-colors hover:border-accent/70 hover:text-text"
               >
                 <X className="h-4 w-4" aria-hidden="true" />
               </button>
@@ -516,7 +516,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
               {briefMailLink && (
                 <a
                   href={briefMailLink}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg px-5 py-2.5 text-xs font-medium text-text transition-all duration-200 hover:border-linestrong hover:text-accent"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg px-5 py-2.5 text-xs font-medium text-text transition-all duration-200 hover:border-accent/70 hover:text-accent"
                 >
                   <Mail className="h-3.5 w-3.5" aria-hidden="true" />
                   Email instead

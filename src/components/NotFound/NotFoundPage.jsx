@@ -31,7 +31,7 @@ export default function NotFoundPage({ onHome, onGallery }) {
           <button
             type="button"
             onClick={onGallery}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:border-linestrong hover:text-accent"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:border-accent/70 hover:text-accent"
           >
             View gallery
           </button>

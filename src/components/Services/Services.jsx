@@ -109,7 +109,7 @@ export default function Services({ onContact, onInquire }) {
               key={title}
               data-reveal
               className={`group relative flex flex-col rounded-xl border bg-elevated p-6 transition-all duration-200 hover:-translate-y-1 ${
-                popular ? 'border-accent/60' : 'border-border hover:border-linestrong'
+                popular ? 'border-accent/60' : 'border-border hover:border-accent/70'
               }`}
             >
               {popular && (

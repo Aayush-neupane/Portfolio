@@ -226,7 +226,7 @@ export default function Playground() {
         </p>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong md:p-7">
+          <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-accent/70 md:p-7">
             <div className="flex items-center justify-between gap-4">
               <h3 className="font-display text-2xl text-text">Type test</h3>
               <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
@@ -250,7 +250,7 @@ export default function Playground() {
             </a>
           </article>
 
-          <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong md:p-7">
+          <article className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-accent/70 md:p-7">
             <div className="flex items-center justify-between gap-4">
               <h3 className="font-display text-2xl text-text">Signature pad</h3>
               <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">

@@ -117,7 +117,7 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
       <div
         ref={tiltRef}
         style={{ transition: 'transform 0.18s ease-out' }}
-        className={`relative overflow-hidden rounded-lg border bg-subtle transition-all duration-300 group-hover:border-linestrong group-focus-visible:border-accent ${dimmed ? 'border-border' : 'border-linestrong'
+        className={`relative overflow-hidden rounded-lg border bg-subtle transition-all duration-300 group-hover:border-accent/70 group-focus-visible:border-accent ${dimmed ? 'border-border' : 'border-linestrong'
           }`}
       >
         <SmartImage

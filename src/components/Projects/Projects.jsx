@@ -218,7 +218,7 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
           data-reveal
           className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text"
         >
-          Selected <em className="italic">work.</em>
+          Selected <em className="italic text-accent">work.</em>
         </h2>
 
         <div

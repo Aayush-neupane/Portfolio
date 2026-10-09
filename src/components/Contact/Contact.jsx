@@ -221,7 +221,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
             data-reveal
             className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text"
           >
-            Let&apos;s work <em className="italic">together.</em>
+            Let&apos;s work <em className="italic text-accent">together.</em>
           </h2>
           <p data-reveal className="mt-5 max-w-md leading-[1.6] text-muted">
             Got a project, a question, or just want to say hi? My inbox is

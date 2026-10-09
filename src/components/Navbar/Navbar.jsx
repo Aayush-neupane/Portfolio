@@ -123,7 +123,7 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
     </header>
 
       {open && (
-        <div className="fixed inset-0 z-40 flex flex-col bg-bg/95 px-6 pb-10 pt-24 backdrop-blur-md md:hidden">
+        <div className="fixed inset-0 z-40 flex flex-col bg-bg px-6 pb-10 pt-24 md:hidden">
           <nav aria-label="Mobile" className="flex flex-col">
             {items.map((item, i) => {
               const active = isActive(item);

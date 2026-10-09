@@ -218,7 +218,7 @@ export default function Playground() {
           Playground
         </p>
         <h2 className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text">
-          Don&apos;t just look — <em className="italic">play.</em>
+          Don&apos;t just look — <em className="italic text-accent">play.</em>
         </h2>
         <p className="mt-4 max-w-xl leading-relaxed text-muted">
           Live slices of two shipped apps, running right here. No screenshots,

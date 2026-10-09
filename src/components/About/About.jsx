@@ -87,7 +87,7 @@ export default function About({ profile, whatsapp, sinceYear }) {
           >
             Developer who
             <br />
-            cares about <em className="italic">craft.</em>
+            cares about <em className="italic text-accent">craft.</em>
           </h2>
 
           <Portrait />

@@ -55,7 +55,7 @@ export default function Resume({ data }) {
           >
             Experience,
             <br />
-            distilled.
+            <em className="italic text-accent">distilled.</em>
           </h2>
           {d.summary && (
             <p data-reveal className="mt-5 max-w-md leading-[1.6] text-muted">

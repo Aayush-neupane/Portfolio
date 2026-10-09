@@ -90,7 +90,7 @@ export default function Services({ onContact, onInquire }) {
             data-reveal
             className="font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text"
           >
-            What I can <em className="italic">build for you.</em>
+            What I can <em className="italic text-accent">build for you.</em>
           </h2>
           <button
             data-reveal

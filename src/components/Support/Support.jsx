@@ -3,45 +3,47 @@ import { scrollToTarget } from '../../utils/scroll.js';
 // Buy Me a Coffee profile.
 const SUPPORT_URL = 'https://buymeacoffee.com/aayush38';
 
-/** Illustrated coffee scene: cream cup with a heart, steam curls and a
- *  sparkle on a dashed orbit — drawn in currentColor so the linework
- *  follows the active accent, exactly like the site loader. */
+/** Original illustrated coffee scene in the same spirit: cream cup with a
+ *  heart, steam curls and a sparkle on a dashed orbit — drawn in
+ *  currentColor so the linework follows the active accent, exactly like
+ *  the site loader. */
 function CoffeeScene({ className = '' }) {
   return (
     <svg
-      viewBox="0 0 320 300"
+      viewBox="0 0 300 280"
       fill="none"
       className={className}
       aria-hidden="true"
     >
-      <circle cx="160" cy="155" r="122" stroke="currentColor" strokeOpacity="0.3" strokeDasharray="3 8" />
-      <ellipse cx="154" cy="228" rx="93" ry="13" fill="currentColor" fillOpacity="0.08" />
+      <circle cx="150" cy="140" r="112" stroke="currentColor" strokeOpacity="0.3" strokeDasharray="4 9" />
+      <ellipse cx="142" cy="222" rx="85" ry="12" fill="currentColor" fillOpacity="0.08" />
       <path
-        d="M90 112h133l-14 86q-6 28-52 28t-53-28l-14-86Z"
+        d="M100 115h100l-11 70q-5 25-39 25t-39-25l-11-70Z"
         fill="#f7f5ef"
         stroke="currentColor"
         strokeWidth="2.5"
+        strokeLinejoin="round"
       />
       <path
-        d="M223 129h13q29 0 22 27-5 23-43 23"
+        d="M200 130h10q24 0 18 22-4 18-34 18"
         stroke="currentColor"
-        strokeWidth="8"
+        strokeWidth="7"
         strokeLinecap="round"
       />
-      <ellipse cx="156" cy="112" rx="66" ry="13" fill="#a67550" stroke="currentColor" strokeWidth="2.5" />
+      <ellipse cx="150" cy="115" rx="50" ry="10" fill="#a67550" stroke="currentColor" strokeWidth="2.5" />
       <path
-        d="M139 83q-16-13 1-27t0-25M171 85q-16-13 1-27t0-25"
+        d="M138 88q-12-10 1-20t0-19M162 90q-12-10 1-20t0-19"
         stroke="currentColor"
         strokeWidth="2.5"
         strokeLinecap="round"
         opacity="0.55"
       />
       <path
-        d="M157 170c-24-26-40 6 0 25 40-19 24-51 0-25Z"
+        d="M150 168c-18-20-30 5 0 19 30-14 18-39 0-19Z"
         fill="currentColor"
       />
       <path
-        d="m263 64 5 10 11 2-8 8 1 11-10-5-10 5 2-11-8-8 11-2 6-10Z"
+        d="M60 200l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinejoin="round"

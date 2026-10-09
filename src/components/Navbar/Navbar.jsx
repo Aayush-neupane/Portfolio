@@ -33,7 +33,12 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
       if (e.key === 'Escape') setOpen(false);
     };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
   }, [open]);
 
   const go = (e, href) => {
@@ -115,24 +120,53 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
         </div>
       </nav>
 
-      <div
-        className={`overflow-hidden border-b transition-[max-height] duration-200 ease-out md:hidden ${open ? 'max-h-96 border-border bg-bg/95 backdrop-blur-md' : 'max-h-0 border-transparent'
-          }`}
-      >
-        <nav aria-label="Mobile" className="flex flex-col gap-1 px-6 py-4">
-          {items.map((item) => (
-            <a
-              key={item.id}
-              href={item.href}
-              onClick={(e) => go(e, item.href)}
-              className={`rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-subtle hover:text-accent ${isActive(item) ? 'text-accent' : 'text-muted'
-                }`}
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-      </div>
+      {open && (
+        <div className="fixed inset-0 z-40 flex flex-col bg-bg/95 px-6 pb-10 pt-24 backdrop-blur-md md:hidden">
+          <nav aria-label="Mobile" className="flex flex-col">
+            {items.map((item, i) => {
+              const active = isActive(item);
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  onClick={(e) => go(e, item.href)}
+                  aria-current={active ? 'page' : undefined}
+                  className="route-loader-in group flex items-baseline gap-4 border-b border-border/60 py-3.5"
+                  style={{ animationDelay: `${i * 55}ms` }}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="font-mono text-xs tabular-nums text-muted"
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span
+                    className={`font-display text-4xl tracking-[-0.01em] transition-colors ${
+                      active ? 'text-accent' : 'text-text group-hover:text-accent'
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                  {active && (
+                    <span
+                      aria-hidden="true"
+                      className="ml-auto h-1.5 w-1.5 rounded-full bg-accent"
+                    />
+                  )}
+                </a>
+              );
+            })}
+          </nav>
+          <button
+            type="button"
+            onClick={(e) => go(e, '#contact')}
+            className="route-loader-in mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-deep"
+            style={{ animationDelay: `${items.length * 55}ms` }}
+          >
+            Get in touch
+          </button>
+        </div>
+      )}
     </header>
   );
 }

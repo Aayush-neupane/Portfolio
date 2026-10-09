@@ -212,8 +212,13 @@ function RelatedThumb({ project }) {
 function ShareButton({ project }) {
   const [copied, setCopied] = useState(false);
   const supported = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
-  const url = () =>
-    `${window.location.origin}${window.location.pathname}#/project/${project.id}`;
+  const url = () => {
+    // Pretty per-project link (matches the prerendered /project/:id pages),
+    // so shares unfurl with this project's own card instead of the generic
+    // page — crawlers ignore hash fragments, so #/project/:id would not.
+    const base = window.location.pathname.replace(/\/$/, '');
+    return `${window.location.origin}${base}/project/${encodeURIComponent(String(project.id))}`;
+  };
   const fallbackCopy = async () => {
     const link = url();
     try {

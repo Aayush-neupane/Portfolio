@@ -1,8 +1,10 @@
 import { ACCENTS, useSettings } from '../../context/SettingsContext.jsx';
 
-// Trial: four accent dots beside the theme toggle. Self-contained — delete
-// this file, its Navbar imports, and the ACCENTS block in SettingsContext
-// to remove the experiment.
+// Trial: each accent is a tiny orbit — a planet dot with a faint ring that
+// turns into a spinning dashed orbit with a satellite when active. Reuses
+// the loader's orbit animation (already reduced-motion safe). Self-contained:
+// delete this file, its Navbar imports, and the ACCENTS block in
+// SettingsContext to remove the experiment.
 export default function AccentPicker() {
   const { accent, setAccent } = useSettings();
 
@@ -10,7 +12,7 @@ export default function AccentPicker() {
     <div
       role="group"
       aria-label="Accent color (trial)"
-      className="flex items-center gap-1.5 rounded-lg border border-border bg-elevated px-2.5 py-2"
+      className="flex items-center gap-0.5 rounded-full border border-border bg-elevated px-1.5 py-1"
       title="Accent color — trial"
     >
       {Object.entries(ACCENTS).map(([name, def]) => {
@@ -24,16 +26,33 @@ export default function AccentPicker() {
             aria-label={`${name} accent`}
             aria-pressed={active}
             title={name}
-            className={`grid h-6 w-6 place-items-center rounded-full transition-transform duration-150 hover:scale-110 ${
-              active ? 'ring-2 ring-offset-2 ring-offset-elevated' : ''
-            }`}
-            style={active ? { ['--tw-ring-color']: dot } : undefined}
+            className="relative grid h-7 w-7 place-items-center rounded-full transition-transform duration-150 hover:scale-110"
           >
             <span
               aria-hidden="true"
-              className="block h-3.5 w-3.5 rounded-full"
-              style={{ background: dot }}
+              className="block h-2.5 w-2.5 rounded-full"
+              style={{
+                background: dot,
+                boxShadow: active ? `0 0 10px ${dot}` : undefined,
+              }}
             />
+            {active ? (
+              <span aria-hidden="true" className="loader-orbit-spin absolute inset-[3px]">
+                <span
+                  className="absolute -top-[2px] left-1/2 h-[3px] w-[3px] -translate-x-1/2 rounded-full"
+                  style={{ background: dot }}
+                />
+                <span
+                  className="absolute inset-0 rounded-full border border-dashed"
+                  style={{ borderColor: dot }}
+                />
+              </span>
+            ) : (
+              <span
+                aria-hidden="true"
+                className="absolute inset-[5px] rounded-full border border-border/60"
+              />
+            )}
           </button>
         );
       })}

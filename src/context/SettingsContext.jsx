@@ -81,7 +81,7 @@ export function SettingsProvider({ children }) {
 
   const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
   const setAccent = (name) => {
-    if (ACCENTS[name]) setAccentState(name);
+    if (Object.prototype.hasOwnProperty.call(ACCENTS, name)) setAccentState(name);
   };
 
   return (

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Github, Link2, Share2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Github } from 'lucide-react';
 import { OrbitMini } from '../Loader/Orbit.jsx';
+import ShareMenu from '../Share/ShareMenu.jsx';
 import SmartImage from '../Loader/SmartImage.jsx';
 
 function isValidUrl(u) {
@@ -209,69 +210,23 @@ function RelatedThumb({ project }) {
   );
 }
 
+function projectShareUrl(project) {
+  // Pretty per-project link (matches the prerendered /project/:id pages),
+  // so shares unfurl with this project's own card instead of the generic
+  // page — crawlers ignore hash fragments, so #/project/:id would not.
+  const base = window.location.pathname.replace(/\/$/, '');
+  return `${window.location.origin}${base}/project/${encodeURIComponent(String(project.id))}`;
+}
+
 function ShareButton({ project }) {
-  const [copied, setCopied] = useState(false);
-  const supported = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
-  const url = () => {
-    // Pretty per-project link (matches the prerendered /project/:id pages),
-    // so shares unfurl with this project's own card instead of the generic
-    // page — crawlers ignore hash fragments, so #/project/:id would not.
-    const base = window.location.pathname.replace(/\/$/, '');
-    return `${window.location.origin}${base}/project/${encodeURIComponent(String(project.id))}`;
-  };
-  const fallbackCopy = async () => {
-    const link = url();
-    try {
-      await navigator.clipboard.writeText(link);
-    } catch {
-      const ta = document.createElement('textarea');
-      ta.value = link;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-    }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1600);
-  };
-  const share = async () => {
-    if (!supported) {
-      fallbackCopy();
-      return;
-    }
-    try {
-      await navigator.share({
-        title: `${project.title} — Aayush Neupane`,
-        text: project.description,
-        url: url(),
-      });
-    } catch {
-      /* dismissed — stay quiet */
-    }
-  };
   return (
-    <button
-      type="button"
-      onClick={share}
-      className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.14em] text-muted underline decoration-border underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
-    >
-      {supported ? (
-        <>
-          <Share2 className="h-4 w-4" aria-hidden="true" />
-          Share
-        </>
-      ) : copied ? (
-        <>
-          <Check className="h-4 w-4 text-accent" aria-hidden="true" />
-          Copied
-        </>
-      ) : (
-        <>
-          <Link2 className="h-4 w-4" aria-hidden="true" />
-          Copy
-        </>
-      )}
-    </button>
+    <ShareMenu
+      title={`${project.title} — Aayush Neupane`}
+      text={project.description}
+      url={projectShareUrl(project)}
+      imageSrc={project.image}
+      layout="link"
+    />
   );
 }
 

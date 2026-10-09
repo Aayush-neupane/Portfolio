@@ -3,76 +3,33 @@ import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ChevronLeft, ChevronRight, Expand, X, Share2, Link2, Check } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Expand, X } from 'lucide-react';
 import { thumb, mid } from '../../utils/galleryImg.js';
 import SmartImage from '../Loader/SmartImage.jsx';
+import ShareMenu from '../Share/ShareMenu.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function PhotoShareButton({ photo }) {
-  const [copied, setCopied] = useState(false);
-  const supported = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
-  // Pretty per-photo link (matches the prerendered /gallery/:id pages), so
-  // shares unfurl with the photo itself as the card image and its title —
-  // crawlers ignore hash fragments, so #/gallery/:id would only show the
-  // generic site card. Falls back to the image file when there is no id.
-  const url = () => {
-    if (typeof window === 'undefined' || !photo) return '';
-    if (photo.id !== undefined && photo.id !== null) {
-      const base = window.location.pathname.replace(/\/$/, '');
-      return `${window.location.origin}${base}/gallery/${encodeURIComponent(String(photo.id))}`;
-    }
-    if (!photo.src) return '';
-    return new URL(photo.src, window.location.origin).href;
-  };
-  const fallbackCopy = async () => {
-    const link = url();
-    try {
-      await navigator.clipboard.writeText(link);
-    } catch {
-      const ta = document.createElement('textarea');
-      ta.value = link;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-    }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1600);
-  };
-  const share = async () => {
-    if (!supported) {
-      fallbackCopy();
-      return;
-    }
-    try {
-      await navigator.share({
-        title: `${photo.title} — Aayush Neupane`,
-        text: photo.story || photo.title,
-        url: url(),
-      });
-    } catch {
-      /* dismissed — stay quiet */
-    }
-  };
+  if (typeof window === 'undefined' || !photo) return null;
+  // Pretty per-photo link (matches the prerendered /gallery/:id stubs).
+  const base = window.location.pathname.replace(/\/$/, '');
+  const url =
+    photo.id !== undefined && photo.id !== null
+      ? `${window.location.origin}${base}/gallery/${encodeURIComponent(String(photo.id))}`
+      : photo.src
+        ? new URL(photo.src, window.location.origin).href
+        : '';
   return (
-    <button
-      type="button"
-      onClick={(e) => {
-        e.stopPropagation();
-        share();
-      }}
-      aria-label={supported ? `Share photo: ${photo.title}` : 'Copy photo link'}
-      className="grid h-11 w-11 place-items-center rounded-full border border-white/25 text-white transition-colors hover:border-accent hover:text-accent"
-    >
-      {supported ? (
-        <Share2 className="h-5 w-5" aria-hidden="true" />
-      ) : copied ? (
-        <Check className="h-5 w-5 text-accent" aria-hidden="true" />
-      ) : (
-        <Link2 className="h-5 w-5" aria-hidden="true" />
-      )}
-    </button>
+    <span onClick={(e) => e.stopPropagation()}>
+      <ShareMenu
+        title={`${photo.title} — Aayush Neupane`}
+        text={photo.story || photo.title}
+        url={url}
+        imageSrc={photo.src}
+        layout="icon"
+      />
+    </span>
   );
 }
 

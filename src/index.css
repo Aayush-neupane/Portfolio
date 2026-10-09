@@ -25,9 +25,9 @@
    --foreground #292721, --muted #6d675f). No plain white anywhere. */
 .light {
   --color-bg: #f1e7d1;
-  --color-elevated: #f8f2e4;
-  --color-subtle: #e6d7b8;
-  --color-border: rgba(41, 39, 33, 0.22);
+  --color-elevated: #f5edda;
+  --color-subtle: #e2d1ad;
+  --color-border: rgba(41, 39, 33, 0.25);
   --color-linestrong: rgba(41, 39, 33, 0.45);
   --color-text: #292721;
   --color-muted: #6d675f;
@@ -213,7 +213,7 @@ html.light .hero-grid {
 
 /* warm paper card instead of plain white in light mode (create.io kit-surface) */
 html.light .hero-card {
-  background-color: #f8f2e4;
+  background-color: #f5edda;
 }
 
 /* ——— Loader curtain lift ——— */

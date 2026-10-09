@@ -3,8 +3,8 @@ import { scrollToTarget } from '../../utils/scroll.js';
 // Buy Me a Coffee profile.
 const SUPPORT_URL = 'https://buymeacoffee.com/aayush38';
 
-/** Hand-drawn takeaway mug: chunky strokes read cleanly at small sizes,
- *  steam included. Inherits text color so it adapts to every button. */
+/** Hand-drawn takeaway cup: domed lid, sleeve band, chunky strokes that
+ *  stay legible at small sizes. Inherits text color so it adapts anywhere. */
 function CoffeeCup({ className = 'h-7 w-7' }) {
   return (
     <svg
@@ -17,9 +17,10 @@ function CoffeeCup({ className = 'h-7 w-7' }) {
       className={className}
       aria-hidden="true"
     >
-      <path d="M5 10h11v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-9z" />
-      <path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16" />
-      <path d="M9 3.5c-1 1.2 1 2.2 0 3.4M13 3.5c-1 1.2 1 2.2 0 3.4" />
+      <path d="M9 6.5V5a3 3 0 0 1 6 0v1.5" />
+      <path d="M6 6.5h12v1.5H6z" />
+      <path d="M7.2 9.5h9.6l-1 11H8.2l-1-11z" />
+      <path d="M7.5 14h9" strokeWidth="3.2" />
     </svg>
   );
 }
@@ -60,7 +61,7 @@ export default function Support() {
             href={SUPPORT_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep glow-btn md:justify-self-end"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep md:justify-self-end"
           >
             <CoffeeCup className="h-4 w-4" />
             Buy me a coffee

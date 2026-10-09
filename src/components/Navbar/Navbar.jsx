@@ -56,6 +56,7 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
   };
 
   return (
+    <>
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-200 ${scrolled ? 'border-b border-border bg-bg/80 backdrop-blur-md' : 'border-b border-transparent bg-transparent'
         }`}
@@ -119,6 +120,7 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
           </button>
         </div>
       </nav>
+    </header>
 
       {open && (
         <div className="fixed inset-0 z-40 flex flex-col bg-bg/95 px-6 pb-10 pt-24 backdrop-blur-md md:hidden">
@@ -160,13 +162,22 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
           <button
             type="button"
             onClick={(e) => go(e, '#contact')}
-            className="route-loader-in mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-deep"
-            style={{ animationDelay: `${items.length * 55}ms` }}
+            className="route-loader-in inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-deep"
+            style={{ animationDelay: `${(items.length + 1) * 55}ms` }}
           >
             Get in touch
           </button>
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            aria-label="Close menu"
+            className="route-loader-in mt-3 inline-flex items-center justify-center gap-2 rounded-full border border-border px-7 py-3 text-sm font-medium text-muted transition-colors hover:border-linestrong hover:text-text"
+            style={{ animationDelay: `${(items.length + 2) * 55}ms` }}
+          >
+            Close
+          </button>
         </div>
       )}
-    </header>
+    </>
   );
 }

@@ -100,18 +100,18 @@ export default function Hero({ profile, now, onProject }) {
   }, []);
 
   return (
-    <section id="home" ref={rootRef} className="relative overflow-hidden bg-[#171310] text-[#f4efe4]">
-      <div className="inkgrid pointer-events-none absolute inset-0" aria-hidden="true" />
+    <section id="home" ref={rootRef} className="relative overflow-hidden">
+      <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden="true" />
       <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-6 pb-28 pt-36 md:pb-36 md:pt-44 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <p data-reveal className="mb-5 font-mono text-xs tracking-[0.08em] text-[#b9b0a1]">
+          <p data-reveal className="mb-5 font-mono text-xs tracking-[0.08em] text-muted">
             {greeting}, and thanks for stopping by.
           </p>
           <button
             data-reveal
             type="button"
             onClick={() => scrollToTarget('#contact')}
-            className="group inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/5 py-1.5 pl-3 pr-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-[#b9b0a1] transition-colors duration-200 hover:border-white/50 hover:text-white"
+            className="group inline-flex items-center gap-2.5 rounded-full border border-border bg-elevated py-1.5 pl-3 pr-4 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted transition-colors duration-200 hover:border-accent/60 hover:text-text"
           >
             <span className="relative flex h-2 w-2" aria-hidden="true">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
@@ -121,21 +121,21 @@ export default function Hero({ profile, now, onProject }) {
           </button>
           <p
             data-reveal
-            className="mt-6 font-mono text-xs font-medium uppercase tracking-[0.18em] text-[#d97757]"
+            className="mt-6 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent"
           >
             Developer &amp; Builder
           </p>
           <h1
             data-reveal
-            className="mt-5 font-display text-[clamp(3rem,7vw,4.5rem)] leading-[0.98] tracking-[-0.03em] text-[#f4efe4]"
+            className="mt-5 font-display text-[clamp(3rem,7vw,4.5rem)] leading-[0.98] tracking-[-0.03em] text-text"
           >
             {first}{' '}
             <em className="italic">
               {restName.join(' ')}
-              <span className="text-[#d97757]">.</span>
+              <span className="text-accent">.</span>
             </em>
           </h1>
-          <p data-reveal className="mt-6 max-w-xl text-base leading-relaxed text-[#b9b0a1] md:text-lg">
+          <p data-reveal className="mt-6 max-w-xl text-base leading-relaxed text-muted md:text-lg">
             {tagline}
           </p>
           <div data-reveal className="mt-9 flex flex-wrap items-center gap-4">
@@ -150,36 +150,36 @@ export default function Hero({ profile, now, onProject }) {
               <button
                 type="button"
                 onClick={() => scrollToTarget('#contact')}
-                className="inline-flex items-center gap-2 rounded-full border border-[#d97757]/60 px-7 py-3 text-sm font-semibold text-[#d97757] transition-all duration-200 hover:-translate-y-px hover:bg-accent hover:text-white"
+                className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-7 py-3 text-sm font-semibold text-accent transition-all duration-200 hover:-translate-y-px hover:bg-accent hover:text-white"
               >
                 Get in Touch
               </button>
           </div>
           <dl
             data-reveal
-            className="mt-12 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/20 pt-6"
+            className="mt-12 flex flex-wrap gap-x-10 gap-y-4 border-t border-border pt-6"
           >
             <div>
-              <dt className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[#918c83]">
+              <dt className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
                 Experience
               </dt>
-              <dd className="mt-1 font-mono text-xl text-[#f4efe4]">
+              <dd className="mt-1 font-mono text-xl text-text">
                 <CountUp to={4} suffix="+ yrs" />
               </dd>
             </div>
             <div>
-              <dt className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[#918c83]">
+              <dt className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
                 Projects
               </dt>
-              <dd className="mt-1 font-mono text-xl text-[#f4efe4]">
+              <dd className="mt-1 font-mono text-xl text-text">
                 <CountUp to={20} suffix="+" />
               </dd>
             </div>
             <div>
-              <dt className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[#918c83]">
+              <dt className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
                 Location
               </dt>
-              <dd className="mt-1 font-mono text-xl text-[#f4efe4]">Nepal</dd>
+              <dd className="mt-1 font-mono text-xl text-text">Nepal</dd>
             </div>
           </dl>
         </div>
@@ -192,7 +192,7 @@ export default function Hero({ profile, now, onProject }) {
                 : undefined
             }
           >
-            <div className="rounded-xl border border-border bg-elevated p-6 transition-colors duration-200 hover:border-linestrong md:p-8">
+            <div className="hero-card rounded-xl border border-border bg-elevated p-6 transition-colors duration-200 hover:border-linestrong md:p-8">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
                   Build log
@@ -248,10 +248,10 @@ export default function Hero({ profile, now, onProject }) {
         aria-hidden="true"
         className="pointer-events-none absolute bottom-7 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2.5 md:flex"
       >
-        <span className="font-mono text-[0.65rem] uppercase tracking-[0.24em] text-[#918c83]">
+        <span className="font-mono text-[0.65rem] uppercase tracking-[0.24em] text-muted">
           Scroll
         </span>
-        <span className="block h-10 w-px overflow-hidden bg-white/20">
+        <span className="block h-10 w-px overflow-hidden bg-border">
           <span className="scroll-cue-line block h-1/2 w-px bg-accent" />
         </span>
       </div>

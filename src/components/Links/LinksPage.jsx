@@ -58,7 +58,11 @@ export default function LinksPage({ onNav }) {
                 className={`group flex items-center justify-between gap-4 rounded-2xl border bg-elevated p-4 transition-all duration-200 hover:-translate-y-0.5 ${
                   link.hot
                     ? 'border-accent/60 hover:border-accent'
+<<<<<<< HEAD
                     : 'border-border hover:border-linestrong'
+=======
+                    : 'border-border hover:border-accent/70'
+>>>>>>> portfolio-remote/rebrand
                 }`}
               >
                 <span className="min-w-0">

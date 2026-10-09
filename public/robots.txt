@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://aayush38.com.np/sitemap.xml
+Sitemap: https://aayushnp.netlify.app/sitemap.xml

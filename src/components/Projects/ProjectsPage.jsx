@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { ArrowLeft, ArrowUpRight, Github } from 'lucide-react';
+import { tabListKeyDown } from '../../utils/a11y.js';
 import SmartImage from '../Loader/SmartImage.jsx';
 
 function isValidUrl(u) {
@@ -153,7 +154,7 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
           href="https://github.com/aayush-neupane"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-5 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:-translate-y-px hover:border-linestrong hover:text-accent"
+          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-5 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:border-accent/70 hover:text-accent"
         >
           <Github className="h-4 w-4" aria-hidden="true" />
           GitHub profile
@@ -164,7 +165,7 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
         featured work, more curiosity per pixel.
       </p>
 
-      <div role="tablist" aria-label="Filter archive by category" className="mt-8 flex flex-wrap gap-2">
+      <div role="tablist" aria-label="Filter archive by category" onKeyDown={tabListKeyDown} className="mt-8 flex flex-wrap gap-2">
         {cats.map((cat) => {
           const selected = filter === cat;
           const count = cat === 'All' ? items.length : items.filter((p) => p.category === cat).length;
@@ -178,7 +179,7 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
               className={`rounded-full px-5 py-2.5 text-sm font-medium capitalize transition-all duration-200 ${
                 selected
                   ? 'bg-accent text-white'
-                  : 'border border-border bg-elevated text-muted hover:-translate-y-px hover:border-linestrong hover:text-text'
+                  : 'border border-border bg-elevated text-muted hover:border-accent/70 hover:text-text'
               }`}
             >
               {cat}

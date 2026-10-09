@@ -20,6 +20,26 @@ const schema = z.object({
 const inputClass =
   'w-full rounded-lg border border-border bg-elevated px-4 py-3 text-text placeholder:text-muted/70 text-base transition-colors duration-200 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40';
 
+/** Unsent form contents survive reloads. Cleared on successful send. */
+const DRAFT_KEY = 'an-contact-draft';
+
+function readSavedDraft() {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object') return null;
+    return {
+      name: typeof parsed.name === 'string' ? parsed.name : '',
+      email: typeof parsed.email === 'string' ? parsed.email : '',
+      subject: typeof parsed.subject === 'string' ? parsed.subject : '',
+      message: typeof parsed.message === 'string' ? parsed.message : '',
+    };
+  } catch {
+    return null;
+  }
+}
+
 export default function Contact({ profile, social, whatsapp, draft, onSentClear }) {
   const rootRef = useRef(null);
   const formRef = useRef(null);
@@ -33,6 +53,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
     handleSubmit,
     reset,
     getValues,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
@@ -42,6 +63,9 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
       email: '',
       subject: draft?.subject || '',
       message: draft?.message || '',
+      ...readSavedDraft(),
+      // An explicit Inquire draft always wins over a saved one.
+      ...(draft ? { subject: draft.subject || '', message: draft.message || '' } : null),
     },
   });
 
@@ -56,6 +80,23 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draft?.nonce]);
+
+  // Persist unsent input so a reload or accidental navigation loses nothing.
+  useEffect(() => {
+    const sub = watch((values) => {
+      try {
+        const { name, email, subject, message } = values || {};
+        if (!name && !email && !subject && !message) {
+          localStorage.removeItem(DRAFT_KEY);
+          return;
+        }
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({ name, email, subject, message }));
+      } catch {
+        /* storage unavailable */
+      }
+    });
+    return () => sub.unsubscribe();
+  }, [watch]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -101,6 +142,11 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
       setSent(true);
       onSentClear?.();
       reset({ name: '', email: '', subject: '', message: '' });
+      try {
+        localStorage.removeItem(DRAFT_KEY);
+      } catch {
+        /* storage unavailable */
+      }
     } catch {
       // Backend unreachable (or first-time FormSubmit activation) — surface mailto fallback.
       setFailed(true);
@@ -175,7 +221,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
             data-reveal
             className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text"
           >
-            Let&apos;s work <em className="italic">together.</em>
+            Let&apos;s work <em className="italic text-accent">together.</em>
           </h2>
           <p data-reveal className="mt-5 max-w-md leading-[1.6] text-muted">
             Got a project, a question, or just want to say hi? My inbox is
@@ -233,7 +279,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
             ))}
           </ol>
 
-          <div data-reveal className="mt-6 space-y-2">
+          <div data-reveal id="contact-faq" className="mt-6 scroll-mt-28 space-y-2">
             <details className="rounded-xl border border-border bg-elevated px-5 py-3.5">
               <summary className="cursor-pointer list-none text-sm font-semibold text-text [&::-webkit-details-marker]:hidden">
                 How fast do you reply?
@@ -344,7 +390,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
               >
                 {isSubmitting ? (
                   <>
@@ -372,7 +418,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   href="https://www.instagram.com/dynamic_aayush38"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="fa-btn fa-ig inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:-translate-y-px"
+                  className="fa-btn fa-ig inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200"
                 >
                   <FontAwesomeIcon icon={faInstagram} className="text-base leading-none" />
                   <span className="fa-label">Instagram</span>
@@ -381,7 +427,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   href="https://www.facebook.com/khatra.manxey.071129"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="fa-btn fa-fb inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:-translate-y-px"
+                  className="fa-btn fa-fb inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200"
                 >
                   <FontAwesomeIcon icon={faFacebookF} className="text-base leading-none" />
                   <span className="fa-label">Facebook</span>
@@ -391,7 +437,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                     href={waLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="fa-btn fa-wa inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:-translate-y-px"
+                    className="fa-btn fa-wa inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition-all duration-200"
                   >
                     <FontAwesomeIcon icon={faWhatsapp} className="text-base leading-none" />
                     <span className="fa-label">WhatsApp</span>
@@ -443,7 +489,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                 type="button"
                 onClick={closeReply}
                 aria-label="Close"
-                className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted transition-colors hover:border-linestrong hover:text-text"
+                className="grid h-9 w-9 place-items-center rounded-full border border-border text-muted transition-colors hover:border-accent/70 hover:text-text"
               >
                 <X className="h-4 w-4" aria-hidden="true" />
               </button>
@@ -461,7 +507,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   href={briefWaLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-5 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-5 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:bg-accent-deep"
                 >
                   <FontAwesomeIcon icon={faWhatsapp} aria-hidden="true" />
                   WhatsApp it over
@@ -470,7 +516,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
               {briefMailLink && (
                 <a
                   href={briefMailLink}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg px-5 py-2.5 text-xs font-medium text-text transition-all duration-200 hover:-translate-y-px hover:border-linestrong hover:text-accent"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-bg px-5 py-2.5 text-xs font-medium text-text transition-all duration-200 hover:border-accent/70 hover:text-accent"
                 >
                   <Mail className="h-3.5 w-3.5" aria-hidden="true" />
                   Email instead

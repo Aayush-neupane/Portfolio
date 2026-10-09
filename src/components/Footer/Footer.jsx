@@ -37,7 +37,7 @@ export default function Footer() {
             className="flex items-end gap-0 font-mono text-sm font-bold uppercase leading-none tracking-[0.2em] text-text transition-colors hover:text-accent"
           >
             <img
-              src={withBase('/assets/images/profile/logotrp.png')}
+              src={withBase('/assets/images/profile/logo-trp.png')}
               alt=""
               width={36}
               height={36}
@@ -104,7 +104,7 @@ export default function Footer() {
           <p>
             © {year}{' '}
             <a
-              href="https://aayush38.com.np/"
+              href="https://aayushnp.netlify.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-text underline-offset-4 hover:underline"
@@ -117,7 +117,7 @@ export default function Footer() {
             type="button"
             onClick={scrollToTop}
             aria-label="Back to top"
-            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-4 py-2.5 text-xs font-medium text-muted transition-colors duration-200 hover:border-linestrong hover:text-accent"
+            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-4 py-2.5 text-xs font-medium text-muted transition-colors duration-200 hover:border-accent/70 hover:text-accent"
           >
             Top
             <ArrowUp className="h-3.5 w-3.5" aria-hidden="true" />

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronLeft, ChevronRight, Expand, X, Share2, Link2, Check } from 'lucide-react';
+import { thumb, mid } from '../../utils/galleryImg.js';
 import SmartImage from '../Loader/SmartImage.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -11,10 +12,19 @@ gsap.registerPlugin(ScrollTrigger);
 function PhotoShareButton({ photo }) {
   const [copied, setCopied] = useState(false);
   const supported = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
-  const url = () =>
-    typeof window !== 'undefined' && photo?.src
-      ? new URL(photo.src, window.location.origin).href
-      : '';
+  // Pretty per-photo link (matches the prerendered /gallery/:id pages), so
+  // shares unfurl with the photo itself as the card image and its title —
+  // crawlers ignore hash fragments, so #/gallery/:id would only show the
+  // generic site card. Falls back to the image file when there is no id.
+  const url = () => {
+    if (typeof window === 'undefined' || !photo) return '';
+    if (photo.id !== undefined && photo.id !== null) {
+      const base = window.location.pathname.replace(/\/$/, '');
+      return `${window.location.origin}${base}/gallery/${encodeURIComponent(String(photo.id))}`;
+    }
+    if (!photo.src) return '';
+    return new URL(photo.src, window.location.origin).href;
+  };
   const fallbackCopy = async () => {
     const link = url();
     try {
@@ -107,11 +117,11 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
       <div
         ref={tiltRef}
         style={{ transition: 'transform 0.18s ease-out' }}
-        className={`relative overflow-hidden rounded-lg border bg-subtle transition-all duration-300 group-hover:border-linestrong group-focus-visible:border-accent ${dimmed ? 'border-border' : 'border-linestrong'
+        className={`relative overflow-hidden rounded-lg border bg-subtle transition-all duration-300 group-hover:border-accent/70 group-focus-visible:border-accent ${dimmed ? 'border-border' : 'border-linestrong'
           }`}
       >
         <SmartImage
-          src={photo.src}
+          sources={[thumb(photo.src), photo.src]}
           alt={photo.title}
           width={photo.w}
           height={photo.h}
@@ -121,7 +131,7 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
           caption="photo unavailable"
           imgClassName={`${imgClass || 'h-auto w-full'} group-hover:scale-[1.03]`}
         />
-        <span className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-bg/70 text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+        <span className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-bg/70 text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 [@media(hover:none)]:opacity-100">
           <Expand className="h-4 w-4" aria-hidden="true" />
         </span>
       </div>
@@ -150,6 +160,38 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
 
 export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
   const touchRef = useRef({ x: 0, y: 0 });
+  const dialogRef = useRef(null);
+  const returnFocusRef = useRef(null);
+  // Focus trap with focus return: Tab cycles inside the dialog, and closing
+  // hands focus back to whatever opened it.
+  useEffect(() => {
+    returnFocusRef.current = document.activeElement;
+    const node = dialogRef.current;
+    if (!node) return undefined;
+    const onKeyDown = (e) => {
+      if (e.key !== 'Tab') return;
+      const items = [...node.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])')].filter(
+        (el) => !el.disabled && el.offsetParent !== null
+      );
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    node.addEventListener('keydown', onKeyDown);
+    return () => {
+      node.removeEventListener('keydown', onKeyDown);
+      if (returnFocusRef.current instanceof HTMLElement) {
+        returnFocusRef.current.focus({ preventScroll: true });
+      }
+    };
+  }, []);
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'Escape') onClose();
@@ -187,6 +229,7 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
   // is tracked by component, not by DOM location.
   return createPortal(
     <motion.div
+      ref={dialogRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -230,7 +273,7 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
         </button>
         <div className="flex min-h-0 min-w-0 flex-1 items-center justify-center px-12 md:px-0">
           <SmartImage
-            src={photo.src}
+            sources={photo ? [mid(photo.src), photo.src] : []}
             alt={photo.title}
             eager
             mark={52}
@@ -319,20 +362,6 @@ export default function Gallery({ photos, onViewAll }) {
               const p = self.progress;
               setProg(p);
               setPos(Math.min(items.length, Math.round(p * (items.length - 1)) + 1));
-              // Lean the reel with scroll velocity on precise pointers only;
-              // touch scroll velocity spikes and would make phones wobble.
-              if (
-                typeof window !== 'undefined' &&
-                window.matchMedia('(pointer: fine)').matches
-              ) {
-                const skew = gsap.utils.clamp(-7, 7, self.getVelocity() / -350);
-                gsap.to(track, {
-                  skewX: skew,
-                  duration: 0.4,
-                  ease: 'power2.out',
-                  overwrite: 'auto',
-                });
-              }
             },
           },
         }
@@ -422,7 +451,7 @@ export default function Gallery({ photos, onViewAll }) {
                 type="button"
                 onClick={() => goTo(Math.max(0, pos - 2))}
                 aria-label="Previous photos"
-                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-bg text-muted transition-all duration-200 hover:-translate-y-px hover:border-accent hover:text-accent"
+                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-bg text-muted transition-all duration-200 hover:border-accent hover:text-accent"
               >
                 <ChevronLeft className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -430,7 +459,7 @@ export default function Gallery({ photos, onViewAll }) {
                 type="button"
                 onClick={() => goTo(Math.min(items.length - 1, pos))}
                 aria-label="Next photos"
-                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-bg text-muted transition-all duration-200 hover:-translate-y-px hover:border-accent hover:text-accent"
+                className="grid h-11 w-11 place-items-center rounded-full border border-border bg-bg text-muted transition-all duration-200 hover:border-accent hover:text-accent"
               >
                 <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -480,7 +509,7 @@ export default function Gallery({ photos, onViewAll }) {
                   <button
                     type="button"
                     onClick={onViewAll}
-                    className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep"
+                    className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep"
                   >
                     Open gallery
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />

@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Download, GraduationCap } from 'lucide-react';
 import { withBase } from '../../utils/paths.js';
+import { startYear } from '../../utils/stats.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,7 +55,7 @@ export default function Resume({ data }) {
           >
             Experience,
             <br />
-            distilled.
+            <em className="italic text-accent">distilled.</em>
           </h2>
           {d.summary && (
             <p data-reveal className="mt-5 max-w-md leading-[1.6] text-muted">
@@ -65,7 +66,7 @@ export default function Resume({ data }) {
             <a
               href={downloadUrl}
               download
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep hover:shadow-lg"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep hover:shadow-lg"
             >
               <Download className="h-4 w-4" aria-hidden="true" />
               Download PDF
@@ -74,7 +75,7 @@ export default function Resume({ data }) {
               href={viewUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:-translate-y-px hover:bg-accent hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:bg-accent hover:text-white"
             >
               View Résumé
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -83,7 +84,7 @@ export default function Resume({ data }) {
           <dl data-reveal className="mt-8 flex gap-8 border-t border-border pt-5 font-mono">
             <div>
               <dt className="text-[0.7rem] uppercase tracking-[0.14em] text-muted">Since</dt>
-              <dd className="mt-1 text-lg text-text">2022</dd>
+              <dd className="mt-1 text-lg text-text">{startYear(d.experience) ?? 2022}</dd>
             </div>
             <div>
               <dt className="text-[0.7rem] uppercase tracking-[0.14em] text-muted">Roles</dt>
@@ -162,7 +163,7 @@ export default function Resume({ data }) {
               <li
                 key={ed.id}
                 data-reveal
-                className="flex items-start gap-4 rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong"
+                className="flex items-start gap-4 rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-accent/70"
               >
                 <GraduationCap className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" />
                 <div>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -11,11 +11,19 @@ import TextReveal3D from './components/TextReveal3D/TextReveal3D.jsx';
 import Projects from './components/Projects/Projects.jsx';
 import Resume from './components/Resume/Resume.jsx';
 import Gallery from './components/Gallery/Gallery.jsx';
-import GalleryPage from './components/Gallery/GalleryPage.jsx';
-import ProjectsPage from './components/Projects/ProjectsPage.jsx';
-import ProjectDetail from './components/Projects/ProjectDetail.jsx';
+const GalleryPage = lazy(() => import('./components/Gallery/GalleryPage.jsx'));
+const ProjectsPage = lazy(() => import('./components/Projects/ProjectsPage.jsx'));
+const ProjectDetail = lazy(() => import('./components/Projects/ProjectDetail.jsx'));
+const LinksPage = lazy(() => import('./components/Links/LinksPage.jsx'));
 import Playground from './components/Playground/Playground.jsx';
-import LinksPage from './components/Links/LinksPage.jsx';
+
+function RouteFallback() {
+  return (
+    <main className="min-h-svh bg-bg" aria-label="Loading page">
+      <RouteSkeleton />
+    </main>
+  );
+}
 import Contact from './components/Contact/Contact.jsx';
 import Services from './components/Services/Services.jsx';
 import Footer from './components/Footer/Footer.jsx';
@@ -24,9 +32,11 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
 import NotFoundPage from './components/NotFound/NotFoundPage.jsx';
 import OfflineGate from './components/Loader/OfflineGate.jsx';
 import { OrbitCluster, TrackLine } from './components/Loader/Orbit.jsx';
+import RouteSkeleton from './components/Loader/RouteSkeleton.jsx';
 import RouteVeil, { routeLabel } from './components/Loader/RouteVeil.jsx';
 import { scrollToTarget } from './utils/scroll.js';
 import { withBase } from './utils/paths.js';
+import { projectCount, startYear, yearsSince } from './utils/stats.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,7 +58,17 @@ function detailIdFromRoute(route) {
     : null;
 }
 
-const LOADER_WORDS = ['brewing milk tea', 'aligning pixels', 'chasing good light', 'warming up the server'];
+/** Optional photo id on gallery routes: `#/gallery` or `#/gallery/<id>`. */
+function galleryPhotoIdFromRoute(route) {
+  if (route === GALLERY_ROUTE) return null;
+  if (route.startsWith(`${GALLERY_ROUTE}/`)) {
+    const id = decodeURIComponent(route.slice(GALLERY_ROUTE.length + 1));
+    return id || null;
+  }
+  return null;
+}
+
+const LOADER_WORDS = ['compiling ideas', 'rendering worlds', 'polishing pixels', 'loading portfolio'];
 
 function LoadingScreen({ leaving }) {
   const [pct, setPct] = useState(0);
@@ -68,14 +88,14 @@ function LoadingScreen({ leaving }) {
     }
     let raf = 0;
     const t0 = performance.now();
-    const dur = 1200;
+    const dur = 950;
     const tick = (t) => {
       const e = Math.min(1, (t - t0) / dur);
       setPct(Math.round(90 * (1 - Math.pow(1 - e, 2))));
       if (e < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    const words = setInterval(() => setWord((w) => w + 1), 450);
+    const words = setInterval(() => setWord((w) => w + 1), 350);
     return () => {
       cancelAnimationFrame(raf);
       clearInterval(words);
@@ -191,7 +211,7 @@ function syncProjectJsonLd(project, url, image) {
     author: {
       '@type': 'Person',
       name: 'Aayush Neupane',
-      url: 'https://aayush38.com.np/',
+      url: 'https://aayushnp.netlify.app/',
     },
     keywords: (project.techStack || []).join(', '),
   });
@@ -239,7 +259,8 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [route, setRoute] = useState(routeFromHash);
 
-  const isGallery = route === GALLERY_ROUTE;
+  const isGallery = route === GALLERY_ROUTE || route.startsWith(`${GALLERY_ROUTE}/`);
+  const galleryPhotoId = isGallery ? galleryPhotoIdFromRoute(route) : null;
   const isProjects = route === PROJECTS_ROUTE;
   const isLinks = route === LINKS_ROUTE;
   const detailId = detailIdFromRoute(route);
@@ -252,7 +273,19 @@ export default function App() {
     !isProjects &&
     !isLinks &&
     !isDetail;
+  // Headline numbers, derived once from data so Hero/About/Resume agree.
+  const stats = useMemo(() => {
+    const since = startYear(resume?.experience);
+    return {
+      since: since ?? 2022,
+      years: yearsSince(resume?.experience) ?? 4,
+      projects: projectCount(projects, archive) || 20,
+    };
+  }, [resume, projects, archive]);
   const allProjects = [...projects, ...archive];
+  // Stable identity: GalleryPage resets page/lightbox whenever this changes,
+  // so it must only change when the data actually does.
+  const galleryPhotos = useMemo(() => [...featured, ...gallery], [featured, gallery]);
   const detailIndex = isDetail
     ? allProjects.findIndex((p) => String(p.id) === detailId)
     : -1;
@@ -458,6 +491,29 @@ export default function App() {
     [handleNav]
   );
 
+  // Prefill the contact form from a service tier, then take the visitor to it.
+  const inquireService = useCallback(
+    (tier) => {
+      if (tier?.draft) {
+        setContactDraft({
+          subject: tier.draft.subject,
+          message: tier.draft.message,
+          nonce: Date.now(),
+        });
+      }
+      handleNav('#contact');
+    },
+    [handleNav]
+  );
+
+  // Services CTAs: plain link goes to contact, 'faq' jumps to the answers.
+  const contactFromServices = useCallback(
+    (target) => {
+      handleNav(target === 'faq' ? '#contact-faq' : '#contact');
+    },
+    [handleNav]
+  );
+
   // Back from a detail page: land on the card/row that was just viewed.
   // Retries while the fresh page mounts (slow devices), then falls back.
   const backFromDetail = useCallback(
@@ -537,7 +593,7 @@ export default function App() {
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       // One full orbit beat on first visit, a short one on return — then the
       // page is already mounted behind the loader, which dissolves over it.
-      const minWait = reduced ? 0 : seen ? 500 : 1400;
+      const minWait = reduced ? 0 : seen ? 400 : 950;
       const exitMs = reduced ? 0 : 650;
       const wait = Math.max(0, minWait - (Date.now() - started));
       setTimeout(() => {
@@ -644,9 +700,10 @@ export default function App() {
         route={route}
       />
       <ErrorBoundary key={route || 'home'}>
+      <Suspense fallback={<RouteFallback />}>
       {isGallery ? (
         <main>
-          <GalleryPage photos={[...featured, ...gallery]} onBack={() => handleNav('#home')} />
+          <GalleryPage photos={galleryPhotos} deepPhotoId={galleryPhotoId} onBack={() => handleNav('#home')} />
         </main>
       ) : isProjects ? (
         <main>
@@ -695,8 +752,8 @@ export default function App() {
         </main>
       ) : (
         <main>
-          <Hero profile={profile} now={nowStatus} onProject={openProject} />
-          <About profile={profile} whatsapp={whatsapp} />
+          <Hero profile={profile} now={nowStatus} onProject={openProject} stats={stats} />
+          <About profile={profile} whatsapp={whatsapp} sinceYear={stats.since} />
           <Skills />
           <TextReveal3D
             eyebrow="Philosophy"
@@ -711,12 +768,13 @@ export default function App() {
             onInquire={inquireAbout}
           />
           <Playground />
-          <Services onContact={() => handleNav('#contact')} />
+          <Services onContact={contactFromServices} onInquire={inquireService} />
           <Resume data={resume} />
           <Gallery photos={featured.length > 0 ? featured : gallery.slice(0, 6)} onViewAll={() => handleNav(GALLERY_ROUTE)} />
           <Contact profile={profile} social={social} whatsapp={whatsapp} draft={contactDraft} onSentClear={() => setContactDraft(null)} />
         </main>
       )}
+      </Suspense>
       </ErrorBoundary>
       <Footer />
       <WhatsAppFloat whatsapp={whatsapp} />

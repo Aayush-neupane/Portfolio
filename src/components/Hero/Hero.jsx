@@ -31,7 +31,7 @@ function CountUp({ to, suffix = '' }) {
   );
 }
 
-export default function Hero({ profile, now, onProject }) {
+export default function Hero({ profile, now, onProject, stats }) {
   const rootRef = useRef(null);
   const name = profile?.name || 'Aayush Neupane';
   const [first, ...restName] = name.split(' ');
@@ -139,21 +139,21 @@ export default function Hero({ profile, now, onProject }) {
             {tagline}
           </p>
           <div data-reveal className="mt-9 flex flex-wrap items-center gap-4">
-              <button
-                type="button"
-                onClick={() => scrollToTarget('#projects')}
-                className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:bg-accent-deep hover:shadow-lg"
-              >
-                View Work
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToTarget('#contact')}
-                className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-7 py-3 text-sm font-semibold text-accent transition-all duration-200 hover:-translate-y-px hover:bg-accent hover:text-white"
-              >
-                Get in Touch
-              </button>
+            <button
+              type="button"
+              onClick={() => scrollToTarget('#projects')}
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent-deep hover:shadow-lg"
+            >
+              View Work
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToTarget('#contact')}
+              className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-7 py-3 text-sm font-semibold text-accent transition-colors duration-200 hover:bg-accent hover:text-white"
+            >
+              Get in Touch
+            </button>
           </div>
           <dl
             data-reveal
@@ -164,7 +164,7 @@ export default function Hero({ profile, now, onProject }) {
                 Experience
               </dt>
               <dd className="mt-1 font-mono text-xl text-text">
-                <CountUp to={4} suffix="+ yrs" />
+                <CountUp to={stats?.years ?? 4} suffix="+ yrs" />
               </dd>
             </div>
             <div>
@@ -172,7 +172,7 @@ export default function Hero({ profile, now, onProject }) {
                 Projects
               </dt>
               <dd className="mt-1 font-mono text-xl text-text">
-                <CountUp to={20} suffix="+" />
+                <CountUp to={stats?.projects ?? 20} suffix="+" />
               </dd>
             </div>
             <div>
@@ -192,7 +192,7 @@ export default function Hero({ profile, now, onProject }) {
                 : undefined
             }
           >
-            <div className="hero-card rounded-xl border border-border bg-elevated p-6 transition-colors duration-200 hover:border-linestrong md:p-8">
+            <div className="hero-card rounded-xl border border-border bg-elevated p-6 transition-colors duration-200 hover:border-accent/70 md:p-8">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
                   Build log

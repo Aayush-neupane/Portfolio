@@ -55,7 +55,11 @@ export default function RouteVeil({ routeKey, label }) {
   return (
     <div
       aria-hidden="true"
+<<<<<<< HEAD
       className={`pointer-events-none fixed inset-0 z-[90] grid place-items-center overflow-hidden bg-bg/80 backdrop-blur-[2px] transition-opacity ${
+=======
+      className={`pointer-events-none fixed inset-0 z-[90] grid place-items-center overflow-hidden bg-bg/80 transition-opacity ${
+>>>>>>> portfolio-remote/rebrand
         phase === 'leaving' ? 'opacity-0' : 'opacity-100'
       }`}
       style={{ transitionDuration: `${FADE_MS}ms` }}

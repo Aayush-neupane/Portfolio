@@ -1,10 +1,214 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Lightbox, PhotoFrame } from './Gallery.jsx';
+import SmartImage from '../Loader/SmartImage.jsx';
+import { thumb } from '../../utils/galleryImg.js';
+import { tabListKeyDown } from '../../utils/a11y.js';
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 8;
 const GAP = 20;
+
+// Bento layout is experimental: flip to false to fall back to the justified rows below.
+const USE_BENTO = true;
+
+function bentoAr(photo) {
+  return photo.w && photo.h ? photo.w / photo.h : 1;
+}
+
+/**
+ * Lays photos out as exact-fit bento bands. Every tile's box is derived from
+ * its own aspect ratio (w = h * ar), so no frame is ever cropped. Each band's
+ * height is solved so its tiles plus gaps fill the row exactly, so no gaps
+ * open up either. Bands alternate between tall feature blocks (a large tile
+ * beside two stacked frames) and short rows of varying counts, which is what
+ * makes the board read as bento. Photo order is preserved throughout.
+ */
+function buildBentoBands(list, pageStart, width) {
+  if (!width || list.length === 0) return [];
+  // Phones get one fluid frame per row: natural ratio, no forced box.
+  if (width < 640) {
+    return list.map((photo, i) => {
+      const w = width;
+      const h = w / bentoAr(photo);
+      return {
+        kind: 'column',
+        h,
+        centered: false,
+        cells: [{ kind: 'single', w, h, tile: { photo, gi: pageStart + i, w, h } }],
+      };
+    });
+  }
+
+  const minH = Math.max(150, width * 0.16);
+  const maxRowH = Math.min(800, width * 0.7);
+  const maxFeatH = Math.min(1100, width * 0.95);
+  const minW = Math.max(110, width * 0.11);
+
+  const n = list.length;
+  const photos = list.map((photo, i) => ({ photo, gi: pageStart + i, ar: bentoAr(photo) }));
+  const bands = [];
+  let i = 0;
+  let prevKind = '';
+  let bandNo = 0;
+
+  const stackS = (a, b) => (a * b) / (a + b);
+  const single = (ref, w, h) => ({
+    kind: 'single', w, h,
+    tile: { photo: photos[ref].photo, gi: photos[ref].gi, w, h },
+  });
+
+  function build(kind, idx) {
+    const P = (k) => photos[idx + k].ar;
+    if (kind === 'row2' || kind === 'row3' || kind === 'row4' || kind === 'row5') {
+      const k = { row2: 2, row3: 3, row4: 4, row5: 5 }[kind];
+      const slice = Array.from({ length: k }, (_, j) => P(j));
+      const H = (width - GAP * (k - 1)) / slice.reduce((s, a) => s + a, 0);
+      return { kind, k, H, ncols: k, centered: false, cells: slice.map((ar, j) => single(idx + j, H * ar, H)) };
+    }
+    if (kind === 'featL' || kind === 'featR') {
+      const tallFirst = kind === 'featL';
+      const arT = tallFirst ? P(0) : P(2);
+      const a1 = tallFirst ? P(1) : P(0);
+      const a2 = tallFirst ? P(2) : P(1);
+      const S = stackS(a1, a2);
+      const H = (width - GAP + GAP * S) / (arT + S);
+      const Wc = (H - GAP) * S;
+      const h1 = Wc / a1;
+      const h2 = Wc / a2;
+      const r1 = tallFirst ? idx + 1 : idx;
+      const r2 = tallFirst ? idx + 2 : idx + 1;
+      const tall = single(tallFirst ? idx : idx + 2, H * arT, H);
+      const stack = {
+        kind: 'stack', w: Wc, h: H,
+        top: { photo: photos[r1].photo, gi: photos[r1].gi, w: Wc, h: h1 },
+        bottom: { photo: photos[r2].photo, gi: photos[r2].gi, w: Wc, h: h2 },
+      };
+      return { kind, k: 3, H, ncols: 2, centered: false, cells: tallFirst ? [tall, stack] : [stack, tall] };
+    }
+    if (kind === 'stack2') {
+      const S1 = stackS(P(0), P(1));
+      const S2 = stackS(P(2), P(3));
+      const H = (width - GAP) / (S1 + S2) + GAP;
+      const W1 = (H - GAP) * S1;
+      const W2 = (H - GAP) * S2;
+      const mk = (ref, w, h) => ({ photo: photos[ref].photo, gi: photos[ref].gi, w, h });
+      return {
+        kind, k: 4, H, ncols: 2, centered: false,
+        cells: [
+          { kind: 'stack', w: W1, h: H, top: mk(idx, W1, W1 / P(0)), bottom: mk(idx + 1, W1, W1 / P(1)) },
+          { kind: 'stack', w: W2, h: H, top: mk(idx + 2, W2, W2 / P(2)), bottom: mk(idx + 3, W2, W2 / P(3)) },
+        ],
+      };
+    }
+    if (kind === 'hero') {
+      const ar = P(0);
+      const H = Math.min(Math.max(width / ar, minH), maxRowH);
+      const w = H * ar;
+      return { kind, k: 1, H, ncols: 1, centered: w < width - 1, cells: [single(idx, w, H)] };
+    }
+    return null;
+  }
+
+  function valid(b) {
+    if (!b) return false;
+    if (b.kind === 'hero') return true;
+    const cap = b.kind.startsWith('row') ? maxRowH : maxFeatH;
+    if (!(b.H >= minH - 1e-9 && b.H <= cap + 1e-9)) return false;
+    for (const c of b.cells) {
+      if (c.w < minW - 1e-9 || c.w > width - GAP - minW + 1e-9) return false;
+      if (c.kind === 'stack') {
+        const f1 = c.top.h / b.H;
+        const f2 = c.bottom.h / b.H;
+        if (f1 < 0.28 || f1 > 0.72 || f2 < 0.28 || f2 > 0.72) return false;
+      }
+    }
+    return true;
+  }
+
+  const NEED = { row2: 2, row3: 3, row4: 4, row5: 5, featL: 3, featR: 3, stack2: 4 };
+  const tallIdeal = maxRowH * 0.85;
+  const shortIdeal = minH * 1.5;
+
+  while (i < n) {
+    const r = n - i;
+    if (r === 1) {
+      bands.push(build('hero', i));
+      i += 1;
+      prevKind = 'hero';
+      bandNo++;
+      continue;
+    }
+    const ideal = bandNo % 2 === 0 ? tallIdeal : shortIdeal;
+    const order =
+      bandNo % 4 === 0 ? ['featL', 'featR', 'row3', 'stack2', 'row2', 'row4', 'row5'] :
+      bandNo % 4 === 1 ? ['row3', 'row4', 'row2', 'row5', 'featL', 'featR', 'stack2'] :
+      bandNo % 4 === 2 ? ['featR', 'featL', 'stack2', 'row4', 'row2', 'row3', 'row5'] :
+        ['stack2', 'row4', 'row5', 'row3', 'row2', 'featL', 'featR'];
+    let best = null;
+    let bestScore = Infinity;
+    for (const kind of order) {
+      const k = NEED[kind];
+      if (k > r || r - k === 1) continue;
+      const b = build(kind, i);
+      if (!valid(b)) continue;
+      let score = Math.abs(b.H - ideal) / ideal;
+      if (kind === 'featL' || kind === 'featR' || kind === 'stack2') score -= 0.3;
+      if (kind === prevKind) score += 0.25;
+      if (score < bestScore) {
+        bestScore = score;
+        best = b;
+      }
+    }
+    if (!best) {
+      // Lenient fallback: exact fit is preserved, height may run tall or short.
+      const k = r >= 4 ? 4 : r >= 3 ? 3 : 2;
+      best = k === 4 ? build('row4', i) : k === 3 ? build('row3', i) : build('row2', i);
+      best.fallback = true;
+    }
+    bands.push(best);
+    prevKind = best.kind;
+    i += best.k;
+    bandNo++;
+  }
+  return bands;
+}
+
+
+function BentoCell({ photo, index, onOpen, className, style }) {
+  return (
+    <button
+      type="button"
+      onClick={() => onOpen(index)}
+      aria-label={`Open photo: ${photo.title}`}
+      style={style}
+      className={`group relative overflow-hidden rounded-lg border border-linestrong bg-subtle text-left transition-colors duration-300 hover:border-accent focus-visible:border-accent ${className}`}
+    >
+      <SmartImage
+        sources={[thumb(photo.src), photo.src]}
+        alt={photo.title}
+        width={photo.w}
+        height={photo.h}
+        mark={40}
+        caption="photo unavailable"
+        className="h-full w-full"
+        imgClassName="h-full w-full object-cover"
+      />
+      <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/75 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 [@media(hover:none)]:opacity-100">
+        <span className="min-w-0">
+          <span className="block truncate font-display text-sm text-white">{photo.title}</span>
+          <span className="mt-0.5 block truncate font-mono text-[0.55rem] uppercase tracking-[0.12em] text-white/70">
+            {photo.location}
+            {photo.meta ? ` · ${photo.meta}` : ''}
+          </span>
+        </span>
+        <span className="shrink-0 font-display text-sm leading-none text-accent">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+      </span>
+    </button>
+  );
+}
 
 function buildRows(list, pageStart, width) {
   const targetH = width && width < 640 ? 200 : 300;
@@ -37,7 +241,7 @@ function buildRows(list, pageStart, width) {
   return rows;
 }
 
-export default function GalleryPage({ photos, onBack }) {
+export default function GalleryPage({ photos, onBack, deepPhotoId }) {
   const [openIndex, setOpenIndex] = useState(null);
   const [page, setPage] = useState(0);
   const [filter, setFilter] = useState('All');
@@ -84,15 +288,47 @@ export default function GalleryPage({ photos, onBack }) {
     return () => ro.disconnect();
   }, []);
 
-  const rows = useMemo(
+  const bento = useMemo(
+    () => (USE_BENTO ? buildBentoBands(visible, safePage * PAGE_SIZE, cw || 1152) : []),
+    [visible, safePage, cw]
+  );
+
+const rows = useMemo(
     () => buildRows(visible, safePage * PAGE_SIZE, cw || 1152),
     [visible, safePage, cw]
   );
 
+  // Id of the photo currently open from a shared link (or null). Mirrors
+  // openIndex so effects can tell a settled open apart from a cleared one.
+  const openIdRef = useRef(null);
+
   useEffect(() => {
     setPage(0);
     setOpenIndex(null);
+    openIdRef.current = null;
   }, [photos, filter]);
+
+  // Shared frame links (`#/gallery/<id>`) land on the photo: reset any filter,
+  // jump to its page, and open it. Re-runs when data settles so a reset during
+  // loading re-opens instead of stranding the visitor on a closed grid.
+  useEffect(() => {
+    if (!deepPhotoId || openIdRef.current === deepPhotoId || items.length === 0) return;
+    const idx = items.findIndex((p) => String(p.id) === String(deepPhotoId));
+    if (idx < 0) return;
+    openIdRef.current = deepPhotoId;
+    if (filter !== 'All') setFilter('All');
+    setPage(Math.floor(idx / PAGE_SIZE));
+    setOpenIndex(idx);
+  }, [deepPhotoId, items, filter]);
+
+  const closeLightbox = useCallback(() => {
+    setOpenIndex(null);
+    openIdRef.current = null;
+    // Leave the bare gallery route behind so a copied URL stays shareable.
+    if (typeof window !== 'undefined' && window.location.hash.startsWith('#/gallery/')) {
+      window.location.hash = '#/gallery';
+    }
+  }, []);
 
   const step = (dir) =>
     setOpenIndex((i) => (i === null ? i : (i + dir + filtered.length) % filtered.length));
@@ -137,6 +373,7 @@ export default function GalleryPage({ photos, onBack }) {
         ref={gridTopRef}
         role="tablist"
         aria-label="Filter photos by category"
+        onKeyDown={tabListKeyDown}
         className="mt-8 flex scroll-mt-28 flex-wrap gap-2"
       >
         {cats.map((cat) => {
@@ -151,7 +388,7 @@ export default function GalleryPage({ photos, onBack }) {
               className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 sm:px-5 sm:py-2.5 ${
                 selected
                   ? 'bg-accent text-white'
-                  : 'border border-border bg-elevated text-muted hover:-translate-y-px hover:border-linestrong hover:text-text'
+                  : 'border border-border bg-elevated text-muted hover:border-accent/70 hover:text-text'
               }`}
             >
               {cat}
@@ -173,7 +410,7 @@ export default function GalleryPage({ photos, onBack }) {
       </p>
 
       {/* Mobile: 2-column masonry — no tiny justified rows, no horizontal overflow */}
-      <div className="mt-6 columns-2 gap-4 sm:hidden">
+      <div className={`mt-6 columns-2 gap-4 sm:hidden ${USE_BENTO ? 'hidden' : ''}`}>
         {visible.map((photo, i) => {
           const gi = safePage * PAGE_SIZE + i;
           return (
@@ -192,27 +429,78 @@ export default function GalleryPage({ photos, onBack }) {
         })}
       </div>
 
-      <div ref={wrapRef} className="mt-8 hidden sm:block">
-        {rows.map((row, ri) => (
-          <div
-            key={ri}
-            className={`flex gap-5 ${row.center ? 'justify-center' : ''} ${ri > 0 ? 'mt-10' : ''}`}
-          >
-            {row.cells.map(({ photo, gi, w }) => (
-              <div key={photo.src || gi} style={{ width: w }} className="shrink-0">
-                <PhotoFrame
-                  photo={photo}
-                  index={gi}
-                  onOpen={setOpenIndex}
-                  hideStory
-                  className="group w-full text-left"
-                  imgClass="h-auto w-full"
-                />
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
+      {USE_BENTO ? (
+        <div ref={wrapRef} className="mt-8">
+          {bento.map((band, bi) => (
+            <div
+              key={bi}
+              className="flex flex-nowrap"
+              style={{
+                height: band.h,
+                gap: GAP,
+                justifyContent: band.centered ? 'center' : 'flex-start',
+                marginTop: bi > 0 ? GAP : 0,
+              }}
+            >
+              {band.cells.map((cell) => {
+                if (cell.kind === 'single') {
+                  const { tile } = cell;
+                  return (
+                    <BentoCell
+                      key={tile.photo.src || tile.gi}
+                      photo={tile.photo}
+                      index={tile.gi}
+                      onOpen={setOpenIndex}
+                      className="shrink-0"
+                      style={{ width: tile.w, height: tile.h }}
+                    />
+                  );
+                }
+                return (
+                  <div
+                    key={`${cell.top.photo.src}+${cell.bottom.photo.src}`}
+                    className="flex shrink-0 flex-col flex-nowrap"
+                    style={{ width: cell.w, height: cell.h, gap: GAP }}
+                  >
+                    {[cell.top, cell.bottom].map((tile) => (
+                      <BentoCell
+                        key={tile.photo.src || tile.gi}
+                        photo={tile.photo}
+                        index={tile.gi}
+                        onOpen={setOpenIndex}
+                        className="shrink-0"
+                        style={{ width: tile.w, height: tile.h }}
+                      />
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div ref={wrapRef} className="mt-8 hidden sm:block">
+          {rows.map((row, ri) => (
+            <div
+              key={ri}
+              className={`flex gap-5 ${row.center ? 'justify-center' : ''} ${ri > 0 ? 'mt-10' : ''}`}
+            >
+              {row.cells.map(({ photo, gi, w }) => (
+                <div key={photo.src || gi} style={{ width: w }} className="shrink-0">
+                  <PhotoFrame
+                    photo={photo}
+                    index={gi}
+                    onOpen={setOpenIndex}
+                    hideStory
+                    className="group w-full text-left"
+                    imgClass="h-auto w-full"
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
 
       {pageCount > 1 && (
         <nav aria-label="Gallery pages" className="mt-10 flex flex-wrap items-center justify-center gap-2">
@@ -221,7 +509,7 @@ export default function GalleryPage({ photos, onBack }) {
             onClick={() => goPage(safePage - 1)}
             disabled={safePage === 0}
             aria-label="Previous page"
-            className="grid h-11 w-11 place-items-center rounded-full border border-border text-muted transition-all duration-200 hover:-translate-y-px hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+            className="grid h-11 w-11 place-items-center rounded-full border border-border text-muted transition-all duration-200 hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           >
             <ChevronLeft className="h-5 w-5" aria-hidden="true" />
           </button>
@@ -235,7 +523,7 @@ export default function GalleryPage({ photos, onBack }) {
               className={`h-11 min-w-11 rounded-full px-3 font-mono text-sm tabular-nums transition-all duration-200 ${
                 n === safePage
                   ? 'bg-accent font-semibold text-white'
-                  : 'border border-border text-muted hover:-translate-y-px hover:border-linestrong hover:text-text'
+                  : 'border border-border text-muted hover:border-accent/70 hover:text-text'
               }`}
             >
               {n + 1}
@@ -246,7 +534,7 @@ export default function GalleryPage({ photos, onBack }) {
             onClick={() => goPage(safePage + 1)}
             disabled={safePage === pageCount - 1}
             aria-label="Next page"
-            className="grid h-11 w-11 place-items-center rounded-full border border-border text-muted transition-all duration-200 hover:-translate-y-px hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+            className="grid h-11 w-11 place-items-center rounded-full border border-border text-muted transition-all duration-200 hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           >
             <ChevronRight className="h-5 w-5" aria-hidden="true" />
           </button>
@@ -259,7 +547,7 @@ export default function GalleryPage({ photos, onBack }) {
             photo={filtered[openIndex]}
             pos={openIndex + 1}
             total={filtered.length}
-            onClose={() => setOpenIndex(null)}
+            onClose={closeLightbox}
             onPrev={() => step(-1)}
             onNext={() => step(1)}
           />

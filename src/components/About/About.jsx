@@ -7,12 +7,14 @@ import SmartImage from '../Loader/SmartImage.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const DETAILS = [
-  { label: 'Base', value: 'Jhapa, Nepal · UTC+5:45' },
-  { label: 'Stack', value: 'React · TypeScript · Supabase' },
-  { label: 'Experience', value: 'Building for the web since 2022' },
-  { label: 'Open to', value: 'Freelance' },
-];
+function details(sinceYear) {
+  return [
+    { label: 'Base', value: 'Jhapa, Nepal · UTC+5:45' },
+    { label: 'Stack', value: 'React · TypeScript · Supabase' },
+    { label: 'Experience', value: `Building for the web since ${sinceYear ?? 2022}` },
+    { label: 'Open to', value: 'Freelance' },
+  ];
+}
 
 const SOCIALS_BASE = [
   { key: 'ig', cls: 'social-ig', label: 'Instagram', href: 'https://www.instagram.com/dynamic_aayush38', Icon: Instagram },
@@ -26,7 +28,7 @@ function Portrait() {
         aria-hidden="true"
         className="absolute -bottom-3 -right-3 h-full w-full rounded-xl border border-border transition-colors duration-200 group-hover:border-accent/50"
       />
-      <div className="relative overflow-hidden rounded-xl border border-border bg-subtle transition-colors duration-200 group-hover:border-linestrong">
+      <div className="relative overflow-hidden rounded-xl border border-border bg-subtle transition-colors duration-200 group-hover:border-accent/70">
         <SmartImage
           src={withBase('/assets/images/profile/me.JPG')}
           alt="Portrait of Aayush Neupane"
@@ -43,7 +45,7 @@ function Portrait() {
   );
 }
 
-export default function About({ profile, whatsapp }) {
+export default function About({ profile, whatsapp, sinceYear }) {
   const rootRef = useRef(null);
 
   useEffect(() => {
@@ -85,7 +87,7 @@ export default function About({ profile, whatsapp }) {
           >
             Developer who
             <br />
-            cares about <em className="italic">craft.</em>
+            cares about <em className="italic text-accent">craft.</em>
           </h2>
 
           <Portrait />
@@ -139,10 +141,10 @@ export default function About({ profile, whatsapp }) {
           </p>
 
           <dl data-reveal className="mt-9 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {DETAILS.map((d) => (
+            {details(sinceYear).map((d) => (
               <div
                 key={d.label}
-                className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong"
+                className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-accent/70"
               >
                 <dt className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
                   {d.label}

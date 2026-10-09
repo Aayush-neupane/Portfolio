@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FlaskConical } from 'lucide-react';
+import { tabListKeyDown } from '../../utils/a11y.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -94,7 +95,7 @@ export default function Skills() {
             data-reveal
             className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text"
           >
-            Skills &amp; <em className="italic">tools.</em>
+            Skills &amp; <em className="italic text-accent">tools.</em>
           </h2>
           <p data-reveal className="mt-5 leading-[1.6] text-muted">
             No progress bars or percentages, just an honest list of the tools I
@@ -116,7 +117,7 @@ export default function Skills() {
         </div>
 
         <div data-reveal>
-          <div role="tablist" aria-label="Skill categories" className="flex flex-wrap gap-2">
+          <div role="tablist" aria-label="Skill categories" onKeyDown={tabListKeyDown} className="flex flex-wrap gap-2">
             {CATS.map((c) => {
               const selected = c.id === tab;
               return (
@@ -162,7 +163,7 @@ export default function Skills() {
                   </span>
                   <div className="min-w-0">
                     <p className="font-medium text-text">{s.name}</p>
-                    <p className="mt-0.5 truncate text-sm text-muted sm:whitespace-normal">
+                    <p className="mt-0.5 line-clamp-2 text-sm text-muted sm:line-clamp-none">
                       {s.note}
                     </p>
                   </div>

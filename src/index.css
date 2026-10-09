@@ -20,9 +20,10 @@
   --color-accent-soft: oklch(0.25 0.05 28);
 }
 
-/* Light mode: warm paper (copied from create.io ui-kit paper tokens:
+/* Light mode: warm paper (after the create.io ui-kit paper tokens:
    --background #f1e7d1, --surface #f8f2e4, --surface-2 #e6d7b8,
-   --foreground #292721, --muted #6d675f). No plain white anywhere. */
+   --foreground #292721, --muted #6d675f). Surfaces run a touch deeper than
+   the reference so cards read as cream, never plain white. */
 .light {
   --color-bg: #f1e7d1;
   --color-elevated: #f5edda;
@@ -48,6 +49,25 @@ body {
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+/* Scrollbar carries the accent so the color is present on every screen. */
+:root {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-accent) 55%, transparent) transparent;
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 /* Lenis smooth-scroll base */
@@ -97,8 +117,7 @@ html.lenis, html.lenis body { height: auto; }
   50% { transform: translateY(-5px); }
 }
 /* Navbar brand mark: white logo, so darken it on light theme (no chip/border) */
-.light .brand-mark,
-.light .logo-adapt { filter: brightness(0); }
+.light .brand-mark { filter: brightness(0); }
 .loader-word {
   font-family: var(--font-mono);
   font-size: 30px;
@@ -205,13 +224,23 @@ html.lenis, html.lenis body { height: auto; }
   mask-image: linear-gradient(to bottom, black 0%, transparent 90%);
   -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 90%);
 }
+/* Full-strength grid with no fade-out (philosophy, playground). */
+.hero-grid-solid {
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+/* Grid that holds solid at the bottom edge and fades upward. */
+.hero-grid-fade-up {
+  mask-image: linear-gradient(to top, black 0%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to top, black 0%, transparent 90%);
+}
 html.light .hero-grid {
   background-image:
     linear-gradient(to right, rgba(23, 19, 16, 0.08) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(23, 19, 16, 0.08) 1px, transparent 1px);
 }
 
-/* warm paper card instead of plain white in light mode (create.io kit-surface) */
+/* warm paper card instead of plain white in light mode */
 html.light .hero-card {
   background-color: #f5edda;
 }

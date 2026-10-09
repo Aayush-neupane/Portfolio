@@ -26,9 +26,9 @@ function Portrait() {
     <figure data-reveal className="group relative mt-9 max-w-xs">
       <div
         aria-hidden="true"
-        className="absolute -bottom-3 -right-3 h-full w-full rounded-xl border border-border transition-colors duration-200 group-hover:border-accent/50"
+        className="absolute -bottom-3 -right-3 h-full w-full rounded-xl border border-border transition-colors duration-200 group-hover:border-linestrong"
       />
-      <div className="relative overflow-hidden rounded-xl border border-border bg-subtle transition-colors duration-200 group-hover:border-accent/70">
+      <div className="relative overflow-hidden rounded-xl border border-border bg-subtle transition-colors duration-200 group-hover:border-linestrong">
         <SmartImage
           src={withBase('/assets/images/profile/me.JPG')}
           alt="Portrait of Aayush Neupane"
@@ -144,7 +144,7 @@ export default function About({ profile, whatsapp, sinceYear }) {
             {details(sinceYear).map((d) => (
               <div
                 key={d.label}
-                className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-accent/70"
+                className="rounded-xl border border-border bg-elevated p-5 transition-colors duration-200 hover:border-linestrong"
               >
                 <dt className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
                   {d.label}

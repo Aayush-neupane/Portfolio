@@ -109,7 +109,7 @@ export default function Services({ onContact, onInquire }) {
               key={title}
               data-reveal
               className={`group relative flex flex-col rounded-xl border bg-elevated p-6 transition-all duration-200 hover:-translate-y-1 ${
-                popular ? 'border-accent/60' : 'border-border hover:border-accent/70'
+                popular ? 'border-accent/60' : 'border-border hover:border-linestrong'
               }`}
             >
               {popular && (
@@ -117,7 +117,7 @@ export default function Services({ onContact, onInquire }) {
                   Most popular
                 </span>
               )}
-              <span className="grid h-11 w-11 place-items-center rounded-lg border border-border bg-subtle text-accent transition-colors duration-200 group-hover:border-accent/50">
+              <span className="grid h-11 w-11 place-items-center rounded-lg border border-border bg-subtle text-accent transition-colors duration-200 group-hover:border-linestrong">
                 <Icon className="h-5 w-5" aria-hidden="true" />
               </span>
               <p className="mt-5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
@@ -142,7 +142,7 @@ export default function Services({ onContact, onInquire }) {
                 className={`mt-4 inline-flex items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
                   popular
                     ? 'bg-accent text-white hover:bg-accent-deep'
-                    : 'border border-border text-text hover:border-accent hover:text-accent'
+                    : 'border border-border text-text hover:border-linestrong hover:text-accent'
                 }`}
               >
                 {cta}

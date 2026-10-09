@@ -37,7 +37,7 @@ export default function Footer() {
             className="flex items-end gap-0 font-mono text-sm font-bold uppercase leading-none tracking-[0.2em] text-text transition-colors hover:text-accent"
           >
             <img
-              src={withBase('/assets/images/profile/logo-trp.png')}
+              src={withBase('/assets/images/profile/logo.svg')}
               alt=""
               width={36}
               height={36}

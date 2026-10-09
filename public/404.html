@@ -154,7 +154,7 @@
         </svg>
       </span>
       <span class="sweep" aria-hidden="true"></span>
-      <span class="mark"><img id="orbit-logo" src="/assets/images/profile/logo-trp.png" alt="" width="40" height="40" /></span>
+      <span class="mark"><img id="orbit-logo" src="/assets/images/profile/logo.svg" alt="" width="40" height="40" /></span>
     </div>
     <h1>Off the map.</h1>
     <p class="sub">That page doesn't exist — but the work does. Search it:</p>
@@ -170,7 +170,7 @@
   // Deploy base: GitHub Pages serves under /Portfolio, others at root.
   var base = /^\/Portfolio(\/|$)/.test(location.pathname) ? '/Portfolio' : '';
   document.getElementById('home').setAttribute('href', base + '/');
-  document.getElementById('orbit-logo').setAttribute('src', base + '/assets/images/profile/logo-trp.png');
+  document.getElementById('orbit-logo').setAttribute('src', base + '/assets/images/profile/logo.svg');
 
   var box = document.getElementById('results');
   var all = [];

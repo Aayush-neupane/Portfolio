@@ -30,6 +30,7 @@ import Services from './components/Services/Services.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
+import NotFoundPage from './components/NotFound/NotFoundPage.jsx';
 import { OrbitCluster, OrbitMini, TrackLine } from './components/Loader/Orbit.jsx';
 import SlowBadge from './components/Loader/SlowBadge.jsx';
 import RouteVeil, { routeLabel } from './components/Loader/RouteVeil.jsx';
@@ -262,6 +263,16 @@ export default function App() {
   const galleryPhotoId = isGallery ? galleryPhotoIdFromRoute(route) : null;
   const isProjects = route === PROJECTS_ROUTE;
   const isLinks = route === LINKS_ROUTE;
+  const detailId = detailIdFromRoute(route);
+  const isDetail = detailId !== null;
+  /** A `#/…` route that matches no page (bare `#/` still counts as home). */
+  const isUnknown =
+    route.startsWith('#/') &&
+    route !== '#/' &&
+    !isGallery &&
+    !isProjects &&
+    !isLinks &&
+    !isDetail;
   // Headline numbers, derived once from data so Hero/About/Resume agree.
   const stats = useMemo(() => {
     const since = startYear(resume?.experience);
@@ -271,8 +282,6 @@ export default function App() {
       projects: projectCount(projects, archive) || 20,
     };
   }, [resume, projects, archive]);
-  const detailId = detailIdFromRoute(route);
-  const isDetail = detailId !== null;
   const allProjects = [...projects, ...archive];
   // Stable identity: GalleryPage resets page/lightbox whenever this changes,
   // so it must only change when the data actually does.
@@ -297,7 +306,9 @@ export default function App() {
           ? 'Links — Aayush Neupane'
           : isDetail
             ? `${detailProject?.title || 'Project'} — Aayush Neupane`
-            : 'Aayush Neupane';
+            : isUnknown
+              ? 'Lost — Aayush Neupane'
+              : 'Aayush Neupane';
     document.title = headTitle;
     const origin = window.location.origin;
     const basePath = window.location.pathname.replace(/\/$/, '');
@@ -341,6 +352,14 @@ export default function App() {
       setHeadText('property', 'og:title', headTitle);
       setHeadText('name', 'twitter:title', headTitle);
       syncProjectJsonLd(null);
+    } else if (isUnknown) {
+      syncHead({
+        description: 'That page doesn’t exist — but the work does.',
+        url: `${origin}${basePath}`,
+      });
+      setHeadText('property', 'og:title', headTitle);
+      setHeadText('name', 'twitter:title', headTitle);
+      syncProjectJsonLd(null);
     } else {
       syncHead({
         description: 'Aayush Neupane builds websites and games from Jhapa, Nepal. React, TypeScript, Supabase, Unity. Open for freelance web projects.',
@@ -354,7 +373,7 @@ export default function App() {
     // Home-route scrolling is owned by section nav / back-to-card flows.
     // Sub-routes always open at the very top — and stay there: re-assert
     // briefly to beat any late layout settling or async scroll restoration.
-    if (!(isGallery || isProjects || isLinks || isDetail)) return undefined;
+    if (!(isGallery || isProjects || isLinks || isDetail || isUnknown)) return undefined;
     scrollTopImmediate();
     ScrollTrigger.refresh();
     let n = 0;
@@ -366,7 +385,7 @@ export default function App() {
       scrollTopImmediate();
     }, 100);
     return () => clearInterval(id);
-  }, [isGallery, isProjects, isLinks, isDetail, detailId, dataReady]);
+  }, [isGallery, isProjects, isLinks, isDetail, isUnknown, detailId, dataReady]);
 
   // Late image/font settling after a full document load can shift scroll on
   // sub-routes; pin it back to top once everything has arrived.
@@ -616,7 +635,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!dataReady || isGallery || isProjects || isLinks || isDetail) return;
+    if (!dataReady || isGallery || isProjects || isLinks || isDetail || isUnknown) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -630,7 +649,7 @@ export default function App() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, [dataReady, isGallery, isProjects, isLinks, isDetail, route]);
+  }, [dataReady, isGallery, isProjects, isLinks, isDetail, isUnknown, route]);
 
   useEffect(() => {
     if (dataReady) ScrollTrigger.refresh();
@@ -675,7 +694,7 @@ export default function App() {
       <RouteVeil routeKey={route} label={isDetail ? detailProject?.title || 'project' : routeLabel(route)} />
       <Navbar
         links={config?.navigation}
-        activeSection={isGallery || isProjects || isLinks || isDetail ? '' : activeSection}
+        activeSection={isGallery || isProjects || isLinks || isDetail || isUnknown ? '' : activeSection}
         onNavClick={handleNav}
         isGallery={isGallery}
         route={route}
@@ -697,6 +716,10 @@ export default function App() {
       ) : isLinks ? (
         <main>
           <LinksPage onNav={handleNav} />
+        </main>
+      ) : isUnknown ? (
+        <main>
+          <NotFoundPage onHome={() => handleNav('#home')} onGallery={() => handleNav(GALLERY_ROUTE)} />
         </main>
       ) : isDetail ? (
         <main>

@@ -82,13 +82,53 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .cube-float { animation: floaty 5s ease-in-out infinite; }
+  .orbit {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    display: grid;
+    place-items: center;
+  }
+  .orbit::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(250, 250, 250, 0.16);
+  }
+  .orbit .comet { position: absolute; inset: 0; animation: orbit-spin 7s linear infinite; }
+  .orbit .comet svg { width: 100%; height: 100%; overflow: visible; }
+  .orbit .sweep {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, transparent 0deg, #e85854 70deg, transparent 140deg);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+    opacity: 0.8;
+    animation: orbit-spin 3.5s linear infinite;
+  }
+  .orbit .mark {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #141419;
+    border: 1px solid #26262e;
+    box-shadow: 0 0 0 1px #26262e, 0 18px 50px rgba(0, 0, 0, 0.5), 0 0 44px rgba(232, 88, 84, 0.25);
+    display: grid;
+    place-items: center;
+  }
+  .orbit .mark img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .orbit-float { animation: floaty 5s ease-in-out infinite; }
+  @keyframes orbit-spin { to { transform: rotate(360deg); } }
   @keyframes floaty {
-    0%, 100% { transform: translateY(0) rotate(-2deg); }
-    50% { transform: translateY(-12px) rotate(2deg); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cube-float { animation: none; }
+    .orbit-float, .orbit .comet, .orbit .sweep { animation: none; }
   }
   .home {
     display: inline-flex;
@@ -105,25 +145,17 @@
 </head>
 <body>
   <main class="wrap">
-    <svg class="cube-float" width="148" height="148" viewBox="0 0 120 120" role="img" aria-label="A scrambled cube, floating" style="margin:0 auto;filter:drop-shadow(0 18px 28px rgba(232,88,84,.25))">
-      <polygon points="60,10 106,37 60,64 14,37" fill="#EDE6DA" />
-      <polygon points="14,37 60,64 60,112 14,85" fill="#b13a38" />
-      <polygon points="106,37 60,64 60,112 106,85" fill="#e85854" />
-      <g stroke="rgba(0,0,0,.28)" stroke-width="1.5">
-        <line x1="75" y1="19" x2="29" y2="46" />
-        <line x1="91" y1="28" x2="45" y2="55" />
-        <line x1="45" y1="19" x2="91" y2="46" />
-        <line x1="29" y1="28" x2="75" y2="55" />
-        <line x1="29" y1="46" x2="29" y2="94" />
-        <line x1="45" y1="55" x2="45" y2="103" />
-        <line x1="14" y1="53" x2="60" y2="80" />
-        <line x1="14" y1="69" x2="60" y2="96" />
-        <line x1="91" y1="46" x2="91" y2="94" />
-        <line x1="75" y1="55" x2="75" y2="103" />
-        <line x1="106" y1="53" x2="60" y2="80" />
-        <line x1="106" y1="69" x2="60" y2="96" />
-      </g>
-    </svg>
+    <div class="orbit orbit-float" role="img" aria-label="Orbit loader mark">
+      <span class="comet" aria-hidden="true">
+        <svg viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="49" stroke="rgba(250,250,250,0.2)" stroke-width="0.5" />
+          <circle cx="50" cy="50" r="49" stroke="#e85854" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="77 231" />
+          <circle cx="50" cy="99" r="2.2" fill="#e85854" />
+        </svg>
+      </span>
+      <span class="sweep" aria-hidden="true"></span>
+      <span class="mark"><img id="orbit-logo" src="/assets/images/profile/logo-trp.png" alt="" width="40" height="40" /></span>
+    </div>
     <h1>Off the map.</h1>
     <p class="sub">That page doesn't exist — but the work does. Search it:</p>
     <div class="search">
@@ -138,6 +170,7 @@
   // Deploy base: GitHub Pages serves under /Portfolio, others at root.
   var base = /^\/Portfolio(\/|$)/.test(location.pathname) ? '/Portfolio' : '';
   document.getElementById('home').setAttribute('href', base + '/');
+  document.getElementById('orbit-logo').setAttribute('src', base + '/assets/images/profile/logo-trp.png');
 
   var box = document.getElementById('results');
   var all = [];

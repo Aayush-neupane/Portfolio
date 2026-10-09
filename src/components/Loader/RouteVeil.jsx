@@ -7,12 +7,13 @@ const MIN_VISIBLE_MS = 450;
 const FADE_MS = 250;
 
 export function routeLabel(route) {
-  if (!route) return 'home';
+  if (!route || route === '#/') return 'home';
   if (route === '#/gallery') return 'gallery';
   if (route.startsWith('#/gallery/')) return 'photo';
   if (route === '#/projects') return 'projects';
   if (route === '#/links') return 'links';
   if (route.startsWith('#/project/')) return 'project';
+  if (route.startsWith('#/')) return 'lost';
   return 'aayush';
 }
 

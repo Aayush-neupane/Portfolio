@@ -389,7 +389,7 @@ export default function ProjectDetail({
                   href={live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep hover:shadow-lg"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep glow-btn"
                 >
                   View Live
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -532,7 +532,7 @@ export default function ProjectDetail({
                 <button
                   type="button"
                   onClick={() => onOpen && onOpen(r)}
-                  className="group w-full rounded-xl border border-border bg-elevated p-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-accent/70"
+                  className="group w-full rounded-xl border border-border bg-elevated p-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-accent/70 glow-card"
                 >
                   <RelatedThumb project={r} />
                   <p className="mt-4 truncate font-display text-xl text-text transition-colors group-hover:text-accent">
@@ -559,7 +559,7 @@ export default function ProjectDetail({
               <button
                 type="button"
                 onClick={() => onOpen(prev)}
-                className="group flex w-full items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:border-accent/60"
+                className="group flex w-full items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:border-accent/60 glow-card"
               >
                 <ArrowLeft
                   className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:-translate-x-1 group-hover:text-accent"
@@ -583,7 +583,7 @@ export default function ProjectDetail({
               <button
                 type="button"
                 onClick={() => onOpen(next)}
-                className="group flex w-full items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:border-accent/60"
+                className="group flex w-full items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:border-accent/60 glow-card"
               >
                 <span className="min-w-0">
                   <span className="block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">

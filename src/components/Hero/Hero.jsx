@@ -142,7 +142,7 @@ export default function Hero({ profile, now, onProject, stats }) {
             <button
               type="button"
               onClick={() => scrollToTarget('#projects')}
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-accent-deep hover:shadow-lg"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep glow-btn"
             >
               View Work
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -192,7 +192,7 @@ export default function Hero({ profile, now, onProject, stats }) {
                 : undefined
             }
           >
-            <div className="hero-card rounded-xl border border-border bg-elevated p-6 transition-colors duration-200 hover:border-accent/70 md:p-8">
+            <div className="hero-card rounded-xl border border-border bg-elevated p-6 glow-soft transition-colors duration-200 hover:border-accent/70 md:p-8">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
                   Build log

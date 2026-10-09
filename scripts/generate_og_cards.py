@@ -78,22 +78,49 @@ def wrap_title(draw, title, fnt, max_width, max_lines=3):
     return [ln for ln in lines if ln][:max_lines]
 
 
+def load_shot(project):
+    """Project screenshot as RGB image, or None (missing/unsupported type)."""
+    src = project.get("image") or ""
+    if not src.startswith("/") or src.lower().endswith(".svg"):
+        return None
+    try:
+        return Image.open(ROOT / "public" / src.lstrip("/")).convert("RGB")
+    except OSError:
+        return None
+
+
+def shot_panel(shot):
+    """Browser-framed screenshot tile, returned with its own corner mask."""
+    from PIL import ImageOps
+
+    pw, ph, chrome = 420, 450, 38
+    frame = Image.new("RGB", (pw, ph), (30, 26, 23))
+    frame.paste(ImageOps.fit(shot, (pw, ph - chrome), Image.LANCZOS), (0, chrome))
+    d = ImageDraw.Draw(frame)
+    for i, c in enumerate([(96, 84, 76), (206, 172, 92), (88, 164, 112)]):
+        d.ellipse([20 + i * 26, 12, 32 + i * 26, 24], fill=c)
+    d.rounded_rectangle([0, 0, pw - 1, ph - 1], radius=20,
+                        outline=(72, 63, 55), width=2)
+    mask = Image.new("L", (pw, ph), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, pw, ph], radius=20, fill=255)
+    return frame, mask
+
+
 def card(project):
     img = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(img)
-
-    # Accent ring peeking from the bottom-right + thin top rule.
-    d.ellipse([W - 260, H - 260, W + 160, H + 160], outline=ACCENT + (), width=10)
-    d.ellipse([W - 190, H - 190, W + 90, H + 90], outline=(90, 42, 40), width=3)
     d.rectangle([80, 64, 144, 72], fill=ACCENT)
 
-    eyebrow = str(project.get("category") or project.get("status") or "Project").upper()
-    f_eye = font(34)
-    draw_spaced(d, (80, 104), eyebrow[:28], f_eye, ACCENT, tracking=6)
-
-    f_title = font(88)
-    for i, line in enumerate(wrap_title(d, project.get("title") or "Project", f_title, W - 240)):
-        d.text((76, 168 + i * 100), line, font=f_title, fill=TEXT)
+    shot = load_shot(project)
+    if shot is None:
+        # Text-only fallback (no screenshot available).
+        d.ellipse([W - 260, H - 260, W + 160, H + 160], outline=ACCENT, width=10)
+        d.ellipse([W - 190, H - 190, W + 90, H + 90], outline=(90, 42, 40), width=3)
+        text_block(d, project, max_width=W - 240, title_size=88, x=80)
+    else:
+        text_block(d, project, max_width=560, title_size=74, x=80)
+        panel, mask = shot_panel(shot)
+        img.paste(panel, (700, 90), mask)
 
     # Footer lockup: logo + name + site.
     try:
@@ -105,6 +132,15 @@ def card(project):
     d.text((208, H - 168), "Aayush Neupane", font=f_name, fill=TEXT)
     d.text((208, H - 112), "aayushnp.netlify.app", font=f_site, fill=MUTED)
     return img
+
+
+def text_block(d, project, max_width, title_size, x):
+    eyebrow = str(project.get("category") or project.get("status") or "Project").upper()
+    draw_spaced(d, (x, 104), eyebrow[:28], font(34), ACCENT, tracking=6)
+    f_title = font(title_size)
+    for i, line in enumerate(wrap_title(d, project.get("title") or "Project",
+                                        f_title, max_width)):
+        d.text((x - 4, 168 + i * (title_size + 12)), line, font=f_title, fill=TEXT)
 
 
 def main():

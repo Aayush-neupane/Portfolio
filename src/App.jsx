@@ -31,6 +31,7 @@ import Footer from './components/Footer/Footer.jsx';
 import WhatsAppFloat from './components/WhatsAppFloat/WhatsAppFloat.jsx';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx';
 import NotFoundPage from './components/NotFound/NotFoundPage.jsx';
+import OfflineGate from './components/Loader/OfflineGate.jsx';
 import { OrbitCluster, OrbitMini, TrackLine } from './components/Loader/Orbit.jsx';
 import SlowBadge from './components/Loader/SlowBadge.jsx';
 import RouteVeil, { routeLabel } from './components/Loader/RouteVeil.jsx';
@@ -778,6 +779,7 @@ export default function App() {
       </ErrorBoundary>
       <Footer />
       <WhatsAppFloat whatsapp={whatsapp} />
+      <OfflineGate />
       {!entered && <LoadingScreen leaving={ready} />}
     </div>
   );

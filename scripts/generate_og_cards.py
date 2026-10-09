@@ -144,6 +144,22 @@ def text_block(d, project, max_width, title_size, x):
         d.text((x - 4, 168 + i * (title_size + 12)), line, font=f_title, fill=TEXT)
 
 
+def site_card():
+    """Branded card for the homepage itself (shared when no project context)."""
+    img = Image.new("RGB", (W, H), BG)
+    d = ImageDraw.Draw(img)
+    d.rectangle([80, 64, 144, 72], fill=ACCENT)
+    d.ellipse([W - 300, H - 300, W + 120, H + 120], outline=ACCENT, width=10)
+    d.ellipse([W - 225, H - 225, W + 45, H + 45], outline=(90, 42, 40), width=3)
+    draw_spaced(d, (80, 104), "PORTFOLIO", font(34), ACCENT, tracking=6)
+    f_name = font(120)
+    d.text((76, 170), "Aayush", font=f_name, fill=TEXT)
+    d.text((76, 292), "Neupane", font=f_name, fill=TEXT)
+    f_sub = font(38, bold=False)
+    d.text((80, 448), "Websites & games from Jhapa, Nepal.", font=f_sub, fill=MUTED)
+    return img
+
+
 def main():
     items = [
         *(DATA.get("featured") or []),
@@ -154,7 +170,8 @@ def main():
         out = OUT_DIR / f"{safe_id(p.get('id'))}.png"
         card(p).save(out)
         n += 1
-    print(f"wrote {n} cards -> {OUT_DIR}")
+    site_card().save(OUT_DIR / "home.png")
+    print(f"wrote {n} cards + home -> {OUT_DIR}")
 
 
 if __name__ == "__main__":

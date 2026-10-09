@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import ThemeToggle from '../ThemeToggle/ThemeToggle.jsx';
 import AccentPicker from '../ThemeToggle/AccentPicker.jsx';
-import { withBase } from '../../utils/paths.js';
+import LogoMark from '../Logo/LogoMark.jsx';
 
 const FALLBACK_LINKS = [
   { id: 'home', label: 'Home', href: '#home' },
@@ -58,7 +58,7 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
   return (
     <>
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-200 ${scrolled ? 'border-b border-border bg-bg/80 backdrop-blur-md' : 'border-b border-transparent bg-transparent'
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-200 print:hidden ${scrolled ? 'border-b border-border bg-bg/80 backdrop-blur-md' : 'border-b border-transparent bg-transparent'
         }`}
     >
       <nav
@@ -69,17 +69,9 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
           href="#home"
           onClick={(e) => go(e, '#home')}
           aria-label="Aayush Neupane — home"
-          className="flex items-end gap-0 font-mono text-sm font-bold uppercase leading-none tracking-[0.2em] text-text transition-colors hover:text-accent"
+          className="group flex items-end gap-0 font-mono text-sm font-bold uppercase leading-none tracking-[0.2em] text-text transition-colors hover:text-accent"
         >
-          <img
-            src={withBase('/assets/images/profile/logo.svg')}
-            alt=""
-            width={40}
-            height={40}
-            decoding="async"
-            draggable={false}
-            className="brand-mark block h-[40px] w-[40px] shrink-0 translate-y-[8px] object-contain"
-          />
+          <LogoMark className="h-[40px] w-[40px] translate-y-[8px]" imgClassName="brand-mark" eager />
           <span className="-ml-[4px] inline-flex items-baseline gap-[9px] pb-[3px] leading-none">
             <span
               aria-hidden="true"

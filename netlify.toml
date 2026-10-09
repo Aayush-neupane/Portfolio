@@ -1,0 +1,29 @@
+# Netlify: cache policy + hardening headers. Build settings are left to the
+# dashboard on purpose — this file only controls headers so it can never
+# break an existing build configuration.
+
+# Versioned build output (Vite hashes filenames): cache for a year.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Service worker + HTML shells: always revalidate, never serve stale.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Clickjacking / MIME-sniffing / referrer hardening for every response.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"

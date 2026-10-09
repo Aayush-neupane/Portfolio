@@ -21,7 +21,6 @@ function RouteFallback() {
   return (
     <main className="min-h-svh bg-bg" aria-label="Loading page">
       <RouteSkeleton />
-      <SlowBadge active label="loading page" />
     </main>
   );
 }
@@ -34,7 +33,6 @@ import NotFoundPage from './components/NotFound/NotFoundPage.jsx';
 import OfflineGate from './components/Loader/OfflineGate.jsx';
 import { OrbitCluster, TrackLine } from './components/Loader/Orbit.jsx';
 import RouteSkeleton from './components/Loader/RouteSkeleton.jsx';
-import SlowBadge, { ImageSlowBadge } from './components/Loader/SlowBadge.jsx';
 import RouteVeil, { routeLabel } from './components/Loader/RouteVeil.jsx';
 import { scrollToTarget } from './utils/scroll.js';
 import { withBase } from './utils/paths.js';
@@ -781,7 +779,6 @@ export default function App() {
       <Footer />
       <WhatsAppFloat whatsapp={whatsapp} />
       <OfflineGate />
-      <ImageSlowBadge />
       {!entered && <LoadingScreen leaving={ready} />}
     </div>
   );

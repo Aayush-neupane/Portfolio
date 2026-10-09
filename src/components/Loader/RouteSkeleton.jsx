@@ -1,6 +1,5 @@
 /** Generic page skeleton for slow route-chunk loads: shimmer blocks in the
- *  center of the screen while the mini orbit badge holds the bottom-right
- *  corner (see SlowBadge). Theme-aware through the portfolio tokens. */
+ *  center of the screen. Theme-aware through the portfolio tokens. */
 export default function RouteSkeleton() {
   return (
     <div

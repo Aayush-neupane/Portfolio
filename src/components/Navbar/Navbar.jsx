@@ -35,15 +35,6 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
     return () => window.removeEventListener('keydown', onKey);
   }, [open]);
 
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open]);
-
   const go = (e, href) => {
     e.preventDefault();
     setOpen(false);

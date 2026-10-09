@@ -44,7 +44,7 @@ export default function Footer() {
               loading="lazy"
               decoding="async"
               draggable={false}
-              className="block h-9 w-9 shrink-0 translate-y-[7px] object-contain"
+              className="brand-mark block h-9 w-9 shrink-0 translate-y-[7px] object-contain"
             />
             <span className="-ml-[4px] inline-flex items-baseline gap-[9px] pb-[3px] leading-none">
               <span

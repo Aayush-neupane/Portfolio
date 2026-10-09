@@ -212,10 +212,6 @@ function RelatedThumb({ project }) {
 function ShareButton({ project }) {
   const [copied, setCopied] = useState(false);
   const supported = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
-<<<<<<< HEAD
-  const url = () =>
-    `${window.location.origin}${window.location.pathname}#/project/${project.id}`;
-=======
   const url = () => {
     // Pretty per-project link (matches the prerendered /project/:id pages),
     // so shares unfurl with this project's own card instead of the generic
@@ -223,7 +219,6 @@ function ShareButton({ project }) {
     const base = window.location.pathname.replace(/\/$/, '');
     return `${window.location.origin}${base}/project/${encodeURIComponent(String(project.id))}`;
   };
->>>>>>> portfolio-remote/rebrand
   const fallbackCopy = async () => {
     const link = url();
     try {
@@ -294,8 +289,6 @@ export default function ProjectDetail({
   onEntered,
   onInquire,
 }) {
-<<<<<<< HEAD
-=======
   // Keyboard surfing: ←/→ move between projects, Esc goes back. Ignored
   // while typing or when the visitor holds a modifier key.
   useEffect(() => {
@@ -318,7 +311,6 @@ export default function ProjectDetail({
     return () => window.removeEventListener('keydown', onKey);
   }, [prev, next, onOpen, onBack]);
 
->>>>>>> portfolio-remote/rebrand
   if (!project) {
     return (
       <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-32 md:pt-40">
@@ -397,7 +389,7 @@ export default function ProjectDetail({
                   href={live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep hover:shadow-lg"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep glow-btn"
                 >
                   View Live
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -410,11 +402,7 @@ export default function ProjectDetail({
                   href={repo}
                   target="_blank"
                   rel="noopener noreferrer"
-<<<<<<< HEAD
-                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:border-linestrong hover:text-accent"
-=======
                   className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:border-accent/70 hover:text-accent"
->>>>>>> portfolio-remote/rebrand
                 >
                   <Github className="h-4 w-4" aria-hidden="true" />
                   Source Code
@@ -544,11 +532,7 @@ export default function ProjectDetail({
                 <button
                   type="button"
                   onClick={() => onOpen && onOpen(r)}
-<<<<<<< HEAD
-                  className="group w-full rounded-xl border border-border bg-elevated p-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-linestrong"
-=======
-                  className="group w-full rounded-xl border border-border bg-elevated p-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-accent/70"
->>>>>>> portfolio-remote/rebrand
+                  className="group w-full rounded-xl border border-border bg-elevated p-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-accent/70 glow-card"
                 >
                   <RelatedThumb project={r} />
                   <p className="mt-4 truncate font-display text-xl text-text transition-colors group-hover:text-accent">
@@ -565,10 +549,7 @@ export default function ProjectDetail({
       )}
 
       {(prev || next) && (
-<<<<<<< HEAD
-=======
         <>
->>>>>>> portfolio-remote/rebrand
         <nav
           aria-label="More projects"
           className="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2 md:mt-20"
@@ -578,7 +559,7 @@ export default function ProjectDetail({
               <button
                 type="button"
                 onClick={() => onOpen(prev)}
-                className="group flex w-full items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:border-accent/60"
+                className="group flex w-full items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:border-accent/60 glow-card"
               >
                 <ArrowLeft
                   className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:-translate-x-1 group-hover:text-accent"
@@ -602,7 +583,7 @@ export default function ProjectDetail({
               <button
                 type="button"
                 onClick={() => onOpen(next)}
-                className="group flex w-full items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:border-accent/60"
+                className="group flex w-full items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:border-accent/60 glow-card"
               >
                 <span className="min-w-0">
                   <span className="block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
@@ -622,13 +603,10 @@ export default function ProjectDetail({
             <span />
           )}
         </nav>
-<<<<<<< HEAD
-=======
         <p aria-hidden="true" className="mt-4 text-center font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted/70">
           Tip · <kbd>←</kbd> <kbd>→</kbd> to browse · <kbd>esc</kbd> to go back
         </p>
         </>
->>>>>>> portfolio-remote/rebrand
       )}
       </div>
     </div>

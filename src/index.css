@@ -51,6 +51,20 @@ body {
   outline-offset: 2px;
 }
 
+/* Accent glows (plain CSS: always wins the cascade, no utility magic).
+ * .glow-btn      — primary buttons, shadow blooms on hover.
+ * .glow-card     — cards, soft lift-shadow on hover.
+ * .glow-soft     — faint permanent halo (hero build-log). */
+.glow-btn:hover {
+  box-shadow: 0 12px 32px -12px var(--color-accent), 0 4px 12px -6px var(--color-accent);
+}
+.glow-card:hover {
+  box-shadow: 0 24px 60px -24px var(--color-accent);
+}
+.glow-soft {
+  box-shadow: 0 0 90px -45px var(--color-accent);
+}
+
 /* Scrollbar carries the accent so the color is present on every screen. */
 :root {
   scrollbar-width: thin;

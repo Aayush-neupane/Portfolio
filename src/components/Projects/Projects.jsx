@@ -269,7 +269,7 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, ease: 'easeOut' }}
                 {...cardNavProps(featured, onOpen)}
-                className={`group grid gap-6 rounded-xl border border-border bg-elevated p-5 transition-all duration-200 hover:-translate-y-1 hover:border-accent/70 md:p-7 lg:grid-cols-2 lg:gap-8 ${onOpen ? 'cursor-pointer' : ''}`}
+                className={`group grid gap-6 rounded-xl border border-border bg-elevated p-5 transition-all duration-200 hover:-translate-y-1 hover:border-accent/70 glow-card md:p-7 lg:grid-cols-2 lg:gap-8 ${onOpen ? 'cursor-pointer' : ''}`}
               >
                 <ProjectVisual project={featured} large />
                 <div className="flex flex-col justify-center">
@@ -311,7 +311,7 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
                     exit={reduce ? undefined : { opacity: 0, scale: 0.97 }}
                     transition={{ duration: 0.3, ease: 'easeOut' }}
                     {...cardNavProps(p, onOpen)}
-                    className={`group flex flex-col rounded-xl border border-border bg-elevated p-5 transition-all duration-200 hover:-translate-y-1 hover:border-accent/70 ${
+                    className={`group flex flex-col rounded-xl border border-border bg-elevated p-5 transition-all duration-200 hover:-translate-y-1 hover:border-accent/70 glow-card ${
                       i % 2 === 1 ? 'flex-col-reverse justify-end' : ''
                     }${onOpen ? ' cursor-pointer' : ''}`}
                   >

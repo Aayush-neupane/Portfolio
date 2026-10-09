@@ -1,19 +1,20 @@
 import { useRef } from 'react';
 import { ACCENTS, useSettings } from '../../context/SettingsContext.jsx';
 
-// Trial: a circular spinner dial — four planet dots at compass points on a
-// slow-spinning dashed orbit (reuses the loader's reduced-motion-safe
-// animation). Proper radio semantics: arrow keys move between accents,
-// Home/End jump to the ends, and each option carries a visible focus ring
-// in its own color. Self-contained: delete this file, its Navbar imports,
-// and the ACCENTS block in SettingsContext to remove the experiment.
-const ORDER = ['crimson', 'amber', 'teal', 'plum'];
-const SPOTS = {
-  crimson: 'left-1/2 top-0 -translate-x-1/2',
-  amber: 'right-0 top-1/2 -translate-y-1/2',
-  teal: 'left-1/2 bottom-0 -translate-x-1/2',
-  plum: 'left-0 top-1/2 -translate-y-1/2',
-};
+// Trial: a circular spinner dial — five planet dots on a slow-spinning
+// dashed orbit (reuses the loader's reduced-motion-safe animation). Proper
+// radio semantics: arrow keys move between accents, Home/End jump to the
+// ends, and each option carries a visible focus ring in its own color.
+// Self-contained: delete this file, its Navbar imports, and the ACCENTS
+// block in SettingsContext to remove the experiment.
+const ORDER = ['crimson', 'pink', 'gold', 'yellow', 'teal'];
+const RADIUS = 20;
+const SPOTS = Object.fromEntries(
+  ORDER.map((name, i) => {
+    const a = ((-90 + i * 72) * Math.PI) / 180;
+    return [name, { x: Math.round(Math.cos(a) * RADIUS), y: Math.round(Math.sin(a) * RADIUS) }];
+  })
+);
 
 export default function AccentPicker() {
   const { accent, setAccent } = useSettings();
@@ -55,7 +56,7 @@ export default function AccentPicker() {
       aria-label="Accent color (trial)"
       title="Accent color — trial"
       onKeyDown={onKeyDown}
-      className="relative h-14 w-14 shrink-0"
+      className="relative h-[60px] w-[60px] shrink-0"
     >
       {/* static hairline track for structure */}
       <span
@@ -63,7 +64,7 @@ export default function AccentPicker() {
         className="absolute inset-0 rounded-full border border-border/50"
       />
       {/* spinning orbit rail + satellite in the active color */}
-      <span aria-hidden="true" className="loader-orbit-spin absolute inset-[7px]">
+      <span aria-hidden="true" className="loader-orbit-spin absolute inset-[9px]">
         <span
           className="absolute -top-[2px] left-1/2 h-1 w-1 -translate-x-1/2 rounded-full"
           style={{ background: activeDot, boxShadow: `0 0 6px ${activeDot}` }}
@@ -75,6 +76,7 @@ export default function AccentPicker() {
         const def = ACCENTS[name];
         const isActive = accent === name;
         const dot = name === 'crimson' ? '#e85854' : def.swatch;
+        const { x, y } = SPOTS[name];
         return (
           <button
             key={name}
@@ -89,19 +91,24 @@ export default function AccentPicker() {
             tabIndex={isActive ? 0 : -1}
             onClick={() => setAccent(name)}
             title={name}
-            className={`absolute grid h-6 w-6 place-items-center rounded-full transition-all duration-150 hover:scale-125 focus-visible:outline-2 focus-visible:outline-offset-[3px] ${
-              SPOTS[name]
-            } ${isActive ? '' : 'opacity-60 hover:opacity-100'}`}
-            style={{ outlineColor: dot }}
+            className={`absolute grid h-[22px] w-[22px] place-items-center rounded-full transition-all duration-150 hover:scale-125 focus-visible:outline-2 focus-visible:outline-offset-[3px] ${
+              isActive ? '' : 'opacity-60 hover:opacity-100'
+            }`}
+            style={{
+              left: `calc(50% + ${x}px)`,
+              top: `calc(50% + ${y}px)`,
+              transform: 'translate(-50%, -50%)',
+              outlineColor: dot,
+            }}
           >
             <span
               aria-hidden="true"
               className="block rounded-full"
               style={{
-                width: isActive ? 12 : 9,
-                height: isActive ? 12 : 9,
+                width: isActive ? 11 : 8,
+                height: isActive ? 11 : 8,
                 background: dot,
-                boxShadow: isActive ? `0 0 12px ${dot}` : undefined,
+                boxShadow: isActive ? `0 0 10px ${dot}` : undefined,
               }}
             />
           </button>

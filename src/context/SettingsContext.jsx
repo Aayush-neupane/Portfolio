@@ -8,31 +8,67 @@ const SettingsContext = createContext({
 });
 
 /** Trial accent overrides (crimson = theme default, no overrides).
- *  Kept inline + minimal so the whole experiment lifts out cleanly. */
+ *  Each accent carries dark + light values so it stays legible on both the
+ *  ink background and the paper background. Kept inline + minimal so the
+ *  whole experiment lifts out cleanly. */
 export const ACCENTS = {
   crimson: null,
-  amber: {
-    '--color-accent': 'oklch(0.75 0.17 75)',
-    '--color-accent-deep': 'oklch(0.58 0.15 75)',
-    '--color-accent-soft': 'oklch(0.29 0.06 75)',
-    swatch: '#f0b43c',
+  pink: {
+    dark: {
+      '--color-accent': 'oklch(0.72 0.15 8)',
+      '--color-accent-deep': 'oklch(0.60 0.14 8)',
+      '--color-accent-soft': 'oklch(0.27 0.05 8)',
+    },
+    light: {
+      '--color-accent': 'oklch(0.55 0.16 8)',
+      '--color-accent-deep': 'oklch(0.46 0.15 8)',
+      '--color-accent-soft': 'rgba(206, 84, 124, 0.16)',
+    },
+    swatch: '#f2a3c0',
+  },
+  gold: {
+    dark: {
+      '--color-accent': 'oklch(0.76 0.12 85)',
+      '--color-accent-deep': 'oklch(0.62 0.11 85)',
+      '--color-accent-soft': 'oklch(0.28 0.05 85)',
+    },
+    light: {
+      '--color-accent': 'oklch(0.55 0.12 85)',
+      '--color-accent-deep': 'oklch(0.46 0.11 85)',
+      '--color-accent-soft': 'rgba(158, 128, 68, 0.20)',
+    },
+    swatch: '#c8a96b',
+  },
+  yellow: {
+    dark: {
+      '--color-accent': 'oklch(0.82 0.16 95)',
+      '--color-accent-deep': 'oklch(0.68 0.15 95)',
+      '--color-accent-soft': 'oklch(0.30 0.06 95)',
+    },
+    light: {
+      '--color-accent': 'oklch(0.60 0.15 95)',
+      '--color-accent-deep': 'oklch(0.50 0.14 95)',
+      '--color-accent-soft': 'rgba(168, 138, 20, 0.20)',
+    },
+    swatch: '#facc15',
   },
   teal: {
-    '--color-accent': 'oklch(0.74 0.16 190)',
-    '--color-accent-deep': 'oklch(0.58 0.14 190)',
-    '--color-accent-soft': 'oklch(0.26 0.06 190)',
+    dark: {
+      '--color-accent': 'oklch(0.74 0.16 190)',
+      '--color-accent-deep': 'oklch(0.58 0.14 190)',
+      '--color-accent-soft': 'oklch(0.26 0.06 190)',
+    },
+    light: {
+      '--color-accent': 'oklch(0.52 0.13 190)',
+      '--color-accent-deep': 'oklch(0.44 0.12 190)',
+      '--color-accent-soft': 'rgba(44, 148, 133, 0.16)',
+    },
     swatch: '#3fd2b6',
-  },
-  plum: {
-    '--color-accent': 'oklch(0.70 0.19 340)',
-    '--color-accent-deep': 'oklch(0.56 0.16 340)',
-    '--color-accent-soft': 'oklch(0.27 0.06 340)',
-    swatch: '#e57ab8',
   },
 };
 
 // First-dial names, renamed for a warmer set — migrate stored picks.
-const ACCENT_ALIASES = { emerald: 'teal', indigo: 'plum' };
+const ACCENT_ALIASES = { emerald: 'teal', indigo: 'plum', plum: 'pink' };
 
 export const useSettings = () => useContext(SettingsContext);
 
@@ -68,7 +104,8 @@ export function SettingsProvider({ children }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    const vars = ACCENTS[accent] || null;
+    const def = ACCENTS[accent] || null;
+    const vars = def ? def[theme === 'light' ? 'light' : 'dark'] : null;
     ['--color-accent', '--color-accent-deep', '--color-accent-soft'].forEach(
       (v) => root.style.removeProperty(v)
     );
@@ -82,7 +119,7 @@ export function SettingsProvider({ children }) {
     } catch {
       /* storage unavailable */
     }
-  }, [accent]);
+  }, [accent, theme]);
 
   const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
   const setAccent = (name) => {

@@ -101,6 +101,7 @@ export default function Hero({ profile, now, onProject, stats }) {
 
   return (
     <section id="home" ref={rootRef} className="relative overflow-hidden">
+      <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden="true" />
       <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-6 pb-28 pt-36 md:pb-36 md:pt-44 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
           <p data-reveal className="mb-5 font-mono text-xs tracking-[0.08em] text-muted">
@@ -191,7 +192,7 @@ export default function Hero({ profile, now, onProject, stats }) {
                 : undefined
             }
           >
-            <div className="rounded-xl border border-border bg-elevated p-6 transition-colors duration-200 hover:border-linestrong md:p-8">
+            <div className="hero-card rounded-xl border border-border bg-elevated p-6 transition-colors duration-200 hover:border-linestrong md:p-8">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
                   Build log

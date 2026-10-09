@@ -44,9 +44,14 @@ try {
     const pretty = `${SITE}/project/${id}`;
     const title = `${p.title || 'Project'} — Aayush Neupane`;
     const desc = p.description || 'A project by Aayush Neupane.';
-    const img = typeof p.image === 'string' && p.image.startsWith('/')
-      ? `${SITE}${p.image}`
-      : `${SITE}/assets/images/profile/logo.jpg`;
+    // Prefer the generated social card (scripts/generate_og_cards.py), then
+    // the project screenshot, then the default logo.
+    const ogFile = `assets/og/${String(p.id).replace(/[^A-Za-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '') || 'project'}.png`;
+    const img = existsSync(join(root, 'public', ogFile))
+      ? `${SITE}/${ogFile}`
+      : typeof p.image === 'string' && p.image.startsWith('/')
+        ? `${SITE}${p.image}`
+        : `${SITE}/assets/images/profile/logo.jpg`;
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>

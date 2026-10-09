@@ -284,6 +284,28 @@ export default function ProjectDetail({
   onEntered,
   onInquire,
 }) {
+  // Keyboard surfing: ←/→ move between projects, Esc goes back. Ignored
+  // while typing or when the visitor holds a modifier key.
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+      if (e.key === 'ArrowRight' && next) {
+        e.preventDefault();
+        onOpen?.(next);
+      } else if (e.key === 'ArrowLeft' && prev) {
+        e.preventDefault();
+        onOpen?.(prev);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        onBack?.();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [prev, next, onOpen, onBack]);
+
   if (!project) {
     return (
       <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-32 md:pt-40">
@@ -522,6 +544,7 @@ export default function ProjectDetail({
       )}
 
       {(prev || next) && (
+        <>
         <nav
           aria-label="More projects"
           className="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2 md:mt-20"
@@ -575,6 +598,10 @@ export default function ProjectDetail({
             <span />
           )}
         </nav>
+        <p aria-hidden="true" className="mt-4 text-center font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted/70">
+          Tip · <kbd>←</kbd> <kbd>→</kbd> to browse · <kbd>esc</kbd> to go back
+        </p>
+        </>
       )}
       </div>
     </div>

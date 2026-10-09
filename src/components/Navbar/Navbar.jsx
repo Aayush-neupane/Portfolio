@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import ThemeToggle from '../ThemeToggle/ThemeToggle.jsx';
+import AccentPicker from '../ThemeToggle/AccentPicker.jsx';
 import { withBase } from '../../utils/paths.js';
 
 const FALLBACK_LINKS = [
@@ -96,9 +97,11 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
             </a>
           ))}
           <ThemeToggle />
+          <AccentPicker />
         </div>
 
         <div className="flex items-center gap-3 md:hidden">
+          <AccentPicker />
           <ThemeToggle />
           <button
             type="button"

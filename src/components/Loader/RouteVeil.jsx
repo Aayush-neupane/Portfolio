@@ -16,19 +16,27 @@ export function routeLabel(route) {
   return 'aayush';
 }
 
+/** Module-level navigation memory. Component refs cannot survive StrictMode
+ *  remounts (dev double-invoke would flash the veil on first load), so the
+ *  handled key lives outside the component — same approach as create.io. */
+let lastHandledKey = null;
+
 /** Full-screen orbit veil shown briefly on every page (hash-route) change.
  *  Non-interactive throughout: pointer-events-none, so it never traps
- *  clicks or focus. Skipped on first mount and for reduced-motion users. */
+ *  clicks or focus. Skipped on first mount (including the boot → site
+ *  handoff) and for reduced-motion users. */
 export default function RouteVeil({ routeKey, label }) {
   const [phase, setPhase] = useState('hidden');
   const timers = useRef([]);
-  const first = useRef(true);
 
   useEffect(() => {
-    if (first.current) {
-      first.current = false;
-      return undefined;
-    }
+    // Same key as already handled: a re-run, not a navigation. (StrictMode
+    // double-invokes effects in dev; this collapses both runs into one, and
+    // the boot → site handoff never flashes the veil.)
+    if (lastHandledKey === routeKey) return undefined;
+    const firstMount = lastHandledKey === null;
+    lastHandledKey = routeKey;
+    if (firstMount) return undefined;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
     timers.current.forEach((t) => window.clearTimeout(t));
     timers.current = [];

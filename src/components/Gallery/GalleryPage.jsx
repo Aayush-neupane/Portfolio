@@ -110,7 +110,9 @@ export default function GalleryPage({ photos, onBack }) {
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-5 pb-24 pt-28 sm:px-6 md:pt-40">
+    <div className="relative">
+      <div className="hero-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
+      <div className="relative mx-auto w-full max-w-6xl px-5 pb-24 pt-28 sm:px-6 md:pt-40">
       <button
         type="button"
         onClick={onBack}
@@ -263,6 +265,7 @@ export default function GalleryPage({ photos, onBack }) {
           />
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 }

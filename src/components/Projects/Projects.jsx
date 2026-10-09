@@ -203,8 +203,9 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
   }, [reduce]);
 
   return (
-    <section id="projects" ref={rootRef} className="scroll-mt-20">
-      <div className="mx-auto w-full max-w-6xl px-6 py-24 md:py-32">
+    <section id="projects" ref={rootRef} className="relative scroll-mt-20">
+      <div className="hero-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
+      <div className="relative mx-auto w-full max-w-6xl px-6 py-24 md:py-32">
         <p
           data-reveal
           className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent"

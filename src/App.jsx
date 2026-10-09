@@ -68,7 +68,7 @@ function galleryPhotoIdFromRoute(route) {
   return null;
 }
 
-const LOADER_WORDS = ['brewing milk tea', 'aligning pixels', 'chasing good light', 'warming up the server'];
+const LOADER_WORDS = ['compiling ideas', 'rendering worlds', 'polishing pixels', 'loading portfolio'];
 
 function LoadingScreen({ leaving }) {
   const [pct, setPct] = useState(0);

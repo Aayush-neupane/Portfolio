@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Github, Link2, Share2 } from 'lucide-react';
 import { OrbitMini } from '../Loader/Orbit.jsx';
+import SmartImage from '../Loader/SmartImage.jsx';
 
 function isValidUrl(u) {
   return typeof u === 'string' && /^https?:\/\//.test(u) && u !== 'https://' && u !== 'http://';

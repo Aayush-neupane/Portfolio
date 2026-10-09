@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react';
 import { withBase } from '../../utils/paths.js';
 import { OrbitMini, TrackLine } from '../Loader/Orbit.jsx';
+import SmartImage from '../Loader/SmartImage.jsx';
 
 const WA_HIRE = 'https://wa.me/9779862862023?text=Hi%20Aayush%2C%20I%20found%20your%20links%20page%20and%20want%20to%20discuss%20a%20project.';
 

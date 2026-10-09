@@ -12,24 +12,27 @@ const SettingsContext = createContext({
 export const ACCENTS = {
   crimson: null,
   amber: {
-    '--color-accent': 'oklch(0.72 0.16 80)',
-    '--color-accent-deep': 'oklch(0.57 0.15 80)',
-    '--color-accent-soft': 'oklch(0.28 0.06 80)',
-    swatch: '#e0a63c',
+    '--color-accent': 'oklch(0.70 0.14 78)',
+    '--color-accent-deep': 'oklch(0.55 0.13 78)',
+    '--color-accent-soft': 'oklch(0.27 0.05 78)',
+    swatch: '#dda63e',
   },
-  emerald: {
-    '--color-accent': 'oklch(0.70 0.16 165)',
-    '--color-accent-deep': 'oklch(0.55 0.14 165)',
-    '--color-accent-soft': 'oklch(0.25 0.05 165)',
-    swatch: '#34cf8e',
+  teal: {
+    '--color-accent': 'oklch(0.68 0.13 195)',
+    '--color-accent-deep': 'oklch(0.53 0.12 195)',
+    '--color-accent-soft': 'oklch(0.24 0.05 195)',
+    swatch: '#3fb8a8',
   },
-  indigo: {
-    '--color-accent': 'oklch(0.68 0.17 285)',
-    '--color-accent-deep': 'oklch(0.54 0.15 285)',
-    '--color-accent-soft': 'oklch(0.26 0.06 285)',
-    swatch: '#7d8df7',
+  plum: {
+    '--color-accent': 'oklch(0.66 0.15 330)',
+    '--color-accent-deep': 'oklch(0.52 0.13 330)',
+    '--color-accent-soft': 'oklch(0.25 0.05 330)',
+    swatch: '#c97bb8',
   },
 };
+
+// First-dial names, renamed for a warmer set — migrate stored picks.
+const ACCENT_ALIASES = { emerald: 'teal', indigo: 'plum' };
 
 export const useSettings = () => useContext(SettingsContext);
 
@@ -43,7 +46,9 @@ export function SettingsProvider({ children }) {
   });
   const [accent, setAccentState] = useState(() => {
     try {
-      return localStorage.getItem('an-accent') || 'crimson';
+      const raw = localStorage.getItem('an-accent') || 'crimson';
+      const v = ACCENT_ALIASES[raw] || raw;
+      return v in ACCENTS ? v : 'crimson';
     } catch {
       return 'crimson';
     }

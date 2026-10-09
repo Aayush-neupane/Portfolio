@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Facebook, Instagram, MessageCircle } from 'lucide-react';
 import { withBase } from '../../utils/paths.js';
+import SmartImage from '../Loader/SmartImage.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,7 +22,6 @@ const SOCIALS_BASE = [
 ];
 
 function Portrait() {
-  const [failed, setFailed] = useState(false);
   return (
     <figure data-reveal className="group relative mt-9 max-w-xs">
       <div
@@ -29,19 +29,14 @@ function Portrait() {
         className="absolute -bottom-3 -right-3 h-full w-full rounded-xl border border-border transition-colors duration-200 group-hover:border-accent/50"
       />
       <div className="relative overflow-hidden rounded-xl border border-border bg-subtle transition-colors duration-200 group-hover:border-linestrong">
-        {!failed ? (
-          <img
-            src={withBase('/assets/images/profile/me.JPG')}
-            alt="Portrait of Aayush Neupane"
-            loading="lazy" decoding="async"
-            onError={() => setFailed(true)}
-            className="aspect-[4/5] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          />
-        ) : (
-          <div className="grid aspect-[4/5] w-full place-items-center">
-            <span className="font-display text-7xl text-muted/60">A</span>
-          </div>
-        )}
+        <SmartImage
+          src={withBase('/assets/images/profile/me.JPG')}
+          alt="Portrait of Aayush Neupane"
+          mark={48}
+          caption="portrait unavailable"
+          className="aspect-[4/5] w-full"
+          imgClassName="h-full w-full object-cover group-hover:scale-[1.03]"
+        />
       </div>
       <figcaption className="mt-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted">
         Aayush Neupane, Jhapa, Nepal

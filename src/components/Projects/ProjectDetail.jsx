@@ -7,7 +7,6 @@ function isValidUrl(u) {
 }
 
 function DetailVisual({ project, enterFrom, onEntered }) {
-  const [failed, setFailed] = useState(false);
   const boxRef = useRef(null);
   const willZoom =
     !!enterFrom &&
@@ -158,7 +157,7 @@ function DetailVisual({ project, enterFrom, onEntered }) {
     </div>
   );
 
-  if (!project.image || failed) {
+  if (!project.image) {
     return frame(
       <div aria-hidden="true" className="absolute inset-0 grid place-items-center">
         <span className="font-display text-7xl leading-none text-muted/50 md:text-8xl">
@@ -168,22 +167,21 @@ function DetailVisual({ project, enterFrom, onEntered }) {
     );
   }
   return frame(
-    <img
+    <SmartImage
       src={project.image}
       alt={`${project.title || 'Project'} preview screenshot`}
-      loading="eager"
+      eager
       fetchPriority="high"
-      decoding="async"
-      onError={() => setFailed(true)}
-      className="block h-auto w-full"
+      mark={52}
+      caption="preview unavailable"
+      imgClassName="block h-auto w-full"
     />,
     true
   );
 }
 
 function RelatedThumb({ project }) {
-  const [failed, setFailed] = useState(false);
-  if (!project.image || failed) {
+  if (!project.image) {
     return (
       <div
         aria-hidden="true"
@@ -197,14 +195,14 @@ function RelatedThumb({ project }) {
   }
   return (
     <div className="tone aspect-[16/9] overflow-hidden rounded-lg border border-border bg-subtle">
-      <img
+      <SmartImage
         src={project.image}
         alt=""
-        aria-hidden="true"
-        loading="lazy"
-        decoding="async"
-        onError={() => setFailed(true)}
-        className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+        mark={30}
+        failMark={34}
+        caption=""
+        className="h-full w-full"
+        imgClassName="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
       />
     </div>
   );

@@ -28,15 +28,17 @@ export default function LinksPage({ onNav }) {
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-md flex-col items-center px-6 pb-16 pt-24 md:pt-32">
-      <img
+      <SmartImage
         src={withBase('/assets/images/profile/me.JPG')}
         alt="Aayush Neupane"
+        eager
         width={96}
         height={96}
-        loading="eager"
-        decoding="async"
-        draggable={false}
-        className="h-24 w-24 rounded-full border-2 border-linestrong object-cover"
+        mark={30}
+        failMark={34}
+        caption=""
+        className="h-24 w-24 rounded-full border-2 border-linestrong"
+        imgClassName="h-full w-full object-cover"
       />
       <h1 className="mt-5 font-display text-3xl text-text">Aayush Neupane</h1>
       <p className="mt-2 text-center text-sm leading-relaxed text-muted">

@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronLeft, ChevronRight, Expand, X, Share2, Link2, Check } from 'lucide-react';
 import { thumb, mid } from '../../utils/galleryImg.js';
+import SmartImage from '../Loader/SmartImage.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -82,14 +83,6 @@ const LAYOUT = [
 ];
 
 export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, onLoad, eager, large, hideStory, compact }) {
-  const [failed, setFailed] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-  const [src, setSrc] = useState(() => thumb(photo.src));
-  useEffect(() => {
-    setSrc(thumb(photo.src));
-    setFailed(false);
-    setLoaded(false);
-  }, [photo.src]);
   const tiltRef = useRef(null);
   const canTilt = useMemo(
     () =>
@@ -124,40 +117,17 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
         className={`relative overflow-hidden rounded-lg border bg-subtle transition-all duration-300 group-hover:border-linestrong group-focus-visible:border-accent ${dimmed ? 'border-border' : 'border-linestrong'
           }`}
       >
-        {!failed ? (
-          <img
-            src={src}
-            alt={photo.title}
-            width={photo.w}
-            height={photo.h}
-            loading={eager ? 'eager' : 'lazy'}
-            decoding="async"
-            draggable={false}
-            onError={() => {
-              if (src !== photo.src) setSrc(photo.src);
-              else setFailed(true);
-            }}
-            onLoad={() => {
-              setLoaded(true);
-              onLoad?.();
-            }}
-            className={`${imgClass || 'h-auto w-full'} transition-all duration-500 group-hover:scale-[1.03] ${!loaded ? 'opacity-0' : 'opacity-100'}
-              }`}
-          />
-        ) : (
-          <div className="grid aspect-[4/5] w-full min-w-56 place-items-center bg-elevated p-6">
-            <div className="text-center">
-              <p className="font-display text-6xl text-muted/50">
-                {photo.title?.charAt(0) || '·'}
-              </p>
-              <p className="mt-3 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-muted">
-                Drop {photo.src?.split('/').pop()} in
-                <br />
-                public/assets/images/gallery/
-              </p>
-            </div>
-          </div>
-        )}
+        <SmartImage
+          sources={[thumb(photo.src), photo.src]}
+          alt={photo.title}
+          width={photo.w}
+          height={photo.h}
+          eager={eager}
+          onLoad={onLoad}
+          mark={40}
+          caption="photo unavailable"
+          imgClassName={`${imgClass || 'h-auto w-full'} group-hover:scale-[1.03]`}
+        />
         <span className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-bg/70 text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 [@media(hover:none)]:opacity-100">
           <Expand className="h-4 w-4" aria-hidden="true" />
         </span>
@@ -186,15 +156,9 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
 }
 
 export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
-  const [failed, setFailed] = useState(false);
-  const [src, setSrc] = useState(() => (photo ? mid(photo.src) : ''));
   const touchRef = useRef({ x: 0, y: 0 });
   const dialogRef = useRef(null);
   const returnFocusRef = useRef(null);
-  useEffect(() => {
-    setSrc(photo ? mid(photo.src) : '');
-    setFailed(false);
-  }, [photo?.src]);
   // Focus trap with focus return: Tab cycles inside the dialog, and closing
   // hands focus back to whatever opened it.
   useEffect(() => {
@@ -305,21 +269,15 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
           <ChevronLeft className="h-5 w-5" aria-hidden="true" />
         </button>
         <div className="flex min-h-0 min-w-0 flex-1 items-center justify-center px-12 md:px-0">
-          {!failed ? (
-            <img
-              src={src}
-              alt={photo.title}
-              decoding="async"
-              draggable={false}
-              onError={() => {
-                if (src !== photo.src) setSrc(photo.src);
-                else setFailed(true);
-              }}
-              className="max-h-[52vh] w-auto max-w-full touch-pan-y select-none rounded-lg object-contain md:max-h-[62vh]"
-            />
-          ) : (
-            <p className="font-mono text-sm text-white/60">Photo coming soon.</p>
-          )}
+          <SmartImage
+            sources={photo ? [mid(photo.src), photo.src] : []}
+            alt={photo.title}
+            eager
+            mark={52}
+            caption="photo coming soon"
+            className="grid min-h-[36vh] w-full max-w-3xl place-items-center"
+            imgClassName="mx-auto max-h-[52vh] w-auto max-w-full touch-pan-y select-none rounded-lg object-contain md:max-h-[62vh]"
+          />
         </div>
         <button
           type="button"

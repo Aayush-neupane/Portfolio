@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Lightbox, PhotoFrame } from './Gallery.jsx';
+import SmartImage from '../Loader/SmartImage.jsx';
 import { thumb } from '../../utils/galleryImg.js';
 import { tabListKeyDown } from '../../utils/a11y.js';
 
@@ -175,14 +176,6 @@ function buildBentoBands(list, pageStart, width) {
 
 
 function BentoCell({ photo, index, onOpen, className, style }) {
-  const [loaded, setLoaded] = useState(false);
-  const [failed, setFailed] = useState(false);
-  const [src, setSrc] = useState(() => thumb(photo.src));
-  useEffect(() => {
-    setSrc(thumb(photo.src));
-    setFailed(false);
-    setLoaded(false);
-  }, [photo.src]);
   return (
     <button
       type="button"
@@ -191,27 +184,16 @@ function BentoCell({ photo, index, onOpen, className, style }) {
       style={style}
       className={`group relative overflow-hidden rounded-lg border border-linestrong bg-subtle text-left transition-colors duration-300 hover:border-accent focus-visible:border-accent ${className}`}
     >
-      {!failed ? (
-        <img
-          src={src}
-          alt={photo.title}
-          width={photo.w}
-          height={photo.h}
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-          onError={() => {
-            if (src !== photo.src) setSrc(photo.src);
-            else setFailed(true);
-          }}
-          onLoad={() => setLoaded(true)}
-          className={`h-full w-full transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
-        />
-      ) : (
-        <span className="grid h-full w-full place-items-center p-4 text-center font-mono text-[0.6rem] uppercase tracking-[0.14em] text-muted">
-          Drop {photo.src?.split('/').pop()} in public/assets/images/gallery/
-        </span>
-      )}
+      <SmartImage
+        sources={[thumb(photo.src), photo.src]}
+        alt={photo.title}
+        width={photo.w}
+        height={photo.h}
+        mark={40}
+        caption="photo unavailable"
+        className="h-full w-full"
+        imgClassName="h-full w-full object-cover"
+      />
       <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/75 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 [@media(hover:none)]:opacity-100">
         <span className="min-w-0">
           <span className="block truncate font-display text-sm text-white">{photo.title}</span>

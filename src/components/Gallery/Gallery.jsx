@@ -449,7 +449,8 @@ export default function Gallery({ photos, onViewAll }) {
   const active = pos - 1;
 
   return (
-    <section id="gallery" ref={rootRef} className="overflow-hidden border-t border-border">
+    <section id="gallery" ref={rootRef} className="relative overflow-hidden border-t border-border">
+      <div className="hero-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
       {reduce ? (
         <div className="mx-auto grid w-full max-w-6xl gap-6 px-6 py-24 md:py-32 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((photo, i) => (

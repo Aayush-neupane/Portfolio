@@ -130,7 +130,9 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
   const early = useMemo(() => filtered.filter((p) => EARLY_IDS.has(p.id)), [filtered]);
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-32 md:pt-40">
+    <div className="relative">
+      <div className="hero-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
+      <div className="relative mx-auto w-full max-w-6xl px-6 pb-24 pt-32 md:pt-40">
       <button
         type="button"
         onClick={onBack}
@@ -213,6 +215,7 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
       {filtered.length === 0 && (
         <p className="py-12 text-center text-muted">Nothing in this category yet.</p>
       )}
+      </div>
     </div>
   );
 }

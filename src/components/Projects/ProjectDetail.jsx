@@ -323,7 +323,9 @@ export default function ProjectDetail({
       : null;
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-28 md:pt-36">
+    <div className="relative">
+      <div className="hero-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
+      <div className="relative mx-auto w-full max-w-6xl px-6 pb-24 pt-28 md:pt-36">
       <div className="flex items-center justify-between gap-4">
         <button
           type="button"
@@ -575,6 +577,7 @@ export default function ProjectDetail({
           )}
         </nav>
       )}
+      </div>
     </div>
   );
 }

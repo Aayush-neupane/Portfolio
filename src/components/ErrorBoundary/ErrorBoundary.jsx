@@ -21,7 +21,7 @@ export default class ErrorBoundary extends Component {
   render() {
     if (!this.state.error) return this.props.children;
     return (
-      <div className="grid min-h-screen place-items-center bg-bg px-6">
+      <div role="alert" className="grid min-h-screen place-items-center bg-bg px-6">
         <div className="max-w-md text-center">
           <p className="font-mono text-xs uppercase tracking-[0.18em] text-accent">
             Something hiccuped

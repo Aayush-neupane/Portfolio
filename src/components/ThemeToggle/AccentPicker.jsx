@@ -101,7 +101,7 @@ export default function AccentPicker() {
             tabIndex={isActive ? 0 : -1}
             onClick={() => setAccent(name)}
             title={name}
-            className={`absolute grid h-[22px] w-[22px] place-items-center rounded-full transition duration-150 hover:scale-125 focus-visible:outline-2 focus-visible:outline-offset-[3px] ${
+            className={`absolute grid h-[22px] w-[22px] place-items-center rounded-full transition duration-150 hover:scale-125 focus-visible:outline-2 focus-visible:outline-offset-[3px] after:absolute after:-inset-[11px] after:content-[''] ${
               isActive ? '' : 'opacity-60 hover:opacity-100'
             }`}
             style={{

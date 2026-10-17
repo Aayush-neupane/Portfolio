@@ -55,6 +55,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
     reset,
     getValues,
     watch,
+    setFocus,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
@@ -154,7 +155,10 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
     }
   };
 
-  const onInvalid = () => {
+  const onInvalid = (invalidErrors) => {
+    // Send focus to the first field that needs attention.
+    const first = ['name', 'email', 'subject', 'message'].find((k) => invalidErrors?.[k]);
+    if (first) setFocus(first);
     // Restart the shake without remounting — a key-change would wipe typed input.
     const form = formRef.current;
     if (!form) return;
@@ -324,6 +328,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   type="text"
                   autoComplete="name"
                   placeholder="Your name"
+                  spellCheck={false}
                   aria-invalid={!!errors.name}
                   className={inputClass}
                   {...register('name')}
@@ -344,6 +349,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   type="email"
                   autoComplete="email"
                   placeholder="you@example.com"
+                  spellCheck={false}
                   aria-invalid={!!errors.email}
                   className={inputClass}
                   {...register('email')}
@@ -364,6 +370,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   type="text"
                   autoComplete="off"
                   placeholder="What is this about?"
+                  spellCheck={false}
                   aria-invalid={!!errors.subject}
                   className={inputClass}
                   {...register('subject')}

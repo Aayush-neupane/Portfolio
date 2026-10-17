@@ -169,6 +169,10 @@ function LoadingScreen({ leaving }) {
   // One orbit loader for both themes — the mark, rings and grid all resolve
   // through theme vars (the logo inverts to ink on paper in light mode).
   return (
+    <>
+    <span className="sr-only" role="status" aria-live="polite">
+      Loading — {LOADER_WORDS[word % LOADER_WORDS.length]}
+    </span>
     <div
       aria-hidden="true"
       className={`fixed inset-0 z-[100] grid place-items-center overflow-hidden bg-bg ${
@@ -192,6 +196,7 @@ function LoadingScreen({ leaving }) {
         </p>
       </div>
     </div>
+    </>
   );
 }
 

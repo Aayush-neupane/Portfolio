@@ -44,12 +44,7 @@ function TypingWidget() {
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => inputRef.current?.focus()}
-        className="block w-full cursor-text rounded-lg border border-border bg-subtle p-5 text-left"
-        aria-label="Focus the typing test"
-      >
+      <label className="block w-full cursor-text rounded-lg border border-border bg-subtle p-5 text-left">
         <p aria-hidden="true" className="font-mono text-lg leading-relaxed tracking-wide">
           {TYPE_TEXT.split('').map((ch, i) => {
             const t = typed[i];
@@ -89,7 +84,7 @@ function TypingWidget() {
           aria-label="Type the sentence shown above"
           className="sr-only"
         />
-      </button>
+      </label>
       <div className="mt-4 flex items-center gap-6 font-mono text-xs tabular-nums">
         <span className="text-text">
           <span className="text-2xl font-bold">{done ? wpm : secs > 1 ? wpm : 0}</span>{' '}

@@ -24,14 +24,14 @@ export default function NotFoundPage({ onHome, onGallery }) {
           <button
             type="button"
             onClick={onHome}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-accent-contrast transition-all duration-200 hover:brightness-110"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-accent-contrast transition duration-200 hover:brightness-110"
           >
             Back to home
           </button>
           <button
             type="button"
             onClick={onGallery}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:border-linestrong hover:text-accent"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition duration-200 hover:border-linestrong hover:text-accent"
           >
             View gallery
           </button>

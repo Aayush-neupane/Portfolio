@@ -1,3 +1,7 @@
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export function scrollToTarget(selector) {
   const go = (el) => {
     if (window.__lenis) {
@@ -10,9 +14,17 @@ export function scrollToTarget(selector) {
       } catch {
         /* older lenis — scroll still works, just less exact */
       }
-      window.__lenis.scrollTo(el, { offset: -72, duration: 1.2 });
+      window.__lenis.scrollTo(
+        el,
+        prefersReducedMotion()
+          ? { offset: -72, immediate: true }
+          : { offset: -72, duration: 1.2 }
+      );
     } else {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Native path: keep the same -72px offset the lenis path uses so
+      // anchors never land under the fixed header.
+      const top = el.getBoundingClientRect().top + window.scrollY - 72;
+      window.scrollTo({ top, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
     }
   };
   const first = typeof selector === 'string' ? document.querySelector(selector) : selector;
@@ -35,8 +47,8 @@ export function scrollToTarget(selector) {
 
 export function scrollToTop() {
   if (window.__lenis) {
-    window.__lenis.scrollTo(0, { duration: 1.2 });
+    window.__lenis.scrollTo(0, prefersReducedMotion() ? { immediate: true } : { duration: 1.2 });
   } else {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
   }
 }

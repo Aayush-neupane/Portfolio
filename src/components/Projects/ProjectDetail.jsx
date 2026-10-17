@@ -80,20 +80,20 @@ function DetailVisual({ project, enterFrom, onEntered }) {
       margin: '0',
     });
     document.body.appendChild(ghost);
+    // Animate transform (compositor-only) instead of left/top/width/height
+    // (layout-inducing). The ghost starts at `from` and lands exactly on `to`.
+    const dx = to.left - from.left;
+    const dy = to.top - from.top;
+    const sx = from.width ? to.width / from.width : 1;
+    const sy = from.height ? to.height / from.height : 1;
     const anim = ghost.animate(
       [
         {
-          left: `${from.left}px`,
-          top: `${from.top}px`,
-          width: `${from.width}px`,
-          height: `${from.height}px`,
+          transform: 'none',
           borderRadius: '12px',
         },
         {
-          left: `${to.left}px`,
-          top: `${to.top}px`,
-          width: `${to.width}px`,
-          height: `${to.height}px`,
+          transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`,
           borderRadius: '16px',
         },
       ],
@@ -344,7 +344,7 @@ export default function ProjectDetail({
                   href={live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-accent-contrast transition-all duration-200 hover:brightness-110"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-accent-contrast transition duration-200 hover:brightness-110"
                 >
                   View Live
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -357,7 +357,7 @@ export default function ProjectDetail({
                   href={repo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition-all duration-200 hover:border-linestrong hover:text-accent"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-7 py-3 text-sm font-medium text-text transition duration-200 hover:border-linestrong hover:text-accent"
                 >
                   <Github className="h-4 w-4" aria-hidden="true" />
                   Source Code
@@ -374,7 +374,7 @@ export default function ProjectDetail({
               <button
                 type="button"
                 onClick={() => onInquire(project)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:bg-accent hover:text-accent-contrast"
+                className="inline-flex items-center gap-1.5 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition duration-200 hover:bg-accent hover:text-accent-contrast"
               >
                 Inquire
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -487,7 +487,7 @@ export default function ProjectDetail({
                 <button
                   type="button"
                   onClick={() => onOpen && onOpen(r)}
-                  className="group w-full rounded-xl border border-border bg-elevated p-4 text-left transition-all duration-200 hover:-translate-y-1 hover:border-linestrong"
+                  className="group w-full rounded-xl border border-border bg-elevated p-4 text-left transition duration-200 hover:-translate-y-1 hover:border-linestrong"
                 >
                   <RelatedThumb project={r} />
                   <p className="mt-4 truncate font-display text-xl text-text transition-colors group-hover:text-accent">
@@ -514,10 +514,10 @@ export default function ProjectDetail({
               <button
                 type="button"
                 onClick={() => onOpen(prev)}
-                className="group flex w-full items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition-all duration-200 hover:border-linestrong"
+                className="group flex w-full items-center gap-4 rounded-xl border border-border bg-elevated p-6 text-left transition duration-200 hover:border-linestrong"
               >
                 <ArrowLeft
-                  className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:-translate-x-1 group-hover:text-accent"
+                  className="h-6 w-6 shrink-0 text-muted transition duration-200 group-hover:-translate-x-1 group-hover:text-accent"
                   aria-hidden="true"
                 />
                 <span className="min-w-0">
@@ -538,7 +538,7 @@ export default function ProjectDetail({
               <button
                 type="button"
                 onClick={() => onOpen(next)}
-                className="group flex w-full items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition-all duration-200 hover:border-linestrong"
+                className="group flex w-full items-center justify-end gap-4 rounded-xl border border-border bg-elevated p-6 text-right transition duration-200 hover:border-linestrong"
               >
                 <span className="min-w-0">
                   <span className="block font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
@@ -549,7 +549,7 @@ export default function ProjectDetail({
                   </span>
                 </span>
                 <ArrowRight
-                  className="h-6 w-6 shrink-0 text-muted transition-all duration-200 group-hover:translate-x-1 group-hover:text-accent"
+                  className="h-6 w-6 shrink-0 text-muted transition duration-200 group-hover:translate-x-1 group-hover:text-accent"
                   aria-hidden="true"
                 />
               </button>

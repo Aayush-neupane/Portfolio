@@ -93,7 +93,7 @@ export default function SmartImage({
               onLoadRef.current?.();
             }}
             style={imgStyle}
-            className={`${imgClassName} transition-all duration-500 ${
+            className={`${imgClassName} transition duration-500 ${
               status === 'ready' ? 'opacity-100' : 'opacity-0'
             }`}
           />

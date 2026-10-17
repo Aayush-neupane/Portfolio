@@ -142,7 +142,7 @@ export default function Hero({ profile, now, onProject, stats }) {
             <button
               type="button"
               onClick={() => scrollToTarget('#projects')}
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-accent-contrast transition-all duration-200 hover:brightness-110"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-accent-contrast transition duration-200 hover:brightness-110"
             >
               View Work
               <ArrowRight className="h-4 w-4" aria-hidden="true" />

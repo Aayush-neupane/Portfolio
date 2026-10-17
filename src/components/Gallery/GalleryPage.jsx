@@ -385,7 +385,7 @@ const rows = useMemo(
               aria-selected={selected}
               type="button"
               onClick={() => setFilter(cat)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 sm:px-5 sm:py-2.5 ${
+              className={`rounded-full px-4 py-2 text-sm font-medium transition duration-200 sm:px-5 sm:py-2.5 ${
                 selected
                   ? 'bg-accent text-accent-contrast'
                   : 'border border-border bg-elevated text-muted hover:border-accent/70 hover:text-text'
@@ -509,7 +509,7 @@ const rows = useMemo(
             onClick={() => goPage(safePage - 1)}
             disabled={safePage === 0}
             aria-label="Previous page"
-            className="grid h-11 w-11 place-items-center rounded-full border border-border text-muted transition-all duration-200 hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+            className="grid h-11 w-11 place-items-center rounded-full border border-border text-muted transition duration-200 hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           >
             <ChevronLeft className="h-5 w-5" aria-hidden="true" />
           </button>
@@ -520,7 +520,7 @@ const rows = useMemo(
               onClick={() => goPage(n)}
               aria-label={`Page ${n + 1}`}
               aria-current={n === safePage ? 'page' : undefined}
-              className={`h-11 min-w-11 rounded-full px-3 font-mono text-sm tabular-nums transition-all duration-200 ${
+              className={`h-11 min-w-11 rounded-full px-3 font-mono text-sm tabular-nums transition duration-200 ${
                 n === safePage
                   ? 'bg-accent font-semibold text-accent-contrast'
                   : 'border border-border text-muted hover:border-accent/70 hover:text-text'
@@ -534,7 +534,7 @@ const rows = useMemo(
             onClick={() => goPage(safePage + 1)}
             disabled={safePage === pageCount - 1}
             aria-label="Next page"
-            className="grid h-11 w-11 place-items-center rounded-full border border-border text-muted transition-all duration-200 hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+            className="grid h-11 w-11 place-items-center rounded-full border border-border text-muted transition duration-200 hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           >
             <ChevronRight className="h-5 w-5" aria-hidden="true" />
           </button>

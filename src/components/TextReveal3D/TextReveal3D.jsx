@@ -66,7 +66,7 @@ export default function TextReveal3D({ text, eyebrow, emphasis = [], support }) 
               <span key={i} className="inline-block overflow-hidden pb-1 align-bottom">
                 <span
                   data-word-inner
-                  className={`inline-block will-change-transform ${hot ? 'italic text-accent' : ''}`}
+                  className={`inline-block ${hot ? 'italic text-accent' : ''}`}
                   style={{ transformOrigin: '50% 100%' }}
                 >
                   {w}

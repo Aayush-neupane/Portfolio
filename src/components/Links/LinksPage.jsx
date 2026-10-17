@@ -55,7 +55,7 @@ export default function LinksPage({ onNav }) {
                 onClick={link.internal ? (e) => go(e, link) : undefined}
                 target={link.internal ? undefined : '_blank'}
                 rel={link.internal ? undefined : 'noopener noreferrer'}
-                className={`group flex items-center justify-between gap-4 rounded-2xl border bg-elevated p-4 transition-all duration-200 hover:-translate-y-0.5 ${
+                className={`group flex items-center justify-between gap-4 rounded-2xl border bg-elevated p-4 transition duration-200 hover:-translate-y-0.5 ${
                   link.hot
                     ? 'border-accent/60 hover:border-linestrong'
                     : 'border-border hover:border-linestrong'
@@ -70,7 +70,7 @@ export default function LinksPage({ onNav }) {
                   </span>
                 </span>
                 <ArrowUpRight
-                  className={`h-5 w-5 shrink-0 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 ${
+                  className={`h-5 w-5 shrink-0 transition duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 ${
                     link.hot ? 'text-accent' : 'text-muted group-hover:text-accent'
                   }`}
                   aria-hidden="true"

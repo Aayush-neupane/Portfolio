@@ -360,8 +360,8 @@ html.light .hero-card {
   animation: loader-orbit-spin 3.5s linear infinite;
 }
 @keyframes loader-track-slide {
-  0% { left: -40%; }
-  100% { left: 100%; }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
 }
 .loader-track-slide { animation: loader-track-slide 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
 @keyframes route-loader-in {

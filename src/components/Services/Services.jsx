@@ -108,7 +108,7 @@ export default function Services({ onContact, onInquire }) {
             <article
               key={title}
               data-reveal
-              className={`group relative flex flex-col rounded-xl border bg-elevated p-6 transition-all duration-200 hover:-translate-y-1 ${
+              className={`group relative flex flex-col rounded-xl border bg-elevated p-6 transition duration-200 hover:-translate-y-1 ${
                 popular ? 'border-accent/60' : 'border-border hover:border-linestrong'
               }`}
             >
@@ -139,7 +139,7 @@ export default function Services({ onContact, onInquire }) {
               <button
                 type="button"
                 onClick={() => onInquire?.(OFFERS[i])}
-                className={`mt-4 inline-flex items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
+                className={`mt-4 inline-flex items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 ${
                   popular
                     ? 'bg-accent text-accent-contrast hover:brightness-110'
                     : 'border border-border text-text hover:border-linestrong hover:text-accent'

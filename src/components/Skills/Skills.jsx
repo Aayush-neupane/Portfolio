@@ -133,8 +133,8 @@ export default function Skills() {
                 >
                   {selected && (
                     <motion.span
-                      layoutId="skill-tab"
-                      transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+                      layoutId={reduce ? undefined : 'skill-tab'}
+                      transition={reduce ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 32 }}
                       className="absolute inset-0 rounded-full bg-accent"
                     />
                   )}

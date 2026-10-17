@@ -154,7 +154,7 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
           href="https://github.com/aayush-neupane"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-5 py-2.5 text-sm font-medium text-muted transition-all duration-200 hover:border-linestrong hover:text-accent"
+          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-5 py-2.5 text-sm font-medium text-muted transition duration-200 hover:border-linestrong hover:text-accent"
         >
           <Github className="h-4 w-4" aria-hidden="true" />
           GitHub profile
@@ -176,7 +176,7 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
               aria-selected={selected}
               type="button"
               onClick={() => setFilter(cat)}
-              className={`rounded-full px-5 py-2.5 text-sm font-medium capitalize transition-all duration-200 ${
+              className={`rounded-full px-5 py-2.5 text-sm font-medium capitalize transition duration-200 ${
                 selected
                   ? 'bg-accent text-accent-contrast'
                   : 'border border-border bg-elevated text-muted hover:border-linestrong hover:text-text'

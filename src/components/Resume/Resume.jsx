@@ -66,7 +66,7 @@ export default function Resume({ data }) {
             <a
               href={downloadUrl}
               download
-              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-accent-contrast transition-all duration-200 hover:brightness-110"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-accent-contrast transition duration-200 hover:brightness-110"
             >
               <Download className="h-4 w-4" aria-hidden="true" />
               Download PDF
@@ -75,7 +75,7 @@ export default function Resume({ data }) {
               href={viewUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition-all duration-200 hover:bg-accent hover:text-accent-contrast"
+              className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-6 py-2.5 text-sm font-semibold text-accent transition duration-200 hover:bg-accent hover:text-accent-contrast"
             >
               View Résumé
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -191,7 +191,7 @@ export default function Resume({ data }) {
                   <li
                     key={i}
                     title={c.issuer ? `${c.issuer}${c.year ? ` · ${c.year}` : ''}` : undefined}
-                    className="rounded-lg border border-border bg-subtle px-3.5 py-1.5 text-sm text-text transition-all duration-200 hover:-translate-y-0.5 hover:border-linestrong hover:text-accent"
+                    className="rounded-lg border border-border bg-subtle px-3.5 py-1.5 text-sm text-text transition duration-200 hover:-translate-y-0.5 hover:border-linestrong hover:text-accent"
                   >
                     {c.name}
                     {c.year ? ` · ${c.year}` : ''}

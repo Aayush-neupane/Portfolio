@@ -16,7 +16,7 @@ const SOCIALS = [
   { label: 'GitHub', href: 'https://github.com/aayush-neupane', Icon: Github, brand: 'social-github' },
   { label: 'YouTube', href: 'https://www.youtube.com/c/AayushNeupane', Icon: Youtube, brand: 'social-youtube' },
   { label: 'CodePen', href: 'https://codepen.io/aayush-neupane', Icon: Codepen, brand: 'social-codepen' },
-  { label: 'Instagram', href: 'https://www.instagram.com/dynamic_aayush38', Icon: Instagram, brand: 'social-instagram' },
+  { label: 'Instagram', href: 'https://www.instagram.com/aayushh.np', Icon: Instagram, brand: 'social-instagram' },
   { label: 'Facebook', href: 'https://www.facebook.com/khatra.manxey.071129', Icon: Facebook, brand: 'social-facebook' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aayush-neupane-38a9b7240/', Icon: Linkedin, brand: 'social-linkedin' },
 ];

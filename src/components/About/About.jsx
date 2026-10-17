@@ -17,7 +17,7 @@ function details(sinceYear) {
 }
 
 const SOCIALS_BASE = [
-  { key: 'ig', cls: 'social-ig', label: 'Instagram', href: 'https://www.instagram.com/dynamic_aayush38', Icon: Instagram },
+  { key: 'ig', cls: 'social-ig', label: 'Instagram', href: 'https://www.instagram.com/aayushh.np', Icon: Instagram },
   { key: 'fb', cls: 'social-fb', label: 'Facebook', href: 'https://www.facebook.com/khatra.manxey.071129', Icon: Facebook },
 ];
 

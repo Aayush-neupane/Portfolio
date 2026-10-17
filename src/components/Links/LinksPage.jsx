@@ -82,7 +82,7 @@ export default function LinksPage({ onNav }) {
       </nav>
 
       <p className="mt-8 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted/70">
-        dynamic_aayush38
+        aayushh.np
       </p>
 
       <div className="mt-8 w-full">

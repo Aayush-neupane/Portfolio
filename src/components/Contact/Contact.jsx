@@ -216,7 +216,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
   const socials = [
     { label: 'GitHub', href: 'https://github.com/aayush-neupane', Icon: Github },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aayush-neupane-38a9b7240/', Icon: Linkedin },
-    { label: 'Instagram', href: 'https://www.instagram.com/dynamic_aayush38', Icon: Instagram },
+    { label: 'Instagram', href: 'https://www.instagram.com/aayushh.np', Icon: Instagram },
   ];
 
   return (
@@ -430,7 +430,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <a
-                  href="https://www.instagram.com/dynamic_aayush38"
+                  href="https://www.instagram.com/aayushh.np"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="fa-btn fa-ig inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-bg px-4 py-2.5 text-sm font-medium text-muted transition duration-200"

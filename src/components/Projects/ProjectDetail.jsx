@@ -269,14 +269,17 @@ export default function ProjectDetail({
   if (!project) {
     return (
       <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-32 md:pt-40">
-        <button
-          type="button"
-          onClick={onBack}
+        <a
+          href="#/"
+          onClick={(e) => {
+            e.preventDefault();
+            onBack();
+          }}
           className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           {backLabel || 'Back'}
-        </button>
+        </a>
         <h1 className="mt-8 font-display text-[clamp(2rem,4vw,3rem)] text-text">
           Project not found.
         </h1>
@@ -308,14 +311,17 @@ export default function ProjectDetail({
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
       <div className="relative mx-auto w-full max-w-6xl px-6 pb-24 pt-28 md:pt-36">
       <div className="flex items-center justify-between gap-4">
-        <button
-          type="button"
-          onClick={onBack}
+        <a
+          href="#/"
+          onClick={(e) => {
+            e.preventDefault();
+            onBack();
+          }}
           className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           {backLabel || 'Back'}
-        </button>
+        </a>
         <div className="flex items-center gap-5">
           {position && (
             <span aria-hidden="true" className="font-mono text-xs tabular-nums tracking-[0.2em] text-muted">

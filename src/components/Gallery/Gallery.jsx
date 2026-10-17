@@ -439,14 +439,17 @@ export default function Gallery({ photos, onViewAll }) {
                     <br />
                     whole roll?
                   </p>
-                  <button
-                    type="button"
-                    onClick={onViewAll}
+                  <a
+                    href="#/gallery"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onViewAll(e);
+                    }}
                     className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-accent-contrast transition duration-200 hover:brightness-110"
                   >
                     Open gallery
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>

@@ -241,10 +241,22 @@ function buildRows(list, pageStart, width) {
   return rows;
 }
 
+/** Filter + page mirror onto `#/gallery?f=…&p=…` so grid views are shareable. */
+function readGalleryQuery() {
+  if (typeof window === 'undefined') return { f: 'All', p: 0 };
+  const raw = window.location.hash;
+  const qi = raw.indexOf('?');
+  if (qi < 0) return { f: 'All', p: 0 };
+  const q = new URLSearchParams(raw.slice(qi + 1));
+  const p = parseInt(q.get('p') || '0', 10);
+  return { f: q.get('f') || 'All', p: Number.isFinite(p) && p > 0 ? p : 0 };
+}
+
 export default function GalleryPage({ photos, onBack, deepPhotoId }) {
+  const initialQuery = useRef(readGalleryQuery());
   const [openIndex, setOpenIndex] = useState(null);
-  const [page, setPage] = useState(0);
-  const [filter, setFilter] = useState('All');
+  const [page, setPage] = useState(initialQuery.current.p);
+  const [filter, setFilter] = useState(initialQuery.current.f);
   const gridTopRef = useRef(null);
   const items = useMemo(() => {
     const arr = [...(photos || [])];
@@ -302,11 +314,35 @@ const rows = useMemo(
   // openIndex so effects can tell a settled open apart from a cleared one.
   const openIdRef = useRef(null);
 
+  // Reset paging only when the visitor changes the filter — a filter arriving
+  // from the URL (`?f=…`) must survive the initial data load.
+  const prevFilter = useRef(filter);
   useEffect(() => {
-    setPage(0);
+    if (prevFilter.current === filter) return;
+    prevFilter.current = filter;
     setOpenIndex(null);
     openIdRef.current = null;
-  }, [photos, filter]);
+    setPage(0);
+  }, [filter]);
+
+  // A `?f=` value that matches no category falls back to All (after data loads).
+  useEffect(() => {
+    if (items.length === 0) return;
+    if (filter !== 'All' && !cats.includes(filter)) setFilter('All');
+  }, [items, cats, filter]);
+
+  // Keep the URL in step with filter + page (replaceState, so no history spam
+  // and no hashchange round-trip). Photo deep links own the hash while open.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const hash = window.location.hash;
+    if (!hash.startsWith('#/gallery') || hash.startsWith('#/gallery/')) return;
+    const qs = [];
+    if (filter !== 'All') qs.push(`f=${encodeURIComponent(filter)}`);
+    if (safePage > 0) qs.push(`p=${safePage}`);
+    const next = `#/gallery${qs.length ? `?${qs.join('&')}` : ''}`;
+    if (hash !== next) window.history.replaceState(null, '', next);
+  }, [filter, safePage]);
 
   // Shared frame links (`#/gallery/<id>`) land on the photo: reset any filter,
   // jump to its page, and open it. Re-runs when data settles so a reset during
@@ -336,8 +372,12 @@ const rows = useMemo(
   const scrollGridTop = () => {
     const el = gridTopRef.current;
     if (!el) return;
-    if (window.__lenis) window.__lenis.scrollTo(el, { offset: -90, duration: 0.9 });
-    else el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (window.__lenis) {
+      window.__lenis.scrollTo(el, { offset: -90, ...(reduce ? { immediate: true } : { duration: 0.9 }) });
+    } else {
+      el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
   };
 
   const goPage = (p) => {
@@ -349,14 +389,17 @@ const rows = useMemo(
     <div className="relative">
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
       <div className="relative mx-auto w-full max-w-6xl px-5 pb-24 pt-28 sm:px-6 md:pt-40">
-      <button
-        type="button"
-        onClick={onBack}
+      <a
+        href="#/"
+        onClick={(e) => {
+          e.preventDefault();
+          onBack();
+        }}
         className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         Back home
-      </button>
+      </a>
       <p className="mt-8 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent">
         Gallery
       </p>
@@ -381,9 +424,8 @@ const rows = useMemo(
           return (
             <button
               key={cat}
-              role="tab"
-              aria-selected={selected}
               type="button"
+              aria-pressed={selected}
               onClick={() => setFilter(cat)}
               className={`rounded-full px-4 py-2 text-sm font-medium transition duration-200 sm:px-5 sm:py-2.5 ${
                 selected

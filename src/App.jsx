@@ -112,7 +112,7 @@ const PROJECT_DETAIL_PREFIX = '#/project/';
 
 function routeFromHash() {
   return typeof window !== 'undefined' && window.location.hash.startsWith('#/')
-    ? window.location.hash
+    ? window.location.hash.split('?')[0]
     : '';
 }
 

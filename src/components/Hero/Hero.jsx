@@ -139,21 +139,27 @@ export default function Hero({ profile, now, onProject, stats }) {
             {tagline}
           </p>
           <div data-reveal className="mt-9 flex flex-wrap items-center gap-4">
-            <button
-              type="button"
-              onClick={() => scrollToTarget('#projects')}
+            <a
+              href="#projects"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToTarget('#projects');
+              }}
               className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-accent-contrast transition duration-200 hover:brightness-110"
             >
               View Work
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollToTarget('#contact')}
+            </a>
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToTarget('#contact');
+              }}
               className="inline-flex items-center gap-2 rounded-full border border-accent/60 px-7 py-3 text-sm font-semibold text-accent transition-colors duration-200 hover:bg-accent hover:text-accent-contrast"
             >
               Get in Touch
-            </button>
+            </a>
           </div>
           <dl
             data-reveal

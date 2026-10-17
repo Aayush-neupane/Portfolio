@@ -92,15 +92,6 @@ function cardNavProps(project, onOpen) {
   if (!onOpen) return {};
   return {
     onClick: (e) => onOpen(project, e.currentTarget),
-    onKeyDown: (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        onOpen(project, null);
-      }
-    },
-    tabIndex: 0,
-    role: 'link',
-    'aria-label': `${project.title} — open details`,
   };
 }
 
@@ -295,6 +286,20 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
                     </p>
                   )}
                   <ProjectLinks project={featured} onDetails={onOpen} />
+                  {onOpen && (
+                    <a
+                      href={`#/project/${encodeURIComponent(featured.id)}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onOpen(featured, e.currentTarget);
+                      }}
+                      className="mt-4 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.14em] text-muted underline decoration-border underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+                    >
+                      Read case study
+                      <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    </a>
+                  )}
                 </div>
               </motion.article>
             )}
@@ -341,6 +346,20 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
                         </p>
                       )}
                       <ProjectLinks project={p} onDetails={onOpen} />
+                      {onOpen && (
+                        <a
+                          href={`#/project/${encodeURIComponent(p.id)}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onOpen(p, e.currentTarget);
+                          }}
+                          className="mt-3 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.14em] text-muted underline decoration-border underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+                        >
+                          Read case study
+                          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                        </a>
+                      )}
                     </div>
                   </motion.article>
                 ))}
@@ -383,14 +402,17 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
             And plenty of smaller experiments
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-            <button
-              type="button"
-              onClick={onViewAll}
+            <a
+              href="#/projects"
+              onClick={(e) => {
+                e.preventDefault();
+                onViewAll(e);
+              }}
               className="group/gh inline-flex items-center gap-2 font-display text-2xl text-text transition-colors hover:text-accent md:text-3xl"
             >
               Browse all projects
               <ArrowUpRight className="h-6 w-6 text-accent transition-transform duration-200 group-hover/gh:-translate-y-1 group-hover/gh:translate-x-1" aria-hidden="true" />
-            </button>
+            </a>
             <a
               href="https://github.com/aayush-neupane"
               target="_blank"

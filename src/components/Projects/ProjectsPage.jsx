@@ -135,14 +135,17 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
     <div className="relative">
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
       <div className="relative mx-auto w-full max-w-6xl px-6 pb-24 pt-32 md:pt-40">
-      <button
-        type="button"
-        onClick={onBack}
+      <a
+        href="#/"
+        onClick={(e) => {
+          e.preventDefault();
+          onBack();
+        }}
         className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         Back home
-      </button>
+      </a>
       <p className="mt-8 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent">
         Archive
       </p>

@@ -178,12 +178,12 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
               onClick={() => setFilter(cat)}
               className={`rounded-full px-5 py-2.5 text-sm font-medium capitalize transition-all duration-200 ${
                 selected
-                  ? 'bg-accent text-white'
+                  ? 'bg-accent text-accent-contrast'
                   : 'border border-border bg-elevated text-muted hover:border-linestrong hover:text-text'
               }`}
             >
               {cat}
-              <span className={`ml-1.5 font-mono text-[0.7rem] tabular-nums ${selected ? 'text-white/80' : 'text-muted'}`}>
+              <span className={`ml-1.5 font-mono text-[0.7rem] tabular-nums ${selected ? 'text-accent-contrast/80' : 'text-muted'}`}>
                 {count}
               </span>
             </button>

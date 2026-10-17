@@ -165,7 +165,7 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
           <button
             type="button"
             onClick={(e) => go(e, '#contact')}
-            className="route-loader-in inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-accent-deep"
+            className="route-loader-in inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-accent-contrast transition-colors hover:brightness-110"
             style={{ animationDelay: `${(items.length + 1) * 55}ms` }}
           >
             Get in touch

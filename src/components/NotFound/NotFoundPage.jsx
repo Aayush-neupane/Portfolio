@@ -24,7 +24,7 @@ export default function NotFoundPage({ onHome, onGallery }) {
           <button
             type="button"
             onClick={onHome}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-accent-contrast transition-all duration-200 hover:brightness-110"
           >
             Back to home
           </button>

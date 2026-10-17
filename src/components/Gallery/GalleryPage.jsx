@@ -387,14 +387,14 @@ const rows = useMemo(
               onClick={() => setFilter(cat)}
               className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 sm:px-5 sm:py-2.5 ${
                 selected
-                  ? 'bg-accent text-white'
+                  ? 'bg-accent text-accent-contrast'
                   : 'border border-border bg-elevated text-muted hover:border-accent/70 hover:text-text'
               }`}
             >
               {cat}
               <span
                 className={`ml-1.5 font-mono text-[0.7rem] tabular-nums ${
-                  selected ? 'text-white/80' : 'text-muted'
+                  selected ? 'text-accent-contrast/80' : 'text-muted'
                 }`}
               >
                 {counts[cat] ?? 0}
@@ -522,7 +522,7 @@ const rows = useMemo(
               aria-current={n === safePage ? 'page' : undefined}
               className={`h-11 min-w-11 rounded-full px-3 font-mono text-sm tabular-nums transition-all duration-200 ${
                 n === safePage
-                  ? 'bg-accent font-semibold text-white'
+                  ? 'bg-accent font-semibold text-accent-contrast'
                   : 'border border-border text-muted hover:border-accent/70 hover:text-text'
               }`}
             >

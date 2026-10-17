@@ -398,7 +398,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-accent-contrast transition-all duration-200 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:brightness-100 disabled:hover:translate-y-0"
               >
                 {isSubmitting ? (
                   <>
@@ -519,7 +519,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                   href={briefWaLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-5 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:bg-accent-deep"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-accent px-5 py-2.5 text-xs font-semibold text-accent-contrast transition-all duration-200 hover:brightness-110"
                 >
                   <MessageCircle className="h-4 w-4" aria-hidden="true" />
                   WhatsApp it over

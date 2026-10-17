@@ -239,14 +239,14 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
                 onClick={() => setFilter(tab)}
                 className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
                   active
-                    ? 'bg-accent text-white'
+                    ? 'bg-accent text-accent-contrast'
                     : 'border border-border bg-elevated text-muted hover:border-linestrong hover:text-text'
                 }`}
               >
                 {tab}
                 <span
                   className={`ml-1.5 font-mono text-[0.7rem] tabular-nums ${
-                    active ? 'text-white/80' : 'text-muted'
+                    active ? 'text-accent-contrast/80' : 'text-muted'
                   }`}
                 >
                   {counts[tab] ?? 0}

@@ -442,7 +442,7 @@ export default function Gallery({ photos, onViewAll }) {
                   <button
                     type="button"
                     onClick={onViewAll}
-                    className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep"
+                    className="mt-5 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-accent-contrast transition-all duration-200 hover:brightness-110"
                   >
                     Open gallery
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />

@@ -128,7 +128,7 @@ export default function Skills() {
                   type="button"
                   onClick={() => setTab(c.id)}
                   className={`relative rounded-full px-5 py-2.5 text-sm font-medium transition-colors duration-200 ${
-                    selected ? 'text-white' : 'text-muted hover:text-text'
+                    selected ? 'text-accent-contrast' : 'text-muted hover:text-text'
                   }`}
                 >
                   {selected && (

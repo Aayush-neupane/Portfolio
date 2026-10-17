@@ -47,7 +47,7 @@ export default function OfflineGate() {
         <button
           type="button"
           onClick={() => window.location.reload()}
-          className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep"
+          className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-semibold text-accent-contrast transition-all duration-200 hover:brightness-110"
         >
           Retry connection
         </button>

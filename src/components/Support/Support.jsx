@@ -109,7 +109,7 @@ export default function Support() {
             href={SUPPORT_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-accent-deep md:justify-self-end"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-accent-contrast transition-all duration-200 hover:brightness-110 md:justify-self-end"
           >
             <CoffeeCup className="h-4 w-4" />
             Buy me a coffee

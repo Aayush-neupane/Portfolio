@@ -113,7 +113,7 @@ export default function Services({ onContact, onInquire }) {
               }`}
             >
               {popular && (
-                <span className="absolute -top-3 left-6 rounded-full bg-accent px-3 py-1 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-white">
+                <span className="absolute -top-3 left-6 rounded-full bg-accent px-3 py-1 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent-contrast">
                   Most popular
                 </span>
               )}
@@ -141,7 +141,7 @@ export default function Services({ onContact, onInquire }) {
                 onClick={() => onInquire?.(OFFERS[i])}
                 className={`mt-4 inline-flex items-center justify-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
                   popular
-                    ? 'bg-accent text-white hover:bg-accent-deep'
+                    ? 'bg-accent text-accent-contrast hover:brightness-110'
                     : 'border border-border text-text hover:border-linestrong hover:text-accent'
                 }`}
               >

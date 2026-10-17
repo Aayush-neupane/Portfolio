@@ -77,6 +77,9 @@
   --color-accent: oklch(0.65 0.18 25);
   --color-accent-deep: oklch(0.52 0.155 25);
   --color-accent-soft: oklch(0.25 0.05 28);
+  /* Text on accent surfaces: near-black here because the dark-theme accent
+     is bright (coral); white in light theme, where the accent is deep. */
+  --color-accent-contrast: oklch(0.13 0.01 25);
 }
 
 /* Light mode: warm paper (after the create.io ui-kit paper tokens:
@@ -94,6 +97,7 @@
   --color-accent: oklch(0.52 0.155 25);
   --color-accent-deep: oklch(0.44 0.15 25);
   --color-accent-soft: rgba(188, 79, 48, 0.18);
+  --color-accent-contrast: #ffffff;
 }
 
 body {
@@ -489,6 +493,7 @@ html.light .tone::after {
     --color-accent: #c0453f;
     --color-accent-deep: #a0332e;
     --color-accent-soft: rgba(192, 69, 63, 0.12);
+    --color-accent-contrast: #ffffff;
   }
   body {
     background: #fff;

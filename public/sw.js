@@ -2,7 +2,7 @@
  * screen) loadable with no connection. Runtime-cached, so no build manifest
  * is needed — the shell and assets are stored as they are fetched.
  * Bump CACHE when this strategy changes. */
-const CACHE = 'aayush-portfolio-v1';
+const CACHE = 'aayush-portfolio-v2';
 
 // Resolve against the worker's own scope so this works both at the domain
 // root (Netlify) and under a subpath (e.g. GitHub Pages /Portfolio/).

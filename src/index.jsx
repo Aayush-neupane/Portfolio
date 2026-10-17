@@ -28,7 +28,7 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
       });
     if (urls.size === 0) return;
     caches
-      .open('aayush-portfolio-v1')
+      .open('aayush-portfolio-v2')
       .then((cache) => cache.addAll([...urls]).catch(() => {}))
       .catch(() => {});
   };

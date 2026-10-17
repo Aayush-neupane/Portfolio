@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Menu, X } from 'lucide-react';
 import ThemeToggle from '../ThemeToggle/ThemeToggle.jsx';
 import AccentPicker from '../ThemeToggle/AccentPicker.jsx';
 import LogoMark from '../Logo/LogoMark.jsx';
+import { useDialogFocus, inertBackground } from '../../utils/a11y.js';
 
 const FALLBACK_LINKS = [
   { id: 'home', label: 'Home', href: '#home' },
@@ -18,6 +20,7 @@ const FALLBACK_LINKS = [
 export default function Navbar({ links, activeSection, onNavClick, isGallery, route }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const overlayRef = useRef(null);
   const items = links && links.length > 0 ? links : FALLBACK_LINKS;
 
   useEffect(() => {
@@ -35,11 +38,15 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
     window.addEventListener('keydown', onKey);
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    const restoreInert = inertBackground();
     return () => {
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = prevOverflow;
+      restoreInert();
     };
   }, [open]);
+
+  useDialogFocus({ active: open, containerRef: overlayRef });
 
   const go = (e, href) => {
     e.preventDefault();
@@ -114,8 +121,12 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
       </nav>
     </header>
 
-      {open && (
-        <div className="fixed inset-0 z-40 flex flex-col bg-bg px-6 pb-10 pt-24 md:hidden">
+      {open &&
+        createPortal(
+          <div
+            ref={overlayRef}
+            className="fixed inset-0 z-40 flex flex-col overscroll-contain bg-bg px-6 pb-10 pt-24 md:hidden"
+          >
           <nav aria-label="Mobile" className="flex flex-col">
             {items.map((item, i) => {
               const active = isActive(item);
@@ -168,7 +179,8 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
           >
             Close
           </button>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

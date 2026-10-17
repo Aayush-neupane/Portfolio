@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronLeft, ChevronRight, Expand, X } from 'lucide-react';
 import { thumb, mid } from '../../utils/galleryImg.js';
+import { useDialogFocus, inertBackground } from '../../utils/a11y.js';
 import SmartImage from '../Loader/SmartImage.jsx';
 import ShareMenu from '../Share/ShareMenu.jsx';
 
@@ -118,37 +119,10 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
 export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
   const touchRef = useRef({ x: 0, y: 0 });
   const dialogRef = useRef(null);
-  const returnFocusRef = useRef(null);
+  const closeRef = useRef(null);
   // Focus trap with focus return: Tab cycles inside the dialog, and closing
-  // hands focus back to whatever opened it.
-  useEffect(() => {
-    returnFocusRef.current = document.activeElement;
-    const node = dialogRef.current;
-    if (!node) return undefined;
-    const onKeyDown = (e) => {
-      if (e.key !== 'Tab') return;
-      const items = [...node.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])')].filter(
-        (el) => !el.disabled && el.offsetParent !== null
-      );
-      if (items.length === 0) return;
-      const first = items[0];
-      const last = items[items.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-    node.addEventListener('keydown', onKeyDown);
-    return () => {
-      node.removeEventListener('keydown', onKeyDown);
-      if (returnFocusRef.current instanceof HTMLElement) {
-        returnFocusRef.current.focus({ preventScroll: true });
-      }
-    };
-  }, []);
+  // hands focus back to whatever opened it (the thumbnail button).
+  useDialogFocus({ active: Boolean(photo), containerRef: dialogRef, initialFocusRef: closeRef });
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'Escape') onClose();
@@ -159,10 +133,12 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
     window.__lenis?.stop();
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    const restoreInert = inertBackground();
     return () => {
       window.removeEventListener('keydown', onKey);
       window.__lenis?.start();
       document.body.style.overflow = prevOverflow;
+      restoreInert();
     };
   }, [onClose, onPrev, onNext]);
 
@@ -194,7 +170,7 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
       role="dialog"
       aria-modal="true"
       aria-label={photo.title}
-      className="fixed inset-0 z-[90] flex h-dvh flex-col overflow-hidden bg-black p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-[calc(env(safe-area-inset-top)+1rem)] md:p-10"
+      className="fixed inset-0 z-[90] flex h-dvh flex-col overflow-hidden overscroll-contain bg-black p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-[calc(env(safe-area-inset-top)+1rem)] md:p-10"
       onClick={onClose}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
@@ -206,9 +182,9 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
         <div className="flex items-center gap-2 md:gap-3">
           <PhotoShareButton photo={photo} />
           <button
+            ref={closeRef}
             type="button"
             onClick={onClose}
-            autoFocus
             aria-label="Close photo"
             className="grid h-11 w-11 place-items-center rounded-full border border-white/25 transition-colors hover:border-accent hover:text-accent"
           >

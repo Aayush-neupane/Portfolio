@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Facebook, Github, Instagram, Linkedin, Loader2, Mail, MapPin, MessageCircle, Send, X } from 'lucide-react';
+import { useDialogFocus, inertBackground } from '../../utils/a11y.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,6 +44,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
   const rootRef = useRef(null);
   const formRef = useRef(null);
   const closeRef = useRef(null);
+  const replyDialogRef = useRef(null);
   const [sent, setSent] = useState(false);
   const [failed, setFailed] = useState(false);
   const [lastSent, setLastSent] = useState(null);
@@ -165,7 +168,6 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
 
   useEffect(() => {
     if (!showReply) return undefined;
-    closeRef.current?.focus();
     const onKey = (e) => {
       if (e.key === 'Escape') {
         setSent(false);
@@ -175,11 +177,19 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
     window.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    const restoreInert = inertBackground();
     return () => {
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = prev;
+      restoreInert();
     };
   }, [showReply]);
+
+  useDialogFocus({
+    active: showReply,
+    containerRef: replyDialogRef,
+    initialFocusRef: closeRef,
+  });
 
   const closeReply = () => {
     setSent(false);
@@ -467,17 +477,21 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
         </div>
       </div>
 
-      {showReply && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Message sent — thanks ${lastSent.name}`}
-          className="fixed inset-0 z-[250] flex items-center justify-center bg-black/60 p-5 backdrop-blur-sm"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) closeReply();
-          }}
-        >
-          <div className="w-full max-w-md rounded-2xl border border-border bg-elevated p-6 text-sm shadow-2xl md:p-8">
+      {showReply &&
+        createPortal(
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Message sent — thanks ${lastSent.name}`}
+            className="fixed inset-0 z-[250] flex items-center justify-center overscroll-contain bg-black/60 p-5 backdrop-blur-sm"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) closeReply();
+            }}
+          >
+            <div
+              ref={replyDialogRef}
+              className="w-full max-w-md rounded-2xl border border-border bg-elevated p-6 text-sm shadow-2xl md:p-8"
+            >
             <div className="flex items-start justify-between gap-4">
               <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-accent">
                 Auto-reply
@@ -522,7 +536,8 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );

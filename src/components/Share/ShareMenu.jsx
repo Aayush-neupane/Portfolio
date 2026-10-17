@@ -17,6 +17,7 @@ export default function ShareMenu({ title, text, url, imageSrc, layout = 'link' 
   const [file, setFile] = useState(null);
   const [dlUrl, setDlUrl] = useState(null);
   const rootRef = useRef(null);
+  const triggerRef = useRef(null);
   const prepared = useRef(false);
   const supported = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
 
@@ -67,15 +68,32 @@ export default function ShareMenu({ title, text, url, imageSrc, layout = 'link' 
       if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false);
     };
     const onKey = (e) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key !== 'Escape') return;
+      // Capture + stop so an open dialog underneath (e.g. the gallery
+      // lightbox) does not also close on the same Esc press.
+      e.stopImmediatePropagation();
+      setOpen(false);
+      triggerRef.current?.focus();
     };
     document.addEventListener('pointerdown', onDown);
-    document.addEventListener('keydown', onKey);
+    document.addEventListener('keydown', onKey, { capture: true });
+    rootRef.current?.querySelector('[role="menuitem"]')?.focus({ preventScroll: true });
     return () => {
       document.removeEventListener('pointerdown', onDown);
-      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('keydown', onKey, { capture: true });
     };
   }, [open ]);
+
+  // Roving focus between menu items, matching the menu role's contract.
+  const onMenuKeyDown = (e) => {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    e.preventDefault();
+    const items = [...(rootRef.current?.querySelectorAll('[role="menuitem"]') ?? [])];
+    if (items.length === 0) return;
+    const i = items.indexOf(document.activeElement);
+    const dir = e.key === 'ArrowDown' ? 1 : -1;
+    items[(i + dir + items.length) % items.length]?.focus();
+  };
 
   const toggle = () => {
     const next = !open;
@@ -129,6 +147,7 @@ export default function ShareMenu({ title, text, url, imageSrc, layout = 'link' 
     <span ref={rootRef} className="relative inline-block">
       {layout === 'icon' ? (
         <button
+          ref={triggerRef}
           type="button"
           onClick={(e) => {
             e.stopPropagation();
@@ -143,6 +162,7 @@ export default function ShareMenu({ title, text, url, imageSrc, layout = 'link' 
         </button>
       ) : (
         <button
+          ref={triggerRef}
           type="button"
           onClick={toggle}
           aria-expanded={open}
@@ -157,9 +177,13 @@ export default function ShareMenu({ title, text, url, imageSrc, layout = 'link' 
         <span
           role="menu"
           aria-label="Share options"
+          onKeyDown={onMenuKeyDown}
           className="absolute right-0 top-full z-[70] mt-2 w-60 rounded-xl border border-border bg-elevated p-1.5 text-text shadow-xl"
           onClick={(e) => e.stopPropagation()}
         >
+          <span role="status" aria-live="polite" className="sr-only">
+            {copied ? 'Link copied' : ''}
+          </span>
           {supported && (
             <button type="button" role="menuitem" onClick={systemShare} className={itemCls}>
               <Share2 className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />

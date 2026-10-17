@@ -49,17 +49,34 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Aayush Neupane",
-    "jobTitle": "Web Developer & Game Developer",
-    "address": { "@type": "PostalAddress", "addressLocality": "Jhapa", "addressCountry": "NP" },
-    "url": "https://aayushnp.netlify.app/",
-    "sameAs": [
-      "https://github.com/aayush-neupane",
-      "https://www.linkedin.com/in/aayush-neupane-38a9b7240/",
-      "https://www.instagram.com/aayushh.np"
-    ],
-    "knowsAbout": ["React", "TypeScript", "Supabase", "Unity", "ESP32"]
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://aayushnp.netlify.app/#person",
+        "name": "Aayush Neupane",
+        "jobTitle": "Web Developer & Game Developer",
+        "description": "Aayush Neupane builds websites and games from Jhapa, Nepal.",
+        "image": "https://aayushnp.netlify.app/assets/images/profile/logo.jpg",
+        "address": { "@type": "PostalAddress", "addressLocality": "Jhapa", "addressCountry": "NP" },
+        "url": "https://aayushnp.netlify.app/",
+        "sameAs": [
+          "https://github.com/aayush-neupane",
+          "https://www.linkedin.com/in/aayush-neupane-38a9b7240/",
+          "https://www.instagram.com/aayushh.np"
+        ],
+        "knowsAbout": ["React", "TypeScript", "Supabase", "Unity", "ESP32"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://aayushnp.netlify.app/#website",
+        "name": "Aayush Neupane",
+        "url": "https://aayushnp.netlify.app/",
+        "description": "Aayush Neupane builds websites and games from Jhapa, Nepal. React, TypeScript, Supabase, Unity.",
+        "inLanguage": "en",
+        "author": { "@id": "https://aayushnp.netlify.app/#person" },
+        "publisher": { "@id": "https://aayushnp.netlify.app/#person" }
+      }
+    ]
   }
   </script>
   <script>try { var t = localStorage.getItem('an-theme') || 'dark'; document.documentElement.classList.add(t === 'light' ? 'light' : 'dark'); var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#f1e7d1' : '#060709'); } catch (e) { document.documentElement.classList.add('dark'); }</script>

@@ -47,11 +47,16 @@ try {
     // Prefer the generated social card (scripts/generate_og_cards.py), then
     // the project screenshot, then the default logo.
     const ogFile = `assets/og/${String(p.id).replace(/[^A-Za-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '') || 'project'}.png`;
-    const img = existsSync(join(root, 'public', ogFile))
+    const hasCard = existsSync(join(root, 'public', ogFile));
+    const img = hasCard
       ? `${SITE}/${ogFile}`
       : typeof p.image === 'string' && p.image.startsWith('/')
         ? `${SITE}${p.image}`
         : `${SITE}/assets/images/profile/logo.jpg`;
+    // Fixed dimensions only when the generated 1200x630 card is used.
+    const cardDims = hasCard
+      ? '<meta property="og:image:width" content="1200" />\n<meta property="og:image:height" content="630" />\n'
+      : '';
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +70,7 @@ try {
 <meta property="og:description" content="${esc(desc)}" />
 <meta property="og:url" content="${esc(pretty)}" />
 <meta property="og:image" content="${esc(img)}" />
-<meta name="twitter:card" content="summary_large_image" />
+${cardDims}<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="${esc(title)}" />
 <meta name="twitter:description" content="${esc(desc)}" />
 <meta name="twitter:image" content="${esc(img)}" />
@@ -193,7 +198,43 @@ try {
     join(root, 'dist', 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`
   );
-  console.log(`prerendered ${n} project pages + ${g} gallery stubs + sitemap -> dist/`);
+
+  // llms.txt — plain-text guide for LLMs / AI answer engines (llmstxt.org).
+  // Generated from the same data as the sitemap so it never drifts.
+  const oneLine = (s, max = 220) => {
+    const t = String(s ?? '').replace(/\s+/g, ' ').trim();
+    if (t.length <= max) return t;
+    return `${t.slice(0, max - 1).replace(/\s+\S*$/, '')}…`;
+  };
+  const llms = [
+    '# Aayush Neupane — Web & Game Developer',
+    '',
+    '> Aayush Neupane is a web and game developer based in Jhapa, Nepal. He builds',
+    '> websites with React, TypeScript and Supabase, games in Unity, and embedded',
+    '> electronics with ESP32. Open for freelance web projects.',
+    '',
+    '## Projects',
+    ...items.map((p) => {
+      const caseUrl = `${SITE}/project/${encodeURIComponent(String(p.id))}`;
+      const head = p.liveUrl ? `[${p.title}](${p.liveUrl})` : `[${p.title}](${caseUrl})`;
+      const desc = oneLine(p.description);
+      const tail = p.liveUrl ? ` Case study: ${caseUrl}` : '';
+      return desc ? `- ${head}: ${desc}${tail}` : `- ${head}${tail}`;
+    }),
+    '',
+    '## Photography',
+    `- Gallery of street, sky and garden photography: ${SITE}/#/gallery`,
+    '',
+    '## Links',
+    `- Portfolio: ${SITE}/`,
+    '- GitHub: https://github.com/aayush-neupane',
+    '- LinkedIn: https://www.linkedin.com/in/aayush-neupane-38a9b7240/',
+    '- Instagram: https://www.instagram.com/aayushh.np',
+    '',
+  ].join('\n');
+  writeFileSync(join(root, 'dist', 'llms.txt'), llms);
+
+  console.log(`prerendered ${n} project pages + ${g} gallery stubs + sitemap + llms.txt -> dist/`);
 } catch (err) {
   console.warn(`prerender: skipped (${err && err.message ? err.message : err})`);
 }

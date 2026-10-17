@@ -95,6 +95,9 @@ export function SettingsProvider({ children }) {
     root.classList.toggle('dark', theme === 'dark');
     root.classList.toggle('light', theme === 'light');
     root.style.colorScheme = theme;
+    // Browser chrome follows the page background, not the accent.
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#f1e7d1' : '#060709');
     try {
       localStorage.setItem('an-theme', theme);
     } catch {

@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#0c0c0f" />
 <title>404 — Lost? | Aayush Neupane</title>
 <meta name="robots" content="noindex" />
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  a, button, input { touch-action: manipulation; }
   body {
     font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: #0c0c0f;
@@ -129,16 +132,24 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .orbit-float, .orbit .comet, .orbit .sweep { animation: none; }
+    .card, .home { transition: none; }
+    .card:hover { transform: none; }
   }
   .home {
     display: inline-flex;
     margin-top: 1.75rem;
     padding: 12px 28px;
-    background: linear-gradient(135deg, #e85854 0%, #b13a38 100%);
+    background: linear-gradient(135deg, #b13a38 0%, #8f2e2b 100%);
     color: #fff;
     text-decoration: none;
     border-radius: 999px;
     font-weight: 600;
+    transition: filter 0.2s ease;
+  }
+  .home:hover { filter: brightness(1.12); }
+  .home:focus-visible, .card:focus-visible, .search input:focus-visible {
+    outline: 2px solid #e85854;
+    outline-offset: 2px;
   }
   .hint { margin-top: 1rem; color: #63636b; font-size: 0.8rem; }
 </style>
@@ -157,9 +168,9 @@
       <span class="mark"><img id="orbit-logo" src="/assets/images/profile/logo.svg" alt="" width="40" height="40" /></span>
     </div>
     <h1>Off the map.</h1>
-    <p class="sub">That page doesn't exist — but the work does. Search it:</p>
+    <p class="sub">That page doesn’t exist — but the work does. Search it:</p>
     <div class="search">
-      <input id="q" type="search" placeholder="Try ‘cube’, ‘store’, ‘game’…" autocomplete="off" aria-label="Search projects" />
+      <input id="q" name="q" type="search" placeholder="Try ‘cube’, ‘store’, ‘game’…" autocomplete="off" aria-label="Search projects" />
     </div>
     <div id="results" class="results" aria-live="polite"></div>
     <a id="home" class="home" href="/">Back to Home</a>

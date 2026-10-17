@@ -14,7 +14,7 @@
         "Leaflet"
       ],
       "liveUrl": "",
-      "githubUrl": "https://github.com/Aayush-neupane/workers",
+      "githubUrl": "",
       "status": "in-progress",
       "category": "web apps",
       "highlights": [
@@ -25,9 +25,9 @@
     },
     {
       "id": 11,
-      "title": "create.io",
+      "title": "Pana",
       "description": "Zero-code website builder: pick a complete predesigned site, drop in content, tune variants and palettes, publish in minutes. Live gallery, builder preview and published page render the same components. Next.js, Prisma, Neon Postgres.",
-      "image": "/assets/images/projects/createio.webp",
+      "image": "/assets/images/projects/pana.webp",
       "techStack": [
         "Next.js",
         "React",
@@ -36,8 +36,8 @@
         "Neon",
         "Tailwind CSS"
       ],
-      "liveUrl": "https://create-io.netlify.app/",
-      "githubUrl": "https://github.com/Aayush-neupane/create.io",
+      "liveUrl": "https://pana-dmk.netlify.app/",
+      "githubUrl": "",
       "status": "in-progress",
       "category": "web apps",
       "highlights": [
@@ -60,7 +60,7 @@
         "Supabase"
       ],
       "liveUrl": "https://crystalcabindetailing.ca/",
-      "githubUrl": "https://github.com/Aayush-neupane/CrystalCabin",
+      "githubUrl": "",
       "status": "completed",
       "category": "web apps",
       "highlights": [

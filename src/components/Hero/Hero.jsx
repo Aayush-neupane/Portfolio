@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { m, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { scrollToTarget } from '../../utils/scroll.js';
 
@@ -191,7 +191,7 @@ export default function Hero({ profile, now, onProject, stats }) {
         </div>
 
         <div data-reveal data-parallax className="relative" onMouseMove={onTilt} onMouseLeave={resetTilt}>
-          <motion.div
+          <m.div
             style={
               canTilt
                 ? { rotateX: srx, rotateY: sry, transformPerspective: 900 }
@@ -241,7 +241,7 @@ export default function Hero({ profile, now, onProject, stats }) {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
           <div
             aria-hidden="true"
             className="absolute -bottom-4 -right-4 -z-10 h-full w-full rounded-xl border border-border"

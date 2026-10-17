@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FlaskConical } from 'lucide-react';
@@ -132,7 +132,7 @@ export default function Skills() {
                   }`}
                 >
                   {selected && (
-                    <motion.span
+                    <m.span
                       layoutId={reduce ? undefined : 'skill-tab'}
                       transition={reduce ? { duration: 0 } : { type: 'spring', stiffness: 400, damping: 32 }}
                       className="absolute inset-0 rounded-full bg-accent"
@@ -145,7 +145,7 @@ export default function Skills() {
           </div>
 
           <AnimatePresence mode="wait">
-            <motion.ul
+            <m.ul
               key={active.id}
               initial={reduce ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -169,7 +169,7 @@ export default function Skills() {
                   </div>
                 </li>
               ))}
-            </motion.ul>
+            </m.ul>
           </AnimatePresence>
           <p className="mt-4 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
             {active.skills.length} tools · {active.label.toLowerCase()}

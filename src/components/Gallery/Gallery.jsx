@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronLeft, ChevronRight, Expand, X } from 'lucide-react';
@@ -161,7 +161,7 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
   // overlay beneath the fixed navbar. Exit animations still work — presence
   // is tracked by component, not by DOM location.
   return createPortal(
-    <motion.div
+    <m.div
       ref={dialogRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -242,7 +242,7 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
           Swipe sideways for more
         </p>
       </div>
-    </motion.div>,
+    </m.div>,
     document.body
   );
 }

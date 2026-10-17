@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Github, Plus } from 'lucide-react';
@@ -252,7 +252,7 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
         ) : (
           <div className="mt-10">
             {featured && (
-              <motion.article
+              <m.article
                 key={featured.id}
                 id={`project-card-${featured.id}`}
                 layout={!reduce}
@@ -301,13 +301,13 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
                     </a>
                   )}
                 </div>
-              </motion.article>
+              </m.article>
             )}
 
-            <motion.div layout={!reduce} className="mt-6 grid gap-6 md:grid-cols-2">
+            <m.div layout={!reduce} className="mt-6 grid gap-6 md:grid-cols-2">
               <AnimatePresence mode="popLayout">
                 {rest.map((p, i) => (
-                  <motion.article
+                  <m.article
                     key={p.id}
                     id={`project-card-${p.id}`}
                     layout={!reduce}
@@ -361,11 +361,11 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
                         </a>
                       )}
                     </div>
-                  </motion.article>
+                  </m.article>
                 ))}
               </AnimatePresence>
               {filter === 'All' && (
-                <motion.article
+                <m.article
                   layout={!reduce}
                   initial={reduce ? false : { opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -391,9 +391,9 @@ export default function Projects({ projects, onViewAll, onOpen, onInquire }) {
                     Let&apos;s talk
                     <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
                   </button>
-                </motion.article>
+                </m.article>
               )}
-            </motion.div>
+            </m.div>
           </div>
         )}
 

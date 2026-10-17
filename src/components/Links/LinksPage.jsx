@@ -28,7 +28,7 @@ export default function LinksPage({ onNav }) {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col items-center px-6 pb-16 pt-24 md:pt-32">
+    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col items-center px-6 pb-16 pt-24 md:pt-32">
       <SmartImage
         src={withBase('/assets/images/profile/me.JPG')}
         alt="Aayush Neupane"

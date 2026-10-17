@@ -735,14 +735,14 @@ export default function App() {
 
   if (!dataReady) {
     return (
-      <div className="min-h-screen bg-bg text-text">
+      <div className="min-h-dvh bg-bg text-text">
         <LoadingScreen leaving={false} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-bg font-sans text-text">
+    <div className="min-h-dvh bg-bg font-sans text-text">
       <a
         href="#home"
         onClick={(e) => {

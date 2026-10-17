@@ -36,3 +36,11 @@ yarn-error.log*
 # env secrets
 .env
 /public/assets/gallery/
+
+# local tooling / logs
+.netlify/
+server.log
+graphify-out/
+
+# encrypted personal content bundle (data JSONs + resume)
+/public/content.enc

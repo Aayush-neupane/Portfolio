@@ -8,22 +8,14 @@
 // build — worst case it warns and the deploy proceeds without stubs.
 //
 // Env:
-<<<<<<< HEAD
-//   OG_SITE_URL — public origin, e.g. https://aayush38.com.np
-=======
 //   OG_SITE_URL — public origin, e.g. https://aayushnp.netlify.app
->>>>>>> portfolio-remote/rebrand
 //                 (defaults to the canonical domain)
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-<<<<<<< HEAD
-const SITE = (process.env.OG_SITE_URL || 'https://aayush38.com.np').replace(/\/$/, '');
-=======
 const SITE = (process.env.OG_SITE_URL || 'https://aayushnp.netlify.app').replace(/\/$/, '');
->>>>>>> portfolio-remote/rebrand
 
 function esc(s) {
   return String(s ?? '')
@@ -52,11 +44,6 @@ try {
     const pretty = `${SITE}/project/${id}`;
     const title = `${p.title || 'Project'} — Aayush Neupane`;
     const desc = p.description || 'A project by Aayush Neupane.';
-<<<<<<< HEAD
-    const img = typeof p.image === 'string' && p.image.startsWith('/')
-      ? `${SITE}${p.image}`
-      : `${SITE}/assets/images/profile/logo.jpg`;
-=======
     // Prefer the generated social card (scripts/generate_og_cards.py), then
     // the project screenshot, then the default logo.
     const ogFile = `assets/og/${String(p.id).replace(/[^A-Za-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '') || 'project'}.png`;
@@ -65,7 +52,6 @@ try {
       : typeof p.image === 'string' && p.image.startsWith('/')
         ? `${SITE}${p.image}`
         : `${SITE}/assets/images/profile/logo.jpg`;
->>>>>>> portfolio-remote/rebrand
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,11 +78,7 @@ try {
       description: p.description,
       url: pretty,
       image: img,
-<<<<<<< HEAD
-      author: { '@type': 'Person', name: 'Aayush Neupane', url: 'https://aayush38.com.np/' },
-=======
       author: { '@type': 'Person', name: 'Aayush Neupane', url: 'https://aayushnp.netlify.app/' },
->>>>>>> portfolio-remote/rebrand
       keywords: (p.techStack || []).join(', '),
     }))}</script>
 <script>try{var m=location.pathname.match(/\\/project\\/([^/]+)\\/?$/);var pid=m?decodeURIComponent(m[1]):"${esc(id)}";var base=location.pathname.replace(/\\/project\\/[^/]+\\/?$/,"")||"/";base=base.replace(/\\/$/,"");location.replace(base+"/#/project/"+pid);}catch(e){}</script>
@@ -112,10 +94,6 @@ try {
     n++;
   }
 
-<<<<<<< HEAD
-  // Sitemap with one entry per project (dist-only; public source untouched).
-  const today = new Date().toISOString().slice(0, 10);
-=======
   // Gallery frames get the same treatment: one static stub per photo so a
   // shared /gallery/:id link unfurls with the photo and its title.
   let g = 0;
@@ -203,27 +181,19 @@ try {
   } catch {
     /* gallery sitemap entries are optional */
   }
->>>>>>> portfolio-remote/rebrand
   const urls = [
     `  <url>\n    <loc>${SITE}/</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>1.0</priority>\n  </url>`,
     ...items.map(
       (p) =>
         `  <url>\n    <loc>${SITE}/project/${encodeURIComponent(String(p.id))}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`
     ),
-<<<<<<< HEAD
-=======
     ...galUrls,
->>>>>>> portfolio-remote/rebrand
   ];
   writeFileSync(
     join(root, 'dist', 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`
   );
-<<<<<<< HEAD
-  console.log(`prerendered ${n} project pages + sitemap -> dist/`);
-=======
   console.log(`prerendered ${n} project pages + ${g} gallery stubs + sitemap -> dist/`);
->>>>>>> portfolio-remote/rebrand
 } catch (err) {
   console.warn(`prerender: skipped (${err && err.message ? err.message : err})`);
 }

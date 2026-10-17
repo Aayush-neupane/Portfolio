@@ -1,13 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { LazyMotion } from 'framer-motion';
+import { LazyMotion, domMax } from 'framer-motion';
 import App from './App';
 import './index.css';
 import { SettingsProvider } from './context/SettingsContext.jsx';
-
-// Motion features (domMax: animations + layout + gestures) are code-split via
-// the `framer-motion/dom` subpath, so first paint never waits on them.
-const loadMotionFeatures = () => import('framer-motion/dom').then((mod) => mod.domMax);
 
 if ('scrollRestoration' in window.history) {
   window.history.scrollRestoration = 'manual';
@@ -49,7 +45,7 @@ const rootEl = document.getElementById('root');
 if (rootEl) {
   ReactDOM.createRoot(rootEl).render(
     <React.StrictMode>
-      <LazyMotion features={loadMotionFeatures} strict>
+      <LazyMotion features={domMax} strict>
         <SettingsProvider>
           <App />
         </SettingsProvider>

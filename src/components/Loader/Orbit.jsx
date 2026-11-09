@@ -1,7 +1,7 @@
 import { withBase } from '../../utils/paths.js';
 
 /**
- * Shared orbit language — after the create.io orbit
+ * Shared orbit language — after the Pana orbit
  * (`src/components/layout/Orbit.tsx`), improvised here: a conic sweep ring
  * and a tick ring join the comet arc, and the mark gains an inner hairline
  * plus an accent glow. All colors resolve through the portfolio theme vars,

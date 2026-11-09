@@ -1,29 +1,6 @@
 {
   "featured": [
     {
-      "id": 7,
-      "title": "Sajilo Damak",
-      "description": "Damak-only on-demand service marketplace for Damak Municipality, Jhapa: customers book verified local pros, pros get assigned work, admins run the operation. Direct booking plus quote requests, server-side boundary validation, completion OTP, money in integer paisa. React, Express, PostgreSQL.",
-      "image": "/assets/images/projects/sajilo-damak.webp",
-      "techStack": [
-        "React",
-        "TypeScript",
-        "Express",
-        "PostgreSQL",
-        "Tailwind CSS",
-        "Leaflet"
-      ],
-      "liveUrl": "",
-      "githubUrl": "",
-      "status": "in-progress",
-      "category": "web apps",
-      "highlights": [
-        "One build serving four portals: public, customer, pro and admin",
-        "Damak-only booking validation against wards 1-10, enforced server-side",
-        "Completion OTP closes jobs; commission snapshotted per booking in immutable ledgers"
-      ]
-    },
-    {
       "id": 11,
       "title": "Pana",
       "description": "Zero-code website builder: pick a complete predesigned site, drop in content, tune variants and palettes, publish in minutes. Live gallery, builder preview and published page render the same components. Next.js, Prisma, Neon Postgres.",
@@ -44,6 +21,29 @@
         "Whole predesigned sites with coherent component libraries, never a blank canvas",
         "Structured editing with undo, autosave and SEO built in",
         "Responsive by default across desktop, tablet and mobile"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Sajilo Damak",
+      "description": "Damak-only on-demand service marketplace for Damak Municipality, Jhapa: customers book verified local pros, pros get assigned work, admins run the operation. Direct booking plus quote requests, server-side boundary validation, completion OTP, money in integer paisa. React, Express, PostgreSQL.",
+      "image": "/assets/images/projects/sajilo-damak.webp",
+      "techStack": [
+        "React",
+        "TypeScript",
+        "Express",
+        "PostgreSQL",
+        "Tailwind CSS",
+        "Leaflet"
+      ],
+      "liveUrl": "",
+      "githubUrl": "",
+      "status": "in-progress",
+      "category": "web apps",
+      "highlights": [
+        "One build serving four portals: public, customer, pro and admin",
+        "Damak-only booking validation against wards 1-10, enforced server-side",
+        "Completion OTP closes jobs; commission snapshotted per booking in immutable ledgers"
       ]
     },
     {
@@ -152,29 +152,6 @@
       ]
     },
     {
-      "id": 8,
-      "title": "Damak Department Store",
-      "description": "Full-stack e-commerce for a department store in Damak, Jhapa: storefront, cart, Fonepay QR plus cash-on-delivery checkout, and admin and rider flows. React, Express, PostgreSQL, Cloudflare R2.",
-      "image": "/assets/images/projects/store.webp",
-      "techStack": [
-        "React",
-        "TypeScript",
-        "Node.js",
-        "Express",
-        "PostgreSQL",
-        "Tailwind CSS"
-      ],
-      "liveUrl": "https://department999.netlify.app",
-      "githubUrl": "",
-      "status": "in-progress",
-      "category": "web apps",
-      "highlights": [
-        "Storefront, cart and checkout for a real department store",
-        "Fonepay dynamic QR plus cash-on-delivery payments",
-        "Admin, rider and delivery flows on one PostgreSQL backbone"
-      ]
-    },
-    {
       "id": 9,
       "title": "AURORA Cube",
       "description": "Interactive 3D Rubik's Cube studio: scrambles, step-by-step solve guide, timer with statistics, and scan-to-solve. React, Three.js, Zustand.",
@@ -214,6 +191,52 @@
         "Galleries spanning heritage, sunsets, night skies and streets",
         "Journal plus enquiry flow in a warm editorial layout",
         "Lightbox, overlays and shutter sounds tuned like a camera"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Cafe69",
+      "description": "Complete online presence for Cafe69 in Mishal Bazaar, Damak: premium cafe site with live ordering, QR table menus, branch administration, a rider app and PWA support. Next.js, Prisma, PostgreSQL.",
+      "image": "",
+      "techStack": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Prisma",
+        "PostgreSQL"
+      ],
+      "liveUrl": "",
+      "githubUrl": "",
+      "status": "in-progress",
+      "category": "web apps",
+      "highlights": [
+        "Live ordering with QR table menus and order tracking",
+        "Branch and owner consoles plus a rider app for cash-on-delivery",
+        "One Next.js app, with a Capacitor shell for iOS and Android"
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Cup & Guff",
+      "description": "Momo, chiya and guff from one kitchen in Damak: night-delivery ordering, 7:30 pm to 1 am inside 3 km, no counter pickup. Next.js, Prisma, PostgreSQL on Supabase.",
+      "image": "/assets/images/projects/cup-and-guff.webp",
+      "techStack": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Prisma",
+        "Supabase"
+      ],
+      "liveUrl": "",
+      "githubUrl": "",
+      "status": "in-progress",
+      "category": "web apps",
+      "highlights": [
+        "Night-delivery ordering within 3 km, no counter pickup",
+        "Google sign-in alongside staff and rider phone logins",
+        "Typed end to end — Zod validation at every boundary"
       ]
     }
   ],

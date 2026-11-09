@@ -19,7 +19,7 @@ export function routeLabel(route) {
 
 /** Module-level navigation memory. Component refs cannot survive StrictMode
  *  remounts (dev double-invoke would flash the veil on first load), so the
- *  handled key lives outside the component — same approach as create.io. */
+ *  handled key lives outside the component — same approach as Pana. */
 let lastHandledKey = null;
 
 /** Full-screen orbit veil shown briefly on every page (hash-route) change.

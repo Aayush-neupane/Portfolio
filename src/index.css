@@ -82,7 +82,7 @@
   --color-accent-contrast: oklch(0.13 0.01 25);
 }
 
-/* Light mode: warm paper (after the create.io ui-kit paper tokens:
+/* Light mode: warm paper (after the Pana ui-kit paper tokens:
    --background #f1e7d1, --surface #f8f2e4, --surface-2 #e6d7b8,
    --foreground #292721, --muted #6d675f). Surfaces run a touch deeper than
    the reference so cards read as cream, never plain white. */
@@ -333,7 +333,7 @@ html.light .hero-card {
   pointer-events: none;
 }
 
-/* ——— Orbit loader (copied from create.io): rings, halo, tracked line ——— */
+/* ——— Orbit loader (copied from Pana): rings, halo, tracked line ——— */
 .marketing-grid {
   background-image:
     linear-gradient(to right, rgba(41, 39, 33, 0.16) 1px, transparent 1px),
@@ -389,7 +389,7 @@ html.light .hero-card {
   to { transform: translateX(100%); }
 }
 /* Light-mode loader: the source mark is light, so invert it to ink
-   against the paper medallion (same as create.io OrbitMark). */
+   against the paper medallion (same as Pana OrbitMark). */
 html.light .orbit-mark-img { filter: invert(1); }
 @media (prefers-reduced-motion: reduce) {
   .loader-orbit-spin, .loader-orbit-spin-rev, .loader-halo, .loader-track-slide, .orbit-sweep { animation: none !important; }

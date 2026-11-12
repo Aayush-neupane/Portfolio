@@ -1,22 +1,4 @@
-import { ArrowLeft } from 'lucide-react';
-
-const PIECES = [
-  {
-    slug: 'prem-darshan',
-    kicker: 'On the line in my bio',
-    date: '2026',
-    title: 'Prem darshan ho, pradarshan haina',
-    devanagari: 'प्रेम दर्शन हो, प्रदर्शन हैन',
-    translation: 'Love is something you behold, not something you put on display.',
-    body: [
-      'I keep coming back to this line because it is easy to get backwards. We are taught to perform affection: post the flowers, announce the milestone, make the feeling legible to an audience. The gesture becomes content, and the content becomes the point.',
-      'But darshan is quieter than that. It is the meeting that happens when attention is honest — the moment you look at something long enough to stop asking what it can do for you. Pradarshan is the opposite: the same thing arranged for spectators, polished until the looking is no longer necessary.',
-      'The line is not really about public and private. It is about why a thing is made. A photograph can be a performance, or it can be a way of looking. A website can shout, or it can open a door. A life can be a feed, or it can be a series of small, unposted attentions.',
-      'I am not always on the right side of that line. I make things for people to see; there is no pretending otherwise. But I want the seeing to come first. I want the work to be worth the look, not just good at asking for it.',
-      'That is the bar, anyway. Everything else is noise.',
-    ],
-  },
-];
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 
 const LETTERS = [
   {
@@ -92,83 +74,62 @@ export default function WritingPage({ onBack }) {
           — only when something is worth saying.
         </p>
 
-        <div className="mt-16 space-y-16">
-          {PIECES.map((piece) => (
-            <article
-              key={piece.slug}
-              id={piece.slug}
-              className="scroll-mt-28 border-t border-border pt-10"
-            >
-              <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
-                {piece.kicker} · {piece.date}
-              </p>
-              <h2 className="mt-3 font-display text-[clamp(1.9rem,4vw,2.8rem)] leading-tight text-text">
-                {piece.title}
-              </h2>
-
-              <p
-                lang="ne"
-                className="mt-8 font-display text-[clamp(1.7rem,3.6vw,2.5rem)] leading-[1.35] text-accent"
+        <section aria-label="Letters" className="mt-16">
+          {LETTERS.map((letter) => {
+            const [lead, ...rest] = letter.title.split(' ');
+            return (
+              <article
+                key={letter.slug}
+                id={letter.slug}
+                className="relative scroll-mt-28 overflow-hidden rounded-2xl border border-border bg-elevated"
               >
-                {piece.devanagari}
-              </p>
-              <p className="mt-3 max-w-xl text-base leading-relaxed text-muted">
-                {piece.translation}
-              </p>
-
-              <div className="mt-8 space-y-6 text-base leading-[1.85] text-muted md:text-lg">
-                {piece.body.map((para, i) => (
-                  <p
-                    key={i}
-                    className={
-                      i === 0
-                        ? 'first-letter:float-left first-letter:mr-2 first-letter:font-display first-letter:text-5xl first-letter:leading-[0.85] first-letter:text-accent'
-                        : undefined
-                    }
+                <div
+                  className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-accent/10 to-transparent"
+                  aria-hidden="true"
+                />
+                <div className="relative px-6 py-14 text-center md:px-14 md:py-20">
+                  <p className="font-mono text-[0.6rem] uppercase tracking-[0.34em] text-accent">
+                    Letters
+                  </p>
+                  <h2 className="mt-5 font-display text-[clamp(2.5rem,7vw,3.9rem)] leading-[1.02] text-text">
+                    {lead}{' '}
+                    <em className="italic text-accent">{rest.join(' ')}</em>
+                  </h2>
+                  <div
+                    className="mx-auto mt-8 flex w-24 items-center gap-2 text-accent/50"
+                    aria-hidden="true"
                   >
-                    {para}
-                  </p>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <section aria-label="Letters" className="mt-16 border-t border-border pt-10">
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
-              Letters
-            </p>
-            <p className="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-muted/70">
-              From Instagram
-            </p>
-          </div>
-          {LETTERS.map((letter) => (
-            <article key={letter.slug} id={letter.slug} className="mt-5 scroll-mt-28">
-              <h2 className="font-display text-[clamp(1.9rem,4vw,2.8rem)] leading-tight text-text">
-                {letter.title}
-              </h2>
-              <div className="mt-6 max-w-xl space-y-5 font-display text-lg leading-relaxed text-text md:text-xl">
-                {letter.stanzas.map((stanza, i) => (
-                  <p key={i}>
-                    {stanza.map((line, j) => (
-                      <span key={j} className="block">
-                        {line}
-                      </span>
-                    ))}
-                  </p>
-                ))}
-              </div>
-              <a
-                href={letter.source}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-block font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
-              >
-                Originally posted on Instagram
-              </a>
-            </article>
-          ))}
+                    <span className="h-px flex-1 bg-current" />
+                    <span className="h-1 w-1 rotate-45 bg-current" />
+                    <span className="h-px flex-1 bg-current" />
+                  </div>
+                  <div className="mx-auto mt-10 max-w-md space-y-8 font-display text-[1.15rem] leading-[1.85] text-text/90 md:text-[1.3rem]">
+                    {letter.stanzas.map((stanza, i) => {
+                      const closing = i === letter.stanzas.length - 1;
+                      return (
+                        <p key={i} className={closing ? 'italic text-accent' : undefined}>
+                          {stanza.map((line, j) => (
+                            <span key={j} className="block">
+                              {line}
+                            </span>
+                          ))}
+                        </p>
+                      );
+                    })}
+                  </div>
+                  <a
+                    href={letter.source}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-12 inline-flex items-center gap-2 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted transition-colors hover:text-accent"
+                  >
+                    Originally posted on Instagram
+                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
+            );
+          })}
         </section>
 
         <section aria-label="Fragments" className="mt-16 border-t border-border pt-10">

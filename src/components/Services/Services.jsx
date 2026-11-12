@@ -51,6 +51,31 @@ const OFFERS = [
   },
 ];
 
+// Placeholder copy: replace these with real client words and remove `sample`.
+const TESTIMONIALS = [
+  {
+    quote:
+      'Aayush took a rough idea and shipped something we could actually run the business on. Clear updates, no surprises.',
+    name: 'Client Name',
+    role: 'Owner, Local Business',
+    sample: true,
+  },
+  {
+    quote:
+      'Fast, responsive, and easy to work with. The booking flow just works, and the handover was painless.',
+    name: 'Client Name',
+    role: 'Operations Lead, Small Team',
+    sample: true,
+  },
+  {
+    quote:
+      'He picked up a half-finished build, explained the tradeoffs, and delivered on time.',
+    name: 'Client Name',
+    role: 'Founder, Startup',
+    sample: true,
+  },
+];
+
 export default function Services({ onContact, onInquire }) {
   const rootRef = useRef(null);
 
@@ -151,6 +176,39 @@ export default function Services({ onContact, onInquire }) {
             </article>
           ))}
         </div>
+
+        <div data-reveal className="mt-14">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
+              Kind words
+            </p>
+            <p className="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-muted/70">
+              Sample quotes — replace with real ones
+            </p>
+          </div>
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
+            {TESTIMONIALS.map(({ quote, name, role, sample }) => (
+              <figure
+                key={`${name}-${quote}`}
+                className="relative rounded-xl border border-border bg-elevated p-6"
+              >
+                {sample && (
+                  <span className="absolute right-4 top-4 rounded-full border border-border px-2 py-0.5 font-mono text-[0.55rem] uppercase tracking-[0.14em] text-muted">
+                    Sample
+                  </span>
+                )}
+                <blockquote className="font-display text-xl leading-snug text-text">
+                  &ldquo;{quote}&rdquo;
+                </blockquote>
+                <figcaption className="mt-5 border-t border-border pt-4 text-sm">
+                  <span className="font-semibold text-text">{name}</span>
+                  <span className="mt-0.5 block text-muted">{role}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+
         <p data-reveal className="mt-6 text-sm text-muted">
           Questions about timing or pricing?{' '}
           <button

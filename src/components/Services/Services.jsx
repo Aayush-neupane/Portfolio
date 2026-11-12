@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Globe, LayoutGrid, Wrench } from 'lucide-react';
+import { withBase } from '../../utils/paths.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,30 +53,29 @@ const OFFERS = [
 ];
 
 // Placeholder copy: replace these with real client words and remove `sample`.
-// Add a logo path to `logo` (e.g. '/assets/images/clients/acme.svg') when ready.
 const TESTIMONIALS = [
   {
     quote:
       'Aayush took a rough idea and shipped something we could actually run the business on. Clear updates, no surprises.',
-    name: 'Client Name',
-    role: 'Owner, Local Business',
-    logo: null,
+    name: 'Crystal Cabin Detailing',
+    role: 'Detailing studio, Canada',
+    logo: '/assets/images/clients/crystal-cabin.webp',
     sample: true,
   },
   {
     quote:
       'Fast, responsive, and easy to work with. The booking flow just works, and the handover was painless.',
-    name: 'Client Name',
-    role: 'Operations Lead, Small Team',
-    logo: null,
+    name: 'Cup & Guff',
+    role: 'Kitchen & night delivery, Damak',
+    logo: '/assets/images/clients/cup-and-guff-mark.webp',
     sample: true,
   },
   {
     quote:
       'He picked up a half-finished build, explained the tradeoffs, and delivered on time.',
-    name: 'Client Name',
-    role: 'Founder, Startup',
-    logo: null,
+    name: 'Excurion',
+    role: 'Virtual classroom',
+    logo: '/assets/images/clients/excurion.webp',
     sample: true,
   },
 ];
@@ -207,7 +207,7 @@ export default function Services({ onContact, onInquire }) {
                 <figcaption className="mt-5 flex items-center gap-3 border-t border-border pt-4 text-sm">
                   {logo ? (
                     <img
-                      src={logo}
+                      src={withBase(logo)}
                       alt={`${name} logo`}
                       className="h-10 w-10 shrink-0 rounded-lg border border-border bg-base object-contain p-1"
                     />

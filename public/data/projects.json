@@ -81,7 +81,8 @@
         "Turns visitors into booked jobs with packages, proof-of-work gallery and scheduling flow",
         "GSAP motion design that stays fast on real phones",
         "Supabase-backed bookings with an admin-ready data model"
-      ]
+      ],
+      "logo": "/assets/images/clients/crystal-cabin.webp"
     },
     {
       "id": 3,
@@ -101,7 +102,8 @@
         "Live lessons on an infinite tldraw whiteboard",
         "Distraction-free classroom tuned for real teaching",
         "Fully typed React + TypeScript codebase end to end"
-      ]
+      ],
+      "logo": "/assets/images/clients/excurion.webp"
     },
     {
       "id": 4,
@@ -230,7 +232,7 @@
         "Prisma",
         "PostgreSQL"
       ],
-      "liveUrl": "",
+      "liveUrl": "https://cafe69-damak.netlify.app/",
       "githubUrl": "",
       "status": "in-progress",
       "category": "web apps",
@@ -252,7 +254,8 @@
           "label": "Platforms",
           "value": "3"
         }
-      ]
+      ],
+      "logo": "/assets/images/clients/cafe69-mark.svg"
     },
     {
       "id": 13,
@@ -289,7 +292,8 @@
           "label": "Login paths",
           "value": "3"
         }
-      ]
+      ],
+      "logo": "/assets/images/clients/cup-and-guff.webp"
     }
   ],
   "archive": [

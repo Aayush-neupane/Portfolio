@@ -935,6 +935,7 @@ export default function App() {
               text="प्रेम दर्शन हो, प्रदर्शन हैन"
               emphasis={['दर्शन', 'प्रदर्शन']}
               support="Love is something you behold, not something you put on display. I try to build the same way — work that rewards attention instead of demanding it."
+              action={{ label: 'Read the writing', onClick: () => handleNav(WRITING_ROUTE) }}
             />
           </LazySection>
           <LazySection force={forceMount} onVisible={noteMounted}>

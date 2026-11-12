@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ArrowUpRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +13,7 @@ const clean = (w) => w.replace(/[.,!?—–;:'"“”]/g, '').toLowerCase();
  * `emphasis` words render in accent italic, and an optional
  * supporting line fades in as the scrub completes.
  */
-export default function TextReveal3D({ text, eyebrow, emphasis = [], support }) {
+export default function TextReveal3D({ text, eyebrow, emphasis = [], support, action }) {
   const rootRef = useRef(null);
   const words = String(text || '').split(/\s+/).filter(Boolean);
   const emph = new Set(emphasis.map((w) => String(w).toLowerCase()));
@@ -21,9 +22,9 @@ export default function TextReveal3D({ text, eyebrow, emphasis = [], support }) 
     const root = rootRef.current;
     if (!root) return;
     const inners = root.querySelectorAll('[data-word-inner]');
-    const tail = root.querySelector('[data-support]');
+    const tail = [...root.querySelectorAll('[data-support]')];
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      gsap.set([inners, tail], { opacity: 1, rotateX: 0, yPercent: 0, y: 0 });
+      gsap.set([...inners, ...tail], { opacity: 1, rotateX: 0, yPercent: 0, y: 0 });
       return;
     }
     const ctx = gsap.context(() => {
@@ -45,7 +46,7 @@ export default function TextReveal3D({ text, eyebrow, emphasis = [], support }) 
       }
     }, root);
     return () => ctx.revert();
-  }, [text, support]);
+  }, [text, support, action?.label]);
 
   return (
     <section aria-label="Design philosophy" className="relative border-t border-border">
@@ -80,6 +81,17 @@ export default function TextReveal3D({ text, eyebrow, emphasis = [], support }) 
           <p data-support className="mt-7 max-w-xl leading-[1.6] text-muted">
             {support}
           </p>
+        )}
+        {action && (
+          <button
+            data-support
+            type="button"
+            onClick={action.onClick}
+            className="mt-7 inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
+          >
+            {action.label}
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </button>
         )}
       </div>
     </section>

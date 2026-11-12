@@ -52,12 +52,14 @@ const OFFERS = [
 ];
 
 // Placeholder copy: replace these with real client words and remove `sample`.
+// Add a logo path to `logo` (e.g. '/assets/images/clients/acme.svg') when ready.
 const TESTIMONIALS = [
   {
     quote:
       'Aayush took a rough idea and shipped something we could actually run the business on. Clear updates, no surprises.',
     name: 'Client Name',
     role: 'Owner, Local Business',
+    logo: null,
     sample: true,
   },
   {
@@ -65,6 +67,7 @@ const TESTIMONIALS = [
       'Fast, responsive, and easy to work with. The booking flow just works, and the handover was painless.',
     name: 'Client Name',
     role: 'Operations Lead, Small Team',
+    logo: null,
     sample: true,
   },
   {
@@ -72,6 +75,7 @@ const TESTIMONIALS = [
       'He picked up a half-finished build, explained the tradeoffs, and delivered on time.',
     name: 'Client Name',
     role: 'Founder, Startup',
+    logo: null,
     sample: true,
   },
 ];
@@ -187,7 +191,7 @@ export default function Services({ onContact, onInquire }) {
             </p>
           </div>
           <div className="mt-4 grid gap-4 md:grid-cols-3">
-            {TESTIMONIALS.map(({ quote, name, role, sample }) => (
+            {TESTIMONIALS.map(({ quote, name, role, sample, logo }) => (
               <figure
                 key={`${name}-${quote}`}
                 className="relative rounded-xl border border-border bg-elevated p-6"
@@ -200,9 +204,22 @@ export default function Services({ onContact, onInquire }) {
                 <blockquote className="font-display text-xl leading-snug text-text">
                   &ldquo;{quote}&rdquo;
                 </blockquote>
-                <figcaption className="mt-5 border-t border-border pt-4 text-sm">
-                  <span className="font-semibold text-text">{name}</span>
-                  <span className="mt-0.5 block text-muted">{role}</span>
+                <figcaption className="mt-5 flex items-center gap-3 border-t border-border pt-4 text-sm">
+                  {logo ? (
+                    <img
+                      src={logo}
+                      alt={`${name} logo`}
+                      className="h-10 w-10 shrink-0 rounded-lg border border-border bg-base object-contain p-1"
+                    />
+                  ) : (
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-dashed border-border font-mono text-[0.5rem] uppercase tracking-[0.08em] text-muted/60">
+                      Logo
+                    </span>
+                  )}
+                  <span className="min-w-0">
+                    <span className="font-semibold text-text">{name}</span>
+                    <span className="mt-0.5 block text-muted">{role}</span>
+                  </span>
                 </figcaption>
               </figure>
             ))}

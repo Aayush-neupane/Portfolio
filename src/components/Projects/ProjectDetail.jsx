@@ -298,6 +298,7 @@ export default function ProjectDetail({
   const repo = isValidUrl(project.githubUrl) ? project.githubUrl : null;
   const tech = project.techStack || [];
   const highlights = project.highlights || [];
+  const stats = project.stats || [];
   const related = (all || [])
     .filter((p) => String(p.id) !== String(project.id) && (p.category || '') === (project.category || '') && project.category)
     .slice(0, 3);
@@ -413,6 +414,22 @@ export default function ProjectDetail({
           </div>
         ))}
       </dl>
+
+      {stats.length > 0 && (
+        <dl
+          aria-label="By the numbers"
+          className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3"
+        >
+          {stats.map(({ label, value }) => (
+            <div key={label} className="bg-elevated px-4 py-4">
+              <dt className="font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted">
+                {label}
+              </dt>
+              <dd className="mt-1 font-display text-3xl leading-none text-text">{value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
 
       <div className="mt-14 grid gap-10 md:mt-20 lg:grid-cols-[1fr_340px] lg:gap-14">
         {highlights.length > 0 && (

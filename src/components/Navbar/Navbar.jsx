@@ -14,6 +14,7 @@ const FALLBACK_LINKS = [
   { id: 'services', label: 'Services', href: '#services' },
   { id: 'resume', label: 'Resume', href: '#resume' },
   { id: 'gallery', label: 'Gallery', href: '#/gallery' },
+  { id: 'writing', label: 'Writing', href: '#/writing' },
   { id: 'contact', label: 'Contact', href: '#contact' },
 ];
 
@@ -56,8 +57,8 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
 
   const isActive = (item) => {
     if (item.href.startsWith('#/')) {
-      if (!route) return isGallery || activeSection === item.id;
-      return item.href === '#/gallery' ? isGallery : item.href === route;
+      if (!route) return false;
+      return route === item.href || route.startsWith(`${item.href}/`);
     }
     return !isGallery && activeSection === item.id;
   };

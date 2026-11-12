@@ -44,6 +44,20 @@
         "One build serving four portals: public, customer, pro and admin",
         "Damak-only booking validation against wards 1-10, enforced server-side",
         "Completion OTP closes jobs; commission snapshotted per booking in immutable ledgers"
+      ],
+      "stats": [
+        {
+          "label": "Portals",
+          "value": "4"
+        },
+        {
+          "label": "Wards",
+          "value": "10"
+        },
+        {
+          "label": "Booking modes",
+          "value": "2"
+        }
       ]
     },
     {
@@ -106,7 +120,17 @@
       "highlights": [
         "Drives a real ESP32-powered RC car from the browser",
         "Live gauges, gear states and camera stream in one cockpit",
-        "Zero-dependency vanilla JS — no build step, no bloat"
+        "Zero-dependency vanilla JS \u2014 no build step, no bloat"
+      ],
+      "stats": [
+        {
+          "label": "Dependencies",
+          "value": "0"
+        },
+        {
+          "label": "Build steps",
+          "value": "0"
+        }
       ]
     },
     {
@@ -214,6 +238,20 @@
         "Live ordering with QR table menus and order tracking",
         "Branch and owner consoles plus a rider app for cash-on-delivery",
         "One Next.js app, with a Capacitor shell for iOS and Android"
+      ],
+      "stats": [
+        {
+          "label": "Order surfaces",
+          "value": "4"
+        },
+        {
+          "label": "Consoles",
+          "value": "2"
+        },
+        {
+          "label": "Platforms",
+          "value": "3"
+        }
       ]
     },
     {
@@ -236,7 +274,21 @@
       "highlights": [
         "Night-delivery ordering within 3 km, no counter pickup",
         "Google sign-in alongside staff and rider phone logins",
-        "Typed end to end — Zod validation at every boundary"
+        "Typed end to end \u2014 Zod validation at every boundary"
+      ],
+      "stats": [
+        {
+          "label": "Delivery radius",
+          "value": "3 km"
+        },
+        {
+          "label": "Night window",
+          "value": "7:30\u20131"
+        },
+        {
+          "label": "Login paths",
+          "value": "3"
+        }
       ]
     }
   ],
@@ -419,7 +471,7 @@
       "category": "tools",
       "highlights": [
         "Tidy task manager with local persistence",
-        "Small, fast and done — exactly as advertised",
+        "Small, fast and done \u2014 exactly as advertised",
         "Zero-framework vanilla JavaScript"
       ]
     },
@@ -540,7 +592,7 @@
       "highlights": [
         "English and Nepali typing tests at 15, 30 and 60 seconds",
         "Live WPM readout with local best tracking",
-        "Progressive interface that stays out of the typist’s flow"
+        "Progressive interface that stays out of the typist\u2019s flow"
       ]
     },
     {

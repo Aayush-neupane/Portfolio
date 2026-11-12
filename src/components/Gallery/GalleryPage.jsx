@@ -252,7 +252,7 @@ function readGalleryQuery() {
   return { f: q.get('f') || 'All', p: Number.isFinite(p) && p > 0 ? p : 0 };
 }
 
-export default function GalleryPage({ photos, onBack, deepPhotoId }) {
+export default function GalleryPage({ photos, onBack, deepPhotoId, onInquire }) {
   const initialQuery = useRef(readGalleryQuery());
   const [openIndex, setOpenIndex] = useState(null);
   const [page, setPage] = useState(initialQuery.current.p);
@@ -592,6 +592,7 @@ const rows = useMemo(
             onClose={closeLightbox}
             onPrev={() => step(-1)}
             onNext={() => step(1)}
+            onInquire={onInquire}
           />
         )}
       </AnimatePresence>

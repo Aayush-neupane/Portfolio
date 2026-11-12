@@ -63,8 +63,8 @@
 
 /* ——— Premium Portfolio Design System (OKLCH, dark-first) ——— */
 @theme {
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Serif", "Noto Serif Devanagari", "Devanagari Sangam MN", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "Noto Sans Devanagari", "Devanagari Sangam MN", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
 
   --color-bg: oklch(0.13 0.005 250);

@@ -118,9 +118,16 @@ ${cardDims}<meta name="twitter:card" content="summary_large_image" />
         const pretty = `${SITE}/gallery/${id}`;
         const title = `${f.title || 'Photo'} — Aayush Neupane`;
         const desc = f.story || f.title || 'A photograph by Aayush Neupane.';
-        const img = typeof f.src === 'string' && f.src.startsWith('/')
-          ? `${SITE}${f.src}`
-          : `${SITE}/assets/images/profile/logo.jpg`;
+        const card = `assets/og/gallery-${String(f.id).replace(/[^A-Za-z0-9_-]+/g, '-')}.jpg`;
+        const hasCard = existsSync(join(root, 'public', card));
+        const img = hasCard
+          ? `${SITE}/${card}`
+          : typeof f.src === 'string' && f.src.startsWith('/')
+            ? `${SITE}${f.src}`
+            : `${SITE}/assets/images/profile/logo.jpg`;
+        const cardDims = hasCard
+          ? '<meta property="og:image:width" content="1200" />\n<meta property="og:image:height" content="630" />\n'
+          : '';
         const ghtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,7 +141,7 @@ ${cardDims}<meta name="twitter:card" content="summary_large_image" />
 <meta property="og:description" content="${esc(desc)}" />
 <meta property="og:url" content="${esc(pretty)}" />
 <meta property="og:image" content="${esc(img)}" />
-<meta name="twitter:card" content="summary_large_image" />
+${cardDims}<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="${esc(title)}" />
 <meta name="twitter:description" content="${esc(desc)}" />
 <meta name="twitter:image" content="${esc(img)}" />
@@ -224,6 +231,9 @@ ${cardDims}<meta name="twitter:card" content="summary_large_image" />
     '',
     '## Photography',
     `- Gallery of street, sky and garden photography: ${SITE}/#/gallery`,
+    '',
+    '## Writing',
+    `- Notes on seeing, making, and attention: ${SITE}/#/writing`,
     '',
     '## Links',
     `- Portfolio: ${SITE}/`,

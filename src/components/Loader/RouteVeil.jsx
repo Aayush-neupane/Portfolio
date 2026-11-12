@@ -13,6 +13,7 @@ export function routeLabel(route) {
   if (route === '#/projects') return 'projects';
   if (route === '#/links') return 'links';
   if (route === '#/colophon') return 'colophon';
+  if (route === '#/writing') return 'writing';
   if (route.startsWith('#/project/')) return 'project';
   if (route.startsWith('#/')) return 'lost';
   return 'aayush';

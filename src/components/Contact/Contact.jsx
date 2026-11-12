@@ -17,6 +17,8 @@ const schema = z.object({
   budget: z.string().trim().max(40).optional().default(''),
   timeline: z.string().trim().max(40).optional().default(''),
   message: z.string().trim().min(10, 'Tell me a little more (min 10 characters).'),
+  // Honeypot: real visitors never see or fill this.
+  website: z.string().trim().max(200).optional().default(''),
 });
 
 const inputClass =
@@ -49,6 +51,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
   const formRef = useRef(null);
   const closeRef = useRef(null);
   const replyDialogRef = useRef(null);
+  const startedAt = useRef(Date.now());
   const [sent, setSent] = useState(false);
   const [failed, setFailed] = useState(false);
   const [lastSent, setLastSent] = useState(null);
@@ -71,6 +74,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
       budget: '',
       timeline: '',
       message: draft?.message || '',
+      website: '',
       ...readSavedDraft(),
       // An explicit Inquire draft always wins over a saved one.
       ...(draft ? { subject: draft.subject || '', message: draft.message || '' } : null),
@@ -130,6 +134,20 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
 
   const onValid = async (data) => {
     setFailed(false);
+    const honeypot = String(data.website || '').trim();
+    // Bots fill the hidden field or submit instantly; show the same success
+    // state without sending anything.
+    if (honeypot || Date.now() - startedAt.current < 2500) {
+      setSent(true);
+      onSentClear?.();
+      reset({ name: '', email: '', subject: '', budget: '', timeline: '', message: '', website: '' });
+      try {
+        localStorage.removeItem(DRAFT_KEY);
+      } catch {
+        /* storage unavailable */
+      }
+      return;
+    }
     const to = social?.email || profile?.email || 'theghostoftheuchiha38@gmail.com';
     try {
       const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(to)}`, {
@@ -143,7 +161,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
           message: data.message,
           _subject: data.subject || `Portfolio inquiry from ${data.name}`,
           _autoresponse: `Hi ${data.name}, thanks for reaching out through my portfolio! I've received your message and will personally reply within 24 hours. — Aayush Neupane`,
-          _honey: '',
+          _honey: honeypot,
           _captcha: 'false',
         }),
       });
@@ -158,7 +176,8 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
       });
       setSent(true);
       onSentClear?.();
-      reset({ name: '', email: '', subject: '', budget: '', timeline: '', message: '' });
+      startedAt.current = Date.now();
+      reset({ name: '', email: '', subject: '', budget: '', timeline: '', message: '', website: '' });
       try {
         localStorage.removeItem(DRAFT_KEY);
       } catch {
@@ -345,6 +364,16 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
             noValidate
             className="rounded-xl border border-border bg-elevated p-6 md:p-8"
           >
+            <div aria-hidden="true" className="pointer-events-none absolute left-[-9999px] top-auto h-px w-px overflow-hidden">
+              <label htmlFor="contact-website">Website</label>
+              <input
+                id="contact-website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                {...register('website')}
+              />
+            </div>
             <div className="space-y-5">
               <div>
                 <label htmlFor="contact-name" className="mb-1.5 block text-sm font-medium text-text">

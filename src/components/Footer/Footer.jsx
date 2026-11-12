@@ -9,6 +9,7 @@ const SITEMAP = [
   { label: 'Services', href: '#services' },
   { label: 'Resume', href: '#resume' },
   { label: 'Gallery', href: '#/gallery', route: true },
+  { label: 'Writing', href: '#/writing', route: true },
   { label: 'Colophon', href: '#/colophon', route: true },
   { label: 'Contact', href: '#contact' },
 ];

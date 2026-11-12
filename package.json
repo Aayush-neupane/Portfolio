@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build && node scripts/prerender-projects.mjs",
     "preview": "vite preview",
-    "gallery:variants": "node scripts/generate-gallery-variants.mjs"
+    "gallery:variants": "node scripts/generate-gallery-variants.mjs",
+    "gallery:og": "node scripts/generate-gallery-og.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

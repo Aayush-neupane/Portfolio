@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './components/Navbar/Navbar.jsx';
 import ScrollProgress from './components/ScrollProgress/ScrollProgress.jsx';
 import Hero from './components/Hero/Hero.jsx';
+import ClientStrip from './components/ClientStrip/ClientStrip.jsx';
 // Below-fold sections load on approach: less JS parsed before first paint,
 // and form/animation libraries ride inside their own chunks.
 const About = lazy(() => import('./components/About/About.jsx'));
@@ -19,6 +20,7 @@ const ProjectDetail = lazy(() => import('./components/Projects/ProjectDetail.jsx
 const LinksPage = lazy(() => import('./components/Links/LinksPage.jsx'));
 const Playground = lazy(() => import('./components/Playground/Playground.jsx'));
 const ColophonPage = lazy(() => import('./components/Colophon/ColophonPage.jsx'));
+const WritingPage = lazy(() => import('./components/Writing/WritingPage.jsx'));
 
 function RouteFallback() {
   return (
@@ -110,6 +112,7 @@ const GALLERY_ROUTE = '#/gallery';
 const PROJECTS_ROUTE = '#/projects';
 const LINKS_ROUTE = '#/links';
 const COLOPHON_ROUTE = '#/colophon';
+const WRITING_ROUTE = '#/writing';
 const PROJECT_DETAIL_PREFIX = '#/project/';
 
 function routeFromHash() {
@@ -342,6 +345,7 @@ export default function App() {
   const isProjects = route === PROJECTS_ROUTE;
   const isLinks = route === LINKS_ROUTE;
   const isColophon = route === COLOPHON_ROUTE;
+  const isWriting = route === WRITING_ROUTE;
   const detailId = detailIdFromRoute(route);
   const isDetail = detailId !== null;
   /** A `#/…` route that matches no page (bare `#/` still counts as home). */
@@ -352,6 +356,7 @@ export default function App() {
     !isProjects &&
     !isLinks &&
     !isColophon &&
+    !isWriting &&
     !isDetail;
   // Headline numbers, derived once from data so Hero/About/Resume agree.
   const stats = useMemo(() => {
@@ -386,7 +391,9 @@ export default function App() {
           ? 'Links — Aayush Neupane'
           : isColophon
             ? 'Colophon — Aayush Neupane'
-            : isDetail
+            : isWriting
+              ? 'Writing — Aayush Neupane'
+              : isDetail
               ? `${detailProject?.title || 'Project'} — Aayush Neupane`
               : isUnknown
                 ? 'Lost — Aayush Neupane'
@@ -394,7 +401,12 @@ export default function App() {
     document.title = headTitle;
     const origin = window.location.origin;
     const basePath = window.location.pathname.replace(/\/$/, '');
-    const abs = (p) => (/^https?:\/\//.test(p) ? p : `${origin}${p}`);
+    const abs = (p) => {
+      if (/^https?:\/\//.test(p)) return p;
+      // withBase() emits `./assets/...` when the build uses a relative base.
+      if (p.startsWith('./')) return new URL(p, window.location.href).href;
+      return `${origin}${p}`;
+    };
     if (isDetail) {
       const desc = detailProject?.description || 'A project by Aayush Neupane.';
       const pageUrl = `${origin}${basePath}/project/${detailId}`;
@@ -411,12 +423,28 @@ export default function App() {
       setHeadText('name', 'twitter:description', desc);
       syncProjectJsonLd(detailProject, pageUrl, pageImg);
     } else if (isGallery) {
+      const photo = galleryPhotoId
+        ? galleryPhotos.find((p) => String(p.id) === String(galleryPhotoId))
+        : null;
+      const photoDesc =
+        photo?.story ||
+        'Photo gallery of Aayush Neupane — streets, skies, gardens, heritage and night frames.';
+      const photoTitle = photo ? `${photo.title} — Aayush Neupane` : headTitle;
+      const pageUrl = photo
+        ? `${origin}${basePath}/gallery/${encodeURIComponent(String(photo.id))}`
+        : `${origin}${basePath}`;
+      const ogId = photo ? String(photo.id).replace(/[^A-Za-z0-9_-]+/g, '-') : '';
       syncHead({
-        description: 'Photo gallery of Aayush Neupane — streets, skies, gardens, heritage and night frames.',
-        url: `${origin}${basePath}`,
+        description: photoDesc,
+        url: pageUrl,
+        image: abs(photo ? `/assets/og/gallery-${ogId}.jpg` : '/assets/images/profile/logo.jpg'),
+        type: photo ? 'article' : 'website',
       });
-      setHeadText('property', 'og:title', headTitle);
-      setHeadText('name', 'twitter:title', headTitle);
+      document.title = photoTitle;
+      setHeadText('property', 'og:title', photoTitle);
+      setHeadText('property', 'og:description', photoDesc);
+      setHeadText('name', 'twitter:title', photoTitle);
+      setHeadText('name', 'twitter:description', photoDesc);
       syncProjectJsonLd(null);
     } else if (isProjects) {
       syncHead({
@@ -437,6 +465,14 @@ export default function App() {
     } else if (isColophon) {
       syncHead({
         description: 'The stack, type, and tools behind Aayush Neupane’s portfolio.',
+        url: `${origin}${basePath}`,
+      });
+      setHeadText('property', 'og:title', headTitle);
+      setHeadText('name', 'twitter:title', headTitle);
+      syncProjectJsonLd(null);
+    } else if (isWriting) {
+      syncHead({
+        description: 'Notes on seeing, making, and the things worth paying attention to.',
         url: `${origin}${basePath}`,
       });
       setHeadText('property', 'og:title', headTitle);
@@ -463,7 +499,7 @@ export default function App() {
     // Home-route scrolling is owned by section nav / back-to-card flows.
     // Sub-routes always open at the very top — and stay there: re-assert
     // briefly to beat any late layout settling or async scroll restoration.
-    if (!(isGallery || isProjects || isLinks || isColophon || isDetail || isUnknown)) return undefined;
+    if (!(isGallery || isProjects || isLinks || isColophon || isWriting || isDetail || isUnknown)) return undefined;
     scrollTopImmediate();
     ScrollTrigger.refresh();
     let n = 0;
@@ -475,7 +511,7 @@ export default function App() {
       scrollTopImmediate();
     }, 100);
     return () => clearInterval(id);
-  }, [isGallery, isProjects, isLinks, isColophon, isDetail, isUnknown, detailId, dataReady]);
+  }, [isGallery, isProjects, isLinks, isColophon, isWriting, isDetail, isUnknown, detailId, galleryPhotoId, galleryPhotos, dataReady]);
 
   // Late image/font settling after a full document load can shift scroll on
   // sub-routes; pin it back to top once everything has arrived.
@@ -593,6 +629,20 @@ export default function App() {
           nonce: Date.now(),
         });
       }
+      handleNav('#contact');
+    },
+    [handleNav]
+  );
+
+  // Prefill the contact form from a gallery frame, then take the visitor to it.
+  const inquirePrint = useCallback(
+    (photo) => {
+      if (!photo?.title) return;
+      setContactDraft({
+        subject: `Print inquiry — ${photo.title}`,
+        message: `Hi Aayush,\n\nI'd like to ask about a print of "${photo.title}"${photo.location ? ` (${photo.location})` : ''}.\n\nSize:\nWhere to ship:\n\nThanks!`,
+        nonce: Date.now(),
+      });
       handleNav('#contact');
     },
     [handleNav]
@@ -786,7 +836,7 @@ export default function App() {
       <RouteVeil routeKey={route} label={isDetail ? detailProject?.title || 'project' : routeLabel(route)} />
       <Navbar
         links={config?.navigation}
-        activeSection={isGallery || isProjects || isLinks || isColophon || isDetail || isUnknown ? '' : activeSection}
+        activeSection={isGallery || isProjects || isLinks || isColophon || isWriting || isDetail || isUnknown ? '' : activeSection}
         onNavClick={handleNav}
         isGallery={isGallery}
         route={route}
@@ -795,7 +845,12 @@ export default function App() {
       <Suspense fallback={<RouteFallback />}>
       {isGallery ? (
         <main>
-          <GalleryPage photos={galleryPhotos} deepPhotoId={galleryPhotoId} onBack={() => handleNav('#home')} />
+          <GalleryPage
+            photos={galleryPhotos}
+            deepPhotoId={galleryPhotoId}
+            onBack={() => handleNav('#home')}
+            onInquire={inquirePrint}
+          />
         </main>
       ) : isProjects ? (
         <main>
@@ -815,6 +870,10 @@ export default function App() {
             onBack={() => handleNav('#home')}
             onContact={() => handleNav('#contact')}
           />
+        </main>
+      ) : isWriting ? (
+        <main>
+          <WritingPage onBack={() => handleNav('#home')} />
         </main>
       ) : isUnknown ? (
         <main>
@@ -860,6 +919,10 @@ export default function App() {
       ) : (
         <main>
           <Hero profile={profile} now={nowStatus} onProject={openProject} stats={stats} />
+          <ClientStrip
+            projects={projects}
+            onOpen={(id) => handleNav(`${PROJECT_DETAIL_PREFIX}${id}`)}
+          />
           <LazySection force={forceMount} onVisible={noteMounted}>
             <About profile={profile} whatsapp={whatsapp} sinceYear={stats.since} />
           </LazySection>
@@ -869,9 +932,9 @@ export default function App() {
           <LazySection minHeight="50vh" force={forceMount} onVisible={noteMounted}>
             <TextReveal3D
               eyebrow="Philosophy"
-              text="Details most people scroll past are the whole product."
-              emphasis={['scroll', 'past']}
-              support="It is why I obsess over spacing, timing, and the states nobody screenshots. Every project on this page was held to it."
+              text="प्रेम दर्शन हो, प्रदर्शन हैन"
+              emphasis={['दर्शन', 'प्रदर्शन']}
+              support="Love is something you behold, not something you put on display. I try to build the same way — work that rewards attention instead of demanding it."
             />
           </LazySection>
           <LazySection force={forceMount} onVisible={noteMounted}>
@@ -895,7 +958,11 @@ export default function App() {
             <Support />
           </LazySection>
           <LazySection force={forceMount} onVisible={noteMounted}>
-            <Gallery photos={featured.length > 0 ? featured : gallery.slice(0, 6)} onViewAll={() => handleNav(GALLERY_ROUTE)} />
+            <Gallery
+              photos={featured.length > 0 ? featured : gallery.slice(0, 6)}
+              onViewAll={() => handleNav(GALLERY_ROUTE)}
+              onInquire={inquirePrint}
+            />
           </LazySection>
           <LazySection force={forceMount} onVisible={noteMounted}>
             <Contact profile={profile} social={social} whatsapp={whatsapp} draft={contactDraft} onSentClear={() => setContactDraft(null)} />

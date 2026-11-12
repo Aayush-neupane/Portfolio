@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { AnimatePresence, m } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ChevronLeft, ChevronRight, Expand, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Expand, Printer, X } from 'lucide-react';
 import { thumb, mid } from '../../utils/galleryImg.js';
 import { useDialogFocus, inertBackground } from '../../utils/a11y.js';
 import SmartImage from '../Loader/SmartImage.jsx';
@@ -116,7 +116,7 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
   );
 }
 
-export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
+export function Lightbox({ photo, onClose, onPrev, onNext, pos, total, onInquire }) {
   const touchRef = useRef({ x: 0, y: 0 });
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
@@ -157,6 +157,11 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
   };
 
   if (!photo) return null;
+  const exifLine = photo.exif
+    ? [photo.exif.camera, photo.exif.focal, photo.exif.aperture, photo.exif.shutter, photo.exif.iso]
+        .filter(Boolean)
+        .join(' · ')
+    : '';
   // Portaled to <body> so no ancestor stacking context can ever trap the
   // overlay beneath the fixed navbar. Exit animations still work — presence
   // is tracked by component, not by DOM location.
@@ -238,6 +243,24 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
             {photo.story}
           </p>
         )}
+        {exifLine && (
+          <p
+            aria-label="Camera settings"
+            className="mt-3 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-white/45"
+          >
+            {exifLine}
+          </p>
+        )}
+        {onInquire && (
+          <button
+            type="button"
+            onClick={() => onInquire(photo)}
+            className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-2 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-white/65 transition-colors duration-200 hover:border-accent hover:text-accent"
+          >
+            <Printer className="h-3.5 w-3.5" aria-hidden="true" />
+            Inquire about a print
+          </button>
+        )}
         <p className="mt-2 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-white/35 md:hidden">
           Swipe sideways for more
         </p>
@@ -247,7 +270,7 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total }) {
   );
 }
 
-export default function Gallery({ photos, onViewAll }) {
+export default function Gallery({ photos, onViewAll, onInquire }) {
   const rootRef = useRef(null);
   const trackRef = useRef(null);
   const ghostRef = useRef(null);
@@ -472,6 +495,7 @@ export default function Gallery({ photos, onViewAll }) {
             onClose={() => setOpenIndex(null)}
             onPrev={() => step(-1)}
             onNext={() => step(1)}
+            onInquire={onInquire}
           />
         )}
       </AnimatePresence>

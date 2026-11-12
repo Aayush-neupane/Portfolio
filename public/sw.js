@@ -2,7 +2,7 @@
  * screen) loadable with no connection. Runtime-cached, so no build manifest
  * is needed — the shell and assets are stored as they are fetched.
  * Bump CACHE when this strategy changes. */
-const CACHE = 'aayush-portfolio-v3';
+const CACHE = 'aayush-portfolio-v4';
 
 // Resolve against the worker's own scope so this works both at the domain
 // root (Netlify) and under a subpath (e.g. GitHub Pages /Portfolio/).
@@ -81,7 +81,28 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Same-origin files (JS, CSS, images, data): serve cached instantly,
+  // Content JSON (projects, gallery, config): network first, cache fallback.
+  // These change between deploys, so a cached copy would hide new logos and
+  // captions until the next visit.
+  if (url.pathname.endsWith('.json')) {
+    event.respondWith(
+      fetch(request)
+        .then((res) => {
+          if (res && res.status === 200) {
+            const copy = res.clone();
+            caches
+              .open(CACHE)
+              .then((cache) => cache.put(request, copy))
+              .catch(() => {});
+          }
+          return res;
+        })
+        .catch(() => caches.match(request))
+    );
+    return;
+  }
+
+  // Same-origin files (JS, CSS, images): serve cached instantly,
   // refresh from network in the background when online.
   if (url.origin === self.location.origin) {
     event.respondWith(

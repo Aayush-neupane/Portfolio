@@ -207,7 +207,7 @@ function LoadingScreen({ leaving }) {
 
 async function fetchJson(path, fallback) {
   try {
-    const res = await fetch(path);
+    const res = await fetch(path, { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
   } catch {

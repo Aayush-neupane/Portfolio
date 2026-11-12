@@ -18,6 +18,7 @@ const ProjectsPage = lazy(() => import('./components/Projects/ProjectsPage.jsx')
 const ProjectDetail = lazy(() => import('./components/Projects/ProjectDetail.jsx'));
 const LinksPage = lazy(() => import('./components/Links/LinksPage.jsx'));
 const Playground = lazy(() => import('./components/Playground/Playground.jsx'));
+const ColophonPage = lazy(() => import('./components/Colophon/ColophonPage.jsx'));
 
 function RouteFallback() {
   return (
@@ -108,6 +109,7 @@ const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'services', 'resume'
 const GALLERY_ROUTE = '#/gallery';
 const PROJECTS_ROUTE = '#/projects';
 const LINKS_ROUTE = '#/links';
+const COLOPHON_ROUTE = '#/colophon';
 const PROJECT_DETAIL_PREFIX = '#/project/';
 
 function routeFromHash() {
@@ -339,6 +341,7 @@ export default function App() {
   const galleryPhotoId = isGallery ? galleryPhotoIdFromRoute(route) : null;
   const isProjects = route === PROJECTS_ROUTE;
   const isLinks = route === LINKS_ROUTE;
+  const isColophon = route === COLOPHON_ROUTE;
   const detailId = detailIdFromRoute(route);
   const isDetail = detailId !== null;
   /** A `#/…` route that matches no page (bare `#/` still counts as home). */
@@ -348,6 +351,7 @@ export default function App() {
     !isGallery &&
     !isProjects &&
     !isLinks &&
+    !isColophon &&
     !isDetail;
   // Headline numbers, derived once from data so Hero/About/Resume agree.
   const stats = useMemo(() => {
@@ -380,11 +384,13 @@ export default function App() {
         ? 'Projects — Aayush Neupane'
         : isLinks
           ? 'Links — Aayush Neupane'
-          : isDetail
-            ? `${detailProject?.title || 'Project'} — Aayush Neupane`
-            : isUnknown
-              ? 'Lost — Aayush Neupane'
-              : 'Aayush Neupane';
+          : isColophon
+            ? 'Colophon — Aayush Neupane'
+            : isDetail
+              ? `${detailProject?.title || 'Project'} — Aayush Neupane`
+              : isUnknown
+                ? 'Lost — Aayush Neupane'
+                : 'Aayush Neupane';
     document.title = headTitle;
     const origin = window.location.origin;
     const basePath = window.location.pathname.replace(/\/$/, '');
@@ -428,6 +434,14 @@ export default function App() {
       setHeadText('property', 'og:title', headTitle);
       setHeadText('name', 'twitter:title', headTitle);
       syncProjectJsonLd(null);
+    } else if (isColophon) {
+      syncHead({
+        description: 'The stack, type, and tools behind Aayush Neupane’s portfolio.',
+        url: `${origin}${basePath}`,
+      });
+      setHeadText('property', 'og:title', headTitle);
+      setHeadText('name', 'twitter:title', headTitle);
+      syncProjectJsonLd(null);
     } else if (isUnknown) {
       syncHead({
         description: 'That page doesn’t exist — but the work does.',
@@ -449,7 +463,7 @@ export default function App() {
     // Home-route scrolling is owned by section nav / back-to-card flows.
     // Sub-routes always open at the very top — and stay there: re-assert
     // briefly to beat any late layout settling or async scroll restoration.
-    if (!(isGallery || isProjects || isLinks || isDetail || isUnknown)) return undefined;
+    if (!(isGallery || isProjects || isLinks || isColophon || isDetail || isUnknown)) return undefined;
     scrollTopImmediate();
     ScrollTrigger.refresh();
     let n = 0;
@@ -461,7 +475,7 @@ export default function App() {
       scrollTopImmediate();
     }, 100);
     return () => clearInterval(id);
-  }, [isGallery, isProjects, isLinks, isDetail, isUnknown, detailId, dataReady]);
+  }, [isGallery, isProjects, isLinks, isColophon, isDetail, isUnknown, detailId, dataReady]);
 
   // Late image/font settling after a full document load can shift scroll on
   // sub-routes; pin it back to top once everything has arrived.
@@ -713,7 +727,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!dataReady || isGallery || isProjects || isLinks || isDetail || isUnknown) return;
+    if (!dataReady || isGallery || isProjects || isLinks || isColophon || isDetail || isUnknown) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -727,7 +741,7 @@ export default function App() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, [dataReady, isGallery, isProjects, isLinks, isDetail, isUnknown, route, mountedTick]);
+  }, [dataReady, isGallery, isProjects, isLinks, isColophon, isDetail, isUnknown, route, mountedTick]);
 
   useEffect(() => {
     if (dataReady) ScrollTrigger.refresh();
@@ -772,7 +786,7 @@ export default function App() {
       <RouteVeil routeKey={route} label={isDetail ? detailProject?.title || 'project' : routeLabel(route)} />
       <Navbar
         links={config?.navigation}
-        activeSection={isGallery || isProjects || isLinks || isDetail || isUnknown ? '' : activeSection}
+        activeSection={isGallery || isProjects || isLinks || isColophon || isDetail || isUnknown ? '' : activeSection}
         onNavClick={handleNav}
         isGallery={isGallery}
         route={route}
@@ -795,9 +809,24 @@ export default function App() {
         <main>
           <LinksPage onNav={handleNav} />
         </main>
+      ) : isColophon ? (
+        <main>
+          <ColophonPage
+            onBack={() => handleNav('#home')}
+            onContact={() => handleNav('#contact')}
+          />
+        </main>
       ) : isUnknown ? (
         <main>
-          <NotFoundPage onHome={() => handleNav('#home')} onGallery={() => handleNav(GALLERY_ROUTE)} />
+          <NotFoundPage
+            route={route}
+            projects={allProjects}
+            photos={galleryPhotos}
+            onHome={() => handleNav('#home')}
+            onGallery={() => handleNav(GALLERY_ROUTE)}
+            onProject={(id) => handleNav(`${PROJECT_DETAIL_PREFIX}${id}`)}
+            onPhoto={(id) => handleNav(`${GALLERY_ROUTE}/${id}`)}
+          />
         </main>
       ) : isDetail ? (
         <main>

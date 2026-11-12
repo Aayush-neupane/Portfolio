@@ -41,6 +41,8 @@ export default function Hero({ profile, now, onProject, stats }) {
   const nowText = now?.text || 'Shipping Excurion';
   const nowSub = now?.sub || null;
   const nowProjectId = now?.link?.projectId ?? null;
+  const available = now?.available !== false;
+  const reply = now?.reply || '~24h';
   const hour = new Date().getHours();
   const greeting =
     hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
@@ -117,7 +119,7 @@ export default function Hero({ profile, now, onProject, stats }) {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
-            Available for work
+            {available ? `Available · replies in ${reply}` : 'Currently booked'}
           </button>
           <p
             data-reveal
@@ -219,7 +221,7 @@ export default function Hero({ profile, now, onProject, stats }) {
                 </div>
                 <div className="flex justify-between border-b border-border pb-3">
                   <span className="uppercase tracking-[0.14em] text-muted">Status</span>
-                  <span className="text-accent">Open to work</span>
+                  <span className="text-accent">{available ? 'Open to work' : 'Booked out'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="uppercase tracking-[0.14em] text-muted">{now?.label || 'Now'}</span>

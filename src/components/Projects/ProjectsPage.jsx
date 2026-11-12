@@ -118,15 +118,27 @@ function RowItem({ project: p, index, onOpen }) {
 
 export default function ProjectsPage({ projects, onBack, onOpen }) {
   const [filter, setFilter] = useState('All');
+  const [tech, setTech] = useState('All');
   const items = projects || [];
 
   const cats = useMemo(
     () => ['All', ...[...new Set(items.map((p) => p.category).filter(Boolean))].sort()],
     [items]
   );
-  const filtered = useMemo(
+  const techs = useMemo(
+    () => ['All', ...[...new Set(items.flatMap((p) => p.techStack || []))].sort()],
+    [items]
+  );
+  const inCategory = useMemo(
     () => (filter === 'All' ? items : items.filter((p) => p.category === filter)),
     [items, filter]
+  );
+  const filtered = useMemo(
+    () =>
+      tech === 'All'
+        ? inCategory
+        : inCategory.filter((p) => (p.techStack || []).includes(tech)),
+    [inCategory, tech]
   );
   const main = useMemo(() => filtered.filter((p) => !EARLY_IDS.has(p.id)), [filtered]);
   const early = useMemo(() => filtered.filter((p) => EARLY_IDS.has(p.id)), [filtered]);
@@ -194,6 +206,47 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
         })}
       </div>
 
+      {techs.length > 2 && (
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <span className="mr-1 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
+            Stack
+          </span>
+          <div
+            role="tablist"
+            aria-label="Filter archive by tech stack"
+            onKeyDown={tabListKeyDown}
+            className="flex flex-wrap gap-2"
+          >
+            {techs.map((t) => {
+              const selected = tech === t;
+              const count =
+                t === 'All'
+                  ? inCategory.length
+                  : inCategory.filter((p) => (p.techStack || []).includes(t)).length;
+              return (
+                <button
+                  key={t}
+                  role="tab"
+                  aria-selected={selected}
+                  type="button"
+                  onClick={() => setTech(t)}
+                  className={`rounded-full px-3 py-1.5 text-xs font-medium transition duration-200 ${
+                    selected
+                      ? 'bg-accent text-accent-contrast'
+                      : 'border border-border bg-elevated text-muted hover:border-linestrong hover:text-text'
+                  }`}
+                >
+                  {t}
+                  <span className={`ml-1.5 font-mono text-[0.65rem] tabular-nums ${selected ? 'text-accent-contrast/80' : 'text-muted'}`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <ol className="mt-8 divide-y divide-border border-y border-border">
         {main.map((p, i) => (
           <RowItem key={p.id ?? i} project={p} index={i} onOpen={onOpen} />
@@ -218,7 +271,7 @@ export default function ProjectsPage({ projects, onBack, onOpen }) {
         </details>
       )}
       {filtered.length === 0 && (
-        <p className="py-12 text-center text-muted">Nothing in this category yet.</p>
+        <p className="py-12 text-center text-muted">Nothing matches these filters yet.</p>
       )}
       </div>
     </div>

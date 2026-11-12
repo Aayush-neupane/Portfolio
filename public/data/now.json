@@ -2,6 +2,8 @@
   "label": "Now",
   "text": "Shipping Sajilo Damak",
   "sub": "damak-only services marketplace",
+  "available": true,
+  "reply": "~24h",
   "link": {
     "label": "See Sajilo Damak",
     "projectId": 7

@@ -14,6 +14,8 @@ const schema = z.object({
   name: z.string().trim().min(2, 'Please enter your name (min 2 characters).'),
   email: z.string().trim().email('Please enter a valid email address.'),
   subject: z.string().trim().max(120, 'Keep the subject under 120 characters.').optional().default(''),
+  budget: z.string().trim().max(40).optional().default(''),
+  timeline: z.string().trim().max(40).optional().default(''),
   message: z.string().trim().min(10, 'Tell me a little more (min 10 characters).'),
 });
 
@@ -33,6 +35,8 @@ function readSavedDraft() {
       name: typeof parsed.name === 'string' ? parsed.name : '',
       email: typeof parsed.email === 'string' ? parsed.email : '',
       subject: typeof parsed.subject === 'string' ? parsed.subject : '',
+      budget: typeof parsed.budget === 'string' ? parsed.budget : '',
+      timeline: typeof parsed.timeline === 'string' ? parsed.timeline : '',
       message: typeof parsed.message === 'string' ? parsed.message : '',
     };
   } catch {
@@ -64,6 +68,8 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
       name: '',
       email: '',
       subject: draft?.subject || '',
+      budget: '',
+      timeline: '',
       message: draft?.message || '',
       ...readSavedDraft(),
       // An explicit Inquire draft always wins over a saved one.
@@ -87,12 +93,12 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
   useEffect(() => {
     const sub = watch((values) => {
       try {
-        const { name, email, subject, message } = values || {};
-        if (!name && !email && !subject && !message) {
+        const { name, email, subject, budget, timeline, message } = values || {};
+        if (!name && !email && !subject && !message && !budget && !timeline) {
           localStorage.removeItem(DRAFT_KEY);
           return;
         }
-        localStorage.setItem(DRAFT_KEY, JSON.stringify({ name, email, subject, message }));
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({ name, email, subject, budget, timeline, message }));
       } catch {
         /* storage unavailable */
       }
@@ -132,6 +138,8 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
         body: JSON.stringify({
           name: data.name,
           email: data.email,
+          budget: data.budget || 'Not specified',
+          timeline: data.timeline || 'Not specified',
           message: data.message,
           _subject: data.subject || `Portfolio inquiry from ${data.name}`,
           _autoresponse: `Hi ${data.name}, thanks for reaching out through my portfolio! I've received your message and will personally reply within 24 hours. — Aayush Neupane`,
@@ -140,10 +148,17 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      setLastSent({ name: data.name, email: data.email, subject: data.subject || '', message: data.message });
+      setLastSent({
+        name: data.name,
+        email: data.email,
+        subject: data.subject || '',
+        budget: data.budget || '',
+        timeline: data.timeline || '',
+        message: data.message,
+      });
       setSent(true);
       onSentClear?.();
-      reset({ name: '', email: '', subject: '', message: '' });
+      reset({ name: '', email: '', subject: '', budget: '', timeline: '', message: '' });
       try {
         localStorage.removeItem(DRAFT_KEY);
       } catch {
@@ -204,14 +219,26 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
   const waLink = waNumber ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}` : '';
   // Deep link carrying the visitor's actual brief (truncated for URL safety).
   const briefSubject = lastSent?.subject || (lastSent ? `Project brief from ${lastSent.name}` : '');
+  const briefDetails = [
+    lastSent?.budget ? `Budget: ${lastSent.budget}.` : '',
+    lastSent?.timeline ? `Timeline: ${lastSent.timeline}.` : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
   const briefText = lastSent
-    ? `Hi Aayush, I'm ${lastSent.name} (${lastSent.email}).${lastSent.subject ? ` Re: ${lastSent.subject}.` : ''} My project brief: ${lastSent.message.slice(0, 600)}`
+    ? [
+        `Hi Aayush, I'm ${lastSent.name} (${lastSent.email}).${lastSent.subject ? ` Re: ${lastSent.subject}.` : ''}`,
+        briefDetails,
+        `My project brief: ${lastSent.message.slice(0, 600)}`,
+      ]
+        .filter(Boolean)
+        .join(' ')
     : '';
   const briefWaLink = waNumber && lastSent
     ? `https://wa.me/${waNumber}?text=${encodeURIComponent(briefText)}`
     : '';
   const briefMailLink = lastSent
-    ? `mailto:${email}?subject=${encodeURIComponent(briefSubject)}&body=${encodeURIComponent(`${lastSent.message}\n\n— ${lastSent.name} (${lastSent.email})`)}`
+    ? `mailto:${email}?subject=${encodeURIComponent(briefSubject)}&body=${encodeURIComponent([lastSent.message, briefDetails, `— ${lastSent.name} (${lastSent.email})`].filter(Boolean).join('\n\n'))}`
     : '';
   const socials = [
     { label: 'GitHub', href: 'https://github.com/aayush-neupane', Icon: Github },
@@ -380,6 +407,41 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                     {errors.subject.message}
                   </p>
                 )}
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="contact-budget" className="mb-1.5 block text-sm font-medium text-text">
+                    Budget <span className="font-normal text-muted">(optional)</span>
+                  </label>
+                  <select
+                    id="contact-budget"
+                    className={inputClass}
+                    {...register('budget')}
+                  >
+                    <option value="">Not sure yet</option>
+                    <option value="Under $500">Under $500</option>
+                    <option value="$500–$1,500">$500–$1,500</option>
+                    <option value="$1,500–$5,000">$1,500–$5,000</option>
+                    <option value="$5,000+">$5,000+</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="contact-timeline" className="mb-1.5 block text-sm font-medium text-text">
+                    Timeline <span className="font-normal text-muted">(optional)</span>
+                  </label>
+                  <select
+                    id="contact-timeline"
+                    className={inputClass}
+                    {...register('timeline')}
+                  >
+                    <option value="">Flexible</option>
+                    <option value="ASAP">ASAP</option>
+                    <option value="2–4 weeks">2–4 weeks</option>
+                    <option value="1–2 months">1–2 months</option>
+                    <option value="3+ months">3+ months</option>
+                  </select>
+                </div>
               </div>
 
               <div>

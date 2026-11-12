@@ -67,7 +67,7 @@ const TESTIMONIALS = [
       'Fast, responsive, and easy to work with. The booking flow just works, and the handover was painless.',
     name: 'Cup & Guff',
     role: 'Kitchen & night delivery, Damak',
-    logo: '/assets/images/clients/cup-and-guff-mark.webp',
+    logo: '/assets/images/clients/cup-and-guff.webp',
     sample: true,
   },
   {

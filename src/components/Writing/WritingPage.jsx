@@ -4,6 +4,7 @@ const LETTERS = [
   {
     slug: 'glorious-purpose',
     title: 'Glorious Purpose',
+    date: 'October 2026',
     source: 'https://www.instagram.com/aayushh.np/reel/DfEAETKIGo_/',
     stanzas: [
       [
@@ -21,8 +22,8 @@ const LETTERS = [
       [
         'And if silence costs me all,',
         'if truth is all I lose,',
-        'then let this be my last confess—',
-        '"You\'re still the one I\'d choose."',
+        'then let this be my last confession',
+        '“You\'re still the one I\'d choose.”',
       ],
       [
         'For we are, at the end,',
@@ -31,10 +32,10 @@ const LETTERS = [
         'While some in tears never shed.',
       ],
       [
-        "Cuz when all is forgotten,",
+        'Cuz when all is forgotten,',
         "when we're nothing but dust.",
       ],
-      ['"For you,', 'For all of us."'],
+      ['“For you,', 'For all of us.”'],
       ['Who loved.', 'Who lost.', 'Who lived.', 'Who must.'],
     ],
   },
@@ -70,66 +71,72 @@ export default function WritingPage({ onBack }) {
           Notes on <em className="italic text-accent">seeing.</em>
         </h1>
         <p className="mt-6 max-w-xl font-display text-xl leading-relaxed text-text md:text-2xl">
-          Occasional pieces on craft, place, and the space between. No schedule
-          — only when something is worth saying.
+          Occasional pieces on craft, place, and the space between. No schedule.
+          Only when something is worth saying.
         </p>
 
-        <section aria-label="Letters" className="mt-16">
-          {LETTERS.map((letter) => {
-            const [lead, ...rest] = letter.title.split(' ');
-            return (
-              <article
-                key={letter.slug}
-                id={letter.slug}
-                className="relative scroll-mt-28 overflow-hidden rounded-2xl border border-border bg-elevated"
-              >
-                <div
-                  className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-accent/10 to-transparent"
-                  aria-hidden="true"
-                />
-                <div className="relative px-6 py-14 text-center md:px-14 md:py-20">
-                  <p className="font-mono text-[0.6rem] uppercase tracking-[0.34em] text-accent">
-                    Letters
-                  </p>
-                  <h2 className="mt-5 font-display text-[clamp(2.5rem,7vw,3.9rem)] leading-[1.02] text-text">
-                    {lead}{' '}
-                    <em className="italic text-accent">{rest.join(' ')}</em>
-                  </h2>
-                  <div
-                    className="mx-auto mt-8 flex w-24 items-center gap-2 text-accent/50"
-                    aria-hidden="true"
-                  >
-                    <span className="h-px flex-1 bg-current" />
-                    <span className="h-1 w-1 rotate-45 bg-current" />
-                    <span className="h-px flex-1 bg-current" />
-                  </div>
-                  <div className="mx-auto mt-10 max-w-md space-y-8 font-display text-[1.15rem] leading-[1.85] text-text/90 md:text-[1.3rem]">
-                    {letter.stanzas.map((stanza, i) => {
-                      const closing = i === letter.stanzas.length - 1;
-                      return (
-                        <p key={i} className={closing ? 'italic text-accent' : undefined}>
-                          {stanza.map((line, j) => (
-                            <span key={j} className="block">
+        <section aria-label="Letters" className="mt-16 border-t border-border pt-12">
+          {LETTERS.map((letter) => (
+            <article
+              key={letter.slug}
+              id={letter.slug}
+              className="grid scroll-mt-28 gap-10 md:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] md:gap-12"
+            >
+              <header>
+                <p className="font-mono text-[0.6rem] uppercase tracking-[0.28em] text-accent">
+                  Letters
+                </p>
+                <h2 className="mt-5 font-display text-[clamp(2.1rem,4vw,2.8rem)] leading-[1.05] text-text">
+                  {letter.title.split(' ').map((word, i, words) => (
+                    <span
+                      key={word}
+                      className={i === words.length - 1 ? 'block italic text-accent' : 'block'}
+                    >
+                      {word}
+                    </span>
+                  ))}
+                </h2>
+                <p className="mt-5 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted">
+                  {letter.date}
+                </p>
+                <a
+                  href={letter.source}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-1.5 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
+                >
+                  Original
+                  <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+                </a>
+              </header>
+              <div>
+                <div className="max-w-lg space-y-8 font-display text-[1.15rem] leading-[1.9] text-text/90 md:text-[1.25rem]">
+                  {letter.stanzas.map((stanza, i) => {
+                    const closing = i === letter.stanzas.length - 1;
+                    return (
+                      <p key={i} className={closing ? 'italic text-text' : undefined}>
+                        {stanza.map((line, j) => {
+                          const quoted = line.startsWith('“') || line.endsWith('”');
+                          return (
+                            <span
+                              key={j}
+                              className={
+                                quoted
+                                  ? 'block border-l border-accent/40 pl-4 italic text-accent'
+                                  : 'block'
+                              }
+                            >
                               {line}
                             </span>
-                          ))}
-                        </p>
-                      );
-                    })}
-                  </div>
-                  <a
-                    href={letter.source}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-12 inline-flex items-center gap-2 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted transition-colors hover:text-accent"
-                  >
-                    Originally posted on Instagram
-                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-                  </a>
+                          );
+                        })}
+                      </p>
+                    );
+                  })}
                 </div>
-              </article>
-            );
-          })}
+              </div>
+            </article>
+          ))}
         </section>
 
         <section aria-label="Fragments" className="mt-16 border-t border-border pt-10">

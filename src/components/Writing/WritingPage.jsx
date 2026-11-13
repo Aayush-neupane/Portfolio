@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { POEMS } from '../../data/poems.js';
+import LikeCount from '../Like/LikeCount.jsx';
 
 function PoemTitle({ poem, index }) {
   const [lead, ...rest] = poem.title.split(' ');
@@ -95,16 +96,21 @@ export default function WritingPage({ onBack, onOpen }) {
               </div>
 
               <div className="flex flex-col justify-between gap-8">
-                <p
-                  lang={poem.lang}
-                  className="max-w-xl font-display text-lg leading-[1.9] text-text/80 md:text-xl"
-                >
-                  {poem.stanzas[0].slice(0, 2).map((line, i) => (
-                    <span key={i} className="block">
-                      {line}
-                    </span>
-                  ))}
-                </p>
+                <div>
+                  <div className="flex justify-end">
+                    <LikeCount kind="poem" id={poem.slug} />
+                  </div>
+                  <p
+                    lang={poem.lang}
+                    className="mt-4 max-w-xl font-display text-lg leading-[1.9] text-text/80 md:text-xl"
+                  >
+                    {poem.stanzas[0].slice(0, 2).map((line, i) => (
+                      <span key={i} className="block">
+                        {line}
+                      </span>
+                    ))}
+                  </p>
+                </div>
                 <span className="inline-flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted transition-colors group-hover:text-accent">
                   Read poem
                   <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />

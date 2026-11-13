@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { ArrowLeft, ArrowUpRight, Github } from 'lucide-react';
 import { tabListKeyDown } from '../../utils/a11y.js';
 import SmartImage from '../Loader/SmartImage.jsx';
+import LikeCount from '../Like/LikeCount.jsx';
 
 function isValidUrl(u) {
   return typeof u === 'string' && /^https?:\/\//.test(u) && u !== 'https://' && u !== 'http://';
@@ -81,6 +82,7 @@ function RowItem({ project: p, index, onOpen }) {
         )}
       </div>
       <div className="flex items-center gap-4 sm:justify-end">
+        <LikeCount kind="project" id={p.id ?? index} />
         {live && (
           <a
             href={live}

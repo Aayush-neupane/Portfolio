@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Github, Plus } from 'lucide-react';
 import { scrollToTarget } from '../../utils/scroll.js';
 import SmartImage from '../Loader/SmartImage.jsx';
+import LikeCount from '../Like/LikeCount.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,6 +61,12 @@ function ProjectVisual({ project, large }) {
               imgClassName="h-full w-full object-cover object-top group-hover:scale-[1.03]"
             />
           )}
+          <LikeCount
+            kind="project"
+            id={project.id}
+            dark
+            className="absolute right-3 top-3 z-10"
+          />
         </div>
       </div>
     );
@@ -84,6 +91,12 @@ function ProjectVisual({ project, large }) {
           imgClassName="h-full w-full object-cover object-top group-hover:scale-[1.03]"
         />
       )}
+      <LikeCount
+        kind="project"
+        id={project.id}
+        dark
+        className="absolute right-3 top-3 z-10"
+      />
     </div>
   );
 }

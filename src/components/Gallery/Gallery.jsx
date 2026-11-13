@@ -9,6 +9,7 @@ import { useDialogFocus, inertBackground } from '../../utils/a11y.js';
 import SmartImage from '../Loader/SmartImage.jsx';
 import ShareMenu from '../Share/ShareMenu.jsx';
 import LikeButton from '../Like/LikeButton.jsx';
+import LikeCount from '../Like/LikeCount.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -90,7 +91,13 @@ export function PhotoFrame({ photo, index, onOpen, className, imgClass, dimmed, 
           caption="photo unavailable"
           imgClassName={`${imgClass || 'h-auto w-full'} group-hover:scale-[1.03]`}
         />
-        <span className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-bg/70 text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 [@media(hover:none)]:opacity-100">
+        <LikeCount
+          kind="photo"
+          id={photo.id ?? photo.src}
+          dark
+          className="absolute right-3 top-3 z-10"
+        />
+        <span className="absolute left-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-bg/70 text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 [@media(hover:none)]:opacity-100">
           <Expand className="h-4 w-4" aria-hidden="true" />
         </span>
       </div>

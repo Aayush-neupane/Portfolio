@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Lightbox, PhotoFrame } from './Gallery.jsx';
 import SmartImage from '../Loader/SmartImage.jsx';
+import LikeCount from '../Like/LikeCount.jsx';
 import { thumb } from '../../utils/galleryImg.js';
 import { tabListKeyDown } from '../../utils/a11y.js';
 
@@ -193,6 +194,12 @@ function BentoCell({ photo, index, onOpen, className, style }) {
         caption="photo unavailable"
         className="h-full w-full"
         imgClassName="h-full w-full object-cover"
+      />
+      <LikeCount
+        kind="photo"
+        id={photo.id ?? photo.src}
+        dark
+        className="absolute right-3 top-3 z-10"
       />
       <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/75 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 [@media(hover:none)]:opacity-100">
         <span className="min-w-0">

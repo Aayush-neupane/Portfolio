@@ -66,22 +66,24 @@ export default function PoemPage({ poem, prev, next, onBack, onOpen }) {
           <h1 className="mt-5">
             <PoemTitle poem={poem} />
           </h1>
-          <p className="mt-8 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted">
-            {poem.language ? `${poem.language} · ${poem.date}` : poem.date}
-          </p>
-          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
-            <LikeButton kind="poem" id={poem.slug} />
-            {poem.source && (
-              <a
-                href={poem.source}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
-              >
-                Original on Instagram
-                <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
-              </a>
-            )}
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+            <p className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted">
+              {poem.language ? `${poem.language} · ${poem.date}` : poem.date}
+            </p>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <LikeButton kind="poem" id={poem.slug} />
+              {poem.source && (
+                <a
+                  href={poem.source}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
+                >
+                  Original on Instagram
+                  <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+                </a>
+              )}
+            </div>
           </div>
         </header>
 
@@ -98,13 +100,16 @@ export default function PoemPage({ poem, prev, next, onBack, onOpen }) {
               <p key={i}>
                 {stanza.map((line, j) => {
                   const quoted = line.startsWith('“') || line.endsWith('”');
+                  const highlighted = /याद|yaad/i.test(line);
                   return (
                     <span
                       key={j}
                       className={
                         quoted
                           ? 'block border-l border-accent/40 pl-4 font-sans text-[0.92em] italic leading-[1.8] text-accent'
-                          : 'block'
+                          : highlighted
+                            ? 'block rounded-md bg-accent-soft px-3 py-1 -mx-3 font-semibold leading-[1.9] text-accent'
+                            : 'block'
                       }
                     >
                       {line}

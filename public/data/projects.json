@@ -83,7 +83,8 @@
         "GSAP motion design that stays fast on real phones",
         "Supabase-backed bookings with an admin-ready data model"
       ],
-      "logo": "/assets/images/clients/crystal-cabin.webp"
+      "logo": "/assets/images/clients/crystal-cabin-wordmark-dark.svg",
+      "logoLight": "/assets/images/clients/crystal-cabin-wordmark-light.svg"
     },
     {
       "id": 3,
@@ -104,7 +105,8 @@
         "Distraction-free classroom tuned for real teaching",
         "Fully typed React + TypeScript codebase end to end"
       ],
-      "logo": "/assets/images/clients/excurion.webp"
+      "logo": "/assets/images/clients/excurion-wordmark-dark.svg",
+      "logoLight": "/assets/images/clients/excurion-wordmark-light.svg"
     },
     {
       "id": 4,
@@ -256,7 +258,8 @@
           "value": "3"
         }
       ],
-      "logo": "/assets/images/clients/cafe69-mark.svg"
+      "logo": "/assets/images/clients/cafe69-wordmark-dark.svg",
+      "logoLight": "/assets/images/clients/cafe69-wordmark-light.svg"
     },
     {
       "id": 13,
@@ -271,7 +274,7 @@
         "Prisma",
         "Supabase"
       ],
-      "liveUrl": "",
+      "liveUrl": "https://cupnguff.netlify.app/",
       "githubUrl": "",
       "status": "in-progress",
       "category": "web apps",
@@ -294,7 +297,8 @@
           "value": "3"
         }
       ],
-      "logo": "/assets/images/clients/cup-and-guff.webp"
+      "logo": "/assets/images/clients/cup-and-guff-extended-dark.webp",
+      "logoLight": "/assets/images/clients/cup-and-guff-extended.webp"
     }
   ],
   "archive": [

@@ -1,7 +1,7 @@
 import { withBase } from '../../utils/paths.js';
 
-// Commercial projects shown as the home-page client strip. `logo` comes from
-// projects.json; the client's live URL is used when there is one.
+// Commercial projects shown as the home-page client strip. `logo` and
+// `logoLight` come from projects.json; the live URL is used when there is one.
 const CLIENT_IDS = new Set(['1', '3', '11', '12', '13']);
 
 export default function ClientStrip({ projects = [], onOpen }) {
@@ -10,7 +10,7 @@ export default function ClientStrip({ projects = [], onOpen }) {
 
   return (
     <section aria-label="Selected clients" className="border-y border-border bg-bg">
-      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-center gap-x-8 gap-y-5 px-6 py-7 md:gap-x-12">
+      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-center gap-x-6 gap-y-4 px-6 py-7 md:gap-x-8">
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted">
           Selected clients
         </p>
@@ -35,16 +35,32 @@ export default function ClientStrip({ projects = [], onOpen }) {
                       onOpen?.(client.id);
                     },
                   })}
-              className="inline-flex items-center text-muted opacity-80 transition-opacity duration-200 hover:opacity-100"
+              className="inline-flex items-center opacity-90 transition-opacity duration-200 hover:opacity-100"
             >
-              {client.logo && (
-                <img
-                  src={withBase(client.logo)}
-                  alt=""
-                  aria-hidden="true"
-                  className="h-9 w-auto max-w-[6.5rem] object-contain md:h-10 md:max-w-[7.5rem]"
-                />
-              )}
+              {client.logo &&
+                (client.logoLight ? (
+                  <>
+                    <img
+                      src={withBase(client.logo)}
+                      alt=""
+                      aria-hidden="true"
+                      className="hidden h-10 w-auto object-contain dark:block md:h-11"
+                    />
+                    <img
+                      src={withBase(client.logoLight)}
+                      alt=""
+                      aria-hidden="true"
+                      className="h-10 w-auto object-contain dark:hidden md:h-11"
+                    />
+                  </>
+                ) : (
+                  <img
+                    src={withBase(client.logo)}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-10 w-auto object-contain md:h-11"
+                  />
+                ))}
             </a>
           );
         })}

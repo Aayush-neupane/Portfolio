@@ -1,6 +1,19 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import LikeButton from '../Like/LikeButton.jsx';
 
+function YaadLine({ line }) {
+  const parts = line.split(/(याद|yaad)/gi);
+  return parts.map((part, i) =>
+    /^(याद|yaad)$/i.test(part) ? (
+      <span key={i} className="font-bold text-accent">
+        {part}
+      </span>
+    ) : (
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
 function PoemTitle({ poem }) {
   const [lead, ...rest] = poem.title.split(' ');
   if (rest.length > 0) {
@@ -108,11 +121,11 @@ export default function PoemPage({ poem, prev, next, onBack, onOpen }) {
                         quoted
                           ? 'block border-l border-accent/40 pl-4 font-sans text-[0.92em] italic leading-[1.8] text-accent'
                           : highlighted
-                            ? 'block rounded-md bg-accent-soft px-3 py-1 -mx-3 font-semibold leading-[1.9] text-accent'
+                            ? 'block border-l-2 border-accent pl-4 font-semibold leading-[1.9] text-text'
                             : 'block'
                       }
                     >
-                      {line}
+                      {highlighted && !quoted ? <YaadLine line={line} /> : line}
                     </span>
                   );
                 })}

@@ -38,6 +38,14 @@
   src: url("./assets/fonts/instrument-serif-italic-400-latin.woff2") format("woff2");
 }
 @font-face {
+  font-family: "Noto Serif Devanagari";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("./assets/fonts/noto-serif-devanagari-normal-100-900-devanagari.woff2") format("woff2");
+  unicode-range: U+0900-097F, U+1CD0-1CF4, U+1CF7-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B0A;
+}
+@font-face {
   font-family: "JetBrains Mono";
   font-style: normal;
   font-weight: 400;
@@ -61,7 +69,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ——— Premium Portfolio Design System (OKLCH, dark-first) ——— */
+/* Premium Portfolio Design System (OKLCH, dark-first) */
 @theme {
   --font-display: "Instrument Serif", "Noto Serif Devanagari", "Devanagari Sangam MN", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", "Noto Sans Devanagari", "Devanagari Sangam MN", ui-sans-serif, system-ui, sans-serif;
@@ -115,8 +123,8 @@ body {
 }
 
 /* Accent glows (plain CSS: always wins the cascade, no utility magic).
- * .glow-card     — cards, whisper lift-shadow on hover.
- * .glow-soft     — faint permanent halo (hero build-log). */
+ * .glow-card: cards, whisper lift-shadow on hover.
+ * .glow-soft: faint permanent halo (hero build-log). */
 .glow-card:hover {
   box-shadow: 0 8px 20px -16px var(--color-accent);
 }
@@ -216,7 +224,7 @@ html.lenis, html.lenis body { height: auto; }
   html.lenis, .lenis-smooth { scroll-behavior: auto !important; }
 }
 
-/* ——— Social brand hover treatments (About) ——— */
+/* Social brand hover treatments (About) */
 .social-link svg {
   transition: stroke 0.25s ease, transform 0.25s ease, fill 0.25s ease;
 }
@@ -250,7 +258,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 .social-wa:hover svg { stroke: #25d366; }
 
-/* ——— FA brand buttons (Contact) ——— */
+/* FA brand buttons (Contact) */
 .fa-btn svg { transition: stroke 0.25s ease; }
 .fa-btn .fa-label { transition: color 0.25s ease; }
 .fa-ig:hover { border-color: rgba(220, 39, 67, 0.6); }
@@ -281,14 +289,14 @@ html.lenis, html.lenis body { height: auto; }
   -webkit-text-fill-color: transparent;
 }
 
-/* ——— Hero scroll cue ——— */
+/* Hero scroll cue */
 .scroll-cue-line { animation: cue-drop 1.9s ease-in-out infinite; }
 @keyframes cue-drop {
   0% { transform: translateY(-110%); }
   100% { transform: translateY(220%); }
 }
 
-/* faint architectural grid for the hero — light lines on dark, dark lines on light */
+/* faint architectural grid for the hero, light lines on dark, dark lines on light */
 .hero-grid {
   background-image:
     linear-gradient(to right, color-mix(in srgb, var(--color-accent) 12%, transparent) 1px, transparent 1px),
@@ -318,13 +326,13 @@ html.light .hero-card {
   background-color: #f5edda;
 }
 
-/* ——— Loader curtain lift ——— */
+/* Loader curtain lift */
 .loader-lift {
   transform: translateY(-100%);
   transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-/* ——— Boot exit: the loader dissolves (fade + slight rise) over the already
+/* Boot exit: the loader dissolves (fade + slight rise) over the already
  *  mounted page instead of hard-cutting to it. */
 .loader-exit {
   opacity: 0;
@@ -333,7 +341,7 @@ html.light .hero-card {
   pointer-events: none;
 }
 
-/* ——— Orbit loader (copied from Pana): rings, halo, tracked line ——— */
+/* Orbit loader (copied from Pana): rings, halo, tracked line */
 .marketing-grid {
   background-image:
     linear-gradient(to right, rgba(41, 39, 33, 0.16) 1px, transparent 1px),
@@ -351,7 +359,7 @@ html.light .hero-card {
   80%, 100% { transform: scale(1.4); opacity: 0; }
 }
 .loader-halo { animation: loader-halo-ping 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
-/* conic sweep ring around the mark — a soft accent arc, masked to a thin band */
+/* conic sweep ring around the mark, a soft accent arc, masked to a thin band */
 .orbit-sweep {
   background: conic-gradient(from 0deg, transparent 0deg, var(--color-accent) 70deg, transparent 140deg);
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
@@ -453,7 +461,7 @@ html.dark .social-codepen {
   --brand: #0a66c2;
 }
 
-/* ——— Unified thumbnail tone: grain + duotone wash, full color on hover ——— */
+/* Unified thumbnail tone: grain + duotone wash, full color on hover */
 .tone {
   position: relative;
 }
@@ -480,7 +488,7 @@ html.light .tone::after {
     linear-gradient(135deg, rgba(177, 58, 56, 0.1), rgba(255, 255, 255, 0.08) 70%);
 }
 
-/* ——— Print: clean résumé-friendly output ——— */
+/* Print: clean résumé-friendly output */
 @media print {
   :root {
     --color-bg: #ffffff;

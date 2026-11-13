@@ -40,7 +40,7 @@ export default function NotFoundPage({
     try {
       query = decodeURIComponent(tail);
     } catch {
-      /* malformed escape — search the raw text */
+      /* malformed escape: search the raw text */
     }
     query = query.replace(/[-_]+/g, ' ').trim();
     if (!query) return [];
@@ -72,7 +72,7 @@ export default function NotFoundPage({
           Off the map.
         </h1>
         <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-          That page doesn&apos;t exist — but the work does. Take a way back:
+          That page doesn&apos;t exist, but the work does. Take a way back:
         </p>
         <div className="mt-6 w-full">
           <TrackLine />

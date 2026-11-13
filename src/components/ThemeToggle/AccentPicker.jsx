@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { ACCENTS, useSettings } from '../../context/SettingsContext.jsx';
 
-// Trial: a circular spinner dial — five planet dots on a slow-spinning
+// Trial: a circular spinner dial, five planet dots on a slow-spinning
 // dashed orbit (reuses the loader's reduced-motion-safe animation). Proper
 // radio semantics: arrow keys move between accents, Home/End jump to the
 // ends, and each option carries a visible focus ring in its own color.
@@ -54,7 +54,7 @@ export default function AccentPicker() {
     <div
       role="radiogroup"
       aria-label="Accent color (trial)"
-      title="Accent color — trial"
+      title="Accent color (trial)"
       onKeyDown={onKeyDown}
       className="relative h-[60px] w-[60px] shrink-0"
     >

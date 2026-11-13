@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, Github } from 'lucide-react';
 import { OrbitMini } from '../Loader/Orbit.jsx';
 import ShareMenu from '../Share/ShareMenu.jsx';
 import SmartImage from '../Loader/SmartImage.jsx';
+import LikeButton from '../Like/LikeButton.jsx';
 
 function isValidUrl(u) {
   return typeof u === 'string' && /^https?:\/\//.test(u) && u !== 'https://' && u !== 'http://';
@@ -213,7 +214,7 @@ function RelatedThumb({ project }) {
 function projectShareUrl(project) {
   // Pretty per-project link (matches the prerendered /project/:id pages),
   // so shares unfurl with this project's own card instead of the generic
-  // page — crawlers ignore hash fragments, so #/project/:id would not.
+  // page: crawlers ignore hash fragments, so #/project/:id would not.
   const base = window.location.pathname.replace(/\/$/, '');
   return `${window.location.origin}${base}/project/${encodeURIComponent(String(project.id))}`;
 }
@@ -221,7 +222,7 @@ function projectShareUrl(project) {
 function ShareButton({ project }) {
   return (
     <ShareMenu
-      title={`${project.title} — Aayush Neupane`}
+      title={`${project.title} | Aayush Neupane`}
       text={project.description}
       url={projectShareUrl(project)}
       imageSrc={project.image}
@@ -387,6 +388,7 @@ export default function ProjectDetail({
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </button>
             )}
+            <LikeButton kind="project" id={project.id} />
         </div>
       </header>
 
@@ -397,8 +399,8 @@ export default function ProjectDetail({
       <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-4">
         {[
           { term: 'Status', value: project.status || 'archived', dot: true },
-          { term: 'Category', value: project.category || '—' },
-          { term: 'Stack', value: tech.length > 0 ? `${tech.length} technologies` : '—' },
+          { term: 'Category', value: project.category || 'Not listed' },
+          { term: 'Stack', value: tech.length > 0 ? `${tech.length} technologies` : 'Not listed' },
           { term: 'Access', value: live && repo ? 'Live + open source' : live ? 'Live demo' : repo ? 'Open source' : 'Private' },
         ].map(({ term, value, dot }) => (
           <div key={term} className="bg-elevated px-4 py-3.5">

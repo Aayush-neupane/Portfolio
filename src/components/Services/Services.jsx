@@ -25,7 +25,7 @@ const OFFERS = [
     Icon: LayoutGrid,
     tier: 'Standard',
     title: 'Web Apps',
-    text: 'Dashboards, bookings, classrooms — full builds, not templates.',
+    text: 'Dashboards, bookings, classrooms. Full builds, not templates.',
     points: ['React + Supabase, auth to deploy', 'Weekly demos you can click', 'Scope locked in 48 hours'],
     meta: '3–6 weeks · scoped in 48 hours',
     cta: 'Scope my app',
@@ -187,7 +187,7 @@ export default function Services({ onContact, onInquire }) {
               Kind words
             </p>
             <p className="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-muted/70">
-              Sample quotes — replace with real ones
+              Sample quotes (replace with real ones)
             </p>
           </div>
           <div className="mt-4 grid gap-4 md:grid-cols-3">

@@ -1,47 +1,45 @@
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { POEMS } from '../../data/poems.js';
 
-const LETTERS = [
-  {
-    slug: 'glorious-purpose',
-    title: 'Glorious Purpose',
-    date: 'October 2026',
-    source: 'https://www.instagram.com/aayushh.np/reel/DfEAETKIGo_/',
-    stanzas: [
-      [
-        "Perhaps we’re never meant to stay,",
-        'And perhaps some debts cannot be repaid.',
-        'And if the truth must die with me,',
-        "I’ll let it rest where no one can see.",
-      ],
-      [
-        'I ask not to be forgiven,',
-        'nor do I seek a promised heaven.',
-        'For some sins are born of love, it seems,',
-        'and some sacrifices bury the dreams.',
-      ],
-      [
-        'And if silence costs me all,',
-        'if truth is all I lose,',
-        'then let this be my last confession',
-        '“You’re still the one I’d choose.”',
-      ],
-      [
-        'For we are, at the end,',
-        'all just stories left unread,',
-        'Some written down in ink,',
-        'While some in tears never shed.',
-      ],
-      [
-        'Cuz when all is forgotten,',
-        "when we’re nothing but dust.",
-      ],
-      ['“For you,', 'For all of us.”'],
-      ['Who loved.', 'Who lost.', 'Who lived.', 'Who must.'],
-    ],
-  },
-];
+function PoemTitle({ poem, index }) {
+  const [lead, ...rest] = poem.title.split(' ');
+  if (rest.length > 0) {
+    return (
+      <>
+        <span
+          className={`block font-display italic leading-[0.86] text-text ${
+            index ? 'text-[clamp(3.2rem,8vw,5rem)]' : 'text-[clamp(3.6rem,9vw,5.6rem)]'
+          }`}
+        >
+          {lead}
+        </span>
+        <span className="mt-4 block font-sans text-[clamp(0.95rem,1.8vw,1.15rem)] font-semibold uppercase tracking-[0.42em] text-accent">
+          {rest.join(' ')}
+        </span>
+      </>
+    );
+  }
+  return (
+    <>
+      <span
+        lang={poem.lang}
+        className="block font-display text-[clamp(3.6rem,9vw,5.6rem)] leading-[1.1] text-text"
+      >
+        {lead}
+      </span>
+      {poem.translit && (
+        <span
+          lang="en"
+          className="mt-4 block font-sans text-[clamp(0.95rem,1.8vw,1.15rem)] font-semibold uppercase tracking-[0.42em] text-accent"
+        >
+          {poem.translit}
+        </span>
+      )}
+    </>
+  );
+}
 
-export default function WritingPage({ onBack }) {
+export default function WritingPage({ onBack, onOpen }) {
   return (
     <div className="relative">
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
@@ -65,86 +63,55 @@ export default function WritingPage({ onBack }) {
           Notes on <em className="italic text-accent">seeing.</em>
         </h1>
         <p className="mt-6 max-w-xl font-display text-xl leading-relaxed text-text md:text-2xl">
-          Occasional pieces on craft, place, and the space between. No schedule.
+          Occasional poems on love, memory, and the space between. No schedule.
           Only when something is worth saying.
         </p>
 
-        <section aria-label="Letters" className="mt-16 border-t border-border pt-12">
-          <div className="flex items-center gap-3">
+        <section aria-label="Poems" className="mt-16 border-t border-border">
+          <div className="flex items-center gap-3 pt-12">
             <span className="h-px w-8 bg-accent" aria-hidden="true" />
             <p className="font-mono text-[0.6rem] uppercase tracking-[0.28em] text-accent">
-              Letters
+              Poems
             </p>
           </div>
 
-          {LETTERS.map((letter) => {
-            const [lead, ...rest] = letter.title.split(' ');
-            const coda = letter.stanzas[letter.stanzas.length - 1];
-            return (
-              <article
-                key={letter.slug}
-                id={letter.slug}
-                className="mt-8 grid scroll-mt-28 gap-12 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-16"
-              >
-                <header className="md:sticky md:top-28 md:self-start">
-                  <h2>
-                    <span className="block font-display text-[clamp(3.2rem,8vw,5rem)] italic leading-[0.86] text-text">
-                      {lead}
+          {POEMS.map((poem) => (
+            <a
+              key={poem.slug}
+              href={`#/writing/${poem.slug}`}
+              onClick={(e) => {
+                e.preventDefault();
+                onOpen(poem.slug);
+              }}
+              className="group grid gap-8 border-b border-border py-12 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:gap-16"
+            >
+              <div>
+                <p className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted">
+                  {poem.language ? `${poem.language} · ${poem.date}` : poem.date}
+                </p>
+                <h2 className="mt-5">
+                  <PoemTitle poem={poem} index />
+                </h2>
+              </div>
+
+              <div className="flex flex-col justify-between gap-8">
+                <p
+                  lang={poem.lang}
+                  className="max-w-xl font-display text-lg leading-[1.9] text-text/80 md:text-xl"
+                >
+                  {poem.stanzas[0].slice(0, 2).map((line, i) => (
+                    <span key={i} className="block">
+                      {line}
                     </span>
-                    <span className="mt-4 block font-sans text-[clamp(0.95rem,1.8vw,1.15rem)] font-semibold uppercase tracking-[0.42em] text-accent">
-                      {rest.join(' ')}
-                    </span>
-                  </h2>
-
-                  <p className="mt-8 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted">
-                    {letter.date}
-                  </p>
-                  <a
-                    href={letter.source}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center gap-1.5 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
-                  >
-                    Original on Instagram
-                    <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
-                  </a>
-                </header>
-
-                <div>
-                  <div className="max-w-lg space-y-7 font-display text-[1.15rem] leading-[1.9] text-text/90 md:text-[1.3rem]">
-                    {letter.stanzas.slice(0, -1).map((stanza, i) => (
-                      <p key={i}>
-                        {stanza.map((line, j) => {
-                          const quoted = line.startsWith('“') || line.endsWith('”');
-                          return (
-                            <span
-                              key={j}
-                              className={
-                                quoted
-                                  ? 'block border-l border-accent/40 pl-4 font-sans text-[0.92em] italic leading-[1.8] text-accent'
-                                  : 'block'
-                              }
-                            >
-                              {line}
-                            </span>
-                          );
-                        })}
-                      </p>
-                    ))}
-                  </div>
-
-                  <div className="mt-10 h-px w-12 bg-accent/40" aria-hidden="true" />
-                  <p className="mt-6 font-mono text-[0.7rem] uppercase leading-[2] tracking-[0.22em] text-text md:text-[0.75rem]">
-                    {coda.map((line, i) => (
-                      <span key={i} className="block">
-                        {line}
-                      </span>
-                    ))}
-                  </p>
-                </div>
-              </article>
-            );
-          })}
+                  ))}
+                </p>
+                <span className="inline-flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted transition-colors group-hover:text-accent">
+                  Read poem
+                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </span>
+              </div>
+            </a>
+          ))}
         </section>
 
         <p className="mt-16 font-mono text-xs uppercase tracking-[0.18em] text-muted">

@@ -17,7 +17,7 @@ const LINKS = [
 ];
 
 /**
- * Links — the single page behind the Instagram bio link. Deliberately
+ * Links: the single page behind the Instagram bio link. Deliberately
  * unlisted: nothing in the nav, footer, or sitemap points here.
  */
 export default function LinksPage({ onNav }) {

@@ -67,7 +67,7 @@ export const ACCENTS = {
   },
 };
 
-// First-dial names, renamed for a warmer set — migrate stored picks.
+// First-dial names, renamed for a warmer set; migrate stored picks.
 const ACCENT_ALIASES = { emerald: 'teal', indigo: 'plum', plum: 'pink' };
 
 export const useSettings = () => useContext(SettingsContext);

@@ -5,10 +5,10 @@ import { ArrowUpRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const clean = (w) => w.replace(/[.,!?—–;:'"“”]/g, '').toLowerCase();
+const clean = (w) => w.replace(/[.,!?–;:'"“”]/g, '').toLowerCase();
 
 /**
- * TextReveal3D — scroll-triggered 3D text animation.
+ * TextReveal3D: scroll-triggered 3D text animation.
  * Words tilt up from rotateX(-75deg) with a scrubbed stagger;
  * `emphasis` words render in accent italic, and an optional
  * supporting line fades in as the scrub completes.

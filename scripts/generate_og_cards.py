@@ -6,7 +6,7 @@ Writes: public/assets/og/<id>.png  (committed; copied to dist/ by the build)
 
 The prerender step (`scripts/prerender-projects.mjs`) prefers these cards for
 og:image / twitter:image and falls back to the project screenshot when a card
-is missing — so Netlify builds need no Python, just the committed PNGs.
+is missing, so Netlify builds need no Python, just the committed PNGs.
 Requires: Pillow  (pip install pillow)
 """
 import json

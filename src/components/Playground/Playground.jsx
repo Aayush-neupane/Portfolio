@@ -214,11 +214,11 @@ export default function Playground() {
           Playground
         </p>
         <h2 className="mt-4 font-display text-[clamp(2rem,4vw,3rem)] leading-tight text-text">
-          Don&apos;t just look — <em className="italic text-accent">play.</em>
+          Don&apos;t just look, <em className="italic text-accent">play.</em>
         </h2>
         <p className="mt-4 max-w-xl leading-relaxed text-muted">
           Live slices of two shipped apps, running right here. No screenshots,
-          no mockups — the real interaction.
+          no mockups. The real interaction.
         </p>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
@@ -230,7 +230,7 @@ export default function Playground() {
               </span>
             </div>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              One sentence. Click in and type — speed and accuracy update live.
+              One sentence. Click in and type. Speed and accuracy update live.
             </p>
             <div className="mt-5">
               <TypingWidget />
@@ -254,7 +254,7 @@ export default function Playground() {
               </span>
             </div>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              Sign with mouse or finger — a teaser of the stroke engine.
+              Sign with mouse or finger. A teaser of the stroke engine.
             </p>
             <div className="mt-5">
               <SignatureWidget />

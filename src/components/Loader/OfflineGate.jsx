@@ -3,7 +3,7 @@ import { OrbitCluster, TrackLine } from './Orbit.jsx';
 
 /** Offline takeover: when the connection drops, the orbit holds the screen
  *  with a way back. Lifts itself the moment the browser reports online.
- *  Non-modal — it never traps focus; the retry is a plain reload. */
+ *  Non-modal: it never traps focus; the retry is a plain reload. */
 export default function OfflineGate() {
   const [offline, setOffline] = useState(
     () => typeof navigator !== 'undefined' && navigator.onLine === false
@@ -39,7 +39,7 @@ export default function OfflineGate() {
           You&apos;re offline.
         </h1>
         <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-          Check your connection — everything will be right here when you&apos;re back.
+          Check your connection. Everything will be right here when you&apos;re back.
         </p>
         <div className="mt-6 w-full">
           <TrackLine animate={false} />

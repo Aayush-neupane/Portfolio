@@ -314,7 +314,7 @@ const rows = useMemo(
   // openIndex so effects can tell a settled open apart from a cleared one.
   const openIdRef = useRef(null);
 
-  // Reset paging only when the visitor changes the filter — a filter arriving
+  // Reset paging only when the visitor changes the filter: a filter arriving
   // from the URL (`?f=…`) must survive the initial data load.
   const prevFilter = useRef(filter);
   useEffect(() => {
@@ -451,7 +451,7 @@ const rows = useMemo(
         {pageCount > 1 ? ` · page ${safePage + 1} of ${pageCount}` : ''}
       </p>
 
-      {/* Mobile: 2-column masonry — no tiny justified rows, no horizontal overflow */}
+      {/* Mobile: 2-column masonry, no tiny justified rows, no horizontal overflow */}
       <div className={`mt-6 columns-2 gap-4 sm:hidden ${USE_BENTO ? 'hidden' : ''}`}>
         {visible.map((photo, i) => {
           const gi = safePage * PAGE_SIZE + i;

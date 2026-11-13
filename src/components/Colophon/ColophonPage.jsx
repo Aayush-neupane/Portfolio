@@ -8,9 +8,10 @@ const SECTIONS = [
   {
     title: 'Type',
     items: [
-      'Instrument Serif — display',
-      'Plus Jakarta Sans — body',
-      'JetBrains Mono — labels and code',
+      'Instrument Serif: display',
+      'Plus Jakarta Sans: body',
+      'Noto Serif Devanagari: Nepali verse',
+      'JetBrains Mono: labels and code',
     ],
   },
   {
@@ -27,7 +28,11 @@ const SECTIONS = [
   },
   {
     title: 'Privacy',
-    items: ['No cookies, no fingerprinting', 'No third-party trackers'],
+    items: [
+      'No cookies, no fingerprinting',
+      'Anonymous like counts via Abacus',
+      'No third-party trackers',
+    ],
   },
 ];
 
@@ -55,7 +60,7 @@ export default function ColophonPage({ onBack, onContact }) {
           Made of small <em className="italic text-accent">deliberate</em> parts.
         </h1>
         <p className="mt-5 max-w-xl leading-[1.6] text-muted">
-          The stack, type, and tools behind this site — and the choices that keep
+          The stack, type, and tools behind this site, and the choices that keep
           it fast, quiet, and free of trackers.
         </p>
 

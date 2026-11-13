@@ -8,6 +8,7 @@ import { thumb, mid } from '../../utils/galleryImg.js';
 import { useDialogFocus, inertBackground } from '../../utils/a11y.js';
 import SmartImage from '../Loader/SmartImage.jsx';
 import ShareMenu from '../Share/ShareMenu.jsx';
+import LikeButton from '../Like/LikeButton.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,7 +25,7 @@ function PhotoShareButton({ photo }) {
   return (
     <span onClick={(e) => e.stopPropagation()}>
       <ShareMenu
-        title={`${photo.title} — Aayush Neupane`}
+        title={`${photo.title} | Aayush Neupane`}
         text={photo.story || photo.title}
         url={url}
         imageSrc={photo.src}
@@ -163,7 +164,7 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total, onInquire
         .join(' · ')
     : '';
   // Portaled to <body> so no ancestor stacking context can ever trap the
-  // overlay beneath the fixed navbar. Exit animations still work — presence
+  // overlay beneath the fixed navbar. Exit animations still work: presence
   // is tracked by component, not by DOM location.
   return createPortal(
     <m.div
@@ -185,6 +186,9 @@ export function Lightbox({ photo, onClose, onPrev, onNext, pos, total, onInquire
           Frame {pos} / {total}
         </p>
         <div className="flex items-center gap-2 md:gap-3">
+          <span onClick={(e) => e.stopPropagation()}>
+            <LikeButton kind="photo" id={photo.id ?? photo.src} dark />
+          </span>
           <PhotoShareButton photo={photo} />
           <button
             ref={closeRef}
@@ -282,7 +286,7 @@ export default function Gallery({ photos, onViewAll, onInquire }) {
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const items = photos || [];
-  // Same scroll-driven sideways reel on every screen — phones included.
+  // Same scroll-driven sideways reel on every screen: phones included.
   // Vertical scroll pins the section and drives the track sideways,
   // exactly like the desktop experience.
   const pinEnabled = !reduce;

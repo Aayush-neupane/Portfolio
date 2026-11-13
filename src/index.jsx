@@ -12,7 +12,7 @@ window.scrollTo(0, 0);
 
 // Offline refresh support: the service worker caches the app shell, so a
 // reload with no connection boots the custom offline screen instead of the
-// browser's default offline page. Production only — never in dev.
+// browser's default offline page. Production only, never in dev.
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   // The first visit's bundles usually load before the worker takes control,
   // which would leave a cached shell pointing at uncached files (blank page

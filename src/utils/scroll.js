@@ -12,7 +12,7 @@ export function scrollToTarget(selector) {
         window.__lenis.reset();
         window.__lenis.resize();
       } catch {
-        /* older lenis — scroll still works, just less exact */
+        /* older lenis: scroll still works, just less exact */
       }
       window.__lenis.scrollTo(
         el,

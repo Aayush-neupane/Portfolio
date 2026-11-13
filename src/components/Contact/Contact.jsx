@@ -160,7 +160,9 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
           timeline: data.timeline || 'Not specified',
           message: data.message,
           _subject: data.subject || `Portfolio inquiry from ${data.name}`,
-          _autoresponse: `Hi ${data.name}, thanks for reaching out through my portfolio! I've received your message and will personally reply within 24 hours. — Aayush Neupane`,
+          _autoresponse: `Hi ${data.name}, thanks for reaching out through my portfolio! I've received your message and will personally reply within 24 hours.
+
+Aayush Neupane`,
           _honey: honeypot,
           _captcha: 'false',
         }),
@@ -184,7 +186,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
         /* storage unavailable */
       }
     } catch {
-      // Backend unreachable (or first-time FormSubmit activation) — surface mailto fallback.
+      // Backend unreachable (or first-time FormSubmit activation): surface mailto fallback.
       setFailed(true);
     }
   };
@@ -193,7 +195,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
     // Send focus to the first field that needs attention.
     const first = ['name', 'email', 'subject', 'message'].find((k) => invalidErrors?.[k]);
     if (first) setFocus(first);
-    // Restart the shake without remounting — a key-change would wipe typed input.
+    // Restart the shake without remounting: a key-change would wipe typed input.
     const form = formRef.current;
     if (!form) return;
     form.classList.remove('shake');
@@ -257,7 +259,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
     ? `https://wa.me/${waNumber}?text=${encodeURIComponent(briefText)}`
     : '';
   const briefMailLink = lastSent
-    ? `mailto:${email}?subject=${encodeURIComponent(briefSubject)}&body=${encodeURIComponent([lastSent.message, briefDetails, `— ${lastSent.name} (${lastSent.email})`].filter(Boolean).join('\n\n'))}`
+    ? `mailto:${email}?subject=${encodeURIComponent(briefSubject)}&body=${encodeURIComponent([lastSent.message, briefDetails, `${lastSent.name} (${lastSent.email})`].filter(Boolean).join('\n\n'))}`
     : '';
   const socials = [
     { label: 'GitHub', href: 'https://github.com/aayush-neupane', Icon: Github },
@@ -320,7 +322,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
 
           <ol data-reveal className="mt-10 space-y-0 rounded-xl border border-border bg-elevated">
             {[
-              { step: '01', title: 'You describe the project', text: 'Goals, references, deadline — a few lines are enough.' },
+              { step: '01', title: 'You describe the project', text: 'Goals, references, deadline: a few lines are enough.' },
               { step: '02', title: 'Fixed quote in 48 hours', text: 'Scope, timeline, and price upfront. No hourly fog.' },
               { step: '03', title: 'Build in weekly demos', text: 'You see progress early and steer before it costs.' },
             ].map((s, i, arr) => (
@@ -343,7 +345,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                 How fast do you reply?
               </summary>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                Within 24 hours — fastest on WhatsApp. Based in Jhapa (UTC+5:45), working worldwide async.
+                Within 24 hours, fastest on WhatsApp. Based in Jhapa (UTC+5:45), working worldwide async.
               </p>
             </details>
             <details className="rounded-xl border border-border bg-elevated px-5 py-3.5">
@@ -566,7 +568,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
                     >
                       Email me directly
                     </a>{' '}
-                    instead — I reply within a day.
+                    instead. I reply within a day.
                   </p>
                 )}
               </div>
@@ -580,7 +582,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
           <div
             role="dialog"
             aria-modal="true"
-            aria-label={`Message sent — thanks ${lastSent.name}`}
+            aria-label={`Message sent, thanks ${lastSent.name}`}
             className="fixed inset-0 z-[250] flex items-center justify-center overscroll-contain bg-black/60 p-5 backdrop-blur-sm"
             onClick={(e) => {
               if (e.target === e.currentTarget) closeReply();
@@ -608,7 +610,7 @@ export default function Contact({ profile, social, whatsapp, draft, onSentClear 
               Thanks {lastSent.name}!
             </h3>
             <p className="mt-2 leading-relaxed text-muted">
-              Your brief is in my inbox — I personally reply within 24 hours.
+              Your brief is in my inbox. I personally reply within 24 hours.
               Want it faster? Continue where you left off:
             </p>
             <div className="mt-5 flex flex-wrap gap-2.5">

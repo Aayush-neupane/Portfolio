@@ -35,7 +35,7 @@ export default function Footer() {
               e.preventDefault();
               scrollToTop();
             }}
-            aria-label="Aayush Neupane — back to top"
+            aria-label="Aayush Neupane, back to top"
             className="group flex items-end gap-0 font-mono text-sm font-bold uppercase leading-none tracking-[0.2em] text-text transition-colors hover:text-accent"
           >
             <LogoMark className="h-9 w-9 translate-y-[7px]" imgClassName="brand-mark" />

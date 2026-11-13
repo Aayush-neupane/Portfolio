@@ -125,7 +125,7 @@
       "highlights": [
         "Drives a real ESP32-powered RC car from the browser",
         "Live gauges, gear states and camera stream in one cockpit",
-        "Zero-dependency vanilla JS \u2014 no build step, no bloat"
+        "Zero-dependency vanilla JS: no build step, no bloat"
       ],
       "stats": [
         {
@@ -281,7 +281,7 @@
       "highlights": [
         "Night-delivery ordering within 3 km, no counter pickup",
         "Google sign-in alongside staff and rider phone logins",
-        "Typed end to end \u2014 Zod validation at every boundary"
+        "Typed end to end: Zod validation at every boundary"
       ],
       "stats": [
         {
@@ -480,7 +480,7 @@
       "category": "tools",
       "highlights": [
         "Tidy task manager with local persistence",
-        "Small, fast and done \u2014 exactly as advertised",
+        "Small, fast and done, exactly as advertised",
         "Zero-framework vanilla JavaScript"
       ]
     },

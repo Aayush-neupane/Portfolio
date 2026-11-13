@@ -1,7 +1,7 @@
 import { withBase } from '../../utils/paths.js';
 
 /**
- * Shared orbit language — after the Pana orbit
+ * Shared orbit language: after the Pana orbit
  * (`src/components/layout/Orbit.tsx`), improvised here: a conic sweep ring
  * and a tick ring join the comet arc, and the mark gains an inner hairline
  * plus an accent glow. All colors resolve through the portfolio theme vars,
@@ -22,7 +22,7 @@ export function OrbitMark({ size = 80, plain = false }) {
     >
       {!plain && (
         <>
-          {/* conic sweep — a soft accent arc circling the medallion */}
+          {/* conic sweep: a soft accent arc circling the medallion */}
           <span className="orbit-sweep pointer-events-none absolute inset-0 rounded-full" />
           {/* tick ring drifting the other way */}
           <span className="loader-orbit-spin-rev pointer-events-none absolute rounded-full" style={{ inset: -7 }}>
@@ -76,7 +76,7 @@ export function OrbitMark({ size = 80, plain = false }) {
 
 /** A self-aligning cluster: a comet arc with a head satellite sweeping the
  *  outer ring, a dashed sage ring drifting the other way, and the layered
- *  mark pinned at the center — one flow box, so the composition can never
+ *  mark pinned at the center: one flow box, so the composition can never
  *  drift apart at any viewport size. */
 export function OrbitCluster({ box = 288, mark = 80 }) {
   return (

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="dark" />
 <meta name="theme-color" content="#0c0c0f" />
-<title>404 — Lost? | Aayush Neupane</title>
+<title>404: Lost? | Aayush Neupane</title>
 <meta name="robots" content="noindex" />
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -168,7 +168,7 @@
       <span class="mark"><img id="orbit-logo" src="/assets/images/profile/logo.svg" alt="" width="40" height="40" /></span>
     </div>
     <h1>Off the map.</h1>
-    <p class="sub">That page doesn’t exist — but the work does. Search it:</p>
+    <p class="sub">That page doesn’t exist, but the work does. Search it:</p>
     <div class="search">
       <input id="q" name="q" type="search" placeholder="Try ‘cube’, ‘store’, ‘game’…" autocomplete="off" aria-label="Search projects" />
     </div>
@@ -235,8 +235,8 @@
         var hits = all.filter(function (p) {
           return ((p.title || '') + ' ' + (p.description || '') + ' ' + (p.category || '') + ' ' + (p.techStack || []).join(' ')).toLowerCase().indexOf(q) !== -1;
         });
-        render(hits, hits.length ? hits.length + ' match' + (hits.length > 1 ? 'es' : '') : 'No matches — try these instead');
-        if (!hits.length) render(all, 'No matches — try these instead');
+        render(hits, hits.length ? hits.length + ' match' + (hits.length > 1 ? 'es' : '') : 'No matches. Try these instead');
+        if (!hits.length) render(all, 'No matches. Try these instead');
       });
     })
     .catch(function () {

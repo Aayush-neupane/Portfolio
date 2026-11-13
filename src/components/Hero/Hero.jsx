@@ -37,7 +37,7 @@ export default function Hero({ profile, now, onProject, stats }) {
   const [first, ...restName] = name.split(' ');
   const tagline =
     profile?.tagline ||
-    'I build fast, usable websites with React and TypeScript — and games with Unity. Based in Jhapa, Nepal, open for freelance.';
+    'I build fast, usable websites with React and TypeScript, and games with Unity. Based in Jhapa, Nepal, open for freelance.';
   const nowText = now?.text || 'Shipping Excurion';
   const nowSub = now?.sub || null;
   const nowProjectId = now?.link?.projectId ?? null;

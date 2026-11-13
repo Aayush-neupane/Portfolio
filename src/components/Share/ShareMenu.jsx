@@ -3,7 +3,7 @@ import { Check, Download, Facebook, Link2, Share2 } from 'lucide-react';
 
 /**
  * Share menu used by project pages and the gallery lightbox.
- * - System share attaches the image file when the platform allows it —
+ * - System share attaches the image file when the platform allows it;
  *   that attachment is what surfaces Instagram / Facebook in the sheet
  *   (stories open with the photo ready).
  * - Facebook posts via the sharer with the pretty link, which unfurls with
@@ -44,11 +44,11 @@ export default function ShareMenu({ title, text, url, imageSrc, layout = 'link' 
         try {
           if (navigator.canShare({ files: [f] })) setFile(f);
         } catch {
-          /* files unsupported — text share still works */
+          /* files unsupported, text share still works */
         }
       }
     } catch {
-      /* offline or blocked — text-only sharing still works */
+      /* offline or blocked, text-only sharing still works */
     }
   };
 
@@ -115,7 +115,7 @@ export default function ShareMenu({ title, text, url, imageSrc, layout = 'link' 
       });
       setOpen(false);
     } catch {
-      /* dismissed — stay quiet */
+      /* dismissed, stay quiet */
     }
   };
 

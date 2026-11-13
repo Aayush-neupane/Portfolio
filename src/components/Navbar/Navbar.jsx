@@ -76,7 +76,7 @@ export default function Navbar({ links, activeSection, onNavClick, isGallery, ro
         <a
           href="#home"
           onClick={(e) => go(e, '#home')}
-          aria-label="Aayush Neupane — home"
+          aria-label="Aayush Neupane, home"
           className="group flex items-end gap-0 font-mono text-sm font-bold uppercase leading-none tracking-[0.2em] text-text transition-colors hover:text-accent"
         >
           <LogoMark className="h-[40px] w-[40px] translate-y-[8px]" imgClassName="brand-mark" eager />

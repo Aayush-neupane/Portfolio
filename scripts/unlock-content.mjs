@@ -19,6 +19,19 @@ if (!key) {
   process.exit(0);
 }
 
+// The encrypted bundle predates the no-em-dash rule, so clean JSON strings
+// as they land in dist. The source bundle stays untouched.
+function clean(value) {
+  if (typeof value === 'string') {
+    return value.replace(/\s*\u{2014}\s*/gu, ', ').replace(/\u{2014}/gu, '');
+  }
+  if (Array.isArray(value)) return value.map(clean);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, clean(v)]));
+  }
+  return value;
+}
+
 const bundle = JSON.parse(readFileSync(bundlePath, 'utf8'));
 let n = 0;
 for (const [rel, box] of Object.entries(bundle.files || {})) {
@@ -30,7 +43,11 @@ for (const [rel, box] of Object.entries(bundle.files || {})) {
   ]);
   const out = join(root, 'dist', rel);
   mkdirSync(dirname(out), { recursive: true });
-  writeFileSync(out, plain);
+  if (rel.endsWith('.json')) {
+    writeFileSync(out, JSON.stringify(clean(JSON.parse(plain.toString('utf8'))), null, 2));
+  } else {
+    writeFileSync(out, plain);
+  }
   n++;
 }
 console.log(`unlocked ${n} files into dist/`);

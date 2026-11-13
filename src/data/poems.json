@@ -1,0 +1,93 @@
+{
+  "poems": [
+    {
+      "slug": "glorious-purpose",
+      "title": "Glorious Purpose",
+      "date": "October 2026",
+      "description": "A poem on love, sacrifice, and the quiet cost of choosing someone.",
+      "source": "https://www.instagram.com/aayushh.np/reel/DfEAETKIGo_/",
+      "coda": true,
+      "stanzas": [
+        [
+          "Perhaps we’re never meant to stay,",
+          "And perhaps some debts cannot be repaid.",
+          "And if the truth must die with me,",
+          "I’ll let it rest where no one can see."
+        ],
+        [
+          "I ask not to be forgiven,",
+          "nor do I seek a promised heaven.",
+          "For some sins are born of love, it seems,",
+          "and some sacrifices bury the dreams."
+        ],
+        [
+          "And if silence costs me all,",
+          "if truth is all I lose,",
+          "then let this be my last confession",
+          "“You’re still the one I’d choose.”"
+        ],
+        [
+          "For we are, at the end,",
+          "all just stories left unread,",
+          "Some written down in ink,",
+          "While some in tears never shed."
+        ],
+        [
+          "Cuz when all is forgotten,",
+          "when we’re nothing but dust."
+        ],
+        [
+          "“For you,",
+          "For all of us.”"
+        ],
+        [
+          "Who loved.",
+          "Who lost.",
+          "Who lived.",
+          "Who must."
+        ]
+      ]
+    },
+    {
+      "slug": "yaad",
+      "title": "याद",
+      "translit": "Yaad",
+      "date": "November 2026",
+      "language": "Nepali",
+      "lang": "ne",
+      "description": "Yaad, a Nepali poem by Aayush Neupane on memory, longing, and love that will not leave.",
+      "stanzas": [
+        [
+          "भन्न त खोज्छु, तर भन्नै सकिनँ,",
+          "मनमा लुकेका कुरा खोल्नै सकिनँ,",
+          "यादमा तिम्रो डुब्दै छु खै किन,",
+          "सम्झन्छु सधैँ, सकिनँ तिमीलाई भुलाउन ॥"
+        ],
+        [
+          "तनलाई हैन, मनलाई गर्छु,",
+          "साँचो हो माया, बाचा नै दिन्छु,",
+          "याद त हो, सायद एकदिन भुल्ने नै छु,",
+          "तर माया मा साँचो, सधैँ नै गर्नेछु ॥"
+        ],
+        [
+          "भन्न त खोज्छु, मनको कुरा,",
+          "कोमल यो मुटुले हिम्मत गरेन,",
+          "आशा छ पक्कै, तिमीलाई पनि",
+          "महसुस होस् एकदिन, यो माया हो भनी ॥"
+        ],
+        [
+          "मनको भावना खोल्न सकिनँ,",
+          "प्रयास त गरें, शब्दै पुग्दैन,",
+          "तर आशा छ मलाई बुझिदिन्छ्यौ भनी,",
+          "शब्द नपुगे नि इशारा छिनेर ॥"
+        ],
+        [
+          "भुल्न त मन थियो, तर मनले मानेन,",
+          "लुक्न खोज्दा पनि लुक्न सकिनँ,",
+          "आँखा मा डुब्दै छु, आज म तिम्रो,",
+          "तैरिन त सक्छु, तर मनले मानेन ॥"
+        ]
+      ]
+    }
+  ]
+}

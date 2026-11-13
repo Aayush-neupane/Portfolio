@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { OrbitCluster, TrackLine } from './Orbit.jsx';
 
 /** Minimum time the veil stays fully visible, then fade-out length. Total
- *  presence ≈ 0.7s — one quick beat of the orbit on every page change. */
+ *  presence ≈ 0.7s: one quick beat of the orbit on every page change. */
 const MIN_VISIBLE_MS = 450;
 const FADE_MS = 250;
 
@@ -21,7 +21,7 @@ export function routeLabel(route) {
 
 /** Module-level navigation memory. Component refs cannot survive StrictMode
  *  remounts (dev double-invoke would flash the veil on first load), so the
- *  handled key lives outside the component — same approach as Pana. */
+ *  handled key lives outside the component: same approach as Pana. */
 let lastHandledKey = null;
 
 /** Full-screen orbit veil shown briefly on every page (hash-route) change.

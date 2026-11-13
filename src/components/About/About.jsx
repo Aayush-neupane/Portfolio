@@ -126,7 +126,7 @@ export default function About({ profile, whatsapp, sinceYear }) {
         <div>
           <p data-reveal className="text-base leading-[1.6] text-muted md:text-lg">
             I&apos;m Aayush, a web developer from Jhapa, Nepal. Since 2022
-            I&apos;ve been turning ideas into sites people actually use — a
+            I&apos;ve been turning ideas into sites people actually use, a
             booking site for a Canadian detailing business, a virtual classroom
             platform, and a hardware control deck for a real RC build.
           </p>
@@ -136,7 +136,7 @@ export default function About({ profile, whatsapp, sinceYear }) {
           </p>
 
           <p data-reveal className="mt-6 font-mono text-xs tracking-[0.08em] text-muted">
-            <span className="uppercase text-accent">Now — </span>
+            <span className="uppercase text-accent">Now: </span>
             <span className="text-text">{profile?.now || 'Shipping freelance web apps.'}</span>
           </p>
 
@@ -162,22 +162,22 @@ export default function About({ profile, whatsapp, sinceYear }) {
               <li className="flex items-baseline gap-3 border-b border-border px-5 py-3.5">
                 <span className="font-mono text-xs text-accent">01</span>
                 <p className="text-sm text-text">
-                  2nd place, Webathon{' '}
-                  <span className="text-muted">— Madan Bhandari Memorial College, 2026</span>
+                  2nd place, Webathon,{' '}
+                  <span className="text-muted">Madan Bhandari Memorial College, 2026</span>
                 </p>
               </li>
               <li className="flex items-baseline gap-3 border-b border-border px-5 py-3.5">
                 <span className="font-mono text-xs text-accent">02</span>
                 <p className="text-sm text-text">
-                  Web development hackathon{' '}
-                  <span className="text-muted">— Madan Bhandari Memorial College, 2025</span>
+                  Web development hackathon,{' '}
+                  <span className="text-muted">Madan Bhandari Memorial College, 2025</span>
                 </p>
               </li>
               <li className="flex items-baseline gap-3 px-5 py-3.5">
                 <span className="font-mono text-xs text-accent">03</span>
                 <p className="text-sm text-text">
-                  Hackathon participant{' '}
-                  <span className="text-muted">— White House College, Birtamode, 2026</span>
+                  Hackathon participant,{' '}
+                  <span className="text-muted">White House College, Birtamode, 2026</span>
                 </p>
               </li>
             </ul>

@@ -4,7 +4,7 @@ import { scrollToTarget } from '../../utils/scroll.js';
 const SUPPORT_URL = 'https://buymeacoffee.com/aayush38';
 
 /** Original illustrated coffee scene in the same spirit: cream cup with a
- *  heart, steam curls and a sparkle on a dashed orbit — drawn in
+ *  heart, steam curls and a sparkle on a dashed orbit, drawn in
  *  currentColor so the linework follows the active accent, exactly like
  *  the site loader. */
 function CoffeeScene({ className = '' }) {
@@ -91,7 +91,7 @@ export default function Support() {
             </h2>
             <p className="mt-4 max-w-xl leading-relaxed text-muted">
               Everything here is free. If something here saved you time or
-              sparked an idea, a coffee keeps new work coming — or just{' '}
+              sparked an idea, a coffee keeps new work coming, or just{' '}
               <button
                 type="button"
                 onClick={() => scrollToTarget('#contact')}

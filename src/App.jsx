@@ -21,6 +21,7 @@ const LinksPage = lazy(() => import('./components/Links/LinksPage.jsx'));
 const Playground = lazy(() => import('./components/Playground/Playground.jsx'));
 const ColophonPage = lazy(() => import('./components/Colophon/ColophonPage.jsx'));
 const WritingPage = lazy(() => import('./components/Writing/WritingPage.jsx'));
+const PoemPage = lazy(() => import('./components/Writing/PoemPage.jsx'));
 
 function RouteFallback() {
   return (
@@ -104,6 +105,7 @@ import RouteVeil, { routeLabel } from './components/Loader/RouteVeil.jsx';
 import { scrollToTarget } from './utils/scroll.js';
 import { withBase } from './utils/paths.js';
 import { projectCount, startYear, yearsSince } from './utils/stats.js';
+import { POEMS, findPoem } from './data/poems.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -113,6 +115,7 @@ const PROJECTS_ROUTE = '#/projects';
 const LINKS_ROUTE = '#/links';
 const COLOPHON_ROUTE = '#/colophon';
 const WRITING_ROUTE = '#/writing';
+const POEM_PREFIX = '#/writing/';
 const PROJECT_DETAIL_PREFIX = '#/project/';
 
 function routeFromHash() {
@@ -124,6 +127,12 @@ function routeFromHash() {
 function detailIdFromRoute(route) {
   return route.startsWith(PROJECT_DETAIL_PREFIX)
     ? decodeURIComponent(route.slice(PROJECT_DETAIL_PREFIX.length))
+    : null;
+}
+
+function poemSlugFromRoute(route) {
+  return route.startsWith(POEM_PREFIX)
+    ? decodeURIComponent(route.slice(POEM_PREFIX.length))
     : null;
 }
 
@@ -144,7 +153,7 @@ function LoadingScreen({ leaving }) {
   const [word, setWord] = useState(0);
 
   // Progress eases toward 90% while booting, then snaps to 100 as the
-  // loader dissolves — the bar never sits full while work remains, and
+  // loader dissolves: the bar never sits full while work remains, and
   // never lags behind the exit.
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -171,12 +180,12 @@ function LoadingScreen({ leaving }) {
     };
   }, [leaving]);
 
-  // One orbit loader for both themes — the mark, rings and grid all resolve
+  // One orbit loader for both themes: the mark, rings and grid all resolve
   // through theme vars (the logo inverts to ink on paper in light mode).
   return (
     <>
     <span className="sr-only" role="status" aria-live="polite">
-      Loading — {LOADER_WORDS[word % LOADER_WORDS.length]}
+      Loading: {LOADER_WORDS[word % LOADER_WORDS.length]}
     </span>
     <div
       aria-hidden="true"
@@ -292,7 +301,7 @@ function syncProjectJsonLd(project, url, image) {
 }
 
 function setHeadText(kind, key, value) {
-  // kind: 'property' (og:) or 'name' (twitter:) — mirrors title into tags.
+  // kind: 'property' (og:) or 'name' (twitter:), mirrors title into tags.
   if (value == null) return;
   upsertHead('meta', kind, key, { content: value });
 }
@@ -304,7 +313,7 @@ function scrollTopImmediate() {  const lenis = window.__lenis;
       lenis.scrollTo(0, { immediate: true, force: true });
       lenis.reset();
     } catch {
-      /* older lenis — fall through to native */
+      /* older lenis, fall through to native */
     }
   }
   // Native belt-and-suspenders: covers no-lenis, reduced-motion, and any
@@ -346,6 +355,9 @@ export default function App() {
   const isLinks = route === LINKS_ROUTE;
   const isColophon = route === COLOPHON_ROUTE;
   const isWriting = route === WRITING_ROUTE;
+  const poemSlug = poemSlugFromRoute(route);
+  const poem = poemSlug ? findPoem(poemSlug) : null;
+  const isPoem = poem !== null;
   const detailId = detailIdFromRoute(route);
   const isDetail = detailId !== null;
   /** A `#/…` route that matches no page (bare `#/` still counts as home). */
@@ -357,6 +369,7 @@ export default function App() {
     !isLinks &&
     !isColophon &&
     !isWriting &&
+    !isPoem &&
     !isDetail;
   // Headline numbers, derived once from data so Hero/About/Resume agree.
   const stats = useMemo(() => {
@@ -375,6 +388,7 @@ export default function App() {
     ? allProjects.findIndex((p) => String(p.id) === detailId)
     : -1;
   const detailProject = detailIndex >= 0 ? allProjects[detailIndex] : null;
+  const poemIndex = poem ? POEMS.findIndex((p) => p.slug === poem.slug) : -1;
 
   useEffect(() => {
     const onHash = () => setRoute(routeFromHash());
@@ -384,19 +398,21 @@ export default function App() {
 
   useLayoutEffect(() => {
     const headTitle = isGallery
-      ? 'Gallery — Aayush Neupane'
+      ? 'Gallery | Aayush Neupane'
       : isProjects
-        ? 'Projects — Aayush Neupane'
+        ? 'Projects | Aayush Neupane'
         : isLinks
-          ? 'Links — Aayush Neupane'
+          ? 'Links | Aayush Neupane'
           : isColophon
-            ? 'Colophon — Aayush Neupane'
-            : isWriting
-              ? 'Writing — Aayush Neupane'
-              : isDetail
-              ? `${detailProject?.title || 'Project'} — Aayush Neupane`
+            ? 'Colophon | Aayush Neupane'
+            : isPoem
+              ? `${poem.translit || poem.title} | Aayush Neupane`
+              : isWriting
+                ? 'Writing | Aayush Neupane'
+                : isDetail
+              ? `${detailProject?.title || 'Project'} | Aayush Neupane`
               : isUnknown
-                ? 'Lost — Aayush Neupane'
+                ? 'Lost | Aayush Neupane'
                 : 'Aayush Neupane';
     document.title = headTitle;
     const origin = window.location.origin;
@@ -428,8 +444,8 @@ export default function App() {
         : null;
       const photoDesc =
         photo?.story ||
-        'Photo gallery of Aayush Neupane — streets, skies, gardens, heritage and night frames.';
-      const photoTitle = photo ? `${photo.title} — Aayush Neupane` : headTitle;
+        'Photo gallery of Aayush Neupane: streets, skies, gardens, heritage and night frames.';
+      const photoTitle = photo ? `${photo.title} | Aayush Neupane` : headTitle;
       const pageUrl = photo
         ? `${origin}${basePath}/gallery/${encodeURIComponent(String(photo.id))}`
         : `${origin}${basePath}`;
@@ -448,7 +464,7 @@ export default function App() {
       syncProjectJsonLd(null);
     } else if (isProjects) {
       syncHead({
-        description: 'Every experiment by Aayush Neupane — games, tools and weekend builds.',
+        description: 'Every experiment by Aayush Neupane: games, tools and weekend builds.',
         url: `${origin}${basePath}`,
       });
       setHeadText('property', 'og:title', headTitle);
@@ -470,6 +486,20 @@ export default function App() {
       setHeadText('property', 'og:title', headTitle);
       setHeadText('name', 'twitter:title', headTitle);
       syncProjectJsonLd(null);
+    } else if (isPoem) {
+      const desc = poem.description || 'A poem by Aayush Neupane.';
+      const pageUrl = `${origin}${basePath}/writing/${poem.slug}`;
+      syncHead({
+        description: desc,
+        url: pageUrl,
+        image: abs('/assets/images/profile/logo.jpg'),
+        type: 'article',
+      });
+      setHeadText('property', 'og:title', headTitle);
+      setHeadText('property', 'og:description', desc);
+      setHeadText('name', 'twitter:title', headTitle);
+      setHeadText('name', 'twitter:description', desc);
+      syncProjectJsonLd(null);
     } else if (isWriting) {
       syncHead({
         description: 'Notes on seeing, making, and the things worth paying attention to.',
@@ -480,7 +510,7 @@ export default function App() {
       syncProjectJsonLd(null);
     } else if (isUnknown) {
       syncHead({
-        description: 'That page doesn’t exist — but the work does.',
+        description: 'That page doesn’t exist, but the work does.',
         url: `${origin}${basePath}`,
       });
       setHeadText('property', 'og:title', headTitle);
@@ -497,9 +527,9 @@ export default function App() {
     }
     if (!dataReady) return undefined;
     // Home-route scrolling is owned by section nav / back-to-card flows.
-    // Sub-routes always open at the very top — and stay there: re-assert
+    // Sub-routes always open at the very top, and stay there: re-assert
     // briefly to beat any late layout settling or async scroll restoration.
-    if (!(isGallery || isProjects || isLinks || isColophon || isWriting || isDetail || isUnknown)) return undefined;
+    if (!(isGallery || isProjects || isLinks || isColophon || isWriting || isPoem || isDetail || isUnknown)) return undefined;
     scrollTopImmediate();
     ScrollTrigger.refresh();
     let n = 0;
@@ -511,7 +541,7 @@ export default function App() {
       scrollTopImmediate();
     }, 100);
     return () => clearInterval(id);
-  }, [isGallery, isProjects, isLinks, isColophon, isWriting, isDetail, isUnknown, detailId, galleryPhotoId, galleryPhotos, dataReady]);
+  }, [isGallery, isProjects, isLinks, isColophon, isWriting, isPoem, isDetail, isUnknown, detailId, poemSlug, galleryPhotoId, galleryPhotos, dataReady]);
 
   // Late image/font settling after a full document load can shift scroll on
   // sub-routes; pin it back to top once everything has arrived.
@@ -590,7 +620,7 @@ export default function App() {
           }
         }
       } catch {
-        /* zoom is decorative — fall back to a plain mount */
+        /* zoom is decorative: fall back to a plain mount */
       }
       setZoom(from);
       handleNav(`${PROJECT_DETAIL_PREFIX}${p?.id}`);
@@ -639,7 +669,7 @@ export default function App() {
     (photo) => {
       if (!photo?.title) return;
       setContactDraft({
-        subject: `Print inquiry — ${photo.title}`,
+        subject: `Print inquiry: ${photo.title}`,
         message: `Hi Aayush,\n\nI'd like to ask about a print of "${photo.title}"${photo.location ? ` (${photo.location})` : ''}.\n\nSize:\nWhere to ship:\n\nThanks!`,
         nonce: Date.now(),
       });
@@ -733,7 +763,7 @@ export default function App() {
         seen = false;
       }
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      // One full orbit beat on first visit, a short one on return — then the
+      // One full orbit beat on first visit, a short one on return, then the
       // page is already mounted behind the loader, which dissolves over it.
       const minWait = reduced ? 0 : seen ? 400 : 950;
       const exitMs = reduced ? 0 : 650;
@@ -833,10 +863,19 @@ export default function App() {
         </defs>
       </svg>
       <ScrollProgress />
-      <RouteVeil routeKey={route} label={isDetail ? detailProject?.title || 'project' : routeLabel(route)} />
+      <RouteVeil
+        routeKey={route}
+        label={
+          isDetail
+            ? detailProject?.title || 'project'
+            : isPoem
+              ? poem.translit || poem.title
+              : routeLabel(route)
+        }
+      />
       <Navbar
         links={config?.navigation}
-        activeSection={isGallery || isProjects || isLinks || isColophon || isWriting || isDetail || isUnknown ? '' : activeSection}
+        activeSection={isGallery || isProjects || isLinks || isColophon || isWriting || isPoem || isDetail || isUnknown ? '' : activeSection}
         onNavClick={handleNav}
         isGallery={isGallery}
         route={route}
@@ -871,9 +910,22 @@ export default function App() {
             onContact={() => handleNav('#contact')}
           />
         </main>
+      ) : isPoem ? (
+        <main>
+          <PoemPage
+            poem={poem}
+            prev={poemIndex > 0 ? POEMS[poemIndex - 1] : null}
+            next={poemIndex < POEMS.length - 1 ? POEMS[poemIndex + 1] : null}
+            onBack={() => handleNav(WRITING_ROUTE)}
+            onOpen={(slug) => handleNav(`${POEM_PREFIX}${slug}`)}
+          />
+        </main>
       ) : isWriting ? (
         <main>
-          <WritingPage onBack={() => handleNav('#home')} />
+          <WritingPage
+            onBack={() => handleNav('#home')}
+            onOpen={(slug) => handleNav(`${POEM_PREFIX}${slug}`)}
+          />
         </main>
       ) : isUnknown ? (
         <main>
@@ -934,7 +986,7 @@ export default function App() {
               eyebrow="Philosophy"
               text="प्रेम दर्शन हो, प्रदर्शन हैन"
               emphasis={['दर्शन', 'प्रदर्शन']}
-              support="Love is something you behold, not something you put on display. I try to build the same way — work that rewards attention instead of demanding it."
+              support="Love is something you behold, not something you put on display. I try to build the same way: work that rewards attention instead of demanding it."
               action={{ label: 'Read the writing', onClick: () => handleNav(WRITING_ROUTE) }}
             />
           </LazySection>

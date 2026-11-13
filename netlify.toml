@@ -1,5 +1,5 @@
 # Netlify: cache policy + hardening headers. Build settings are left to the
-# dashboard on purpose — this file only controls headers so it can never
+# dashboard on purpose: this file only controls headers so it can never
 # break an existing build configuration.
 
 # Versioned build output (Vite hashes filenames): cache for a year.

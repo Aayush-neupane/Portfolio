@@ -594,6 +594,8 @@ export default function MacBook({
                         className={`hero-dock-btn${key === view ? ' is-on' : ''}`}
                         aria-pressed={key === view}
                         aria-label={`Show ${label}`}
+                        title={label}
+                        data-label={label}
                         onClick={() => showFrame(key)}
                       >
                         <Icon aria-hidden="true" />

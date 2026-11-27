@@ -249,12 +249,12 @@ export default function MacBook({
   const [appGrid, setAppGrid] = useState(false);
   useEffect(() => {
     if (stage !== 'wallpaper') return undefined;
-    const t = setTimeout(() => setStage('hello'), 2600);
+    const t = setTimeout(() => setStage('hello'), 1100);
     return () => clearTimeout(t);
   }, [stage]);
   useEffect(() => {
     if (stage !== 'hello') return undefined;
-    const t = setTimeout(() => setStage('welcome'), 5200);
+    const t = setTimeout(() => setStage('welcome'), 3400);
     return () => clearTimeout(t);
   }, [stage]);
   useEffect(() => {
@@ -268,7 +268,7 @@ export default function MacBook({
         clearInterval(id);
         done = setTimeout(() => setStage('apps'), 500);
       }
-    }, 55);
+    }, 45);
     return () => {
       clearInterval(id);
       clearTimeout(done);
@@ -1021,28 +1021,6 @@ export default function MacBook({
                       </div>
                     </div>
                   )}
-
-                  <div className="hero-dock" role="group" aria-label="Switch the open window">
-                    {dock.map(({ key, label, Icon, hint }) => (
-                      <button
-                        key={key}
-                        type="button"
-                        className={`hero-dock-btn${key === view ? ' is-on' : ''}`}
-                        aria-pressed={key === view}
-                        aria-label={`Show ${label}`}
-                        title={`${label} · ⌘${hint}`}
-                        data-label={label}
-                        onClick={() => showFrame(key)}
-                      >
-                        {key === 'aurora' ? (
-                          <img src="/ailogo.svg" alt="" className="hero-dock-ai-img" aria-hidden="true" />
-                        ) : (
-                          <Icon aria-hidden="true" />
-                        )}
-                        <span className="hero-dock-label">{label}</span>
-                      </button>
-                    ))}
-                  </div>
                 </div>
                   </div>
                 ) : null}
@@ -1132,7 +1110,31 @@ export default function MacBook({
             </div>
           </div>
 
-          <span aria-hidden="true" className="hero-laptop-pad" />
+          {stage === 'apps' && open ? (
+            <>
+              <button
+                type="button"
+                className="hero-deck-app is-term"
+                onClick={() => showFrame('term')}
+                aria-label="Open Terminal"
+                title="Terminal"
+              >
+                <Terminal aria-hidden="true" />
+              </button>
+              <span aria-hidden="true" className="hero-laptop-pad" />
+              <button
+                type="button"
+                className="hero-deck-app is-aurora"
+                onClick={() => showFrame('aurora')}
+                aria-label="Open Aurora"
+                title="Aurora"
+              >
+                <img src="/ailogo.svg" alt="" aria-hidden="true" />
+              </button>
+            </>
+          ) : (
+            <span aria-hidden="true" className="hero-laptop-pad" />
+          )}
           <span aria-hidden="true" className="hero-laptop-lip" />
           <span aria-hidden="true" className="hero-laptop-groove" />
         </div>

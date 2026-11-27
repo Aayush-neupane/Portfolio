@@ -273,6 +273,7 @@ export default function MacBook({
       push('date     current date and time', 'dim');
       push('echo     print text', 'dim');
       push('pwd      working directory', 'dim');
+      push('history  previous commands', 'dim');
       push('clear    wipe the screen', 'dim');
       push('tab      complete a command', 'dim');
     } else if (name === 'ls') {
@@ -328,6 +329,9 @@ export default function MacBook({
       push(args.join(' '));
     } else if (name === 'pwd') {
       push('/Users/aayush/portfolio');
+    } else if (name === 'history') {
+      if (!history.length) push('no history yet', 'dim');
+      else history.forEach((h, i) => push(`${String(i + 1).padStart(2, ' ')}  ${h}`));
     } else if (name === 'sudo') {
       push('nice try.');
     } else if (name === 'exit') {
@@ -380,7 +384,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'clear', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'clear', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

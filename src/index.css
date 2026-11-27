@@ -326,20 +326,34 @@ html.light .hero-card {
   background-color: #f5edda;
 }
 
-/* 3D hero card depth */
-.hero-3d {
-  perspective: 900px;
+/* 3D dev console */
+.hero-device {
+  perspective: 1000px;
 }
-.hero-3d-float {
-  animation: hero3dFloat 6s ease-in-out infinite;
+.hero-device-float {
+  animation: heroDeviceFloat 5s ease-in-out infinite;
   will-change: transform;
 }
-@keyframes hero3dFloat {
+.hero-device-face {
+  box-shadow: 0 24px 48px -24px color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
+.hero-device-screen {
+  box-shadow: inset 0 0 24px -8px color-mix(in srgb, var(--color-accent) 35%, transparent);
+}
+.hero-caret {
+  animation: heroCaret 1s steps(2) infinite;
+}
+@keyframes heroDeviceFloat {
   0%, 100% { transform: translateZ(0) rotateX(0deg) rotateY(0deg); }
-  50% { transform: translateZ(8px) rotateX(1.5deg) rotateY(-2deg); }
+  50% { transform: translateZ(12px) rotateX(2deg) rotateY(-3deg); }
+}
+@keyframes heroCaret {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-3d-float { animation: none; }
+  .hero-device-float { animation: none; }
+  .hero-caret { animation: none; }
 }
 
 /* Loader curtain lift */

@@ -201,60 +201,93 @@ export default function Hero({ profile, now, onProject, stats }) {
             }
           >
             <div
-              className="hero-3d relative rounded-xl border border-border bg-elevated p-6 md:p-8"
-              style={{ transformStyle: 'preserve-3d' }}
+              className="hero-device relative"
+              style={{ transformStyle: 'preserve-3d', perspective: '900px' }}
             >
-              <div className="hero-3d-float" style={{ transformStyle: 'preserve-3d' }}>
-                <div className="flex items-center justify-between" style={{ transform: 'translateZ(24px)' }}>
-                  <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
-                    Build log
-                  </span>
-                  <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-accent" />
+              <div className="hero-device-float" style={{ transformStyle: 'preserve-3d' }}>
+                {/* back plate for depth */}
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 rounded-2xl bg-elevated/60"
+                  style={{ transform: 'translateZ(-18px)' }}
+                />
+                {/* front face */}
+                <div className="hero-device-face relative rounded-2xl border border-border bg-elevated p-5 md:p-6">
+                  {/* top bar */}
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
+                      Dev console
+                    </span>
+                    <span className="inline-flex gap-1.5" aria-hidden="true">
+                      <span className="h-2 w-2 rounded-full bg-accent" />
+                      <span className="h-2 w-2 rounded-full bg-muted/40" />
+                      <span className="h-2 w-2 rounded-full bg-muted/40" />
+                    </span>
+                  </div>
+                  {/* screen */}
+                  <div className="hero-device-screen mt-4 rounded-lg border border-border bg-ink p-4 font-mono text-xs leading-relaxed text-accent">
+                    <div className="flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.16em] text-muted">
+                      <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+                      live
+                    </div>
+                    <p className="mt-3 font-display text-3xl leading-none text-text md:text-4xl">
+                      Ship<span className="text-accent">.</span>
+                    </p>
+                    <div className="mt-4 space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-muted">Focus</span>
+                        <span className="text-text">Full-stack web</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted">Stack</span>
+                        <span className="text-text">React · TS</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted">Status</span>
+                        <span className="text-accent">{available ? 'Open' : 'Booked'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted">{now?.label || 'Now'}</span>
+                        {nowProjectId != null && onProject ? (
+                          <button type="button" onClick={() => onProject({ id: nowProjectId })} className="text-right text-text transition-colors hover:text-accent">
+                            {nowText}
+                          </button>
+                        ) : (
+                          <span className="text-text">{nowText}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="mt-3 flex items-center gap-1 text-[0.6rem] text-muted">
+                      <span className="hero-caret inline-block h-3 w-1.5 bg-accent" />
+                      <span>ready</span>
+                    </div>
+                  </div>
+                  {/* controls */}
+                  <div className="mt-4 flex items-center justify-between">
+                    <div className="grid grid-cols-3 gap-1" aria-hidden="true">
+                      <span />
+                      <span className="h-3 w-3 rounded-sm bg-border" />
+                      <span />
+                      <span className="h-3 w-3 rounded-sm bg-border" />
+                      <span className="h-3 w-3 rounded-sm bg-border" />
+                      <span className="h-3 w-3 rounded-sm bg-border" />
+                      <span />
+                      <span className="h-3 w-3 rounded-sm bg-border" />
+                      <span />
+                    </div>
+                    <div className="flex gap-2" aria-hidden="true">
+                      <span className="h-5 w-5 rounded-full border border-border bg-border/40" />
+                      <span className="h-5 w-5 rounded-full border border-border bg-accent/70" />
+                    </div>
+                  </div>
                 </div>
-                <p
-                  className="mt-8 font-display text-4xl leading-none text-text md:text-5xl"
-                  style={{ transform: 'translateZ(40px)' }}
-                >
-                  Ship<span className="text-accent">.</span>
-                </p>
-                <div className="mt-8 space-y-3 font-mono text-xs leading-relaxed" style={{ transform: 'translateZ(16px)' }}>
-                  <div className="flex justify-between border-b border-border pb-3">
-                    <span className="uppercase tracking-[0.14em] text-muted">Focus</span>
-                    <span className="text-text">Full-stack web</span>
-                  </div>
-                  <div className="flex justify-between border-b border-border pb-3">
-                    <span className="uppercase tracking-[0.14em] text-muted">Stack</span>
-                    <span className="text-text">React · TypeScript</span>
-                  </div>
-                  <div className="flex justify-between border-b border-border pb-3">
-                    <span className="uppercase tracking-[0.14em] text-muted">Status</span>
-                    <span className="text-accent">{available ? 'Open to work' : 'Booked out'}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="uppercase tracking-[0.14em] text-muted">{now?.label || 'Now'}</span>
-                    {nowProjectId != null && onProject ? (
-                      <button
-                        type="button"
-                        onClick={() => onProject({ id: nowProjectId })}
-                        className="text-right transition-colors hover:text-accent"
-                      >
-                        <span className="text-text">{nowText}</span>
-                        {nowSub && <span className="mt-0.5 block text-[0.65rem] normal-case tracking-normal text-muted">{nowSub}</span>}
-                      </button>
-                    ) : (
-                      <span className="text-right">
-                        <span className="text-text">{nowText}</span>
-                        {nowSub && <span className="mt-0.5 block text-[0.65rem] normal-case tracking-normal text-muted">{nowSub}</span>}
-                      </span>
-                    )}
-                  </div>
-                </div>
+                {/* ground shadow */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -bottom-5 left-1/2 h-4 w-4/5 -translate-x-1/2 rounded-full bg-accent/25 blur-xl"
+                  style={{ transform: 'translateZ(-24px)' }}
+                />
               </div>
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -bottom-6 left-1/2 h-3 w-3/4 -translate-x-1/2 rounded-full bg-accent/20 blur-xl"
-                style={{ transform: 'translateZ(-20px)' }}
-              />
             </div>
           </m.div>
           <div

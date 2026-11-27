@@ -283,6 +283,7 @@ export default function MacBook({
       push('whoami   who is this', 'dim');
       push('greet    say hello', 'dim');
       push('banner   ascii art', 'dim');
+      push('fortune  a small truth', 'dim');
       push('version  build info', 'dim');
       push('cal      this month', 'dim');
       push('now      what is happening', 'dim');
@@ -425,6 +426,15 @@ export default function MacBook({
       }
     } else if (name === 'sudo') {
       push('nice try.');
+    } else if (name === 'fortune') {
+      const quotes = [
+        'ship small, ship often.',
+        'the best code is no code.',
+        'make it work, then make it right.',
+        'simplicity is the ultimate sophistication.',
+        'done is better than perfect.',
+      ];
+      push(quotes[Math.floor(Math.random() * quotes.length)], 'accent');
     } else if (name === 'rm') {
       push('rm: permission denied (and a good thing too)', 'dim');
     } else if (name === 'exit') {
@@ -510,7 +520,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'banner', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

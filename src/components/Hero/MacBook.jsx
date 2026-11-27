@@ -272,6 +272,7 @@ export default function MacBook({
       push('open     open ship / build / now / work', 'dim');
       push('date     current date and time', 'dim');
       push('clear    wipe the screen', 'dim');
+      push('tab      complete a command', 'dim');
     } else if (name === 'ls') {
       push('ship.md    stack.md    now.md');
     } else if (name === 'cat') {
@@ -371,9 +372,20 @@ export default function MacBook({
       case 'caps':
         setCaps((c) => !c);
         return;
-      case 'tab':
-        setCmd((c) => `${c}  `.slice(-30));
+      case 'tab': {
+        /* tab-completion for command names, falling back to two spaces */
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'now', 'stack', 'projects', 'open', 'date', 'clear', 'sudo', 'exit'];
+        const trimmed = cmd.trim();
+        const parts = trimmed ? trimmed.split(/\s+/) : [];
+        const last = parts.length ? parts[parts.length - 1] : '';
+        const match = last ? cmds.find((c) => c.startsWith(last) && c !== last) : null;
+        if (match && parts.length <= 1) {
+          setCmd(match);
+        } else {
+          setCmd((c) => `${c}  `.slice(-30));
+        }
         return;
+      }
       case 'up':
         stepHistory(-1);
         return;

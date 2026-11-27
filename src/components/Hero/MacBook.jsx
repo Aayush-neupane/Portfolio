@@ -401,7 +401,11 @@ export default function MacBook({
     } else if (name === 'clear') {
       setLog([]);
       setCmd('');
-      setHistory((h) => [...h, text]);
+      setHistory((h) => {
+        if (!text) return h;
+        if (h.length && h[h.length - 1] === text) return h;
+        return [...h, text];
+      });
       setHistAt(-1);
       return;
     } else {
@@ -410,7 +414,11 @@ export default function MacBook({
 
     setLog(next.slice(-8));
     setCmd('');
-    setHistory((h) => [...h, text]);
+    setHistory((h) => {
+      if (!text) return h;
+      if (h.length && h[h.length - 1] === text) return h;
+      return [...h, text];
+    });
     setHistAt(-1);
   };
 

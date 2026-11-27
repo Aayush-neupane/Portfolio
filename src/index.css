@@ -883,10 +883,17 @@ html.light .hero-laptop {
 }
 .hero-dock-btn:hover { transform: translateY(-0.6cqw) scale(1.06); }
 .hero-dock-btn svg { width: 3.1cqw; height: 3.1cqw; stroke-width: 1.7; }
-.hero-dock-ai {
-  font: 700 2.4cqw/1 var(--font-mono);
-  letter-spacing: -0.05em;
-  color: currentColor;
+.hero-dock-ai-img {
+  width: 3.1cqw;
+  height: 3.1cqw;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+}
+.hero-idle-ai-img {
+  width: 3.4cqw;
+  height: 3.4cqw;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
 }
 .hero-dock-btn:hover,
 .hero-dock-btn:focus-visible {

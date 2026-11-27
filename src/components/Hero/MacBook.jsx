@@ -813,7 +813,7 @@ export default function MacBook({
                             aria-label={`Open ${label}`}
                           >
                             <span className="hero-idle-app-icon">
-                              {key === 'aurora' ? <span className="hero-dock-ai">AI</span> : <Icon aria-hidden="true" />}
+                              {key === 'aurora' ? <img src="/ailogo.svg" alt="" className="hero-idle-ai-img" aria-hidden="true" /> : <Icon aria-hidden="true" />}
                             </span>
                             <span className="hero-idle-app-label">{label}</span>
                           </button>
@@ -956,7 +956,7 @@ export default function MacBook({
                         onClick={() => showFrame(key)}
                       >
                         {key === 'aurora' ? (
-                          <span className="hero-dock-ai" aria-hidden="true">AI</span>
+                          <img src="/ailogo.svg" alt="" className="hero-dock-ai-img" aria-hidden="true" />
                         ) : (
                           <Icon aria-hidden="true" />
                         )}

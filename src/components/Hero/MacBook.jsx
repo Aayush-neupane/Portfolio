@@ -212,7 +212,14 @@ export default function MacBook({
     [available, reply, nowText, nowSub, nowProjectId, onProject, projects]
   );
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(() => {
+    try {
+      const v = localStorage.getItem('lap-open');
+      return v === null ? false : v === '1';
+    } catch {
+      return false;
+    }
+  });
   const [view, setView] = useState('ship');
   const [win, setWin] = useState('open');
   const [zoom, setZoom] = useState(false);
@@ -239,8 +246,12 @@ export default function MacBook({
     [frames]
   );
 
-  /* the lid opens shortly after the hero lands, unless motion is off */
+  /* the lid opens shortly after the hero lands, unless motion is off or the
+   * visitor left it shut last time */
   useEffect(() => {
+    let persisted = null;
+    try { persisted = localStorage.getItem('lap-open'); } catch { /* ignore */ }
+    if (persisted !== null) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setOpen(true);
       return;
@@ -493,6 +504,10 @@ export default function MacBook({
         setCmd((c) => (c + (raw ? value : caps ? value.toUpperCase() : value)).slice(-30));
     }
   };
+
+  useEffect(() => {
+    try { localStorage.setItem('lap-open', open ? '1' : '0'); } catch { /* ignore */ }
+  }, [open]);
 
   useLayoutEffect(() => {
     pressRef.current = press;

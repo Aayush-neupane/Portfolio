@@ -283,6 +283,8 @@ export default function MacBook({
       push('head     first lines', 'dim');
       push('tree     directory tree', 'dim');
       push('grep     search a file', 'dim');
+      push('touch    create (refused)', 'dim');
+      push('mkdir    mkdir (refused)', 'dim');
       push('tail     last lines', 'dim');
       push('whoami   who is this', 'dim');
       push('hostname this machine', 'dim');
@@ -516,6 +518,11 @@ export default function MacBook({
         'done is better than perfect.',
       ];
       push(quotes[Math.floor(Math.random() * quotes.length)], 'accent');
+    } else if (name === 'touch') {
+      if (!args[0]) push('touch: missing file operand', 'dim');
+      else push(`touch: cannot touch '${args[0]}': read-only filesystem`, 'dim');
+    } else if (name === 'mkdir') {
+      push('mkdir: cannot create directory: read-only filesystem', 'dim');
     } else if (name === 'rm') {
       push('rm: permission denied (and a good thing too)', 'dim');
     } else if (name === 'exit') {
@@ -601,7 +608,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'tree', 'cat', 'head', 'tail', 'grep', 'whoami', 'hostname', 'env', 'top', 'df', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'su', 'exit'];
+        const cmds = ['help', 'ls', 'tree', 'cat', 'head', 'tail', 'grep', 'whoami', 'hostname', 'env', 'top', 'df', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'touch', 'mkdir', 'rm', 'man', 'clear', 'reset', 'sudo', 'su', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

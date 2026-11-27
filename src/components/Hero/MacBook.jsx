@@ -288,6 +288,7 @@ export default function MacBook({
       push('banner   ascii art', 'dim');
       push('fortune  a small truth', 'dim');
       push('ping     check a host', 'dim');
+      push('sl       steam locomotive', 'dim');
       push('version  build info', 'dim');
       push('cal      this month', 'dim');
       push('now      what is happening', 'dim');
@@ -451,6 +452,16 @@ export default function MacBook({
       push(`64 bytes from ${host}: time=11.8 ms`, 'dim');
       push(`--- ${host} ping statistics ---`, 'dim');
       push('2 packets transmitted, 2 received, 0% loss', 'accent');
+    } else if (name === 'sl') {
+      push('      ====        ________                ', 'dim');
+      push('  _D_|  |_______/        \\__I_I_____===__|', 'dim');
+      push('   |(_)---  |   H\\________/ |   |        ', 'dim');
+      push('   /     |  |   H  |  |     |   |      ', 'dim');
+      push('  |      |  |   H  |__|     |___|      ', 'dim');
+      push('  | ________|___H__/__|_____/___|______ ', 'dim');
+      push('  |/ |   |-----------I--------------I_I ', 'dim');
+      push('    |___/                            ', 'dim');
+      push('choo choo!', 'accent');
     } else if (name === 'fortune') {
       const quotes = [
         'ship small, ship often.',
@@ -545,7 +556,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'hostname', 'env', 'top', 'ping', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'hostname', 'env', 'top', 'ping', 'sl', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

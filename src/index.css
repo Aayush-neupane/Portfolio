@@ -350,24 +350,17 @@ html.light .hero-card {
   font-size: calc(var(--lap-w) / 100);
   max-width: var(--lap-w);
   margin-inline: auto;
-  padding-bottom: calc(46em + 0.35rem);
+  padding-bottom: calc(42em + 0.35rem);
 }
 .hero-device-face {
   box-shadow: 0 30px 60px -40px oklch(0 0 0 / 0.85);
 }
-/* controls under the machine: outside the 3D subtree, so they stay clickable
- * whether the lid is up or down and regardless of how the deck is rotated */
-.hero-laptop-controls {
+/* the latch sits outside the 3D subtree, so it stays clickable either way */
+.hero-laptop-latch {
   position: absolute;
   bottom: 0;
   left: 50%;
   translate: -50% 0;
-  display: flex;
-  gap: 0.5rem;
-  z-index: 2;
-}
-.hero-laptop-latch,
-.hero-laptop-quick {
   padding: 0.4rem 0.85rem;
   border: 1px solid var(--color-border);
   border-radius: 999px;
@@ -381,26 +374,10 @@ html.light .hero-card {
   -webkit-tap-highlight-color: transparent;
 }
 .hero-laptop-latch:hover,
-.hero-laptop-quick:hover,
-.hero-laptop-latch:focus-visible,
-.hero-laptop-quick:focus-visible {
+.hero-laptop-latch:focus-visible {
   color: var(--color-text);
   border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
 }
-.hero-laptop-quick {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
-  color: var(--color-text);
-}
-.hero-laptop-quick img {
-  width: 0.9rem;
-  height: 0.9rem;
-  filter: brightness(0) invert(1);
-}
-html.light .hero-laptop-quick img { filter: none; }
-.hero-laptop-quick svg { width: 0.9rem; height: 0.9rem; }
 @keyframes heroCaret {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
@@ -434,7 +411,7 @@ html.light .hero-laptop-quick img { filter: none; }
   --lap-depth: 1.3cqw;
   /* the deck is as deep as the lid is tall (22.1 / 31.3cm on a 14"); the
    * keyboard block takes most of it, the way a real deck is laid out */
-  --lap-base-h: 84cqw;
+  --lap-base-h: 76cqw;
   position: relative;
   width: 100%;
   max-width: var(--lap-w);
@@ -444,7 +421,7 @@ html.light .hero-laptop-quick img { filter: none; }
   /* one camera for the whole machine: just above the deck, turned so it faces
    * left, a hair off level. Kept shallow on purpose: product shots sit near the
    * screen's plane, so the UI stays legible instead of skewing into a diamond */
-  transform: rotateX(-7deg) rotateY(-8deg) rotateZ(0.4deg) translateY(3cqw);
+  transform: rotateX(-6deg) rotateY(-6deg) rotateZ(0deg) translateY(3cqw);
   transform-origin: 50% 100%;
 }
 /* soft floor shadow, cancelled back out of the machine's rotation */
@@ -459,13 +436,13 @@ html.light .hero-laptop-quick img { filter: none; }
   border-radius: 50%;
   background: radial-gradient(50% 50% at 50% 44%, oklch(0 0 0 / 0.42), transparent 72%);
   filter: blur(16px);
-  transform: translateZ(-60px) rotateX(18deg) rotateY(20deg) rotateZ(-1.6deg);
+  transform: translateZ(-60px) rotateX(16deg) rotateY(16deg) rotateZ(0deg);
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 .hero-laptop.is-closed::after {
   opacity: 0.55;
-  transform: translateZ(-60px) rotateX(18deg) rotateY(20deg) rotateZ(-1.6deg) scale(0.88);
+  transform: translateZ(-60px) rotateX(16deg) rotateY(16deg) rotateZ(0deg) scale(0.88);
 }
 html.light .hero-laptop::after {
   background: radial-gradient(50% 50% at 50% 44%, oklch(0.32 0.03 60 / 0.32), transparent 74%);
@@ -1032,7 +1009,7 @@ html.light .hero-laptop-logo {
 .hero-laptop-grille {
   position: absolute;
   top: 4%;
-  height: 62%;
+  height: 60%;
   width: 3%;
   border-radius: 0.4cqw;
   background-image: radial-gradient(circle, oklch(0 0 0 / 0.5) 0 0.085cqw, transparent 0.1cqw);
@@ -1048,7 +1025,7 @@ html.light .hero-laptop-logo {
   left: 4%;
   right: 4%;
   top: 4%;
-  height: 62%;
+  height: 60%;
   padding: 0.6cqw 0.7cqw;
   border-radius: 0.9cqw;
   background: linear-gradient(180deg, oklch(0.17 0.005 250), oklch(0.1 0.004 250));
@@ -1154,10 +1131,10 @@ html.light .hero-laptop-logo {
 .hero-laptop-pad {
   position: absolute;
   left: 50%;
-  top: 64%;
+  top: 62%;
   translate: -50% 0;
-  width: 38%;
-  height: 24%;
+  width: 40%;
+  height: 27%;
   border-radius: 0.8cqw;
   background:
     linear-gradient(180deg, oklch(1 0 0 / 0.07), oklch(0 0 0 / 0.14)),
@@ -1182,11 +1159,27 @@ html.light .hero-laptop-logo {
 .hero-laptop-lip {
   position: absolute;
   inset: auto 0 0;
-  height: 10%;
+  height: 13%;
   border-radius: 0 0 2.2cqw 2.2cqw;
-  background: linear-gradient(180deg, var(--lap-metal-hi) 0%, var(--lap-metal-mid) 40%, var(--lap-metal-low) 100%);
-  border-top: 1px solid oklch(1 0 0 / 0.13);
-  box-shadow: 0 -0.45cqw 0.9cqw oklch(0 0 0 / 0.3);
+  background: linear-gradient(180deg, var(--lap-metal-hi) 0%, var(--lap-metal-mid) 34%, var(--lap-metal-low) 100%);
+  border-top: 1px solid oklch(1 0 0 / 0.2);
+  box-shadow:
+    inset 0 -0.16cqw 0 oklch(0 0 0 / 0.35),
+    0 -0.45cqw 0.9cqw oklch(0 0 0 / 0.3);
+}
+/* the front edge stands up out of the deck plane, giving the slab thickness */
+.hero-laptop-lip::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 2.2cqw;
+  transform-origin: 50% 0;
+  transform: rotateX(-90deg);
+  border-radius: 0 0 0.6cqw 0.6cqw;
+  background: linear-gradient(180deg, var(--lap-metal-mid), var(--lap-metal-low));
+  box-shadow: inset 0 -1px 0 oklch(0 0 0 / 0.45);
 }
 .hero-laptop-groove {
   position: absolute;
@@ -1356,13 +1349,13 @@ html.light .hero-laptop-logo {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1cqw;
-  padding-bottom: 7cqw;
+  gap: 2cqw;
+  padding-bottom: 5cqw;
   pointer-events: none;
 }
-.hero-intro.is-settled { padding-bottom: 24cqw; }
+.hero-intro.is-settled { padding-bottom: 9cqw; }
 .hero-intro-hello {
-  width: 52%;
+  width: 48%;
   height: auto;
   overflow: visible;
   color: oklch(0.98 0.02 80);
@@ -1377,14 +1370,15 @@ html.light .hero-laptop-logo {
 @keyframes helloReveal { to { transform: scaleX(1); } }
 .hero-intro-welcome {
   margin: 0;
-  font-family: var(--font-sans);
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
   font-size: 6cqw;
-  line-height: 1.15;
-  letter-spacing: -0.035em;
-  color: var(--lap-ink);
+  line-height: 1.2;
+  letter-spacing: 0.015em;
+  color: oklch(0.96 0.015 80);
   text-shadow: 0 0.2cqw 0.7cqw oklch(0 0 0 / 0.55);
-  min-height: 7cqw;
+  min-height: 6cqw;
 }
 .hero-intro-welcome .hero-laptop-caret {
   width: 0.4cqw;

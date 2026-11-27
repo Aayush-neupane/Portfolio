@@ -284,6 +284,7 @@ export default function MacBook({
       push('hostname this machine', 'dim');
       push('env      environment vars', 'dim');
       push('top      running processes', 'dim');
+      push('df       disk free', 'dim');
       push('greet    say hello', 'dim');
       push('banner   ascii art', 'dim');
       push('fortune  a small truth', 'dim');
@@ -342,6 +343,9 @@ export default function MacBook({
       push('42    zsh            0.1  0.4', 'dim');
       push('108   node (vite)    2.8  6.2', 'dim');
       push('203   portfolio      1.1  2.0', 'dim');
+    } else if (name === 'df') {
+      push('Filesystem   Size  Used  Avail  Use%', 'dim');
+      push('/dev/disk1s1  500G  120G  380G   24%', 'dim');
     } else if (name === 'greet') {
       const h = new Date().getHours();
       const g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
@@ -560,7 +564,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'hostname', 'env', 'top', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'hostname', 'env', 'top', 'df', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

@@ -66,6 +66,13 @@
   font-display: swap;
   src: url("./assets/fonts/jetbrains-mono-italic-400-latin.woff2") format("woff2");
 }
+@font-face {
+  font-family: "Dancing Script";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("./assets/fonts/dancing-script-latin-400-700.woff2") format("woff2");
+}
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -343,18 +350,24 @@ html.light .hero-card {
   font-size: calc(var(--lap-w) / 100);
   max-width: var(--lap-w);
   margin-inline: auto;
-  padding-bottom: calc(38em + 0.35rem);
+  padding-bottom: calc(46em + 0.35rem);
 }
 .hero-device-face {
   box-shadow: 0 30px 60px -40px oklch(0 0 0 / 0.85);
 }
-/* the latch under the machine: the only control that is never inside the 3D
- * subtree, so it stays clickable whether the lid is up or down */
-.hero-laptop-latch {
+/* controls under the machine: outside the 3D subtree, so they stay clickable
+ * whether the lid is up or down and regardless of how the deck is rotated */
+.hero-laptop-controls {
   position: absolute;
   bottom: 0;
   left: 50%;
   translate: -50% 0;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 2;
+}
+.hero-laptop-latch,
+.hero-laptop-quick {
   padding: 0.4rem 0.85rem;
   border: 1px solid var(--color-border);
   border-radius: 999px;
@@ -368,10 +381,26 @@ html.light .hero-card {
   -webkit-tap-highlight-color: transparent;
 }
 .hero-laptop-latch:hover,
-.hero-laptop-latch:focus-visible {
+.hero-laptop-quick:hover,
+.hero-laptop-latch:focus-visible,
+.hero-laptop-quick:focus-visible {
   color: var(--color-text);
   border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
 }
+.hero-laptop-quick {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  color: var(--color-text);
+}
+.hero-laptop-quick img {
+  width: 0.9rem;
+  height: 0.9rem;
+  filter: brightness(0) invert(1);
+}
+html.light .hero-laptop-quick img { filter: none; }
+.hero-laptop-quick svg { width: 0.9rem; height: 0.9rem; }
 @keyframes heroCaret {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
@@ -405,7 +434,7 @@ html.light .hero-card {
   --lap-depth: 1.3cqw;
   /* the deck is as deep as the lid is tall (22.1 / 31.3cm on a 14"); the
    * keyboard block takes most of it, the way a real deck is laid out */
-  --lap-base-h: 68cqw;
+  --lap-base-h: 84cqw;
   position: relative;
   width: 100%;
   max-width: var(--lap-w);
@@ -415,7 +444,7 @@ html.light .hero-card {
   /* one camera for the whole machine: just above the deck, turned so it faces
    * left, a hair off level. Kept shallow on purpose: product shots sit near the
    * screen's plane, so the UI stays legible instead of skewing into a diamond */
-  transform: rotateX(-4deg) rotateY(-2deg) rotateZ(0.2deg) translateY(4cqw);
+  transform: rotateX(-7deg) rotateY(-8deg) rotateZ(0.4deg) translateY(3cqw);
   transform-origin: 50% 100%;
 }
 /* soft floor shadow, cancelled back out of the machine's rotation */
@@ -430,13 +459,13 @@ html.light .hero-card {
   border-radius: 50%;
   background: radial-gradient(50% 50% at 50% 44%, oklch(0 0 0 / 0.42), transparent 72%);
   filter: blur(16px);
-  transform: translateZ(-60px) rotateX(18deg) rotateY(11deg) rotateZ(-0.9deg);
+  transform: translateZ(-60px) rotateX(18deg) rotateY(20deg) rotateZ(-1.6deg);
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 .hero-laptop.is-closed::after {
   opacity: 0.55;
-  transform: translateZ(-60px) rotateX(18deg) rotateY(11deg) rotateZ(-0.9deg) scale(0.88);
+  transform: translateZ(-60px) rotateX(18deg) rotateY(20deg) rotateZ(-1.6deg) scale(0.88);
 }
 html.light .hero-laptop::after {
   background: radial-gradient(50% 50% at 50% 44%, oklch(0.32 0.03 60 / 0.32), transparent 74%);
@@ -876,9 +905,9 @@ html.light .hero-laptop-logo {
   display: grid;
   place-items: center;
   gap: 0.4cqw;
-  width: 7.2cqw;
-  height: 7.6cqw;
-  padding: 0.6cqw 0.4cqw;
+  width: 8.4cqw;
+  height: 8.8cqw;
+  padding: 0.7cqw 0.5cqw;
   border: 0;
   border-radius: 1.4cqw;
   background: oklch(1 0 0 / 0.09);
@@ -887,16 +916,16 @@ html.light .hero-laptop-logo {
   transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 .hero-dock-btn:hover { transform: translateY(-0.6cqw) scale(1.06); }
-.hero-dock-btn svg { width: 2.6cqw; height: 2.6cqw; stroke-width: 1.7; }
+.hero-dock-btn svg { width: 3.2cqw; height: 3.2cqw; stroke-width: 1.7; }
 .hero-dock-label {
-  font: 500 1.05cqw/1 var(--font-mono);
+  font: 500 1.2cqw/1 var(--font-mono);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   opacity: 0.85;
 }
 .hero-dock-ai-img {
-  width: 3.1cqw;
-  height: 3.1cqw;
+  width: 3.8cqw;
+  height: 3.8cqw;
   filter: brightness(0) invert(1);
   opacity: 0.85;
 }
@@ -1003,7 +1032,7 @@ html.light .hero-laptop-logo {
 .hero-laptop-grille {
   position: absolute;
   top: 4%;
-  height: 58%;
+  height: 62%;
   width: 3%;
   border-radius: 0.4cqw;
   background-image: radial-gradient(circle, oklch(0 0 0 / 0.5) 0 0.085cqw, transparent 0.1cqw);
@@ -1019,7 +1048,7 @@ html.light .hero-laptop-logo {
   left: 4%;
   right: 4%;
   top: 4%;
-  height: 58%;
+  height: 62%;
   padding: 0.6cqw 0.7cqw;
   border-radius: 0.9cqw;
   background: linear-gradient(180deg, oklch(0.17 0.005 250), oklch(0.1 0.004 250));
@@ -1031,12 +1060,12 @@ html.light .hero-laptop-logo {
 .hero-laptop-keys {
   display: flex;
   flex-direction: column;
-  gap: 0.3cqw;
+  gap: 0.36cqw;
   height: 100%;
 }
 .hero-laptop-keyrow {
   display: flex;
-  gap: 0.28cqw;
+  gap: 0.32cqw;
   flex: var(--row-h, 1);
   min-height: 0;
 }
@@ -1060,7 +1089,7 @@ html.light .hero-laptop-logo {
   text-shadow:
     0 0 0.28cqw color-mix(in srgb, var(--lap-key-glow) 52%, transparent),
     0 0 0.55cqw color-mix(in srgb, var(--lap-key-glow) 24%, transparent);
-  font: 500 1.7cqw/1 var(--font-mono);
+  font: 500 1.9cqw/1 var(--font-mono);
   letter-spacing: 0.01em;
   cursor: pointer;
   transition: transform 90ms ease, filter 90ms ease, box-shadow 90ms ease;
@@ -1125,10 +1154,10 @@ html.light .hero-laptop-logo {
 .hero-laptop-pad {
   position: absolute;
   left: 50%;
-  top: 60%;
+  top: 64%;
   translate: -50% 0;
   width: 38%;
-  height: 26%;
+  height: 24%;
   border-radius: 0.8cqw;
   background:
     linear-gradient(180deg, oklch(1 0 0 / 0.07), oklch(0 0 0 / 0.14)),
@@ -1245,13 +1274,13 @@ html.light .hero-laptop-logo {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 2.6cqw;
-  padding: 0 1cqw;
+  height: 3.2cqw;
+  padding: 0 1.3cqw;
   border: 0;
   border-radius: 0.8cqw;
   background: oklch(1 0 0 / 0.16);
   color: var(--lap-ink);
-  font: 600 1.5cqw/1 var(--font-mono);
+  font: 600 1.7cqw/1 var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   cursor: pointer;
@@ -1318,61 +1347,89 @@ html.light .hero-laptop-logo {
 }
 .hero-chat-input button svg { width: 1.9cqw; height: 1.9cqw; }
 
+/* --- staged intro over the wallpaper --- */
+.hero-intro {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1cqw;
+  padding-bottom: 7cqw;
+  pointer-events: none;
+}
+.hero-intro.is-settled { padding-bottom: 24cqw; }
+.hero-intro-hello {
+  width: 52%;
+  height: auto;
+  overflow: visible;
+  color: oklch(0.98 0.02 80);
+  filter: drop-shadow(0 0.2cqw 0.5cqw oklch(0 0 0 / 0.4));
+}
+.hero-intro-mask {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: helloReveal 2.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes helloReveal { to { transform: scaleX(1); } }
+.hero-intro-welcome {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 6cqw;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: var(--lap-ink);
+  text-shadow: 0 0.2cqw 0.7cqw oklch(0 0 0 / 0.55);
+  min-height: 7cqw;
+}
+.hero-intro-welcome .hero-laptop-caret {
+  width: 0.4cqw;
+  margin-left: 0.3cqw;
+}
+.hero-shell {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
 /* --- idle desktop and terminal --- */
 .hero-idle {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.8cqw;
+  justify-content: flex-start;
+  gap: 0.5cqw;
   text-align: center;
-  padding: 1cqw 2cqw;
-  margin-top: -2cqw;
-}
-.hero-idle-hello {
-  margin: 0;
-  font-family: 'Snell Roundhand', 'Apple Chancery', 'Brush Script MT', cursive;
-  font-style: normal;
-  font-size: 13cqw;
-  line-height: 1;
-  letter-spacing: -0.01em;
-  color: var(--lap-ink);
-  min-height: 13cqw;
-}
-.hero-idle-welcome {
-  margin: -2cqw 0 0;
-  font-family: var(--font-display);
-  font-size: 5cqw;
-  line-height: 1.1;
-  letter-spacing: -0.015em;
-  color: var(--lap-ink);
-  min-height: 5.5cqw;
-}
-.hero-idle-hint {
-  margin: 0;
-  font: 400 1.55cqw/1.4 var(--font-mono);
-  color: var(--lap-dim);
+  padding: 2.2cqw 2cqw 1cqw;
 }
 .hero-idle-cta {
   display: flex;
-  gap: 1.6cqw;
-  margin-top: 1.2cqw;
+  gap: 1.8cqw;
+  margin-top: auto;
 }
 .hero-idle-btn {
   display: inline-flex;
   align-items: center;
   gap: 1cqw;
-  padding: 1.2cqw 2cqw;
-  border: 1px solid oklch(1 0 0 / 0.18);
+  padding: 1.5cqw 2.6cqw;
+  border: 1px solid oklch(1 0 0 / 0.24);
   border-radius: 1.4cqw;
-  background: oklch(1 0 0 / 0.1);
+  background: oklch(1 0 0 / 0.12);
   color: var(--lap-ink);
-  font: 600 1.8cqw/1 var(--font-mono);
+  font: 600 2cqw/1 var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   cursor: pointer;
   transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+.hero-idle-btn:first-child {
+  border-color: color-mix(in srgb, var(--color-accent) 62%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 28%, transparent);
 }
 .hero-idle-btn:hover,
 .hero-idle-btn:focus-visible {
@@ -1380,7 +1437,8 @@ html.light .hero-laptop-logo {
   border-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
   transform: translateY(-0.4cqw);
 }
-.hero-idle-btn svg { width: 2.2cqw; height: 2.2cqw; stroke-width: 1.7; }
+.hero-idle-btn svg { width: 2.8cqw; height: 2.8cqw; stroke-width: 1.7; }
+.hero-idle-btn .hero-idle-ai-img { width: 3.8cqw; height: 3.8cqw; filter: brightness(0) invert(1); }
 .hero-idle-apps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1574,6 +1632,7 @@ html.light .hero-laptop-logo {
   .hero-window-body { animation: none; }
   .hero-dock-btn { transition: none; }
   .hero-laptop-key { transition: none; }
+  .hero-intro-mask { animation: none; transform: scaleX(1); }
 }
 
 /* Loader curtain lift */

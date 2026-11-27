@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ArrowUpRight, Briefcase, Clock, Layers, MessageCircle, Rocket, Sparkles, Terminal } from 'lucide-react';
+import { HELLO_PATH } from './HelloPath.js';
 
 const ICONS = { ship: Rocket, build: Layers, now: Clock, work: Briefcase, term: Terminal, aurora: Sparkles };
 
@@ -239,35 +240,39 @@ export default function MacBook({
   const bootedAt = useRef(Date.now());
   const [chatLog, setChatLog] = useState([{ role: 'bot', text: 'Hi! I am Aurora. Ask me anything about Aayush.' }]);
   const [chatInput, setChatInput] = useState('');
-  const [helloText, setHelloText] = useState('');
+  /* the desktop introduces itself in order: bare wallpaper, a drawn hello,
+   * a typed welcome, then the apps */
+  const WELCOME = 'Welcome to Aayush\'s Portfolio';
+  const [stage, setStage] = useState('wallpaper');
   const [welcomeText, setWelcomeText] = useState('');
-  const [showWelcome, setShowWelcome] = useState(false);
   const [appGrid, setAppGrid] = useState(false);
   useEffect(() => {
-    const hello = 'hello';
-    const welcome = 'Welcome to Aayush\'s Portfolio';
+    if (stage !== 'wallpaper') return undefined;
+    const t = setTimeout(() => setStage('hello'), 2600);
+    return () => clearTimeout(t);
+  }, [stage]);
+  useEffect(() => {
+    if (stage !== 'hello') return undefined;
+    const t = setTimeout(() => setStage('welcome'), 5200);
+    return () => clearTimeout(t);
+  }, [stage]);
+  useEffect(() => {
+    if (stage !== 'welcome') return undefined;
     let i = 0;
-    let j = 0;
-    setHelloText('');
-    setWelcomeText('');
-    setShowWelcome(false);
-    const id1 = setInterval(() => {
+    let done;
+    const id = setInterval(() => {
       i += 1;
-      setHelloText(hello.slice(0, i));
-      if (i >= hello.length) {
-        clearInterval(id1);
-        setTimeout(() => {
-          setShowWelcome(true);
-          const id2 = setInterval(() => {
-            j += 1;
-            setWelcomeText(welcome.slice(0, j));
-            if (j >= welcome.length) clearInterval(id2);
-          }, 50);
-        }, 700);
+      setWelcomeText(WELCOME.slice(0, i));
+      if (i >= WELCOME.length) {
+        clearInterval(id);
+        done = setTimeout(() => setStage('apps'), 500);
       }
-    }, 110);
-    return () => clearInterval(id1);
-  }, [win]);
+    }, 55);
+    return () => {
+      clearInterval(id);
+      clearTimeout(done);
+    };
+  }, [stage]);
   /* pointer is over the machine, and the display's own pointer is showing */
   const [engaged, setEngaged] = useState(false);
   const [cursorOn, setCursorOn] = useState(false);
@@ -811,6 +816,28 @@ export default function MacBook({
               <span className="hero-laptop-wall" aria-hidden="true" />
 
               <div className="hero-laptop-ui">
+                {stage !== 'wallpaper' && (win === 'closed' || view === 'desktop') ? (
+                  <div className={`hero-intro${stage === 'apps' ? ' is-settled' : ''}`} aria-hidden="true">
+                    <svg className="hero-intro-hello" viewBox="0 -70 1690 820">
+                      <defs>
+                        <mask id="hello-reveal">
+                          <rect className="hero-intro-mask" x="0" y="-80" width="1690" height="840" fill="white" />
+                        </mask>
+                      </defs>
+                      <path d={HELLO_PATH} fill="currentColor" mask="url(#hello-reveal)" />
+                    </svg>
+                    {stage === 'welcome' || stage === 'apps' ? (
+                      <p className="hero-intro-welcome">
+                        {welcomeText}
+                        {welcomeText.length < WELCOME.length ? (
+                          <span className="hero-laptop-caret" />
+                        ) : null}
+                      </p>
+                    ) : null}
+                  </div>
+                ) : null}
+                {stage === 'apps' ? (
+                  <div className="hero-shell">
                 <div className="hero-menubar">
                   <button
                     type="button"
@@ -849,15 +876,6 @@ export default function MacBook({
                 <div className={`hero-desktop${zoom ? ' is-zoom' : ''}`}>
                   {win === 'closed' || view === 'desktop' ? (
                     <div className="hero-idle">
-                      <p className="hero-idle-hello" aria-live="polite">
-                        {helloText}
-                      </p>
-                      {showWelcome ? (
-                        <p className="hero-idle-welcome" aria-live="polite">
-                          {welcomeText}
-                          <span aria-hidden="true" className="hero-laptop-caret" />
-                        </p>
-                      ) : null}
                       <div className="hero-idle-cta">
                         <button type="button" className="hero-idle-btn" onClick={() => showFrame('aurora')} aria-label="Open Aurora">
                           <img src="/ailogo.svg" alt="" className="hero-idle-ai-img" aria-hidden="true" />
@@ -868,7 +886,6 @@ export default function MacBook({
                           Terminal
                         </button>
                       </div>
-                      <p className="hero-idle-hint">⌘1 Aurora · ⌘2 Terminal · ⌘0 desktop</p>
                     </div>
                   ) : view === 'term' ? (
                     <div className="hero-window hero-window-term">
@@ -1015,6 +1032,8 @@ export default function MacBook({
                     ))}
                   </div>
                 </div>
+                  </div>
+                ) : null}
               </div>
 
               <span aria-hidden="true" className="hero-laptop-notch">
@@ -1123,14 +1142,42 @@ export default function MacBook({
         </svg>
       </span>
 
-      <button
-        type="button"
-        className="hero-laptop-latch"
-        onClick={() => setOpen((o) => !o)}
-        aria-label={open ? 'Close the laptop lid' : 'Open the laptop lid'}
-      >
-        {open ? 'close lid' : 'open lid'}
-      </button>
+      <div className="hero-laptop-controls">
+        <button
+          type="button"
+          className="hero-laptop-quick"
+          onClick={() => {
+            setOpen(true);
+            showFrame('aurora');
+          }}
+          aria-label="Open Aurora AI"
+          title="Open Aurora AI"
+        >
+          <img src="/ailogo.svg" alt="" aria-hidden="true" />
+          Aurora
+        </button>
+        <button
+          type="button"
+          className="hero-laptop-quick"
+          onClick={() => {
+            setOpen(true);
+            showFrame('term');
+          }}
+          aria-label="Open Terminal"
+          title="Open Terminal"
+        >
+          <Terminal aria-hidden="true" />
+          Terminal
+        </button>
+        <button
+          type="button"
+          className="hero-laptop-latch"
+          onClick={() => setOpen((o) => !o)}
+          aria-label={open ? 'Close the laptop lid' : 'Open the laptop lid'}
+        >
+          {open ? 'close lid' : 'open lid'}
+        </button>
+      </div>
 
       <p className="sr-only" role="status" aria-live="polite">
         Laptop {open ? 'open' : 'closed'}. Window {view === 'term' ? 'terminal' : `${frameIndex + 1} of ${frames.length}: ${frame.title}`}.

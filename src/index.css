@@ -669,12 +669,14 @@ html.light .hero-laptop {
  * swing, and goes dark the moment the lid starts to close */
 .hero-laptop-wall,
 .hero-laptop-ui {
-  transition: opacity 0.55s ease 0.42s;
+  transition: opacity 0.55s ease 0.42s, transform 0.55s ease 0.42s;
+  transform: scale(1);
 }
 .hero-laptop.is-closed .hero-laptop-wall,
 .hero-laptop.is-closed .hero-laptop-ui {
   opacity: 0;
-  transition: opacity 0.16s ease;
+  transform: scale(0.985);
+  transition: opacity 0.16s ease, transform 0.16s ease;
 }
 .hero-battery {
   position: relative;

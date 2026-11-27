@@ -785,7 +785,7 @@ export default function MacBook({
                     aria-label="Open app launcher"
                     title="Apps"
                   >
-                    ⌘
+                    Apps
                   </button>
                   <button
                     type="button"

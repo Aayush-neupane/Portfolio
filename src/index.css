@@ -415,7 +415,7 @@ html.light .hero-card {
   /* one camera for the whole machine: just above the deck, turned so it faces
    * left, a hair off level. Kept shallow on purpose: product shots sit near the
    * screen's plane, so the UI stays legible instead of skewing into a diamond */
-  transform: rotateX(-12deg) rotateY(-7deg) rotateZ(0.5deg);
+  transform: rotateX(-6deg) rotateY(-4deg) rotateZ(0.3deg);
   transform-origin: 50% 100%;
 }
 /* soft floor shadow, cancelled back out of the machine's rotation */
@@ -488,7 +488,7 @@ html.light .hero-laptop {
     0 0 0.9cqw oklch(0 0 0 / 0.26);
   transform-style: preserve-3d;
   transform-origin: 50% 100%;
-  transform: rotateX(5deg);
+  transform: rotateX(3deg);
   transition: transform 0.8s cubic-bezier(0.22, 0.9, 0.24, 1);
 }
 /* Shut: the panel folds down until it lies on the deck, so the aluminium back
@@ -605,6 +605,7 @@ html.light .hero-laptop-logo {
 .hero-laptop-wall {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background:
     url('/wallpaper.jpg') center / cover no-repeat,
     linear-gradient(160deg, #0c0916 0%, #151024 52%, #1d0f16 100%);
@@ -1241,17 +1242,19 @@ html.light .hero-laptop-logo {
   cursor: pointer;
 }
 .hero-menubar-apps {
-  display: grid;
-  place-items: center;
-  width: 3.4cqw;
-  height: 3.4cqw;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.6cqw;
+  padding: 0 1cqw;
   border: 0;
   border-radius: 0.8cqw;
   background: oklch(1 0 0 / 0.16);
   color: var(--lap-ink);
-  font: 700 2.2cqw/1 var(--font-mono);
+  font: 600 1.5cqw/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   cursor: pointer;
-  padding: 0;
 }
 .hero-menubar-apps:hover { background: color-mix(in srgb, var(--color-accent) 55%, transparent); }
 

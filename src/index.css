@@ -604,6 +604,12 @@ html.light .hero-laptop {
     radial-gradient(64% 56% at 32% 96%, oklch(0.62 0.1 66 / 0.2), transparent 70%),
     radial-gradient(48% 44% at 98% 92%, color-mix(in srgb, var(--color-accent) 24%, transparent), transparent 74%),
     linear-gradient(160deg, #0c0916 0%, #151024 52%, #1d0f16 100%);
+  background-size: 120% 120%;
+  animation: lapWallDrift 18s ease-in-out infinite alternate;
+}
+@keyframes lapWallDrift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
 }
 /* vignette + the sheen across the glass, kept off the middle so text stays read */
 .hero-laptop-wall::after {
@@ -1306,6 +1312,7 @@ html.light .hero-laptop {
   .hero-laptop-latch { transition: none; }
   .hero-laptop-blink { animation: none; }
   .hero-laptop-caret { animation: none; }
+  .hero-laptop-wall { animation: none; }
   .hero-window-body { animation: none; }
   .hero-dock-btn { transition: none; }
   .hero-laptop-key { transition: none; }

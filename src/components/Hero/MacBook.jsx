@@ -116,13 +116,13 @@ function WindowBar({ title, count, onClose, onNext, onZoom }) {
   return (
     <div className="hero-window-bar">
       <span className="hero-window-lights">
-        <button type="button" className="is-close" aria-label="Close the window" onClick={onClose}>
+        <button type="button" className="is-close" aria-label="Close the window" title="Close" onClick={onClose}>
           <i />
         </button>
-        <button type="button" className="is-next" aria-label="Next window" onClick={onNext}>
+        <button type="button" className="is-next" aria-label="Next window" title="Next" onClick={onNext}>
           <i />
         </button>
-        <button type="button" className="is-zoom" aria-label="Zoom the window" onClick={onZoom}>
+        <button type="button" className="is-zoom" aria-label="Zoom the window" title="Zoom" onClick={onZoom}>
           <i />
         </button>
       </span>

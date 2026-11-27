@@ -311,7 +311,14 @@ export default function MacBook({
       push('man      help for a command', 'dim');
       push('tab      complete a command', 'dim');
     } else if (name === 'ls') {
-      push('ship.md    stack.md    now.md');
+      if (args.includes('-l') || args.includes('-la')) {
+        push('total 12', 'dim');
+        push('-rw-r--r--  1 aayush  staff  128  ship.md');
+        push('-rw-r--r--  1 aayush  staff   96  stack.md');
+        push('-rw-r--r--  1 aayush  staff  112  now.md');
+      } else {
+        push('ship.md    stack.md    now.md');
+      }
     } else if (name === 'cat' || name === 'head' || name === 'tail') {
       const file = args[0];
       const lines =

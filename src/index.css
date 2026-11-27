@@ -326,6 +326,22 @@ html.light .hero-card {
   background-color: #f5edda;
 }
 
+/* 3D hero card depth */
+.hero-3d {
+  perspective: 900px;
+}
+.hero-3d-float {
+  animation: hero3dFloat 6s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes hero3dFloat {
+  0%, 100% { transform: translateZ(0) rotateX(0deg) rotateY(0deg); }
+  50% { transform: translateZ(8px) rotateX(1.5deg) rotateY(-2deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-3d-float { animation: none; }
+}
+
 /* Loader curtain lift */
 .loader-lift {
   transform: translateY(-100%);

@@ -58,7 +58,11 @@ export default function ClientStrip({ projects = [], onOpen }) {
                     src={withBase(client.logo)}
                     alt=""
                     aria-hidden="true"
-                    className="h-10 w-auto object-contain md:h-11"
+                    className={
+                      String(client.id) === '13'
+                        ? 'h-12 w-auto object-contain md:h-14'
+                        : 'h-10 w-auto object-contain md:h-11'
+                    }
                   />
                 ))}
             </a>

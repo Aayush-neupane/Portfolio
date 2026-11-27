@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const SettingsContext = createContext({
-  theme: 'dark',
+  theme: 'light',
   toggleTheme: () => {},
   accent: 'crimson',
   setAccent: () => {},
@@ -75,9 +75,9 @@ export const useSettings = () => useContext(SettingsContext);
 export function SettingsProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     try {
-      return localStorage.getItem('an-theme') || 'dark';
+      return localStorage.getItem('an-theme') || 'light';
     } catch {
-      return 'dark';
+      return 'light';
     }
   });
   const [accent, setAccentState] = useState(() => {

@@ -200,48 +200,61 @@ export default function Hero({ profile, now, onProject, stats }) {
                 : undefined
             }
           >
-            <div className="hero-card rounded-xl border border-border bg-elevated p-6 glow-soft transition-colors duration-200 hover:border-accent/70 md:p-8">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
-                  Build log
-                </span>
-                <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-accent" />
+            <div
+              className="hero-3d relative rounded-xl border border-border bg-elevated p-6 md:p-8"
+              style={{ transformStyle: 'preserve-3d' }}
+            >
+              <div className="hero-3d-float" style={{ transformStyle: 'preserve-3d' }}>
+                <div className="flex items-center justify-between" style={{ transform: 'translateZ(24px)' }}>
+                  <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted">
+                    Build log
+                  </span>
+                  <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-accent" />
+                </div>
+                <p
+                  className="mt-8 font-display text-4xl leading-none text-text md:text-5xl"
+                  style={{ transform: 'translateZ(40px)' }}
+                >
+                  Ship<span className="text-accent">.</span>
+                </p>
+                <div className="mt-8 space-y-3 font-mono text-xs leading-relaxed" style={{ transform: 'translateZ(16px)' }}>
+                  <div className="flex justify-between border-b border-border pb-3">
+                    <span className="uppercase tracking-[0.14em] text-muted">Focus</span>
+                    <span className="text-text">Full-stack web</span>
+                  </div>
+                  <div className="flex justify-between border-b border-border pb-3">
+                    <span className="uppercase tracking-[0.14em] text-muted">Stack</span>
+                    <span className="text-text">React · TypeScript</span>
+                  </div>
+                  <div className="flex justify-between border-b border-border pb-3">
+                    <span className="uppercase tracking-[0.14em] text-muted">Status</span>
+                    <span className="text-accent">{available ? 'Open to work' : 'Booked out'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="uppercase tracking-[0.14em] text-muted">{now?.label || 'Now'}</span>
+                    {nowProjectId != null && onProject ? (
+                      <button
+                        type="button"
+                        onClick={() => onProject({ id: nowProjectId })}
+                        className="text-right transition-colors hover:text-accent"
+                      >
+                        <span className="text-text">{nowText}</span>
+                        {nowSub && <span className="mt-0.5 block text-[0.65rem] normal-case tracking-normal text-muted">{nowSub}</span>}
+                      </button>
+                    ) : (
+                      <span className="text-right">
+                        <span className="text-text">{nowText}</span>
+                        {nowSub && <span className="mt-0.5 block text-[0.65rem] normal-case tracking-normal text-muted">{nowSub}</span>}
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
-              <p className="mt-8 font-display text-4xl leading-none text-text md:text-5xl">
-                Ship<span className="text-accent">.</span>
-              </p>
-              <div className="mt-8 space-y-3 font-mono text-xs leading-relaxed">
-                <div className="flex justify-between border-b border-border pb-3">
-                  <span className="uppercase tracking-[0.14em] text-muted">Focus</span>
-                  <span className="text-text">Full-stack web</span>
-                </div>
-                <div className="flex justify-between border-b border-border pb-3">
-                  <span className="uppercase tracking-[0.14em] text-muted">Stack</span>
-                  <span className="text-text">React · TypeScript</span>
-                </div>
-                <div className="flex justify-between border-b border-border pb-3">
-                  <span className="uppercase tracking-[0.14em] text-muted">Status</span>
-                  <span className="text-accent">{available ? 'Open to work' : 'Booked out'}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="uppercase tracking-[0.14em] text-muted">{now?.label || 'Now'}</span>
-                  {nowProjectId != null && onProject ? (
-                    <button
-                      type="button"
-                      onClick={() => onProject({ id: nowProjectId })}
-                      className="text-right transition-colors hover:text-accent"
-                    >
-                      <span className="text-text">{nowText}</span>
-                      {nowSub && <span className="mt-0.5 block text-[0.65rem] normal-case tracking-normal text-muted">{nowSub}</span>}
-                    </button>
-                  ) : (
-                    <span className="text-right">
-                      <span className="text-text">{nowText}</span>
-                      {nowSub && <span className="mt-0.5 block text-[0.65rem] normal-case tracking-normal text-muted">{nowSub}</span>}
-                    </span>
-                  )}
-                </div>
-              </div>
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -bottom-6 left-1/2 h-3 w-3/4 -translate-x-1/2 rounded-full bg-accent/20 blur-xl"
+                style={{ transform: 'translateZ(-20px)' }}
+              />
             </div>
           </m.div>
           <div

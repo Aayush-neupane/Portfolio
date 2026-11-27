@@ -280,6 +280,8 @@ export default function MacBook({
     } else if (name === 'help') {
       push('ls       files in this folder', 'dim');
       push('cat      read a file', 'dim');
+      push('head     first lines', 'dim');
+      push('tail     last lines', 'dim');
       push('whoami   who is this', 'dim');
       push('hostname this machine', 'dim');
       push('env      environment vars', 'dim');
@@ -310,22 +312,26 @@ export default function MacBook({
       push('tab      complete a command', 'dim');
     } else if (name === 'ls') {
       push('ship.md    stack.md    now.md');
-    } else if (name === 'cat') {
+    } else if (name === 'cat' || name === 'head' || name === 'tail') {
       const file = args[0];
-      if (file === 'ship.md') {
-        push('Focus: Full-stack web');
-        push('Stack: React · TS');
-        push(`Status: ${available ? 'Open' : 'Booked'}`);
-      } else if (file === 'stack.md') {
-        push('Web: React · Tailwind');
-        push('Data: Supabase');
-        push('Games: Unity · C#');
-      } else if (file === 'now.md') {
-        push(nowText, 'accent');
-        push(nowSub || 'in progress', 'dim');
-        push(available ? `open for work · replies in ${reply}` : 'fully booked right now', available ? 'accent' : 'dim');
-      } else {
+      const lines =
+        file === 'ship.md'
+          ? ['Focus: Full-stack web', 'Stack: React · TS', `Status: ${available ? 'Open' : 'Booked'}`]
+          : file === 'stack.md'
+          ? ['Web: React · Tailwind', 'Data: Supabase', 'Games: Unity · C#']
+          : file === 'now.md'
+          ? [nowText, nowSub || 'in progress', available ? `open for work · replies in ${reply}` : 'fully booked right now']
+          : null;
+      if (!lines) {
         push('cat: no such file', 'dim');
+      } else {
+        const out = name === 'head' ? lines.slice(0, 2) : name === 'tail' ? lines.slice(-2) : lines;
+        out.forEach((l) => {
+          if (l === nowText) push(l, 'accent');
+          else if (l.startsWith('open for work') || l.startsWith('fully booked')) push(l, available ? 'accent' : 'dim');
+          else if (l === (nowSub || 'in progress')) push(l, 'dim');
+          else push(l);
+        });
       }
     } else if (name === 'whoami') {
       push('aayush neupane · dev · jhapa, np');
@@ -566,7 +572,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'hostname', 'env', 'top', 'df', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'su', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'head', 'tail', 'whoami', 'hostname', 'env', 'top', 'df', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'su', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

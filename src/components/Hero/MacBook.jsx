@@ -269,7 +269,10 @@ export default function MacBook({
     const text = raw.trim();
     const next = [...log];
     const push = (t, tone = 'out') => next.push({ text: t, tone });
-    const [name, ...args] = text.toLowerCase().split(/\s+/);
+    const parts = text.toLowerCase().split(/\s+/);
+    const aliases = { ll: 'ls', cls: 'clear', h: 'help', q: 'exit' };
+    if (parts[0] && aliases[parts[0]]) parts[0] = aliases[parts[0]];
+    const [name, ...args] = parts;
     push(text, 'cmd');
 
     if (!name) {

@@ -599,6 +599,13 @@ export default function MacBook({
   useEffect(() => {
     if (!engaged) return undefined;
     const onKey = (event) => {
+      /* ctrl+l clears the screen, like a real terminal */
+      if (event.ctrlKey && (event.key === 'l' || event.key === 'L')) {
+        event.preventDefault();
+        setLog([]);
+        setCmd('');
+        return;
+      }
       if (event.metaKey || event.ctrlKey || event.altKey || event.isComposing) return;
       const named = {
         Backspace: 'back',

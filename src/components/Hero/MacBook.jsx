@@ -236,6 +236,7 @@ export default function MacBook({
   const [chatLog, setChatLog] = useState([{ role: 'bot', text: 'Hi! I am Aurora. Ask me anything about Aayush.' }]);
   const [chatInput, setChatInput] = useState('');
   const [idleText, setIdleText] = useState('');
+  const [appGrid, setAppGrid] = useState(false);
   useEffect(() => {
     const full = 'Welcome to Aayush\'s MacBook.';
     let i = 0;
@@ -779,6 +780,15 @@ export default function MacBook({
                 <div className="hero-menubar">
                   <button
                     type="button"
+                    className="hero-menubar-apps"
+                    onClick={() => setAppGrid((v) => !v)}
+                    aria-label="Open app launcher"
+                    title="Apps"
+                  >
+                    ⌘
+                  </button>
+                  <button
+                    type="button"
                     className="hero-menubar-id"
                     onClick={() => setWin('closed')}
                     aria-label="Go to desktop"
@@ -961,6 +971,32 @@ export default function MacBook({
               <span aria-hidden="true" className="hero-laptop-notch">
                 <i />
               </span>
+              {appGrid ? (
+                <div className="hero-appgrid" role="dialog" aria-label="App launcher">
+                  <div className="hero-appgrid-grid">
+                    {dock.map(({ key, label, Icon }) => (
+                      <button
+                        key={key}
+                        type="button"
+                        className="hero-appgrid-item"
+                        onClick={() => {
+                          showFrame(key);
+                          setAppGrid(false);
+                        }}
+                        aria-label={`Open ${label}`}
+                      >
+                        <span className="hero-appgrid-icon">
+                          {key === 'aurora' ? <img src="/ailogo.svg" alt="" className="hero-idle-ai-img" aria-hidden="true" /> : <Icon aria-hidden="true" />}
+                        </span>
+                        <span className="hero-appgrid-label">{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <button type="button" className="hero-appgrid-close" onClick={() => setAppGrid(false)} aria-label="Close launcher">
+                    ×
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
           <button

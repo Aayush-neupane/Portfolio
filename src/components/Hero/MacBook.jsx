@@ -278,8 +278,8 @@ export default function MacBook({
   const frameIndex = Math.max(0, frames.findIndex((f) => f.key === view));
   const dock = useMemo(
     () => [
-      { key: 'aurora', label: 'Aurora', Icon: Sparkles },
-      { key: 'term', label: 'Term', Icon: Terminal },
+      { key: 'aurora', label: 'Aurora', Icon: Sparkles, hint: '1' },
+      { key: 'term', label: 'Term', Icon: Terminal, hint: '2' },
     ],
     []
   );
@@ -700,6 +700,16 @@ export default function MacBook({
     const onKey = (event) => {
       const tag = event.target && event.target.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      /* modifier + 1/2 switches apps; 0 goes back to the desktop */
+      const appKey = { Digit1: 'aurora', Digit2: 'term', Digit0: 'desktop' }[event.code];
+      if (appKey && (event.metaKey || event.ctrlKey || event.altKey) && !event.shiftKey) {
+        event.preventDefault();
+        setAppGrid(false);
+        setOpen(true);
+        setWin(appKey === 'desktop' ? 'closed' : 'open');
+        if (appKey !== 'desktop') setView(appKey);
+        return;
+      }
       /* ctrl+l clears the screen, like a real terminal */
       if (event.ctrlKey && (event.key === 'l' || event.key === 'L')) {
         event.preventDefault();
@@ -858,7 +868,7 @@ export default function MacBook({
                           Terminal
                         </button>
                       </div>
-                      <p className="hero-idle-hint">or use the dock / Apps button</p>
+                      <p className="hero-idle-hint">⌘1 Aurora · ⌘2 Terminal · ⌘0 desktop</p>
                     </div>
                   ) : view === 'term' ? (
                     <div className="hero-window hero-window-term">
@@ -984,14 +994,14 @@ export default function MacBook({
                   )}
 
                   <div className="hero-dock" role="group" aria-label="Switch the open window">
-                    {dock.map(({ key, label, Icon }) => (
+                    {dock.map(({ key, label, Icon, hint }) => (
                       <button
                         key={key}
                         type="button"
                         className={`hero-dock-btn${key === view ? ' is-on' : ''}`}
                         aria-pressed={key === view}
                         aria-label={`Show ${label}`}
-                        title={label}
+                        title={`${label} · ⌘${hint}`}
                         data-label={label}
                         onClick={() => showFrame(key)}
                       >

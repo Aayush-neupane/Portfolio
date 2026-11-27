@@ -21,7 +21,7 @@ function BrandMark({ className }) {
 }
 
 const timeNow = () =>
-  new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
 
 /* A real keycap layout: every key is its own button, and the widths add up per
  * row so the block keeps the staggered look of an actual MacBook keyboard. */

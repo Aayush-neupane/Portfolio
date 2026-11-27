@@ -328,32 +328,922 @@ html.light .hero-card {
 
 /* 3D dev console */
 .hero-device {
-  perspective: 1000px;
+  --lap-w: 28rem;
+  --lap-shift: 2.5rem;
+  perspective: 2400px;
+  /* the deck swings toward the side the machine faces, so nudge the rig back */
+  transform: translateX(var(--lap-shift));
 }
+/* the machine's own box is just the lid, so the deck needs reserved room below
+ * or the parallax and centring would ignore half of it */
 .hero-device-float {
-  animation: heroDeviceFloat 5s ease-in-out infinite;
-  will-change: transform;
+  /* 1em is 1% of the machine's width, so the reserve below the lid tracks the
+   * machine itself: percentage padding would resolve against the hero column
+   * and open a 250px gap under the deck on a single-column layout */
+  font-size: calc(var(--lap-w) / 100);
+  max-width: var(--lap-w);
+  margin-inline: auto;
+  padding-bottom: calc(38em + 0.35rem);
 }
 .hero-device-face {
-  box-shadow: 0 24px 48px -24px color-mix(in srgb, var(--color-accent) 40%, transparent);
+  box-shadow: 0 30px 60px -40px oklch(0 0 0 / 0.85);
 }
-.hero-device-screen {
-  box-shadow: inset 0 0 24px -8px color-mix(in srgb, var(--color-accent) 35%, transparent);
+/* the latch under the machine: the only control that is never inside the 3D
+ * subtree, so it stays clickable whether the lid is up or down */
+.hero-laptop-latch {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  translate: -50% 0;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  color: var(--color-muted);
+  font: 500 0.6rem/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
-.hero-caret {
-  animation: heroCaret 1s steps(2) infinite;
-}
-@keyframes heroDeviceFloat {
-  0%, 100% { transform: translateZ(0) rotateX(0deg) rotateY(0deg); }
-  50% { transform: translateZ(12px) rotateX(2deg) rotateY(-3deg); }
+.hero-laptop-latch:hover,
+.hero-laptop-latch:focus-visible {
+  color: var(--color-text);
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
 }
 @keyframes heroCaret {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
 }
+
+/* The MacBook. Same idea as the reference device: one shell, with the UI laid
+ * inside it and every measurement in cqw, so the machine scales as a unit
+ * instead of reflowing. The body then sits at the three-quarter angle product
+ * shots use: tipped back, turned toward the light, barely off level. */
+.hero-laptop {
+  --lap-metal-hi: oklch(0.52 0.006 250);
+  --lap-metal-mid: oklch(0.36 0.006 250);
+  --lap-metal-low: oklch(0.25 0.006 250);
+  --lap-back-hi: oklch(0.39 0.005 250);
+  --lap-back-mid: oklch(0.27 0.004 250);
+  --lap-back-low: oklch(0.17 0.004 250);
+  --lap-edge: oklch(1 0 0 / 0.16);
+  --lap-deck-line: oklch(1 0 0 / 0.09);
+  --lap-key: oklch(0.21 0.004 250);
+  --lap-key-gap: oklch(0.13 0.004 250);
+  --lap-ink: oklch(0.94 0.004 250);
+  --lap-dim: oklch(0.67 0.012 250);
+  --lap-panel: oklch(0.14 0.012 285 / 0.84);
+  --lap-line: oklch(1 0 0 / 0.11);
+  --lap-shadow: 0 26px 50px -32px oklch(0 0 0 / 0.9);
+  --lap-key-hi: oklch(0.31 0.004 250);
+  --lap-key-low: oklch(0.12 0.004 250);
+  --lap-key-label: oklch(0.82 0.008 250 / 0.55);
+  --lap-key-glow: oklch(0.97 0.03 78);
+  --lap-logo: oklch(0.19 0.005 250);
+  --lap-depth: 1.3cqw;
+  /* the deck is as deep as the lid is tall (22.1 / 31.3cm on a 14"); the
+   * keyboard block takes most of it, the way a real deck is laid out */
+  --lap-base-h: 68cqw;
+  position: relative;
+  width: 100%;
+  max-width: var(--lap-w);
+  margin-inline: auto;
+  container-type: inline-size;
+  transform-style: preserve-3d;
+  /* one camera for the whole machine: just above the deck, turned so it faces
+   * left, a hair off level. Kept shallow on purpose: product shots sit near the
+   * screen's plane, so the UI stays legible instead of skewing into a diamond */
+  transform: rotateX(-18deg) rotateY(-11deg) rotateZ(0.9deg);
+  transform-origin: 50% 100%;
+}
+/* soft floor shadow, cancelled back out of the machine's rotation */
+.hero-laptop::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 29cqw);
+  width: 104%;
+  height: 22cqw;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 44%, oklch(0 0 0 / 0.42), transparent 72%);
+  filter: blur(16px);
+  transform: translateZ(-60px) rotateX(18deg) rotateY(11deg) rotateZ(-0.9deg);
+  pointer-events: none;
+}
+html.light .hero-laptop::after {
+  background: radial-gradient(50% 50% at 50% 44%, oklch(0.32 0.03 60 / 0.32), transparent 74%);
+}
+/* the deck overhangs toward the side the machine faces, so the rig is sized
+ * per breakpoint: between 1024 and 1152 the hero column is only ~400px, and a
+ * full-size machine would crowd the copy and push its far corner out of frame */
+@media (max-width: 1152px) {
+  .hero-device { --lap-w: 23rem; --lap-shift: 0.5rem; }
+}
+@media (max-width: 1023.98px) {
+  .hero-device { --lap-w: 24rem; --lap-shift: 2rem; }
+}
+@media (max-width: 640px) {
+  .hero-device { --lap-w: 17rem; --lap-shift: 0.5rem; }
+}
+
+html.light .hero-laptop {
+  --lap-metal-hi: #f4ecdc;
+  --lap-metal-mid: #d6cab2;
+  --lap-metal-low: #b3a68c;
+  --lap-back-hi: #d5c9b0;
+  --lap-back-mid: #b6a281;
+  --lap-back-low: #94856b;
+  --lap-edge: oklch(1 0 0 / 0.75);
+  --lap-deck-line: oklch(0.25 0.02 60 / 0.16);
+  --lap-key: #3f3b36;
+  --lap-key-hi: #514c46;
+  --lap-key-low: #201d1a;
+  --lap-key-gap: #2a2724;
+  --lap-key-label: oklch(0.97 0.01 80 / 0.66);
+  --lap-key-glow: oklch(0.99 0.02 78);
+  --lap-logo: #7b6b52;
+  --lap-shadow: 0 26px 46px -32px oklch(0.3 0.04 60 / 0.6);
+}
+
+/* --- lid --- */
+.hero-laptop-lid {
+  position: relative;
+  width: 100%;
+  margin-inline: auto;
+  padding: 0.7cqw;
+  border-radius: 2.1cqw 2.1cqw 0.4cqw 0.4cqw;
+  background: linear-gradient(168deg, var(--lap-metal-hi) 0%, var(--lap-metal-mid) 42%, var(--lap-metal-low) 74%, var(--lap-metal-mid) 100%);
+  box-shadow:
+    inset 0 0.14cqw 0 oklch(1 0 0 / 0.42),
+    inset 0.12cqw 0 0 oklch(1 0 0 / 0.12),
+    inset 0 0 0 1px var(--lap-edge),
+    0 0 0.9cqw oklch(0 0 0 / 0.26);
+  transform-style: preserve-3d;
+  transform-origin: 50% 100%;
+  transform: rotateX(7deg);
+  transition: transform 0.95s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+/* Shut: the panel folds down until it lies on the deck, so the aluminium back
+ * becomes the top face. A hair of lift keeps its glass off the deck plane
+ * instead of z-fighting with the keyboard well under it. */
+.hero-laptop.is-closed .hero-laptop-lid {
+  transform: rotateX(-90deg) translateZ(-0.12cqw);
+  transition-duration: 0.72s;
+  transition-timing-function: cubic-bezier(0.55, 0, 0.6, 1);
+}
+/* hinge: the dark barrel along the back of the deck */
+.hero-laptop-hinge {
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  z-index: 2;
+  height: 2.2%;
+  border-radius: 0 0 0.4cqw 0.4cqw;
+  background: linear-gradient(180deg, oklch(0 0 0 / 0.55), oklch(0 0 0 / 0.24) 58%, oklch(0 0 0 / 0.5));
+  box-shadow: inset 0 -0.1cqw 0 oklch(1 0 0 / 0.14);
+}
+/* the aluminium behind the glass: the top face once the lid is shut, and the
+ * laptop's own lid button (nothing else lives on it) */
+.hero-laptop-lid-back {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  transform: translateZ(calc(var(--lap-depth) * -1));
+  background:
+    repeating-linear-gradient(90deg, oklch(1 0 0 / 0.016) 0 0.1cqw, transparent 0.1cqw 0.2cqw),
+    linear-gradient(104deg, oklch(1 0 0 / 0.07) 0%, transparent 22%, transparent 74%, oklch(1 0 0 / 0.04) 100%),
+    linear-gradient(168deg, var(--lap-back-hi), var(--lap-back-mid) 54%, var(--lap-back-low));
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.08);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.hero-laptop-lid-back:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -4px; }
+/* the mark is inlaid in the lid, so it only shows once the lid is down */
+.hero-laptop-logo {
+  width: 16%;
+  height: auto;
+  color: var(--lap-logo);
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  filter: drop-shadow(0 0.12cqw 0 oklch(1 0 0 / 0.16));
+}
+.hero-laptop.is-closed .hero-laptop-logo {
+  opacity: 1;
+  transition-delay: 0.42s;
+}
+.hero-laptop-lid-wall {
+  position: absolute;
+  top: 0.78cqw;
+  bottom: 0.78cqw;
+  right: 0;
+  width: var(--lap-depth);
+  transform-origin: 100% 50%;
+  transform: rotateY(-90deg);
+  border-radius: 0.3cqw 0 0 0.3cqw;
+  background: linear-gradient(90deg, oklch(0.18 0.005 250), color-mix(in srgb, var(--lap-metal-mid) 52%, var(--lap-metal-low)) 62%, var(--lap-metal-mid));
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.07);
+}
+
+.hero-laptop-bezel {
+  position: relative;
+  padding: 0.85cqw;
+  border-radius: 1.15cqw 1.15cqw 0.95cqw 0.95cqw;
+  background: #010102;
+  box-shadow:
+    inset 0 0 0 1px oklch(1 0 0 / 0.06),
+    inset 0 0.4cqw 1cqw oklch(0 0 0 / 0.7);
+}
+
+.hero-laptop-screen {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  cursor: none;
+  border-radius: 0.55cqw;
+  background: #000;
+  isolation: isolate;
+  box-shadow:
+    inset 0 0 0 1px oklch(1 0 0 / 0.07),
+    0 0 1.3cqw oklch(0.55 0.05 280 / 0.14),
+    inset 0 0 3cqw oklch(0 0 0 / 0.5);
+}
+
+/* the display: a deep-black wallpaper with two soft blooms, the way the
+ * product shots open on a Mac */
+.hero-laptop-wall {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 56% at 84% 6%, oklch(0.55 0.15 328 / 0.4), transparent 64%),
+    radial-gradient(54% 50% at 14% 16%, oklch(0.5 0.13 283 / 0.38), transparent 66%),
+    radial-gradient(64% 56% at 32% 96%, oklch(0.62 0.1 66 / 0.2), transparent 70%),
+    radial-gradient(48% 44% at 98% 92%, color-mix(in srgb, var(--color-accent) 24%, transparent), transparent 74%),
+    linear-gradient(160deg, #0c0916 0%, #151024 52%, #1d0f16 100%);
+}
+/* vignette + the sheen across the glass, kept off the middle so text stays read */
+.hero-laptop-wall::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    /* the room's light sliding across the glass, then the panel vignette */
+    linear-gradient(108deg, transparent 26%, oklch(1 0 0 / 0.055) 42%, oklch(1 0 0 / 0.015) 54%, transparent 68%),
+    radial-gradient(126% 100% at 50% 2%, transparent 46%, oklch(0 0 0 / 0.34) 100%),
+    linear-gradient(180deg, oklch(1 0 0 / 0.07), transparent 20%);
+}
+
+/* --- what is on the screen --- */
+.hero-laptop-ui {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.hero-menubar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2cqw;
+  padding: 1.1cqw 1.4cqw;
+  background: oklch(0 0 0 / 0.24);
+  border-bottom: 1px solid oklch(1 0 0 / 0.12);
+  font: 500 1.8cqw/1 var(--font-mono);
+  letter-spacing: 0.05em;
+  color: oklch(0.87 0.006 250);
+}
+.hero-menubar-id,
+.hero-menubar-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.1cqw;
+  min-width: 0;
+}
+.hero-menubar-id { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.hero-menubar-mark {
+  width: 2.7cqw;
+  height: 2.7cqw;
+  flex: none;
+  color: color-mix(in oklch, var(--color-accent) 62%, white);
+}
+.hero-menubar-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7cqw;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 1.5cqw;
+  color: var(--lap-dim);
+}
+.hero-laptop-blink {
+  width: 0.9cqw;
+  height: 0.9cqw;
+  border-radius: 999px;
+  background: var(--lap-dim);
+  animation: lapBlink 2.4s steps(1) infinite;
+}
+.hero-laptop-blink.is-on { background: oklch(0.78 0.17 145); }
+@keyframes lapBlink {
+  0%, 62% { opacity: 1; }
+  63%, 100% { opacity: 0.3; }
+}
+/* the display sleeps with the lid: it comes back up as the lid finishes its
+ * swing, and goes dark the moment the lid starts to close */
+.hero-laptop-wall,
+.hero-laptop-ui {
+  transition: opacity 0.55s ease 0.42s;
+}
+.hero-laptop.is-closed .hero-laptop-wall,
+.hero-laptop.is-closed .hero-laptop-ui {
+  opacity: 0;
+  transition: opacity 0.16s ease;
+}
+.hero-battery {
+  position: relative;
+  width: 3.4cqw;
+  height: 1.5cqw;
+  padding: 0.22cqw;
+  border: 1px solid var(--lap-dim);
+  border-radius: 0.35cqw;
+  opacity: 0.8;
+}
+.hero-battery::after {
+  content: '';
+  position: absolute;
+  right: -0.55cqw;
+  top: 50%;
+  width: 0.3cqw;
+  height: 0.75cqw;
+  translate: 0 -50%;
+  border-radius: 0 0.15cqw 0.15cqw 0;
+  background: var(--lap-dim);
+}
+.hero-battery i {
+  display: block;
+  width: 76%;
+  height: 100%;
+  border-radius: 0.15cqw;
+  background: var(--lap-ink);
+}
+.hero-battery i.is-low { width: 42%; }
+.hero-menubar-clock { font-variant-numeric: tabular-nums; color: var(--lap-ink); }
+
+.hero-desktop {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2cqw;
+  padding: 2.8cqw 2.6cqw 2cqw;
+}
+
+.hero-window {
+  border-radius: 1.2cqw;
+  border: 1px solid var(--lap-line);
+  background: var(--lap-panel);
+  box-shadow: 0 2.4cqw 4cqw -2.4cqw oklch(0 0 0 / 0.7);
+  overflow: hidden;
+}
+.hero-window-bar {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  padding: 1.1cqw 1.5cqw;
+  background: oklch(1 0 0 / 0.045);
+  border-bottom: 1px solid var(--lap-line);
+}
+.hero-window-lights { display: inline-flex; gap: 0.65cqw; }
+.hero-window-lights button {
+  display: grid;
+  place-items: center;
+  width: 1.05cqw;
+  height: 1.05cqw;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  cursor: pointer;
+  opacity: 0.82;
+  transition: opacity 0.15s ease;
+}
+.hero-window-lights button:hover { opacity: 1; }
+.hero-window-lights button:focus-visible {
+  outline: 1px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.hero-window-lights i {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+}
+.hero-window-lights .is-close i { background: #ff5f57; }
+.hero-window-lights .is-next i { background: #febc2e; }
+.hero-window-lights .is-zoom i { background: #28c840; }
+.hero-window-title {
+  flex: 1;
+  text-align: center;
+  font: 500 1.7cqw/1 var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--lap-dim);
+}
+.hero-window-count {
+  font: 500 1.6cqw/1 var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--lap-dim);
+  opacity: 0.65;
+}
+
+.hero-window-body { padding: 2.2cqw 2.4cqw 2.4cqw; animation: lapWindowIn 0.26s ease-out both; }
+@keyframes lapWindowIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: none; }
+}
+.hero-window-head {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 4.8cqw;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--lap-ink);
+}
+.hero-window-rows {
+  margin: 1.9cqw 0 0;
+  display: grid;
+  gap: 1cqw;
+}
+.hero-window-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.6cqw;
+  min-width: 0;
+}
+.hero-window-row dt {
+  flex: none;
+  font: 500 1.75cqw/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--lap-dim);
+}
+.hero-window-row dd {
+  margin: 0;
+  min-width: 0;
+  text-align: right;
+  font: 400 2.05cqw/1.3 var(--font-mono);
+  color: var(--lap-ink);
+  overflow-wrap: anywhere;
+}
+.hero-window-row dd.is-accent { color: color-mix(in oklch, var(--color-accent) 55%, white); }
+.hero-window-link {
+  font: inherit;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.hero-window-link:hover { color: color-mix(in oklch, var(--color-accent) 60%, white); }
+
+/* --- dock --- */
+.hero-dock {
+  align-self: center;
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 1.1cqw;
+  padding: 0.9cqw 1.1cqw;
+  border-radius: 1.7cqw;
+  border: 1px solid oklch(1 0 0 / 0.16);
+  background: oklch(0 0 0 / 0.32);
+}
+.hero-dock-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 6cqw;
+  height: 6cqw;
+  padding: 0;
+  border: 0;
+  border-radius: 1.4cqw;
+  background: oklch(1 0 0 / 0.09);
+  color: var(--lap-dim);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.hero-dock-btn svg { width: 3.1cqw; height: 3.1cqw; stroke-width: 1.7; }
+.hero-dock-btn:hover,
+.hero-dock-btn:focus-visible {
+  background: oklch(1 0 0 / 0.18);
+  color: var(--lap-ink);
+}
+.hero-dock-btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+.hero-dock-btn.is-on {
+  color: var(--lap-ink);
+  background: color-mix(in srgb, var(--color-accent) 72%, transparent);
+}
+.hero-dock-btn.is-on::after {
+  content: '';
+  position: absolute;
+  bottom: -0.9cqw;
+  left: 50%;
+  translate: -50% 0;
+  width: 0.75cqw;
+  height: 0.75cqw;
+  border-radius: 999px;
+  background: var(--lap-ink);
+  opacity: 0.7;
+}
+
+/* --- notch, base --- */
+.hero-laptop-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  translate: -50% 0;
+  display: grid;
+  place-items: center;
+  width: 13%;
+  height: 1.9cqw;
+  border-radius: 0 0 0.6cqw 0.6cqw;
+  background: #08090b;
+  z-index: 3;
+}
+.hero-laptop-notch i {
+  width: 0.4cqw;
+  height: 0.4cqw;
+  border-radius: 999px;
+  background: oklch(0.55 0.03 250);
+  box-shadow: 0 0 0.6cqw oklch(0.55 0.05 250 / 0.5);
+}
+
+/* --- base: deck, keycaps, palm rest, front lip --- */
+.hero-laptop-base {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: var(--lap-base-h);
+  transform-origin: 50% 0;
+  transform: rotateX(90deg);
+  transform-style: preserve-3d;
+  border-radius: 0 0 1.8cqw 1.8cqw / 0 0 1.3cqw 1.3cqw;
+  background:
+    /* fine grain: brushed aluminium is never a clean vertical ramp */
+    repeating-linear-gradient(90deg, oklch(1 0 0 / 0.022) 0 0.1cqw, transparent 0.1cqw 0.19cqw),
+    repeating-linear-gradient(90deg, oklch(0 0 0 / 0.03) 0 0.07cqw, transparent 0.07cqw 0.26cqw),
+    radial-gradient(58% 44% at 74% 24%, oklch(1 0 0 / 0.11), transparent 72%),
+    linear-gradient(112deg, oklch(1 0 0 / 0.09) 0%, oklch(1 0 0 / 0.025) 18%, transparent 34%),
+    linear-gradient(96deg, oklch(0 0 0 / 0.16) 0%, transparent 22%),
+    radial-gradient(78% 60% at 22% 8%, oklch(1 0 0 / 0.08), transparent 62%),
+    linear-gradient(180deg, var(--lap-metal-low) 0%, var(--lap-metal-mid) 30%, var(--lap-metal-mid) 76%, var(--lap-metal-hi) 100%);
+  box-shadow: inset 0 0 0 1px var(--lap-edge), var(--lap-shadow);
+  overflow: hidden;
+}
+/* rounded side falloff, so the slab reads as one piece of metal */
+.hero-laptop-base::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, oklch(0 0 0 / 0.22), transparent 6%, transparent 94%, oklch(1 0 0 / 0.08));
+}
+
+/* speaker grilles flanking the keyboard */
+.hero-laptop-grille {
+  position: absolute;
+  top: 4.6%;
+  height: 51%;
+  width: 3%;
+  border-radius: 0.4cqw;
+  background-image: radial-gradient(circle, oklch(0 0 0 / 0.5) 0 0.085cqw, transparent 0.1cqw);
+  background-size: 0.62cqw 0.62cqw;
+  opacity: 0.75;
+}
+.hero-laptop-grille.is-left { left: 2.6%; }
+.hero-laptop-grille.is-right { right: 2.6%; }
+
+/* the recessed well the keyboard sits in */
+.hero-laptop-well {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 4.6%;
+  height: 51%;
+  padding: 0.55cqw 0.6cqw;
+  border-radius: 0.9cqw;
+  background: linear-gradient(180deg, oklch(0.17 0.005 250), oklch(0.1 0.004 250));
+  box-shadow:
+    inset 0 0.3cqw 0.8cqw oklch(0 0 0 / 0.65),
+    inset 0 0 2.2cqw color-mix(in srgb, var(--lap-key-glow) 12%, transparent),
+    0 0.1cqw 0 oklch(1 0 0 / 0.1);
+}
+.hero-laptop-keys {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3cqw;
+  height: 100%;
+}
+.hero-laptop-keyrow {
+  display: flex;
+  gap: 0.28cqw;
+  flex: var(--row-h, 1);
+  min-height: 0;
+}
+.hero-laptop-key {
+  position: relative;
+  flex: var(--key-w, 1);
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 0.1cqw;
+  border: 0;
+  border-radius: 0.2cqw;
+  background: linear-gradient(180deg, var(--lap-key-hi), var(--lap-key) 58%, var(--lap-key-low));
+  box-shadow:
+    inset 0 0.07cqw 0 oklch(1 0 0 / 0.13),
+    inset 0 -0.09cqw 0 oklch(0 0 0 / 0.5),
+    0 0.1cqw 0 oklch(0 0 0 / 0.35),
+    0 0.06cqw 0.12cqw oklch(0 0 0 / 0.5),
+    0 0.04cqw 0.42cqw color-mix(in srgb, var(--lap-key-glow) 20%, transparent);
+  color: var(--lap-key-label);
+  text-shadow:
+    0 0 0.28cqw color-mix(in srgb, var(--lap-key-glow) 52%, transparent),
+    0 0 0.55cqw color-mix(in srgb, var(--lap-key-glow) 24%, transparent);
+  font: 500 1.5cqw/1 var(--font-mono);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: transform 90ms ease, filter 90ms ease, box-shadow 90ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+/* the flat top face of the cap, inset inside its bevel */
+.hero-laptop-key::before {
+  content: '';
+  position: absolute;
+  inset: 0.13cqw 0.11cqw 0.18cqw;
+  border-radius: 0.16cqw;
+  background: linear-gradient(180deg, oklch(1 0 0 / 0.085), transparent 58%);
+  box-shadow: inset 0 -0.05cqw 0 oklch(0 0 0 / 0.22);
+  pointer-events: none;
+}
+.hero-laptop-key.is-word {
+  font-size: 1.1cqw;
+  letter-spacing: 0;
+}
+.hero-laptop-key span {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+/* caps lock's tell-tale */
+.hero-laptop-led {
+  position: absolute;
+  top: 0.28cqw;
+  right: 0.28cqw;
+  width: 0.3cqw;
+  height: 0.3cqw;
+  border-radius: 999px;
+  background: oklch(1 0 0 / 0.16);
+}
+.hero-laptop-led.is-on {
+  background: oklch(0.9 0.15 95);
+  box-shadow: 0 0 0.45cqw oklch(0.9 0.15 95 / 0.9);
+}
+/* the arrow cluster: two half-height rows of three, an inverted T */
+.hero-laptop-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28cqw;
+  min-width: 0;
+}
+.hero-laptop-cluster .hero-laptop-keyrow { flex: 1; }
+.hero-laptop-cluster .hero-laptop-key { font-size: 1.1cqw; }
+.hero-laptop-spacer { flex: 1; min-width: 0; }
+.hero-laptop-key:hover { filter: brightness(1.12); }
+.hero-laptop-key:active {
+  transform: translateY(0.13cqw);
+  filter: brightness(0.86);
+  box-shadow:
+    inset 0 0.1cqw 0.22cqw oklch(0 0 0 / 0.6),
+    0 0 0.2cqw color-mix(in srgb, var(--lap-key-glow) 22%, transparent);
+}
+
+/* glass trackpad on the palm rest */
+.hero-laptop-pad {
+  position: absolute;
+  left: 50%;
+  top: 58.5%;
+  translate: -50% 0;
+  width: 30%;
+  height: 22%;
+  border-radius: 0.7cqw;
+  background:
+    linear-gradient(180deg, oklch(1 0 0 / 0.05), oklch(0 0 0 / 0.12)),
+    var(--lap-metal-low);
+  box-shadow:
+    inset 0 0 0 1px var(--lap-deck-line),
+    inset 0 0.18cqw 0.4cqw oklch(0 0 0 / 0.2),
+    0 0.1cqw 0 oklch(1 0 0 / 0.12);
+}
+
+/* front lip: the edge that catches the light, with the opening groove in it */
+.hero-laptop-lip {
+  position: absolute;
+  inset: auto 0 0;
+  height: 10%;
+  border-radius: 0 0 2.2cqw 2.2cqw;
+  background: linear-gradient(180deg, var(--lap-metal-hi) 0%, var(--lap-metal-mid) 40%, var(--lap-metal-low) 100%);
+  border-top: 1px solid oklch(1 0 0 / 0.13);
+  box-shadow: 0 -0.45cqw 0.9cqw oklch(0 0 0 / 0.3);
+}
+.hero-laptop-groove {
+  position: absolute;
+  left: 50%;
+  bottom: 3.2%;
+  translate: -50% 0;
+  width: 13%;
+  height: 0.7cqw;
+  border-radius: 999px;
+  background: linear-gradient(180deg, oklch(0 0 0 / 0.45), oklch(0 0 0 / 0.2));
+  box-shadow:
+    inset 0 0.1cqw 0.16cqw oklch(0 0 0 / 0.5),
+    0 0.1cqw 0 oklch(1 0 0 / 0.16);
+}
+
+/* --- idle desktop and terminal --- */
+.hero-idle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2cqw;
+  text-align: center;
+}
+.hero-idle-mark {
+  width: 9cqw;
+  height: auto;
+  color: oklch(1 0 0 / 0.42);
+}
+.hero-idle-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 3.6cqw;
+  letter-spacing: -0.01em;
+  color: var(--lap-ink);
+}
+.hero-idle-hint {
+  margin: 0;
+  font: 400 1.55cqw/1.4 var(--font-mono);
+  color: var(--lap-dim);
+}
+.hero-term-body {
+  display: grid;
+  gap: 0.45cqw;
+  padding: 1.5cqw 2.2cqw 2.2cqw;
+  font: 400 1.75cqw/1.4 var(--font-mono);
+  color: var(--lap-ink);
+  overflow: hidden;
+}
+.hero-term-line {
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.hero-term-line.is-cmd { color: color-mix(in oklch, var(--color-accent) 58%, white); }
+.hero-term-line.is-cmd::before { content: '~ % '; color: var(--lap-dim); }
+.hero-term-line.is-dim { color: var(--lap-dim); }
+.hero-term-line.is-accent { color: color-mix(in oklch, var(--color-accent) 50%, white); }
+.hero-term-line.is-live {
+  display: flex;
+  align-items: center;
+  gap: 0.7cqw;
+  color: var(--lap-ink);
+}
+.hero-term-prompt { color: color-mix(in oklch, var(--color-accent) 58%, white); }
+.hero-term-cmd { overflow: hidden; white-space: pre; }
+.hero-term-body .hero-laptop-caret { flex: none; }
+.hero-desktop.is-zoom .hero-window {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+.hero-desktop.is-zoom .hero-window-body { flex: 1; }
+.hero-desktop.is-zoom .hero-dock { display: none; }
+.hero-window-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.7cqw;
+  margin: 1.8cqw 0 0;
+  font: 400 1.55cqw/1 var(--font-mono);
+  color: var(--lap-dim);
+  opacity: 0.8;
+}
+.hero-window-hint .hero-laptop-caret { flex: none; height: 0.9em; }
+.hero-window-hint.is-live { color: color-mix(in oklch, var(--color-accent) 45%, white); opacity: 1; }
+
+/* the pointer the display draws for itself */
+.hero-laptop-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  width: 0.85rem;
+  height: 1.3rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  filter: drop-shadow(0 1px 2px oklch(0 0 0 / 0.6));
+  will-change: transform;
+}
+.hero-laptop-cursor.is-on { opacity: 1; }
+.hero-laptop-cursor svg { width: 100%; height: 100%; display: block; }
+
+/* the work window: three real projects, each one a link into the case study */
+.hero-work-list {
+  display: grid;
+  gap: 0.75cqw;
+  margin: 1.7cqw 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hero-work-item {
+  display: flex;
+  align-items: center;
+  gap: 1.1cqw;
+  width: 100%;
+  padding: 1.05cqw 1.3cqw;
+  border: 1px solid var(--lap-line);
+  border-radius: 0.8cqw;
+  background: oklch(1 0 0 / 0.045);
+  color: var(--lap-ink);
+  font: 400 1.95cqw/1.2 var(--font-mono);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.hero-work-item:hover,
+.hero-work-item:focus-visible {
+  background: oklch(1 0 0 / 0.1);
+  border-color: oklch(1 0 0 / 0.24);
+}
+.hero-work-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.hero-work-meta {
+  flex: none;
+  font-size: 1.45cqw;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--lap-dim);
+}
+.hero-work-go { flex: none; width: 1.9cqw; height: 1.9cqw; color: var(--lap-dim); }
+.hero-work-item:hover .hero-work-go { color: var(--lap-ink); }
+
+/* typing feedback in the window title */
+.hero-laptop-caret {
+  display: inline-block;
+  width: 0.16cqw;
+  height: 1.05em;
+  margin-left: 0.14cqw;
+  vertical-align: -0.14em;
+  background: color-mix(in oklch, var(--color-accent) 60%, white);
+  animation: heroCaret 1.05s steps(2) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-device-float { animation: none; }
-  .hero-caret { animation: none; }
+  .hero-laptop-lid,
+  .hero-laptop-logo,
+  .hero-laptop-wall,
+  .hero-laptop-ui,
+  .hero-laptop-cursor,
+  .hero-window-lights button,
+  .hero-work-item,
+  .hero-laptop-latch { transition: none; }
+  .hero-laptop-blink { animation: none; }
+  .hero-laptop-caret { animation: none; }
+  .hero-window-body { animation: none; }
+  .hero-dock-btn { transition: none; }
+  .hero-laptop-key { transition: none; }
 }
 
 /* Loader curtain lift */

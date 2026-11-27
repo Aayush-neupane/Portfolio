@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { m, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { scrollToTarget } from '../../utils/scroll.js';
+import MacBook from './MacBook.jsx';
 
 function CountUp({ to, suffix = '' }) {
   const [val, setVal] = useState(0);
@@ -31,7 +31,7 @@ function CountUp({ to, suffix = '' }) {
   );
 }
 
-export default function Hero({ profile, now, onProject, stats }) {
+export default function Hero({ profile, now, onProject, stats, projects = [] }) {
   const rootRef = useRef(null);
   const name = profile?.name || 'Aayush Neupane';
   const [first, ...restName] = name.split(' ');
@@ -46,29 +46,6 @@ export default function Hero({ profile, now, onProject, stats }) {
   const hour = new Date().getHours();
   const greeting =
     hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-
-  const canTilt = useMemo(
-    () =>
-      typeof window !== 'undefined' &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
-      !window.matchMedia('(pointer: coarse)').matches,
-    []
-  );
-  const rx = useMotionValue(0);
-  const ry = useMotionValue(0);
-  const srx = useSpring(rx, { stiffness: 180, damping: 18 });
-  const sry = useSpring(ry, { stiffness: 180, damping: 18 });
-
-  const onTilt = (e) => {
-    if (!canTilt) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    ry.set(((e.clientX - r.left) / r.width - 0.5) * 10);
-    rx.set(-((e.clientY - r.top) / r.height - 0.5) * 10);
-  };
-  const resetTilt = () => {
-    rx.set(0);
-    ry.set(0);
-  };
 
   useEffect(() => {
     const root = rootRef.current;
@@ -192,108 +169,23 @@ export default function Hero({ profile, now, onProject, stats }) {
           </dl>
         </div>
 
-        <div data-reveal data-parallax className="relative" onMouseMove={onTilt} onMouseLeave={resetTilt}>
-          <m.div
-            style={
-              canTilt
-                ? { rotateX: srx, rotateY: sry, transformPerspective: 900 }
-                : undefined
-            }
-          >
-            <div
-              className="hero-device relative"
-              style={{ transformStyle: 'preserve-3d', perspective: '900px' }}
-            >
-              <div className="hero-device-float" style={{ transformStyle: 'preserve-3d' }}>
-                {/* back plate for depth */}
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-0 rounded-2xl bg-elevated/60"
-                  style={{ transform: 'translateZ(-18px)' }}
-                />
-                {/* front face */}
-                <div className="hero-device-face relative rounded-2xl border border-border bg-elevated p-5 md:p-6">
-                  {/* top bar */}
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted">
-                      Dev console
-                    </span>
-                    <span className="inline-flex gap-1.5" aria-hidden="true">
-                      <span className="h-2 w-2 rounded-full bg-accent" />
-                      <span className="h-2 w-2 rounded-full bg-muted/40" />
-                      <span className="h-2 w-2 rounded-full bg-muted/40" />
-                    </span>
-                  </div>
-                  {/* screen */}
-                  <div className="hero-device-screen mt-4 rounded-lg border border-border bg-ink p-4 font-mono text-xs leading-relaxed text-accent">
-                    <div className="flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.16em] text-muted">
-                      <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-                      live
-                    </div>
-                    <p className="mt-3 font-display text-3xl leading-none text-text md:text-4xl">
-                      Ship<span className="text-accent">.</span>
-                    </p>
-                    <div className="mt-4 space-y-2">
-                      <div className="flex justify-between">
-                        <span className="text-muted">Focus</span>
-                        <span className="text-text">Full-stack web</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted">Stack</span>
-                        <span className="text-text">React · TS</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted">Status</span>
-                        <span className="text-accent">{available ? 'Open' : 'Booked'}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted">{now?.label || 'Now'}</span>
-                        {nowProjectId != null && onProject ? (
-                          <button type="button" onClick={() => onProject({ id: nowProjectId })} className="text-right text-text transition-colors hover:text-accent">
-                            {nowText}
-                          </button>
-                        ) : (
-                          <span className="text-text">{nowText}</span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="mt-3 flex items-center gap-1 text-[0.6rem] text-muted">
-                      <span className="hero-caret inline-block h-3 w-1.5 bg-accent" />
-                      <span>ready</span>
-                    </div>
-                  </div>
-                  {/* controls */}
-                  <div className="mt-4 flex items-center justify-between">
-                    <div className="grid grid-cols-3 gap-1" aria-hidden="true">
-                      <span />
-                      <span className="h-3 w-3 rounded-sm bg-border" />
-                      <span />
-                      <span className="h-3 w-3 rounded-sm bg-border" />
-                      <span className="h-3 w-3 rounded-sm bg-border" />
-                      <span className="h-3 w-3 rounded-sm bg-border" />
-                      <span />
-                      <span className="h-3 w-3 rounded-sm bg-border" />
-                      <span />
-                    </div>
-                    <div className="flex gap-2" aria-hidden="true">
-                      <span className="h-5 w-5 rounded-full border border-border bg-border/40" />
-                      <span className="h-5 w-5 rounded-full border border-border bg-accent/70" />
-                    </div>
-                  </div>
-                </div>
-                {/* ground shadow */}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -bottom-5 left-1/2 h-4 w-4/5 -translate-x-1/2 rounded-full bg-accent/25 blur-xl"
-                  style={{ transform: 'translateZ(-24px)' }}
-                />
-              </div>
-            </div>
-          </m.div>
+        <div data-reveal data-parallax className="relative">
           <div
-            aria-hidden="true"
-            className="absolute -bottom-4 -right-4 -z-10 h-full w-full rounded-xl border border-border"
-          />
+            className="hero-device relative"
+            style={{ transformStyle: 'preserve-3d', perspective: '2400px' }}
+          >
+            <div className="hero-device-float" style={{ transformStyle: 'preserve-3d' }}>
+              <MacBook
+                available={available}
+                reply={reply}
+                nowText={nowText}
+                nowSub={nowSub}
+                nowProjectId={nowProjectId}
+                onProject={onProject}
+                projects={projects}
+              />
+            </div>
+          </div>
         </div>
       </div>
 

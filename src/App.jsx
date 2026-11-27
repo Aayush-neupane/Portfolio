@@ -970,7 +970,13 @@ export default function App() {
         </main>
       ) : (
         <main>
-          <Hero profile={profile} now={nowStatus} onProject={openProject} stats={stats} />
+          <Hero
+            profile={profile}
+            now={nowStatus}
+            onProject={openProject}
+            stats={stats}
+            projects={projects}
+          />
           <ClientStrip
             projects={projects}
             onOpen={(id) => handleNav(`${PROJECT_DETAIL_PREFIX}${id}`)}

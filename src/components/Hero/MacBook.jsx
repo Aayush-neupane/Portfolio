@@ -282,6 +282,7 @@ export default function MacBook({
       push('cat      read a file', 'dim');
       push('whoami   who is this', 'dim');
       push('greet    say hello', 'dim');
+      push('banner   ascii art', 'dim');
       push('version  build info', 'dim');
       push('cal      this month', 'dim');
       push('now      what is happening', 'dim');
@@ -325,6 +326,13 @@ export default function MacBook({
       const g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
       push(`${g}, visitor.`, 'accent');
       push('welcome to the dev console.', 'dim');
+    } else if (name === 'banner') {
+      push('   _   _                  _     ', 'accent');
+      push('  /_\\ | |__   __ _ _   _| |__  ', 'accent');
+      push(' //_\\\\| \'_ \\ / _` | | | | \'_ \\ ', 'accent');
+      push('/  _  \\ | | | (_| | |_| | |_) |', 'accent');
+      push('\\_/ \\_/_| |_|\\__,_|\\__,_|_.__/ ', 'accent');
+      push('aayush neupane · dev · jhapa', 'dim');
     } else if (name === 'version') {
       push('portfolio 1.0.0', 'accent');
       push('built with react + vite', 'dim');
@@ -502,7 +510,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'banner', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

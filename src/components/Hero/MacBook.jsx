@@ -282,6 +282,7 @@ export default function MacBook({
       push('cat      read a file', 'dim');
       push('whoami   who is this', 'dim');
       push('hostname this machine', 'dim');
+      push('env      environment vars', 'dim');
       push('greet    say hello', 'dim');
       push('banner   ascii art', 'dim');
       push('fortune  a small truth', 'dim');
@@ -325,6 +326,12 @@ export default function MacBook({
       push('aayush neupane · dev · jhapa, np');
     } else if (name === 'hostname') {
       push('aayushnp.com');
+    } else if (name === 'env') {
+      push('USER=aayush', 'dim');
+      push('SHELL=/bin/zsh', 'dim');
+      push('LANG=en_US.UTF-8', 'dim');
+      push('TERM=xterm-256color', 'dim');
+      push('PWD=/Users/aayush/portfolio', 'dim');
     } else if (name === 'greet') {
       const h = new Date().getHours();
       const g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
@@ -523,7 +530,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'hostname', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'hostname', 'env', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

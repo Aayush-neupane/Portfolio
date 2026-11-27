@@ -855,6 +855,8 @@ html.light .hero-laptop {
   border-radius: 1.7cqw;
   border: 1px solid oklch(1 0 0 / 0.16);
   background: oklch(0 0 0 / 0.32);
+  backdrop-filter: blur(0.6cqw);
+  -webkit-backdrop-filter: blur(0.6cqw);
 }
 .hero-dock-btn {
   position: relative;

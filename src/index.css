@@ -432,6 +432,11 @@ html.light .hero-card {
   filter: blur(16px);
   transform: translateZ(-60px) rotateX(18deg) rotateY(11deg) rotateZ(-0.9deg);
   pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.hero-laptop.is-closed::after {
+  opacity: 0.55;
+  transform: translateZ(-60px) rotateX(18deg) rotateY(11deg) rotateZ(-0.9deg) scale(0.88);
 }
 html.light .hero-laptop::after {
   background: radial-gradient(50% 50% at 50% 44%, oklch(0.32 0.03 60 / 0.32), transparent 74%);

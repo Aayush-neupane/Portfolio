@@ -803,7 +803,7 @@ export default function MacBook({
                               ))}
                             </ul>
                           ) : (
-                            <p className="hero-window-hint">no projects yet — check back soon</p>
+                            <p className="hero-window-hint">no projects yet — try `projects` in the terminal</p>
                           )
                         ) : (
                           <dl className="hero-window-rows">

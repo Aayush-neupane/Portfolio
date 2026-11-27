@@ -1325,28 +1325,29 @@ html.light .hero-laptop-logo {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.2cqw;
+  gap: 0.8cqw;
   text-align: center;
-  padding: 2cqw;
+  padding: 1cqw 2cqw;
+  margin-top: -2cqw;
 }
 .hero-idle-hello {
   margin: 0;
-  font-family: 'Instrument Serif', 'Times New Roman', serif;
-  font-style: italic;
-  font-size: 9cqw;
+  font-family: 'Snell Roundhand', 'Apple Chancery', 'Brush Script MT', cursive;
+  font-style: normal;
+  font-size: 13cqw;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   color: var(--lap-ink);
-  min-height: 9cqw;
+  min-height: 13cqw;
 }
 .hero-idle-welcome {
-  margin: -1.5cqw 0 0;
+  margin: -2cqw 0 0;
   font-family: var(--font-display);
-  font-size: 4cqw;
+  font-size: 5cqw;
   line-height: 1.1;
   letter-spacing: -0.015em;
   color: var(--lap-ink);
-  min-height: 4.5cqw;
+  min-height: 5.5cqw;
 }
 .hero-idle-hint {
   margin: 0;

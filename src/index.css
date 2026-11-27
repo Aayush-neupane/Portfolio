@@ -883,6 +883,7 @@ html.light .hero-laptop {
 .hero-dock-btn.is-on {
   color: var(--lap-ink);
   background: color-mix(in srgb, var(--color-accent) 72%, transparent);
+  transform: translateY(-0.4cqw) scale(1.05);
 }
 .hero-dock-btn.is-on::after {
   content: '';

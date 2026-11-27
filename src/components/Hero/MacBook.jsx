@@ -305,6 +305,7 @@ export default function MacBook({
       push('open     open ship / build / now / work', 'dim');
       push('date     current date and time', 'dim');
       push('echo     print text', 'dim');
+      push('shout    shout text', 'dim');
       push('pwd      working directory', 'dim');
       push('history  previous commands', 'dim');
       push('uptime   how long this session', 'dim');
@@ -455,6 +456,8 @@ export default function MacBook({
       push(new Date().toLocaleString(undefined, { dateStyle: 'full', timeStyle: 'long' }));
     } else if (name === 'echo') {
       push(args.join(' '));
+    } else if (name === 'shout') {
+      push(args.join(' ').toUpperCase(), 'accent');
     } else if (name === 'pwd') {
       push('/Users/aayush/portfolio');
     } else if (name === 'history') {
@@ -614,7 +617,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'tree', 'cat', 'head', 'tail', 'grep', 'whoami', 'hostname', 'env', 'top', 'df', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'touch', 'mkdir', 'rm', 'man', 'clear', 'reset', 'sudo', 'su', 'exit'];
+        const cmds = ['help', 'ls', 'tree', 'cat', 'head', 'tail', 'grep', 'whoami', 'hostname', 'env', 'top', 'df', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'shout', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'touch', 'mkdir', 'rm', 'man', 'clear', 'reset', 'sudo', 'su', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

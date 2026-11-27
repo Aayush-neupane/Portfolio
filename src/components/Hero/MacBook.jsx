@@ -288,6 +288,7 @@ export default function MacBook({
       push('banner   ascii art', 'dim');
       push('fortune  a small truth', 'dim');
       push('ping     check a host', 'dim');
+      push('weather  local forecast', 'dim');
       push('sl       steam locomotive', 'dim');
       push('version  build info', 'dim');
       push('cal      this month', 'dim');
@@ -445,6 +446,9 @@ export default function MacBook({
       }
     } else if (name === 'sudo') {
       push('nice try.');
+    } else if (name === 'weather') {
+      push('Jhapa, NP: 28°C, partly cloudy', 'accent');
+      push('humidity 62% · wind 8 km/h', 'dim');
     } else if (name === 'ping') {
       const host = args[0] || 'aayushnp.com';
       push(`PING ${host}: 56 data bytes`, 'dim');
@@ -556,7 +560,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'hostname', 'env', 'top', 'ping', 'sl', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'hostname', 'env', 'top', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

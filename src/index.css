@@ -484,7 +484,7 @@ html.light .hero-laptop {
   transform-style: preserve-3d;
   transform-origin: 50% 100%;
   transform: rotateX(7deg);
-  transition: transform 0.95s cubic-bezier(0.22, 0.9, 0.24, 1);
+  transition: transform 0.8s cubic-bezier(0.22, 0.9, 0.24, 1);
 }
 /* Shut: the panel folds down until it lies on the deck, so the aluminium back
  * becomes the top face. A hair of lift keeps its glass off the deck plane

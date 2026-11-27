@@ -689,7 +689,7 @@ export default function MacBook({
                         ))}
                         <p className="hero-term-line is-live">
                           <span className="hero-term-prompt" aria-hidden="true">
-                            %
+                            ~ %
                           </span>
                           <span className="hero-term-cmd">{cmd}</span>
                           <span aria-hidden="true" className="hero-laptop-caret" />

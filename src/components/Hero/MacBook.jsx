@@ -277,6 +277,7 @@ export default function MacBook({
       push('history  previous commands', 'dim');
       push('uptime   how long this session', 'dim');
       push('neofetch system summary', 'dim');
+      push('theme     dark / light mode', 'dim');
       push('clear    wipe the screen', 'dim');
       push('tab      complete a command', 'dim');
     } else if (name === 'ls') {
@@ -354,6 +355,20 @@ export default function MacBook({
       push('    (|     | )     Shell: zsh 5.9');
       push('   /\'\\_   _/`\\    Theme: ' + (document.documentElement.classList.contains('dark') ? 'dark' : 'light'));
       push('   \\___)=(___/     Projects: ' + projects.length);
+    } else if (name === 'theme') {
+      const arg = args[0];
+      const isDark = document.documentElement.classList.contains('dark');
+      if (!arg) {
+        push(isDark ? 'dark' : 'light');
+      } else if (arg === 'dark' && !isDark) {
+        document.querySelector('button[aria-label*="Switch to dark"]')?.click();
+        push('switched to dark', 'accent');
+      } else if (arg === 'light' && isDark) {
+        document.querySelector('button[aria-label*="Switch to light"]')?.click();
+        push('switched to light', 'accent');
+      } else {
+        push('theme dark | light', 'dim');
+      }
     } else if (name === 'sudo') {
       push('nice try.');
     } else if (name === 'exit') {
@@ -406,7 +421,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'clear', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'clear', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

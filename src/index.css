@@ -1282,6 +1282,12 @@ html.light .hero-laptop {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.hero-work-index {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+  color: var(--lap-dim);
+  opacity: 0.6;
+}
 .hero-work-meta {
   flex: none;
   font-size: 1.45cqw;

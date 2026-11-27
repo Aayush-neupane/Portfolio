@@ -738,7 +738,7 @@ export default function MacBook({
                         {frame.list ? (
                           frame.list.length ? (
                             <ul className="hero-work-list">
-                              {frame.list.map((item) => (
+                              {frame.list.map((item, i) => (
                                 <li key={item.id}>
                                   <button
                                     type="button"
@@ -746,6 +746,7 @@ export default function MacBook({
                                     onClick={() => onProject?.({ id: item.id })}
                                     aria-label={`Open ${item.title}`}
                                   >
+                                    <span className="hero-work-index">{String(i + 1).padStart(2, '0')}</span>
                                     <span className="hero-work-name">{item.title}</span>
                                     <span className="hero-work-meta">{item.kind}</span>
                                     <ArrowUpRight aria-hidden="true" className="hero-work-go" />

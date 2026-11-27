@@ -267,6 +267,7 @@ export default function MacBook({
       push('ls       files in this folder', 'dim');
       push('cat      read a file', 'dim');
       push('whoami   who is this', 'dim');
+      push('greet    say hello', 'dim');
       push('now      what is happening', 'dim');
       push('stack    tools and languages', 'dim');
       push('projects list recent work', 'dim');
@@ -301,6 +302,11 @@ export default function MacBook({
       }
     } else if (name === 'whoami') {
       push('aayush neupane · dev · jhapa, np');
+    } else if (name === 'greet') {
+      const h = new Date().getHours();
+      const g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+      push(`${g}, visitor.`, 'accent');
+      push('welcome to the dev console.', 'dim');
     } else if (name === 'now') {
       push(nowText, 'accent');
       push(nowSub || 'in progress', 'dim');
@@ -421,7 +427,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'clear', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'clear', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

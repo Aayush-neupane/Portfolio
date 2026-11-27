@@ -23,6 +23,9 @@ function BrandMark({ className }) {
 const timeNow = () =>
   new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
 
+/* bumped so a '0' written by an older build cannot leave the lid shut */
+const LAP_OPEN_KEY = 'lap-open-2';
+
 /* A real keycap layout: every key is its own button, and the widths add up per
  * row so the block keeps the staggered look of an actual MacBook keyboard. */
 const cap = (label, value = label.toLowerCase(), w = 1) => ({ label, value, w });
@@ -217,7 +220,7 @@ export default function MacBook({
   const [view, setView] = useState('desktop');
   const [open, setOpen] = useState(() => {
     try {
-      const v = localStorage.getItem('lap-open');
+      const v = localStorage.getItem(LAP_OPEN_KEY);
       return v === null ? false : v === '1';
     } catch {
       return false;
@@ -285,7 +288,7 @@ export default function MacBook({
    * visitor left it shut last time */
   useEffect(() => {
     let persisted = null;
-    try { persisted = localStorage.getItem('lap-open'); } catch { /* ignore */ }
+    try { persisted = localStorage.getItem(LAP_OPEN_KEY); } catch { /* ignore */ }
     if (persisted !== null) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setOpen(true);
@@ -684,7 +687,7 @@ export default function MacBook({
       initialRef.current = false;
       return;
     }
-    try { localStorage.setItem('lap-open', open ? '1' : '0'); } catch { /* ignore */ }
+    try { localStorage.setItem(LAP_OPEN_KEY, open ? '1' : '0'); } catch { /* ignore */ }
   }, [open]);
 
   useLayoutEffect(() => {

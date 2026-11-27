@@ -499,6 +499,9 @@ html.light .hero-laptop {
   transition-duration: 0.72s;
   transition-timing-function: cubic-bezier(0.55, 0, 0.6, 1);
 }
+.hero-laptop:hover .hero-laptop-lid {
+  filter: brightness(1.04);
+}
 /* hinge: the dark barrel along the back of the deck */
 .hero-laptop-hinge {
   position: absolute;

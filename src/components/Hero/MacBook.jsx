@@ -315,7 +315,15 @@ export default function MacBook({
         setView(target);
         push(`opening ${target}.md`, 'dim');
       } else {
-        push('open ship | build | now | work', 'dim');
+        const proj = projects.find((p) =>
+          (p.title || '').toLowerCase().includes((target || '').toLowerCase())
+        );
+        if (proj && target) {
+          onProject?.({ id: proj.id });
+          push(`opening ${proj.title}`, 'accent');
+        } else {
+          push('open ship | build | now | work | <project>', 'dim');
+        }
       }
     } else if (name === 'projects') {
       if (!projects.length) {

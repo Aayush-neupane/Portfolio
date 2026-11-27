@@ -222,6 +222,7 @@ export default function MacBook({
   const [history, setHistory] = useState([]);
   const [histAt, setHistAt] = useState(-1);
   const [clock, setClock] = useState(timeNow);
+  const bootedAt = useRef(Date.now());
   /* pointer is over the machine, and the display's own pointer is showing */
   const [engaged, setEngaged] = useState(false);
   const [cursorOn, setCursorOn] = useState(false);
@@ -274,6 +275,7 @@ export default function MacBook({
       push('echo     print text', 'dim');
       push('pwd      working directory', 'dim');
       push('history  previous commands', 'dim');
+      push('uptime   how long this session', 'dim');
       push('clear    wipe the screen', 'dim');
       push('tab      complete a command', 'dim');
     } else if (name === 'ls') {
@@ -332,6 +334,9 @@ export default function MacBook({
     } else if (name === 'history') {
       if (!history.length) push('no history yet', 'dim');
       else history.forEach((h, i) => push(`${String(i + 1).padStart(2, ' ')}  ${h}`));
+    } else if (name === 'uptime') {
+      const s = Math.round((Date.now() - bootedAt.current) / 1000);
+      push(`up ${Math.floor(s / 60)}m ${s % 60}s · 1 user`);
     } else if (name === 'sudo') {
       push('nice try.');
     } else if (name === 'exit') {
@@ -384,7 +389,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'clear', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'clear', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

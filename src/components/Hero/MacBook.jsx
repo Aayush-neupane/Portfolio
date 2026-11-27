@@ -96,14 +96,16 @@ const KEY_ROWS = [
   },
 ];
 
-function Keycap({ k, lit, onPress }) {
+function Keycap({ k, lit, pressed, onPress }) {
   return (
     <button
       type="button"
       tabIndex={-1}
-      className={`hero-laptop-key${k.label.length > 1 ? ' is-word' : ''}`}
+      className={`hero-laptop-key${k.label.length > 1 ? ' is-word' : ''}${pressed ? ' is-pressed' : ''}`}
       style={{ '--key-w': k.w ?? 1 }}
-      onClick={() => onPress(k.value)}
+      onClick={() => {
+        onPress(k.value);
+      }}
       aria-label={k.label}
     >
       <span>{k.label === 'space' ? '' : k.label}</span>
@@ -224,6 +226,7 @@ export default function MacBook({
   const [win, setWin] = useState('open');
   const [zoom, setZoom] = useState(false);
   const [caps, setCaps] = useState(false);
+  const [pressedKey, setPressedKey] = useState(null);
   const [cmd, setCmd] = useState('');
   const [log, setLog] = useState([{ tone: 'dim', text: 'type "help", then return' }]);
   const [history, setHistory] = useState([]);
@@ -595,6 +598,8 @@ export default function MacBook({
 
   const press = (value, raw = false) => {
     if (value == null) return;
+    setPressedKey(value);
+    window.setTimeout(() => setPressedKey((v) => (v === value ? null : v)), 140);
     if (value === 'power') {
       setOpen((o) => !o);
       return;
@@ -901,7 +906,7 @@ export default function MacBook({
                           <div key={si} className="hero-laptop-keyrow">
                             {sub.map((kk, ki) =>
                               kk ? (
-                                <Keycap key={ki} k={kk} onPress={press} />
+                                <Keycap key={ki} k={kk} pressed={pressedKey === kk.value} onPress={press} />
                               ) : (
                                 <span key={ki} className="hero-laptop-spacer" />
                               )
@@ -910,7 +915,7 @@ export default function MacBook({
                         ))}
                       </div>
                     ) : (
-                      <Keycap key={`${r}-${i}-${k.label}`} k={k} lit={k.led && caps} onPress={press} />
+                      <Keycap key={`${r}-${i}-${k.label}`} k={k} lit={k.led && caps} pressed={pressedKey === k.value} onPress={press} />
                     )
                   )}
                 </div>

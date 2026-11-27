@@ -919,6 +919,7 @@ html.light .hero-laptop {
   border-radius: 999px;
   background: oklch(0.55 0.03 250);
   box-shadow: 0 0 0.6cqw oklch(0.55 0.05 250 / 0.5);
+  animation: lapBlink 3.2s steps(1) infinite;
 }
 
 /* --- base: deck, keycaps, palm rest, front lip --- */

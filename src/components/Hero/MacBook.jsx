@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { ArrowUpRight, Briefcase, Clock, Layers, Rocket, Terminal } from 'lucide-react';
+import { ArrowUpRight, Briefcase, Clock, Layers, MessageCircle, Rocket, Sparkles, Terminal } from 'lucide-react';
 
-const ICONS = { ship: Rocket, build: Layers, now: Clock, work: Briefcase, term: Terminal };
+const ICONS = { ship: Rocket, build: Layers, now: Clock, work: Briefcase, term: Terminal, aurora: Sparkles };
 
 /* The site mark, inlined so the lid can wear it without a second request. */
 const LOGO_PATH =
@@ -233,6 +233,20 @@ export default function MacBook({
   const [histAt, setHistAt] = useState(-1);
   const [clock, setClock] = useState(timeNow);
   const bootedAt = useRef(Date.now());
+  const [chatLog, setChatLog] = useState([{ role: 'bot', text: 'Hi! I am Aurora. Ask me anything about Aayush.' }]);
+  const [chatInput, setChatInput] = useState('');
+  const [idleText, setIdleText] = useState('');
+  useEffect(() => {
+    const full = 'Welcome to Aayush\'s MacBook.';
+    let i = 0;
+    setIdleText('');
+    const id = setInterval(() => {
+      i += 1;
+      setIdleText(full.slice(0, i));
+      if (i >= full.length) clearInterval(id);
+    }, 60);
+    return () => clearInterval(id);
+  }, [win]);
   /* pointer is over the machine, and the display's own pointer is showing */
   const [engaged, setEngaged] = useState(false);
   const [cursorOn, setCursorOn] = useState(false);
@@ -244,6 +258,7 @@ export default function MacBook({
   const dock = useMemo(
     () => [
       ...frames.map((f) => ({ key: f.key, label: f.label, Icon: ICONS[f.key] })),
+      { key: 'aurora', label: 'Aurora', Icon: Sparkles },
       { key: 'term', label: 'Term', Icon: Terminal },
     ],
     [frames]
@@ -657,6 +672,8 @@ export default function MacBook({
   useEffect(() => {
     if (!engaged) return undefined;
     const onKey = (event) => {
+      const tag = event.target && event.target.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       /* ctrl+l clears the screen, like a real terminal */
       if (event.ctrlKey && (event.key === 'l' || event.key === 'L')) {
         event.preventDefault();
@@ -698,6 +715,35 @@ export default function MacBook({
   const showFrame = (key) => {
     setView(key);
     setWin('open');
+  };
+
+  const replyFor = (q) => {
+    const t = q.toLowerCase();
+    if (t.includes('skill') || t.includes('stack') || t.includes('tech'))
+      return 'Aayush works with React, TypeScript, Tailwind, Supabase, Node, and Unity (C#) for games.';
+    if (t.includes('available') || t.includes('hire') || t.includes('freelance') || t.includes('book'))
+      return available ? `Yes, he is open for work. Replies in ${reply}.` : 'He is fully booked right now.';
+    if (t.includes('project') || t.includes('work'))
+      return 'Recent work: Pana, Sajilo Damak, Crystal Cabin Detailing, Excurion, RC Panel. Open the Work app to explore.';
+    if (t.includes('contact') || t.includes('email') || t.includes('reach'))
+      return 'Reach him via the Contact section, or WhatsApp. Based in Jhapa, Nepal (UTC+5:45).';
+    if (t.includes('location') || t.includes('where'))
+      return 'Jhapa, Nepal.';
+    if (t.includes('experience') || t.includes('years'))
+      return 'Building for the web since 2022 — 4+ years.';
+    if (t.includes('hello') || t.includes('hi') || t.includes('hey'))
+      return 'Hello! How can I help?';
+    return 'I am not sure about that. Try asking about skills, projects, availability, or contact.';
+  };
+
+  const sendChat = () => {
+    const text = chatInput.trim();
+    if (!text) return;
+    setChatLog((l) => [...l, { role: 'user', text }]);
+    setChatInput('');
+    window.setTimeout(() => {
+      setChatLog((l) => [...l, { role: 'bot', text: replyFor(text) }]);
+    }, 450);
   };
 
   const nextFrame = () => {
@@ -752,9 +798,11 @@ export default function MacBook({
                 <div className={`hero-desktop${zoom ? ' is-zoom' : ''}`}>
                   {win === 'closed' ? (
                     <div className="hero-idle">
-                      <BrandMark className="hero-idle-mark" />
-                      <p className="hero-idle-name">aayush neupane</p>
-                      <p className="hero-idle-hint">window closed — pick an app in the dock</p>
+                      <p className="hero-idle-type" aria-live="polite">
+                        {idleText}
+                        <span aria-hidden="true" className="hero-laptop-caret" />
+                      </p>
+                      <p className="hero-idle-hint">pick an app in the dock below</p>
                     </div>
                   ) : view === 'term' ? (
                     <div className="hero-window hero-window-term">
@@ -778,6 +826,39 @@ export default function MacBook({
                           <span className="hero-term-cmd">{cmd}</span>
                           <span aria-hidden="true" className="hero-laptop-caret" />
                         </p>
+                      </div>
+                    </div>
+                  ) : view === 'aurora' ? (
+                    <div className="hero-window hero-window-aurora">
+                      <WindowBar
+                        title="Aurora — chat"
+                        count="AI"
+                        onClose={() => setWin('closed')}
+                        onNext={nextFrame}
+                        onZoom={() => setZoom((z) => !z)}
+                      />
+                      <div className="hero-chat-body">
+                        {chatLog.map((m, i) => (
+                          <div key={i} className={`hero-chat-msg is-${m.role}`}>
+                            <span className="hero-chat-role">{m.role === 'bot' ? 'Aurora' : 'You'}</span>
+                            <p>{m.text}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="hero-chat-input">
+                        <input
+                          type="text"
+                          value={chatInput}
+                          onChange={(e) => setChatInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') sendChat();
+                          }}
+                          placeholder="Ask Aurora…"
+                          aria-label="Chat with Aurora"
+                        />
+                        <button type="button" onClick={sendChat} aria-label="Send">
+                          <ArrowUpRight aria-hidden="true" />
+                        </button>
                       </div>
                     </div>
                   ) : (

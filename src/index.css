@@ -733,9 +733,9 @@ html.light .hero-laptop {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 2cqw;
-  padding: 2.8cqw 2.6cqw 2cqw;
+  justify-content: flex-start;
+  gap: 1.6cqw;
+  padding: 1.6cqw 1.8cqw 1.6cqw;
 }
 
 .hero-window {
@@ -744,6 +744,10 @@ html.light .hero-laptop {
   background: var(--lap-panel);
   box-shadow: 0 2.4cqw 4cqw -2.4cqw oklch(0 0 0 / 0.7);
   overflow: hidden;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 .hero-window-bar {
   display: flex;
@@ -795,7 +799,7 @@ html.light .hero-laptop {
   opacity: 0.65;
 }
 
-.hero-window-body { padding: 2.2cqw 2.4cqw 2.4cqw; animation: lapWindowIn 0.26s ease-out both; }
+.hero-window-body { padding: 2.2cqw 2.4cqw 2.4cqw; animation: lapWindowIn 0.26s ease-out both; flex: 1 1 auto; min-height: 0; overflow: auto; }
 @keyframes lapWindowIn {
   from { opacity: 0; transform: translateY(2px); }
   to { opacity: 1; transform: none; }
@@ -1099,18 +1103,28 @@ html.light .hero-laptop {
 .hero-laptop-pad {
   position: absolute;
   left: 50%;
-  top: 58.5%;
+  top: 57%;
   translate: -50% 0;
-  width: 30%;
-  height: 22%;
-  border-radius: 0.7cqw;
+  width: 34%;
+  height: 24%;
+  border-radius: 0.8cqw;
   background:
-    linear-gradient(180deg, oklch(1 0 0 / 0.05), oklch(0 0 0 / 0.12)),
+    linear-gradient(180deg, oklch(1 0 0 / 0.07), oklch(0 0 0 / 0.14)),
     var(--lap-metal-low);
   box-shadow:
     inset 0 0 0 1px var(--lap-deck-line),
     inset 0 0.18cqw 0.4cqw oklch(0 0 0 / 0.2),
     0 0.1cqw 0 oklch(1 0 0 / 0.12);
+}
+.hero-laptop-pad::after {
+  content: '';
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 18%;
+  height: 1px;
+  background: oklch(1 0 0 / 0.18);
+  box-shadow: 0 0.1cqw 0 oklch(0 0 0 / 0.25);
 }
 
 /* front lip: the edge that catches the light, with the opening groove in it */
@@ -1139,6 +1153,66 @@ html.light .hero-laptop {
 
 /* (engaged state is tracked in JS for the keyboard listener; no hover CSS) */
 
+/* --- aurora chat --- */
+.hero-chat-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  gap: 1.2cqw;
+  padding: 1.6cqw 2cqw;
+  scrollbar-width: thin;
+  scrollbar-color: oklch(1 0 0 / 0.18) transparent;
+}
+.hero-chat-msg {
+  display: grid;
+  gap: 0.4cqw;
+}
+.hero-chat-role {
+  font: 500 1.35cqw/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--lap-dim);
+}
+.hero-chat-msg.is-bot .hero-chat-role { color: color-mix(in oklch, var(--color-accent) 55%, white); }
+.hero-chat-msg p {
+  margin: 0;
+  font: 400 1.85cqw/1.4 var(--font-mono);
+  color: var(--lap-ink);
+}
+.hero-chat-msg.is-user p { color: var(--lap-dim); }
+.hero-chat-input {
+  display: flex;
+  gap: 0.8cqw;
+  padding: 1.2cqw 1.6cqw;
+  border-top: 1px solid var(--lap-line);
+  background: oklch(0 0 0 / 0.18);
+}
+.hero-chat-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.7cqw 1cqw;
+  border: 1px solid var(--lap-line);
+  border-radius: 0.7cqw;
+  background: oklch(0 0 0 / 0.3);
+  color: var(--lap-ink);
+  font: 400 1.85cqw/1.2 var(--font-mono);
+  outline: none;
+}
+.hero-chat-input input:focus { border-color: color-mix(in srgb, var(--color-accent) 55%, transparent); }
+.hero-chat-input button {
+  display: grid;
+  place-items: center;
+  width: 3.6cqw;
+  height: 3.6cqw;
+  border: 0;
+  border-radius: 0.7cqw;
+  background: color-mix(in srgb, var(--color-accent) 72%, transparent);
+  color: var(--lap-ink);
+  cursor: pointer;
+}
+.hero-chat-input button svg { width: 1.9cqw; height: 1.9cqw; }
+
 /* --- idle desktop and terminal --- */
 .hero-idle {
   flex: 1;
@@ -1148,18 +1222,15 @@ html.light .hero-laptop {
   justify-content: center;
   gap: 1.2cqw;
   text-align: center;
+  padding: 2cqw;
 }
-.hero-idle-mark {
-  width: 9cqw;
-  height: auto;
-  color: oklch(1 0 0 / 0.42);
-}
-.hero-idle-name {
+.hero-idle-type {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 3.6cqw;
+  font-size: 3.2cqw;
   letter-spacing: -0.01em;
   color: var(--lap-ink);
+  min-height: 4cqw;
 }
 .hero-idle-hint {
   margin: 0;
@@ -1176,6 +1247,8 @@ html.light .hero-laptop {
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: oklch(1 0 0 / 0.18) transparent;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 .hero-term-body::-webkit-scrollbar { width: 0.4cqw; }
 .hero-term-body::-webkit-scrollbar-thumb {

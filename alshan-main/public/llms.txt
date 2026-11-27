@@ -1,0 +1,18 @@
+# Alshan Rijal
+
+Alshan Rijal is a software engineer from Itahari, Nepal, building AI/ML and cloud projects with Python and the MERN stack.
+
+## Key facts
+
+- Role: Tech Enthusiast
+- Location: Itahari-5, Sunsari, Nepal
+- Focus: AI/ML, Python, MERN Stack, AWS / Cloud
+- GitHub: https://github.com/alshan-rijal
+- Instagram: https://instagram.com/alshan_rijal_
+- Facebook: https://facebook.com/AlshanRijal7
+- Email: mailto:contact@alshanrijal.com.np
+
+## Pages
+
+- [Home](https://alshanrijal.com.np/): Portfolio, projects, skills, education and contact details.
+- [Privacy](https://alshanrijal.com.np/privacy): How contact data is handled.

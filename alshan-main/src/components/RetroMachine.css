@@ -1,0 +1,304 @@
+/* RetroMachine.css
+   Two theme blocks, nothing else to touch to re-skin the instrument.
+   The screen is a physical dark screen in both themes, so its ink is tinted
+   from the accent instead of following the page. */
+
+.rm {
+  /* ---- light theme ---- */
+  --rm-accent: #2f5bea;
+  --rm-on-accent: #ffffff;
+  --rm-screen-ink: #9db8ff;
+  --rm-cap-ink: #8fb0ff;
+  --rm-halo: 8%;
+  --rm-hue: 172deg;
+  --rm-sat: 0.8;
+  --rm-bright: 0.92;
+  --rm-card-bg: #ffffff;
+  --rm-card-ink: #15140f;
+  --rm-card-line: #00000018;
+
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+:root[data-theme='dark'] .rm {
+  --rm-accent: #9ccf35;
+  --rm-on-accent: #0a0a0a;
+  --rm-screen-ink: #c6e97a;
+  --rm-cap-ink: #9ccf35;
+  --rm-halo: 12%;
+  --rm-hue: 34deg;
+  --rm-sat: 0.62;
+  --rm-bright: 0.68;
+  --rm-card-bg: #1d1c1a;
+  --rm-card-ink: #f4f1ea;
+  --rm-card-line: #ffffff1c;
+}
+
+.rm-device {
+  position: relative;
+  aspect-ratio: 1315 / 1196;
+  container-type: inline-size;
+}
+
+/* halo behind the device */
+.rm-device::before {
+  content: '';
+  position: absolute;
+  inset: 2%;
+  pointer-events: none;
+  background: radial-gradient(
+    58% 52% at 50% 46%,
+    color-mix(in srgb, var(--rm-accent) var(--rm-halo), transparent),
+    transparent 72%
+  );
+}
+
+.rm-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  user-select: none;
+  filter: hue-rotate(var(--rm-hue)) saturate(var(--rm-sat)) brightness(var(--rm-bright));
+  transition: filter 300ms ease;
+}
+
+/* --- screen --- */
+.rm-screen {
+  position: absolute;
+  border-radius: 1.4cqw;
+  overflow: hidden;
+  background: #0c0d0b;
+  transform: matrix(1, .086, -.028, 1, 0, 0);
+}
+.rm-screen-in {
+  position: absolute;
+  inset: 0;
+  padding: 3.2% 4%;
+  display: flex;
+  flex-direction: column;
+  font-family: 'VT323', ui-monospace, monospace;
+  color: var(--rm-screen-ink);
+  transition: color 300ms ease;
+}
+.rm-screen-in::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(0, 0, 0, .45)),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, .2) 0 1px, transparent 1px 3px);
+}
+.rm-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  font-size: 2.2cqw;
+  letter-spacing: .07em;
+  opacity: .5;
+}
+.rm-head {
+  margin-top: 4cqw;
+  font-size: 6.4cqw;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+  text-shadow: 0 0 1.2cqw color-mix(in srgb, var(--rm-screen-ink) 65%, transparent);
+}
+.rm-cur {
+  display: inline-block;
+  width: .45em;
+  height: .85em;
+  margin-left: .1em;
+  vertical-align: -.08em;
+  background: currentColor;
+  animation: rm-blink 1.05s steps(1) infinite;
+}
+@keyframes rm-blink { 50% { opacity: 0; } }
+.rm-detail {
+  margin-top: 1.4cqw;
+  font-size: 3.3cqw;
+  opacity: .72;
+}
+
+/* --- keycaps --- */
+@property --lift { syntax: "<length>"; inherits: true; initial-value: 0.6cqw; }
+
+.rm-cap {
+  --lift: 0.6cqw;
+  --face: #f2eadb;
+  --cap-text: #2a2723;
+  --side: #b9aa8c;
+  position: absolute;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transform: matrix(1, .135, -.42, 1, 0, 0);
+  transition: --lift .35s cubic-bezier(.34, 1.56, .64, 1), color 300ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.rm-cap.t-char { --face: #2e2c29; --cap-text: var(--rm-cap-ink); --side: #141311; }
+.rm-cap.t-coral { --face: #ee5b37; --cap-text: #fff3e0; --side: #a9361b; }
+.rm-cap:hover,
+.rm-cap:focus-visible { --lift: 2.4cqw; }
+.rm-cap:active,
+.rm-cap.down { --lift: 0.2cqw; transition-duration: .12s; }
+.rm-cap:focus-visible { outline: none; }
+.rm-cap:focus-visible .rm-face {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.rm-face {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: 1.3cqw;
+  background: linear-gradient(180deg, var(--face), color-mix(in srgb, var(--face) 72%, #000));
+  transform: translate(calc(var(--lift) * -.4), calc(var(--lift) * -.95));
+  box-shadow:
+    calc(var(--lift) * .2) calc(var(--lift) * .475) 0 calc(var(--lift) * .08) var(--side),
+    calc(var(--lift) * .4) calc(var(--lift) * .95) 0 calc(var(--lift) * .16) var(--side),
+    calc(var(--lift) * .6) calc(var(--lift) * 1.6) 1.4cqw rgba(0, 0, 0, .45);
+}
+.rm-dish {
+  position: absolute;
+  inset: 7%;
+  display: block;
+  border-radius: 1cqw;
+  background:
+    linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .14) 48%, transparent 60%),
+    radial-gradient(120% 140% at 25% 15%, color-mix(in srgb, var(--face) 82%, #fff), var(--face) 70%);
+  box-shadow:
+    inset 0 .5cqw .7cqw rgba(0, 0, 0, .28),
+    inset 0 -.2cqw .3cqw rgba(255, 255, 255, .18);
+  color: var(--cap-text);
+}
+.rm-dish b {
+  position: absolute;
+  left: 9%;
+  top: 2%;
+  font: 800 4.6cqw/1.1 'Syne', system-ui, sans-serif;
+}
+.rm-dish em {
+  position: absolute;
+  left: 9%;
+  bottom: 8%;
+  font: 600 1.25cqw/1 'Poppins', system-ui, sans-serif;
+  font-style: normal;
+  letter-spacing: .06em;
+}
+.rm-cap.wide .rm-dish em {
+  left: auto;
+  right: 5%;
+  bottom: 12%;
+  font-size: 1.7cqw;
+}
+
+.rm-cap.hop { animation: rm-hop .44s linear; }
+@keyframes rm-hop {
+  0%   { --lift: 0.6cqw; animation-timing-function: ease-out; }
+  40%  { --lift: 3.4cqw; animation-timing-function: ease-in; }
+  100% { --lift: 0.6cqw; }
+}
+
+.rm-hint {
+  margin: 1rem 0 0;
+  text-align: center;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.rm-hint kbd {
+  font: inherit;
+  color: var(--rm-accent);
+  background: color-mix(in srgb, var(--rm-accent) 14%, transparent);
+  padding: .15em .5em;
+  border-radius: 5px;
+}
+
+/* the heading a key lands on is focused, not outlined */
+.rm-jump:focus { outline: none; }
+
+/* --- résumé dialog --- */
+.rm-dialog {
+  border: 0;
+  padding: 0;
+  background: none;
+  max-width: min(92vw, 27rem);
+  color: var(--rm-card-ink);
+}
+.rm-dialog::backdrop { background: rgba(0, 0, 0, .6); }
+.rm-card {
+  padding: 1.6rem;
+  border: 1px solid var(--rm-card-line);
+  background: var(--rm-card-bg);
+  color: var(--rm-card-ink);
+  font-family: 'Poppins', system-ui, sans-serif;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .4);
+}
+.rm-card h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+.rm-card p {
+  margin: .6rem 0 0;
+  font-size: .85rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.rm-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+  margin-top: 1.4rem;
+}
+.rm-pill,
+.rm-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.rm-pill {
+  background: var(--rm-accent);
+  color: var(--rm-on-accent);
+  border: 1px solid transparent;
+}
+.rm-ghost {
+  background: transparent;
+  color: var(--rm-card-ink);
+  border: 1px solid var(--rm-card-line);
+}
+.rm-pill:focus-visible,
+.rm-ghost:focus-visible {
+  outline: 2px solid var(--rm-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-cap,
+  .rm-cap.hop,
+  .rm-photo,
+  .rm-screen-in,
+  .rm-cur { transition: none !important; animation: none !important; }
+}

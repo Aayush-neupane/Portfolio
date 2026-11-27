@@ -1,0 +1,65 @@
+[
+  {
+    "category": "Languages",
+    "icon": "code",
+    "tone": "violet",
+    "items": [
+      { "name": "JavaScript", "iconKey": "javascript", "brand": { "light": "#8A7A00", "dark": "#F7DF1E" } },
+      { "name": "TypeScript", "iconKey": "typescript", "brand": { "light": "#3178C6", "dark": "#5BA4E6" } },
+      { "name": "Python", "iconKey": "python", "brand": { "light": "#3776AB", "dark": "#6FA8D8" } },
+      { "name": "C++", "iconKey": "cplusplus", "brand": { "light": "#00599C", "dark": "#63B3ED" } },
+      { "name": "C", "iconKey": "c", "brand": { "light": "#52677B", "dark": "#A8B9CC" } }
+
+    ]
+  },
+  {
+    "category": "Web Development",
+    "icon": "layout",
+    "tone": "sky",
+    "items": [
+      { "name": "React", "iconKey": "react", "brand": { "light": "#197C95", "dark": "#61DAFB" } },
+      { "name": "Tailwind CSS", "iconKey": "tailwindcss", "brand": { "light": "#087F95", "dark": "#06B6D4" } },
+      { "name": "HTML5", "iconKey": "html5", "brand": { "light": "#E34F26", "dark": "#FF7043" } },
+      { "name": "CSS3", "iconKey": "css3", "brand": { "light": "#1572B6", "dark": "#4AA3DF" } },
+      { "name": "Vite", "iconKey": "vite", "brand": { "light": "#646CFF", "dark": "#8A8FFF" } },
+      { "name": "Node.js", "iconKey": "nodejs", "brand": { "light": "#267326", "dark": "#5CC85C" } }
+    ]
+  },
+  {
+    "category": "Databases & Backend",
+    "icon": "database",
+    "tone": "pink",
+    "items": [
+      { "name": "MongoDB", "iconKey": "mongodb", "brand": { "light": "#327A35", "dark": "#6BCB6B" } },
+      { "name": "PostgreSQL", "iconKey": "postgresql", "brand": { "light": "#336791", "dark": "#70A5D8" } },
+      { "name": "MySQL", "iconKey": "mysql", "brand": { "light": "#4479A1", "dark": "#76B5E3" } },
+      { "name": "Express", "iconKey": "express", "brand": { "light": "#0B0B0B", "dark": "#F4F4F2" } },
+      { "name": "Firebase", "iconKey": "firebase", "brand": { "light": "#8A6A00", "dark": "#FFCA28" } }
+    ]
+  },
+  {
+    "category": "AI / Machine Learning",
+    "icon": "cpu",
+    "tone": "amber",
+    "items": [
+      { "name": "TensorFlow", "iconKey": "tensorflow", "brand": { "light": "#A23D00", "dark": "#FF6F00" } },
+      { "name": "PyTorch", "iconKey": "pytorch", "brand": { "light": "#EE4C2C", "dark": "#FF795D" } },
+      { "name": "scikit-learn", "iconKey": "scikitlearn", "brand": { "light": "#8A5700", "dark": "#F7931E" } },
+      { "name": "Pandas", "iconKey": "pandas", "brand": { "light": "#150458", "dark": "#D7C7FF" } },
+      { "name": "Jupyter", "iconKey": "jupyter", "brand": { "light": "#9A4300", "dark": "#F37626" } }
+    ]
+  },
+  {
+    "category": "Cloud & Development Tools",
+    "icon": "cloud",
+    "tone": "emerald",
+    "items": [
+      { "name": "Docker", "iconKey": "docker", "brand": { "light": "#0069A8", "dark": "#2496ED" } },
+      { "name": "Git", "iconKey": "git", "brand": { "light": "#F05032", "dark": "#FF8066" } },
+      { "name": "GitHub", "iconKey": "github", "brand": { "light": "#181717", "dark": "#F4F4F2" } },
+      { "name": "Linux", "iconKey": "linux", "brand": { "light": "#7A6500", "dark": "#FCC624" } },
+      { "name": "Cloudflare", "iconKey": "cloudflare", "brand": { "light": "#A84900", "dark": "#F38020" } },
+      { "name": "Vercel", "iconKey": "vercel", "brand": { "light": "#0B0B0B", "dark": "#F4F4F2" } }
+    ]
+  }
+]

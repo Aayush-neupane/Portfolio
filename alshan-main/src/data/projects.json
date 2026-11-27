@@ -1,0 +1,35 @@
+[
+  {
+    "id": "KamKhoj",
+    "title": "KamKhoj",
+    "description": "A smart household helper application designed to assist with daily tasks and provide convenient solutions for modern homes.",
+    "image": "/images/projects/kamkhoj.png",
+    "techStack": ["javascript", "firebase", "react", "tailwindcss"],
+    "liveUrl": "https://kamkhoj.vercel.app/",
+    "githubUrl": "https://github.com/alshan-rijal/KamKhoj",
+    "featured": true,
+    "tone": "violet"
+  },
+  {
+    "id": "Portfolio",
+    "title": "Developer Portfolio",
+    "description": "Responsive personal portfolio with animated sections, contact form integration, and category-based project showcase.",
+    "image": "/images/projects/portfoliodemo.png",
+    "techStack": ["react", "tailwindcss", "express", "firebase"],
+    "liveUrl": "https://alshan-rijal.github.io/alshan",
+    "githubUrl": "https://github.com/alshan-rijal/alshan",
+    "featured": false,
+    "tone": "pink"
+  },
+  {
+    "id": "Metamorph",
+    "title": "Metamorph",
+    "description": "Convert images & PDFs, 100% in your browser. Nothing uploaded, nothing stored.",
+    "image": "/images/projects/metamorph.png",
+    "techStack": ["react", "tailwindcss", "typescript"],
+    "liveUrl": "https://metamorph.alshanrijal.com.np/",
+    "githubUrl": "https://github.com/alshan-rijal/metamorph",
+    "featured": true,
+    "tone": "sky"
+  }
+]

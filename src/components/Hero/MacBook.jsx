@@ -281,6 +281,7 @@ export default function MacBook({
       push('neofetch system summary', 'dim');
       push('theme     dark / light mode', 'dim');
       push('clear    wipe the screen', 'dim');
+      push('man      help for a command', 'dim');
       push('tab      complete a command', 'dim');
     } else if (name === 'ls') {
       push('ship.md    stack.md    now.md');
@@ -386,6 +387,17 @@ export default function MacBook({
     } else if (name === 'exit') {
       push('closing the lid…', 'dim');
       setOpen(false);
+    } else if (name === 'man') {
+      const topic = args[0];
+      const docs = {
+        ls: 'ls — list files in this folder',
+        cat: 'cat <file> — read a file',
+        open: 'open <app|project> — switch window or open a project',
+        clear: 'clear — wipe the screen',
+        theme: 'theme dark|light — switch colour mode',
+      };
+      if (topic && docs[topic]) push(docs[topic], 'dim');
+      else push('man <command>', 'dim');
     } else if (name === 'clear') {
       setLog([]);
       setCmd('');
@@ -434,7 +446,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'version', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'clear', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'version', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

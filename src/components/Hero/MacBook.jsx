@@ -296,6 +296,7 @@ export default function MacBook({
       push('neofetch system summary', 'dim');
       push('theme     dark / light mode', 'dim');
       push('clear    wipe the screen', 'dim');
+      push('reset    restore defaults', 'dim');
       push('man      help for a command', 'dim');
       push('tab      complete a command', 'dim');
     } else if (name === 'ls') {
@@ -442,6 +443,19 @@ export default function MacBook({
       });
       setHistAt(-1);
       return;
+    } else if (name === 'reset') {
+      setView('ship');
+      setWin('open');
+      setZoom(false);
+      setCmd('');
+      setLog([{ tone: 'dim', text: 'type "help", then return' }, { text: 'reset complete', tone: 'accent' }]);
+      setHistory((h) => {
+        if (!text) return h;
+        if (h.length && h[h.length - 1] === text) return h;
+        return [...h, text];
+      });
+      setHistAt(-1);
+      return;
     } else {
       push(`zsh: command not found: ${name}`, 'dim');
     }
@@ -488,7 +502,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

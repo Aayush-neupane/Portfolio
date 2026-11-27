@@ -537,12 +537,12 @@ html.light .hero-laptop {
 }
 /* the mark is inlaid in the lid, so it only shows once the lid is down */
 .hero-laptop-logo {
-  width: 16%;
+  width: 18%;
   height: auto;
   color: var(--lap-logo);
   opacity: 0;
   transition: opacity 0.28s ease;
-  filter: drop-shadow(0 0.12cqw 0 oklch(1 0 0 / 0.16));
+  filter: drop-shadow(0 0 0.6cqw oklch(1 0 0 / 0.22)) drop-shadow(0 0.12cqw 0 oklch(1 0 0 / 0.16));
 }
 .hero-laptop.is-closed .hero-laptop-logo {
   opacity: 1;

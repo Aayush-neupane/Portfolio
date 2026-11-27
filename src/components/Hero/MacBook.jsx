@@ -709,7 +709,7 @@ export default function MacBook({
   return (
     <>
       <div
-        className={`hero-laptop${open ? ' is-open' : ' is-closed'}${engaged ? ' is-engaged' : ''}`}
+        className={`hero-laptop${open ? ' is-open' : ' is-closed'}`}
         onPointerEnter={() => setEngaged(true)}
         onPointerLeave={() => setEngaged(false)}
       >

@@ -1121,19 +1121,7 @@ html.light .hero-laptop {
     0 0.1cqw 0 oklch(1 0 0 / 0.16);
 }
 
-/* engaged: the keyboard wakes up under the visitor's hands */
-.hero-laptop.is-engaged .hero-laptop-well {
-  box-shadow:
-    inset 0 0.3cqw 0.8cqw oklch(0 0 0 / 0.65),
-    inset 0 0 2.2cqw color-mix(in srgb, var(--lap-key-glow) 26%, transparent),
-    0 0.1cqw 0 oklch(1 0 0 / 0.1);
-}
-.hero-laptop.is-engaged .hero-laptop-key {
-  text-shadow:
-    0 0 0.4cqw color-mix(in srgb, var(--lap-key-glow) 72%, transparent),
-    0 0 0.8cqw color-mix(in srgb, var(--lap-key-glow) 34%, transparent);
-}
-/* (engaged state no longer tints the screen; only the keyboard wakes up) */
+/* (engaged state is tracked in JS for the keyboard listener; no hover CSS) */
 
 /* --- idle desktop and terminal --- */
 .hero-idle {

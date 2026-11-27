@@ -352,14 +352,17 @@ export default function MacBook({
       push('supabase · node · unity · c#');
     } else if (name === 'open') {
       const target = args[0];
-      if (frames.some((f) => f.key === target)) {
+      if (!target) {
+        push('ship · build · now · work', 'dim');
+        if (projects.length) push('or: open <project name>', 'dim');
+      } else if (frames.some((f) => f.key === target)) {
         setView(target);
         push(`opening ${target}.md`, 'dim');
       } else {
         const proj = projects.find((p) =>
-          (p.title || '').toLowerCase().includes((target || '').toLowerCase())
+          (p.title || '').toLowerCase().includes(target.toLowerCase())
         );
-        if (proj && target) {
+        if (proj) {
           onProject?.({ id: proj.id });
           push(`opening ${proj.title}`, 'accent');
         } else {

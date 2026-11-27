@@ -46,3 +46,10 @@ graphify-out/
 
 # encrypted personal content bundle (data JSONs + resume)
 /public/content.enc
+
+# local tooling / unrelated projects
+.agents/
+.claude/
+.opencode/
+alshan-main/
+dist/

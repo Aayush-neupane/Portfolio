@@ -282,6 +282,7 @@ export default function MacBook({
       push('cat      read a file', 'dim');
       push('head     first lines', 'dim');
       push('tree     directory tree', 'dim');
+      push('grep     search a file', 'dim');
       push('tail     last lines', 'dim');
       push('whoami   who is this', 'dim');
       push('hostname this machine', 'dim');
@@ -316,6 +317,21 @@ export default function MacBook({
       push('├── ship.md', 'dim');
       push('├── stack.md', 'dim');
       push('└── now.md', 'dim');
+    } else if (name === 'grep') {
+      const needle = args[0];
+      const file = args[1];
+      const content = {
+        'ship.md': ['Focus: Full-stack web', 'Stack: React · TS', `Status: ${available ? 'Open' : 'Booked'}`],
+        'stack.md': ['Web: React · Tailwind', 'Data: Supabase', 'Games: Unity · C#'],
+        'now.md': [nowText, nowSub || 'in progress'],
+      }[file];
+      if (!needle || !content) {
+        push('grep <pattern> <file>', 'dim');
+      } else {
+        const hits = content.filter((l) => l.toLowerCase().includes(needle.toLowerCase()));
+        if (!hits.length) push('no matches', 'dim');
+        else hits.forEach((h) => push(`${file}: ${h}`));
+      }
     } else if (name === 'ls') {
       if (args.includes('-l') || args.includes('-la')) {
         push('total 12', 'dim');
@@ -585,7 +601,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'tree', 'cat', 'head', 'tail', 'whoami', 'hostname', 'env', 'top', 'df', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'su', 'exit'];
+        const cmds = ['help', 'ls', 'tree', 'cat', 'head', 'tail', 'grep', 'whoami', 'hostname', 'env', 'top', 'df', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'su', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

@@ -269,6 +269,7 @@ export default function MacBook({
       push('whoami   who is this', 'dim');
       push('greet    say hello', 'dim');
       push('version  build info', 'dim');
+      push('cal      this month', 'dim');
       push('now      what is happening', 'dim');
       push('stack    tools and languages', 'dim');
       push('projects list recent work', 'dim');
@@ -312,6 +313,22 @@ export default function MacBook({
     } else if (name === 'version') {
       push('portfolio 1.0.0', 'accent');
       push('built with react + vite', 'dim');
+    } else if (name === 'cal') {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = d.getMonth();
+      const first = new Date(y, m, 1).getDay();
+      const days = new Date(y, m + 1, 0).getDate();
+      push(d.toLocaleString(undefined, { month: 'long', year: 'numeric' }), 'accent');
+      push('Su Mo Tu We Th Fr Sa', 'dim');
+      let row = '   '.repeat(first);
+      for (let day = 1; day <= days; day++) {
+        row += String(day).padStart(2, ' ') + ' ';
+        if ((first + day) % 7 === 0 || day === days) {
+          push(row);
+          row = '';
+        }
+      }
     } else if (name === 'now') {
       push(nowText, 'accent');
       push(nowSub || 'in progress', 'dim');
@@ -454,7 +471,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'version', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

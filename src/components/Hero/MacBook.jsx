@@ -777,10 +777,16 @@ export default function MacBook({
 
               <div className="hero-laptop-ui">
                 <div className="hero-menubar">
-                  <span className="hero-menubar-id">
+                  <button
+                    type="button"
+                    className="hero-menubar-id"
+                    onClick={() => setWin('closed')}
+                    aria-label="Go to desktop"
+                    title="Desktop"
+                  >
                     <BrandMark className="hero-menubar-mark" />
                     aayushnp.com
-                  </span>
+                  </button>
                   <span className="hero-menubar-meta">
                     <span className="hero-menubar-status">
                       <span
@@ -803,22 +809,7 @@ export default function MacBook({
                         {idleText}
                         <span aria-hidden="true" className="hero-laptop-caret" />
                       </p>
-                      <div className="hero-idle-apps">
-                        {dock.map(({ key, label, Icon }) => (
-                          <button
-                            key={key}
-                            type="button"
-                            className="hero-idle-app"
-                            onClick={() => showFrame(key)}
-                            aria-label={`Open ${label}`}
-                          >
-                            <span className="hero-idle-app-icon">
-                              {key === 'aurora' ? <img src="/ailogo.svg" alt="" className="hero-idle-ai-img" aria-hidden="true" /> : <Icon aria-hidden="true" />}
-                            </span>
-                            <span className="hero-idle-app-label">{label}</span>
-                          </button>
-                        ))}
-                      </div>
+                      <p className="hero-idle-hint">open an app from the dock below</p>
                     </div>
                   ) : view === 'term' ? (
                     <div className="hero-window hero-window-term">
@@ -960,6 +951,7 @@ export default function MacBook({
                         ) : (
                           <Icon aria-hidden="true" />
                         )}
+                        <span className="hero-dock-label">{label}</span>
                       </button>
                     ))}
                   </div>

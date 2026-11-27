@@ -455,22 +455,22 @@ html.light .hero-laptop::after {
 }
 
 html.light .hero-laptop {
-  --lap-metal-hi: #f4ecdc;
-  --lap-metal-mid: #d6cab2;
-  --lap-metal-low: #b3a68c;
-  --lap-back-hi: #d5c9b0;
-  --lap-back-mid: #b6a281;
-  --lap-back-low: #94856b;
-  --lap-edge: oklch(1 0 0 / 0.75);
-  --lap-deck-line: oklch(0.25 0.02 60 / 0.16);
-  --lap-key: #3f3b36;
-  --lap-key-hi: #514c46;
-  --lap-key-low: #201d1a;
-  --lap-key-gap: #2a2724;
-  --lap-key-label: oklch(0.97 0.01 80 / 0.66);
-  --lap-key-glow: oklch(0.99 0.02 78);
-  --lap-logo: #7b6b52;
-  --lap-shadow: 0 26px 46px -32px oklch(0.3 0.04 60 / 0.6);
+  --lap-metal-hi: #ebebed;
+  --lap-metal-mid: #d4d4d8;
+  --lap-metal-low: #b8b8be;
+  --lap-back-hi: #dcdce0;
+  --lap-back-mid: #bfbfc4;
+  --lap-back-low: #a4a4aa;
+  --lap-edge: oklch(1 0 0 / 0.85);
+  --lap-deck-line: oklch(0.4 0 0 / 0.18);
+  --lap-key: #3a3a3e;
+  --lap-key-hi: #4a4a4f;
+  --lap-key-low: #1f1f23;
+  --lap-key-gap: #2a2a2e;
+  --lap-key-label: oklch(0.97 0 0 / 0.7);
+  --lap-key-glow: oklch(0.99 0 0 / 0.9);
+  --lap-logo: #8a8a90;
+  --lap-shadow: 0 26px 46px -32px oklch(0.3 0 0 / 0.5);
 }
 
 /* --- lid --- */
@@ -610,10 +610,7 @@ html.light .hero-laptop {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(60% 56% at 84% 6%, oklch(0.55 0.15 328 / 0.4), transparent 64%),
-    radial-gradient(54% 50% at 14% 16%, oklch(0.5 0.13 283 / 0.38), transparent 66%),
-    radial-gradient(64% 56% at 32% 96%, oklch(0.62 0.1 66 / 0.2), transparent 70%),
-    radial-gradient(48% 44% at 98% 92%, color-mix(in srgb, var(--color-accent) 24%, transparent), transparent 74%),
+    url('/wallpaper.jpg') center / cover no-repeat,
     linear-gradient(160deg, #0c0916 0%, #151024 52%, #1d0f16 100%);
 }
 /* vignette + the sheen across the glass, kept off the middle so text stays read */
@@ -656,7 +653,21 @@ html.light .hero-laptop {
   gap: 1.1cqw;
   min-width: 0;
 }
-.hero-menubar-id { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.hero-menubar-id {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.1cqw;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+.hero-menubar-id:hover { color: var(--lap-ink); }
 .hero-menubar-mark {
   width: 2.7cqw;
   height: 2.7cqw;
@@ -871,9 +882,10 @@ html.light .hero-laptop {
   position: relative;
   display: grid;
   place-items: center;
-  width: 6cqw;
-  height: 6cqw;
-  padding: 0;
+  gap: 0.4cqw;
+  width: 7.2cqw;
+  height: 7.6cqw;
+  padding: 0.6cqw 0.4cqw;
   border: 0;
   border-radius: 1.4cqw;
   background: oklch(1 0 0 / 0.09);
@@ -882,7 +894,13 @@ html.light .hero-laptop {
   transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 .hero-dock-btn:hover { transform: translateY(-0.6cqw) scale(1.06); }
-.hero-dock-btn svg { width: 3.1cqw; height: 3.1cqw; stroke-width: 1.7; }
+.hero-dock-btn svg { width: 2.6cqw; height: 2.6cqw; stroke-width: 1.7; }
+.hero-dock-label {
+  font: 500 1.05cqw/1 var(--font-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
 .hero-dock-ai-img {
   width: 3.1cqw;
   height: 3.1cqw;

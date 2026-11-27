@@ -458,8 +458,14 @@ export default function MacBook({
     } else if (name === 'pwd') {
       push('/Users/aayush/portfolio');
     } else if (name === 'history') {
-      if (!history.length) push('no history yet', 'dim');
-      else history.forEach((h, i) => push(`${String(i + 1).padStart(2, ' ')}  ${h}`));
+      if (args[0] === '-c') {
+        setHistory([]);
+        push('history cleared', 'dim');
+      } else if (!history.length) {
+        push('no history yet', 'dim');
+      } else {
+        history.forEach((h, i) => push(`${String(i + 1).padStart(2, ' ')}  ${h}`));
+      }
     } else if (name === 'uptime') {
       const s = Math.round((Date.now() - bootedAt.current) / 1000);
       push(`up ${Math.floor(s / 60)}m ${s % 60}s · 1 user`);

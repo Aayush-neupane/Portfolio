@@ -384,7 +384,8 @@ export default function MacBook({
     } else if (name === 'rm') {
       push('rm: permission denied (and a good thing too)', 'dim');
     } else if (name === 'exit') {
-      push('the lid is the exit. click it.');
+      push('closing the lid…', 'dim');
+      setOpen(false);
     } else if (name === 'clear') {
       setLog([]);
       setCmd('');

@@ -1206,6 +1206,7 @@ html.light .hero-laptop {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 3cqw 6cqw -2cqw oklch(0 0 0 / 0.85);
 }
 .hero-desktop.is-zoom .hero-window-body { flex: 1; }
 .hero-desktop.is-zoom .hero-dock { display: none; }

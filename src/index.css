@@ -549,6 +549,20 @@ html.light .hero-laptop {
   transition: opacity 0.28s ease;
   filter: drop-shadow(0 0 0.6cqw oklch(1 0 0 / 0.22)) drop-shadow(0 0.12cqw 0 oklch(1 0 0 / 0.16));
 }
+.hero-laptop-lid-back::after {
+  content: '';
+  position: absolute;
+  inset: 22%;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 28%, transparent), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.6s ease 0.5s;
+  pointer-events: none;
+  filter: blur(0.6cqw);
+}
+.hero-laptop.is-closed .hero-laptop-lid-back::after {
+  opacity: 1;
+}
 .hero-laptop.is-closed .hero-laptop-logo {
   opacity: 1;
   transition-delay: 0.42s;

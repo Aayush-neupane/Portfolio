@@ -880,28 +880,7 @@ html.light .hero-laptop {
   background: var(--lap-ink);
   opacity: 0.7;
 }
-.hero-dock-btn::before {
-  content: attr(data-label);
-  position: absolute;
-  bottom: calc(100% + 0.9cqw);
-  left: 50%;
-  translate: -50% 0;
-  padding: 0.45cqw 0.7cqw;
-  border-radius: 0.5cqw;
-  background: oklch(0 0 0 / 0.78);
-  color: var(--lap-ink);
-  font: 500 1.35cqw/1 var(--font-mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.14s ease;
-}
-.hero-dock-btn:hover::before,
-.hero-dock-btn:focus-visible::before {
-  opacity: 1;
-}
+/* (native title attribute provides the tooltip; CSS tooltip was clipped by the screen) */
 
 /* --- notch, base --- */
 .hero-laptop-notch {

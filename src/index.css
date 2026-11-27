@@ -942,6 +942,19 @@ html.light .hero-laptop {
   pointer-events: none;
   background: linear-gradient(90deg, oklch(0 0 0 / 0.22), transparent 6%, transparent 94%, oklch(1 0 0 / 0.08));
 }
+/* faint screen spill on the deck, like a real laptop */
+.hero-laptop-base::before {
+  content: '';
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 0;
+  height: 34%;
+  pointer-events: none;
+  background: radial-gradient(60% 100% at 50% 0%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 72%);
+  opacity: 0.6;
+  filter: blur(0.6cqw);
+}
 
 /* speaker grilles flanking the keyboard */
 .hero-laptop-grille {

@@ -1078,7 +1078,7 @@ html.light .hero-laptop {
 .hero-laptop-cluster .hero-laptop-keyrow { flex: 1; }
 .hero-laptop-cluster .hero-laptop-key { font-size: 1.1cqw; }
 .hero-laptop-spacer { flex: 1; min-width: 0; }
-.hero-laptop-key:hover { filter: brightness(1.12); }
+.hero-laptop-key:hover { filter: brightness(1.12); transform: translateY(-0.08cqw); }
 .hero-laptop-key:active {
   transform: translateY(0.13cqw);
   filter: brightness(0.86);

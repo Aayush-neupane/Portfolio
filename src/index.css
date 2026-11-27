@@ -405,7 +405,7 @@ html.light .hero-card {
   --lap-depth: 1.3cqw;
   /* the deck is as deep as the lid is tall (22.1 / 31.3cm on a 14"); the
    * keyboard block takes most of it, the way a real deck is laid out */
-  --lap-base-h: 74cqw;
+  --lap-base-h: 68cqw;
   position: relative;
   width: 100%;
   max-width: var(--lap-w);
@@ -415,7 +415,7 @@ html.light .hero-card {
   /* one camera for the whole machine: just above the deck, turned so it faces
    * left, a hair off level. Kept shallow on purpose: product shots sit near the
    * screen's plane, so the UI stays legible instead of skewing into a diamond */
-  transform: rotateX(-10deg) rotateY(-6deg) rotateZ(0.5deg);
+  transform: rotateX(-10deg) rotateY(-6deg) rotateZ(0.5deg) translateY(4cqw);
   transform-origin: 50% 100%;
 }
 /* soft floor shadow, cancelled back out of the machine's rotation */
@@ -1329,19 +1329,57 @@ html.light .hero-laptop-logo {
   text-align: center;
   padding: 2cqw;
 }
-.hero-idle-type {
+.hero-idle-hello {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 3.2cqw;
-  letter-spacing: -0.01em;
+  font-family: 'Instrument Serif', 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 9cqw;
+  line-height: 1;
+  letter-spacing: -0.02em;
   color: var(--lap-ink);
-  min-height: 4cqw;
+  min-height: 9cqw;
+}
+.hero-idle-welcome {
+  margin: -1.5cqw 0 0;
+  font-family: var(--font-display);
+  font-size: 4cqw;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--lap-ink);
+  min-height: 4.5cqw;
 }
 .hero-idle-hint {
   margin: 0;
   font: 400 1.55cqw/1.4 var(--font-mono);
   color: var(--lap-dim);
 }
+.hero-idle-cta {
+  display: flex;
+  gap: 1.6cqw;
+  margin-top: 1.2cqw;
+}
+.hero-idle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 1cqw;
+  padding: 1.2cqw 2cqw;
+  border: 1px solid oklch(1 0 0 / 0.18);
+  border-radius: 1.4cqw;
+  background: oklch(1 0 0 / 0.1);
+  color: var(--lap-ink);
+  font: 600 1.8cqw/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+.hero-idle-btn:hover,
+.hero-idle-btn:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  border-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+  transform: translateY(-0.4cqw);
+}
+.hero-idle-btn svg { width: 2.2cqw; height: 2.2cqw; stroke-width: 1.7; }
 .hero-idle-apps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

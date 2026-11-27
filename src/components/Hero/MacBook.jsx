@@ -236,18 +236,34 @@ export default function MacBook({
   const bootedAt = useRef(Date.now());
   const [chatLog, setChatLog] = useState([{ role: 'bot', text: 'Hi! I am Aurora. Ask me anything about Aayush.' }]);
   const [chatInput, setChatInput] = useState('');
-  const [idleText, setIdleText] = useState('');
+  const [helloText, setHelloText] = useState('');
+  const [welcomeText, setWelcomeText] = useState('');
+  const [showWelcome, setShowWelcome] = useState(false);
   const [appGrid, setAppGrid] = useState(false);
   useEffect(() => {
-    const full = 'Welcome to Aayush\'s MacBook.';
+    const hello = 'hello';
+    const welcome = 'Welcome to Aayush\'s Portfolio';
     let i = 0;
-    setIdleText('');
-    const id = setInterval(() => {
+    let j = 0;
+    setHelloText('');
+    setWelcomeText('');
+    setShowWelcome(false);
+    const id1 = setInterval(() => {
       i += 1;
-      setIdleText(full.slice(0, i));
-      if (i >= full.length) clearInterval(id);
-    }, 60);
-    return () => clearInterval(id);
+      setHelloText(hello.slice(0, i));
+      if (i >= hello.length) {
+        clearInterval(id1);
+        setTimeout(() => {
+          setShowWelcome(true);
+          const id2 = setInterval(() => {
+            j += 1;
+            setWelcomeText(welcome.slice(0, j));
+            if (j >= welcome.length) clearInterval(id2);
+          }, 50);
+        }, 700);
+      }
+    }, 110);
+    return () => clearInterval(id1);
   }, [win]);
   /* pointer is over the machine, and the display's own pointer is showing */
   const [engaged, setEngaged] = useState(false);
@@ -815,11 +831,26 @@ export default function MacBook({
                 <div className={`hero-desktop${zoom ? ' is-zoom' : ''}`}>
                   {win === 'closed' || view === 'desktop' ? (
                     <div className="hero-idle">
-                      <p className="hero-idle-type" aria-live="polite">
-                        {idleText}
-                        <span aria-hidden="true" className="hero-laptop-caret" />
+                      <p className="hero-idle-hello" aria-live="polite">
+                        {helloText}
                       </p>
-                      <p className="hero-idle-hint">open an app from the dock below</p>
+                      {showWelcome ? (
+                        <p className="hero-idle-welcome" aria-live="polite">
+                          {welcomeText}
+                          <span aria-hidden="true" className="hero-laptop-caret" />
+                        </p>
+                      ) : null}
+                      <div className="hero-idle-cta">
+                        <button type="button" className="hero-idle-btn" onClick={() => showFrame('aurora')} aria-label="Open Aurora">
+                          <img src="/ailogo.svg" alt="" className="hero-idle-ai-img" aria-hidden="true" />
+                          Aurora
+                        </button>
+                        <button type="button" className="hero-idle-btn" onClick={() => showFrame('term')} aria-label="Open Terminal">
+                          <Terminal aria-hidden="true" />
+                          Terminal
+                        </button>
+                      </div>
+                      <p className="hero-idle-hint">or use the dock / Apps button</p>
                     </div>
                   ) : view === 'term' ? (
                     <div className="hero-window hero-window-term">

@@ -443,7 +443,7 @@ export default function MacBook({
   return (
     <>
       <div
-        className={`hero-laptop${open ? ' is-open' : ' is-closed'}`}
+        className={`hero-laptop${open ? ' is-open' : ' is-closed'}${engaged ? ' is-engaged' : ''}`}
         onPointerEnter={() => setEngaged(true)}
         onPointerLeave={() => setEngaged(false)}
       >

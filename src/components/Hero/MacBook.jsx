@@ -381,6 +381,8 @@ export default function MacBook({
       }
     } else if (name === 'sudo') {
       push('nice try.');
+    } else if (name === 'rm') {
+      push('rm: permission denied (and a good thing too)', 'dim');
     } else if (name === 'exit') {
       push('the lid is the exit. click it.');
     } else if (name === 'clear') {
@@ -431,7 +433,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'version', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'clear', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'greet', 'version', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'clear', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

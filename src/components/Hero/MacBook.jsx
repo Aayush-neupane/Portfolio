@@ -613,8 +613,9 @@ export default function MacBook({
 
   const press = (value, raw = false) => {
     if (value == null) return;
-    setPressedKey(value);
-    window.setTimeout(() => setPressedKey((v) => (v === value ? null : v)), 140);
+    const key = String(value).toLowerCase();
+    setPressedKey(key);
+    window.setTimeout(() => setPressedKey((v) => (v === key ? null : v)), 140);
     if (value === 'power') {
       setOpen((o) => !o);
       return;
@@ -802,7 +803,22 @@ export default function MacBook({
                         {idleText}
                         <span aria-hidden="true" className="hero-laptop-caret" />
                       </p>
-                      <p className="hero-idle-hint">pick an app in the dock below</p>
+                      <div className="hero-idle-apps">
+                        {dock.map(({ key, label, Icon }) => (
+                          <button
+                            key={key}
+                            type="button"
+                            className="hero-idle-app"
+                            onClick={() => showFrame(key)}
+                            aria-label={`Open ${label}`}
+                          >
+                            <span className="hero-idle-app-icon">
+                              {key === 'aurora' ? <span className="hero-dock-ai">AI</span> : <Icon aria-hidden="true" />}
+                            </span>
+                            <span className="hero-idle-app-label">{label}</span>
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   ) : view === 'term' ? (
                     <div className="hero-window hero-window-term">
@@ -939,7 +955,11 @@ export default function MacBook({
                         data-label={label}
                         onClick={() => showFrame(key)}
                       >
-                        <Icon aria-hidden="true" />
+                        {key === 'aurora' ? (
+                          <span className="hero-dock-ai" aria-hidden="true">AI</span>
+                        ) : (
+                          <Icon aria-hidden="true" />
+                        )}
                       </button>
                     ))}
                   </div>
@@ -987,7 +1007,7 @@ export default function MacBook({
                           <div key={si} className="hero-laptop-keyrow">
                             {sub.map((kk, ki) =>
                               kk ? (
-                                <Keycap key={ki} k={kk} pressed={pressedKey === kk.value} onPress={press} />
+                                <Keycap key={ki} k={kk} pressed={pressedKey != null && pressedKey === String(kk.value).toLowerCase()} onPress={press} />
                               ) : (
                                 <span key={ki} className="hero-laptop-spacer" />
                               )
@@ -996,7 +1016,7 @@ export default function MacBook({
                         ))}
                       </div>
                     ) : (
-                      <Keycap key={`${r}-${i}-${k.label}`} k={k} lit={k.led && caps} pressed={pressedKey === k.value} onPress={press} />
+                      <Keycap key={`${r}-${i}-${k.label}`} k={k} lit={k.led && caps} pressed={pressedKey != null && pressedKey === String(k.value).toLowerCase()} onPress={press} />
                     )
                   )}
                 </div>

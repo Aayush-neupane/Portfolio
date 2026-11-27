@@ -554,7 +554,7 @@ html.light .hero-laptop {
   position: absolute;
   inset: 22%;
   border-radius: 999px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 28%, transparent), transparent 70%);
+  background: radial-gradient(circle, oklch(1 0 0 / 0.22), transparent 70%);
   opacity: 0;
   transition: opacity 0.6s ease 0.5s;
   pointer-events: none;
@@ -883,6 +883,11 @@ html.light .hero-laptop {
 }
 .hero-dock-btn:hover { transform: translateY(-0.6cqw) scale(1.06); }
 .hero-dock-btn svg { width: 3.1cqw; height: 3.1cqw; stroke-width: 1.7; }
+.hero-dock-ai {
+  font: 700 2.4cqw/1 var(--font-mono);
+  letter-spacing: -0.05em;
+  color: currentColor;
+}
 .hero-dock-btn:hover,
 .hero-dock-btn:focus-visible {
   background: oklch(1 0 0 / 0.18);
@@ -962,7 +967,7 @@ html.light .hero-laptop {
   pointer-events: none;
   background: linear-gradient(90deg, oklch(0 0 0 / 0.22), transparent 6%, transparent 94%, oklch(1 0 0 / 0.08));
 }
-/* faint screen spill on the deck, like a real laptop */
+/* subtle white backlight spill on the deck */
 .hero-laptop-base::before {
   content: '';
   position: absolute;
@@ -971,7 +976,7 @@ html.light .hero-laptop {
   top: 0;
   height: 34%;
   pointer-events: none;
-  background: radial-gradient(60% 100% at 50% 0%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 72%);
+  background: radial-gradient(60% 100% at 50% 0%, oklch(1 0 0 / 0.12), transparent 72%);
   opacity: 0.6;
   filter: blur(0.6cqw);
 }
@@ -1002,8 +1007,7 @@ html.light .hero-laptop {
   background: linear-gradient(180deg, oklch(0.17 0.005 250), oklch(0.1 0.004 250));
   box-shadow:
     inset 0 0.3cqw 0.8cqw oklch(0 0 0 / 0.65),
-    inset 0 0 2.2cqw color-mix(in srgb, var(--lap-key-glow) 18%, transparent),
-    inset 0 -0.6cqw 1.4cqw color-mix(in srgb, var(--lap-key-glow) 8%, transparent),
+    inset 0 0 1.2cqw oklch(1 0 0 / 0.08),
     0 0.1cqw 0 oklch(1 0 0 / 0.1);
 }
 .hero-laptop-keys {
@@ -1236,6 +1240,48 @@ html.light .hero-laptop {
   margin: 0;
   font: 400 1.55cqw/1.4 var(--font-mono);
   color: var(--lap-dim);
+}
+.hero-idle-apps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6cqw;
+  width: 100%;
+  max-width: 78%;
+  margin-top: 1cqw;
+}
+.hero-idle-app {
+  display: grid;
+  gap: 0.9cqw;
+  justify-items: center;
+  padding: 1.4cqw 0.8cqw;
+  border: 1px solid oklch(1 0 0 / 0.12);
+  border-radius: 1.4cqw;
+  background: oklch(1 0 0 / 0.05);
+  color: var(--lap-ink);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+.hero-idle-app:hover,
+.hero-idle-app:focus-visible {
+  background: oklch(1 0 0 / 0.12);
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  transform: translateY(-0.4cqw);
+}
+.hero-idle-app-icon {
+  display: grid;
+  place-items: center;
+  width: 6.4cqw;
+  height: 6.4cqw;
+  border-radius: 1.5cqw;
+  background: oklch(1 0 0 / 0.08);
+  color: var(--lap-dim);
+}
+.hero-idle-app-icon svg { width: 3.4cqw; height: 3.4cqw; stroke-width: 1.7; }
+.hero-idle-app-icon .hero-dock-ai { font-size: 2.6cqw; }
+.hero-idle-app-label {
+  font: 500 1.5cqw/1 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 .hero-term-body {
   display: grid;

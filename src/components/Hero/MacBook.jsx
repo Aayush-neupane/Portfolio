@@ -342,7 +342,7 @@ export default function MacBook({
         });
       }
     } else if (name === 'date') {
-      push(new Date().toString());
+      push(new Date().toLocaleString(undefined, { dateStyle: 'full', timeStyle: 'long' }));
     } else if (name === 'echo') {
       push(args.join(' '));
     } else if (name === 'pwd') {

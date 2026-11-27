@@ -661,6 +661,7 @@ html.light .hero-laptop {
   animation: lapBlink 2.4s steps(1) infinite;
 }
 .hero-laptop-blink.is-on { background: oklch(0.78 0.17 145); }
+.hero-laptop-blink:not(.is-on) { animation-duration: 1.4s; opacity: 0.5; }
 @keyframes lapBlink {
   0%, 62% { opacity: 1; }
   63%, 100% { opacity: 0.3; }

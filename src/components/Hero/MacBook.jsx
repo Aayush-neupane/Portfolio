@@ -281,6 +281,7 @@ export default function MacBook({
       push('ls       files in this folder', 'dim');
       push('cat      read a file', 'dim');
       push('head     first lines', 'dim');
+      push('tree     directory tree', 'dim');
       push('tail     last lines', 'dim');
       push('whoami   who is this', 'dim');
       push('hostname this machine', 'dim');
@@ -310,6 +311,11 @@ export default function MacBook({
       push('reset    restore defaults', 'dim');
       push('man      help for a command', 'dim');
       push('tab      complete a command', 'dim');
+    } else if (name === 'tree') {
+      push('.', 'dim');
+      push('├── ship.md', 'dim');
+      push('├── stack.md', 'dim');
+      push('└── now.md', 'dim');
     } else if (name === 'ls') {
       if (args.includes('-l') || args.includes('-la')) {
         push('total 12', 'dim');
@@ -579,7 +585,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'head', 'tail', 'whoami', 'hostname', 'env', 'top', 'df', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'su', 'exit'];
+        const cmds = ['help', 'ls', 'tree', 'cat', 'head', 'tail', 'whoami', 'hostname', 'env', 'top', 'df', 'ping', 'sl', 'weather', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'su', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

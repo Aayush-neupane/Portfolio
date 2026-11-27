@@ -214,6 +214,7 @@ export default function MacBook({
     [available, reply, nowText, nowSub, nowProjectId, onProject, projects]
   );
 
+  const [view, setView] = useState('desktop');
   const [open, setOpen] = useState(() => {
     try {
       const v = localStorage.getItem('lap-open');
@@ -222,7 +223,7 @@ export default function MacBook({
       return false;
     }
   });
-  const [view, setView] = useState('ship');
+
   const [win, setWin] = useState('open');
   const [zoom, setZoom] = useState(false);
   const [caps, setCaps] = useState(false);
@@ -258,11 +259,10 @@ export default function MacBook({
   const frameIndex = Math.max(0, frames.findIndex((f) => f.key === view));
   const dock = useMemo(
     () => [
-      ...frames.map((f) => ({ key: f.key, label: f.label, Icon: ICONS[f.key] })),
       { key: 'aurora', label: 'Aurora', Icon: Sparkles },
       { key: 'term', label: 'Term', Icon: Terminal },
     ],
-    [frames]
+    []
   );
 
   /* the lid opens shortly after the hero lands, unless motion is off or the
@@ -813,7 +813,7 @@ export default function MacBook({
                 </div>
 
                 <div className={`hero-desktop${zoom ? ' is-zoom' : ''}`}>
-                  {win === 'closed' ? (
+                  {win === 'closed' || view === 'desktop' ? (
                     <div className="hero-idle">
                       <p className="hero-idle-type" aria-live="polite">
                         {idleText}

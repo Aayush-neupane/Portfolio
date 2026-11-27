@@ -415,7 +415,7 @@ html.light .hero-card {
   /* one camera for the whole machine: just above the deck, turned so it faces
    * left, a hair off level. Kept shallow on purpose: product shots sit near the
    * screen's plane, so the UI stays legible instead of skewing into a diamond */
-  transform: rotateX(-18deg) rotateY(-11deg) rotateZ(0.9deg);
+  transform: rotateX(-12deg) rotateY(-7deg) rotateZ(0.5deg);
   transform-origin: 50% 100%;
 }
 /* soft floor shadow, cancelled back out of the machine's rotation */
@@ -488,7 +488,7 @@ html.light .hero-laptop {
     0 0 0.9cqw oklch(0 0 0 / 0.26);
   transform-style: preserve-3d;
   transform-origin: 50% 100%;
-  transform: rotateX(7deg);
+  transform: rotateX(5deg);
   transition: transform 0.8s cubic-bezier(0.22, 0.9, 0.24, 1);
 }
 /* Shut: the panel folds down until it lies on the deck, so the aluminium back
@@ -531,6 +531,7 @@ html.light .hero-laptop {
   -webkit-tap-highlight-color: transparent;
 }
 .hero-laptop-lid-back:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -4px; }
+.hero-laptop.is-open .hero-laptop-lid-back { pointer-events: none; }
 .hero-laptop-lid-back::before {
   content: '';
   position: absolute;
@@ -554,9 +555,8 @@ html.light .hero-laptop {
 }
 html.light .hero-laptop-logo {
   filter:
-    drop-shadow(0 0 0.4cqw oklch(0.2 0 0 / 0.5))
-    drop-shadow(0 0 1.2cqw oklch(0.2 0 0 / 0.3))
-    drop-shadow(0 0 2.4cqw oklch(0.2 0 0 / 0.18));
+    drop-shadow(0 0 0.3cqw oklch(0.35 0 0 / 0.35))
+    drop-shadow(0 0 0.9cqw oklch(0.35 0 0 / 0.18));
 }
 .hero-laptop-logo { z-index: 1; position: relative; }
 .hero-laptop.is-closed .hero-laptop-logo {
@@ -590,7 +590,7 @@ html.light .hero-laptop-logo {
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  cursor: none;
+  cursor: pointer;
   border-radius: 0.55cqw;
   background: #000;
   isolation: isolate;
@@ -1243,17 +1243,17 @@ html.light .hero-laptop-logo {
 .hero-menubar-apps {
   display: grid;
   place-items: center;
-  width: 2.6cqw;
-  height: 2.6cqw;
+  width: 3.4cqw;
+  height: 3.4cqw;
   border: 0;
-  border-radius: 0.6cqw;
-  background: oklch(1 0 0 / 0.12);
+  border-radius: 0.8cqw;
+  background: oklch(1 0 0 / 0.16);
   color: var(--lap-ink);
-  font: 600 1.9cqw/1 var(--font-mono);
+  font: 700 2.2cqw/1 var(--font-mono);
   cursor: pointer;
   padding: 0;
 }
-.hero-menubar-apps:hover { background: oklch(1 0 0 / 0.22); }
+.hero-menubar-apps:hover { background: color-mix(in srgb, var(--color-accent) 55%, transparent); }
 
 /* --- aurora chat --- */
 .hero-chat-body {

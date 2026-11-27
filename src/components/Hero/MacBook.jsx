@@ -287,6 +287,7 @@ export default function MacBook({
       push('greet    say hello', 'dim');
       push('banner   ascii art', 'dim');
       push('fortune  a small truth', 'dim');
+      push('ping     check a host', 'dim');
       push('version  build info', 'dim');
       push('cal      this month', 'dim');
       push('now      what is happening', 'dim');
@@ -443,6 +444,13 @@ export default function MacBook({
       }
     } else if (name === 'sudo') {
       push('nice try.');
+    } else if (name === 'ping') {
+      const host = args[0] || 'aayushnp.com';
+      push(`PING ${host}: 56 data bytes`, 'dim');
+      push(`64 bytes from ${host}: time=12.4 ms`, 'dim');
+      push(`64 bytes from ${host}: time=11.8 ms`, 'dim');
+      push(`--- ${host} ping statistics ---`, 'dim');
+      push('2 packets transmitted, 2 received, 0% loss', 'accent');
     } else if (name === 'fortune') {
       const quotes = [
         'ship small, ship often.',
@@ -537,7 +545,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'hostname', 'env', 'top', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'hostname', 'env', 'top', 'ping', 'greet', 'banner', 'fortune', 'version', 'cal', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'history', 'uptime', 'neofetch', 'theme', 'rm', 'man', 'clear', 'reset', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

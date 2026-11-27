@@ -271,6 +271,8 @@ export default function MacBook({
       push('projects list recent work', 'dim');
       push('open     open ship / build / now / work', 'dim');
       push('date     current date and time', 'dim');
+      push('echo     print text', 'dim');
+      push('pwd      working directory', 'dim');
       push('clear    wipe the screen', 'dim');
       push('tab      complete a command', 'dim');
     } else if (name === 'ls') {
@@ -322,6 +324,10 @@ export default function MacBook({
       }
     } else if (name === 'date') {
       push(new Date().toString());
+    } else if (name === 'echo') {
+      push(args.join(' '));
+    } else if (name === 'pwd') {
+      push('/Users/aayush/portfolio');
     } else if (name === 'sudo') {
       push('nice try.');
     } else if (name === 'exit') {
@@ -374,7 +380,7 @@ export default function MacBook({
         return;
       case 'tab': {
         /* tab-completion for command names, falling back to two spaces */
-        const cmds = ['help', 'ls', 'cat', 'whoami', 'now', 'stack', 'projects', 'open', 'date', 'clear', 'sudo', 'exit'];
+        const cmds = ['help', 'ls', 'cat', 'whoami', 'now', 'stack', 'projects', 'open', 'date', 'echo', 'pwd', 'clear', 'sudo', 'exit'];
         const trimmed = cmd.trim();
         const parts = trimmed ? trimmed.split(/\s+/) : [];
         const last = parts.length ? parts[parts.length - 1] : '';

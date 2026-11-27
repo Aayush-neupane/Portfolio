@@ -405,7 +405,7 @@ html.light .hero-card {
   --lap-depth: 1.3cqw;
   /* the deck is as deep as the lid is tall (22.1 / 31.3cm on a 14"); the
    * keyboard block takes most of it, the way a real deck is laid out */
-  --lap-base-h: 68cqw;
+  --lap-base-h: 74cqw;
   position: relative;
   width: 100%;
   max-width: var(--lap-w);
@@ -415,7 +415,7 @@ html.light .hero-card {
   /* one camera for the whole machine: just above the deck, turned so it faces
    * left, a hair off level. Kept shallow on purpose: product shots sit near the
    * screen's plane, so the UI stays legible instead of skewing into a diamond */
-  transform: rotateX(-6deg) rotateY(-4deg) rotateZ(0.3deg);
+  transform: rotateX(-10deg) rotateY(-6deg) rotateZ(0.5deg);
   transform-origin: 50% 100%;
 }
 /* soft floor shadow, cancelled back out of the machine's rotation */
@@ -488,7 +488,7 @@ html.light .hero-laptop {
     0 0 0.9cqw oklch(0 0 0 / 0.26);
   transform-style: preserve-3d;
   transform-origin: 50% 100%;
-  transform: rotateX(3deg);
+  transform: rotateX(5deg);
   transition: transform 0.8s cubic-bezier(0.22, 0.9, 0.24, 1);
 }
 /* Shut: the panel folds down until it lies on the deck, so the aluminium back
@@ -1002,8 +1002,8 @@ html.light .hero-laptop-logo {
 /* speaker grilles flanking the keyboard */
 .hero-laptop-grille {
   position: absolute;
-  top: 4.6%;
-  height: 51%;
+  top: 4%;
+  height: 58%;
   width: 3%;
   border-radius: 0.4cqw;
   background-image: radial-gradient(circle, oklch(0 0 0 / 0.5) 0 0.085cqw, transparent 0.1cqw);
@@ -1016,11 +1016,11 @@ html.light .hero-laptop-logo {
 /* the recessed well the keyboard sits in */
 .hero-laptop-well {
   position: absolute;
-  left: 6%;
-  right: 6%;
-  top: 4.6%;
-  height: 51%;
-  padding: 0.55cqw 0.6cqw;
+  left: 4%;
+  right: 4%;
+  top: 4%;
+  height: 58%;
+  padding: 0.6cqw 0.7cqw;
   border-radius: 0.9cqw;
   background: linear-gradient(180deg, oklch(0.17 0.005 250), oklch(0.1 0.004 250));
   box-shadow:
@@ -1060,7 +1060,7 @@ html.light .hero-laptop-logo {
   text-shadow:
     0 0 0.28cqw color-mix(in srgb, var(--lap-key-glow) 52%, transparent),
     0 0 0.55cqw color-mix(in srgb, var(--lap-key-glow) 24%, transparent);
-  font: 500 1.5cqw/1 var(--font-mono);
+  font: 500 1.7cqw/1 var(--font-mono);
   letter-spacing: 0.01em;
   cursor: pointer;
   transition: transform 90ms ease, filter 90ms ease, box-shadow 90ms ease;
@@ -1077,7 +1077,7 @@ html.light .hero-laptop-logo {
   pointer-events: none;
 }
 .hero-laptop-key.is-word {
-  font-size: 1.1cqw;
+  font-size: 1.25cqw;
   letter-spacing: 0;
 }
 .hero-laptop-key span {
@@ -1109,7 +1109,7 @@ html.light .hero-laptop-logo {
   min-width: 0;
 }
 .hero-laptop-cluster .hero-laptop-keyrow { flex: 1; }
-.hero-laptop-cluster .hero-laptop-key { font-size: 1.1cqw; }
+.hero-laptop-cluster .hero-laptop-key { font-size: 1.25cqw; }
 .hero-laptop-spacer { flex: 1; min-width: 0; }
 .hero-laptop-key:hover { filter: brightness(1.12); transform: translateY(-0.08cqw); }
 .hero-laptop-key:active,
@@ -1125,10 +1125,10 @@ html.light .hero-laptop-logo {
 .hero-laptop-pad {
   position: absolute;
   left: 50%;
-  top: 57%;
+  top: 60%;
   translate: -50% 0;
-  width: 34%;
-  height: 24%;
+  width: 38%;
+  height: 26%;
   border-radius: 0.8cqw;
   background:
     linear-gradient(180deg, oklch(1 0 0 / 0.07), oklch(0 0 0 / 0.14)),

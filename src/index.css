@@ -415,7 +415,7 @@ html.light .hero-card {
   /* one camera for the whole machine: just above the deck, turned so it faces
    * left, a hair off level. Kept shallow on purpose: product shots sit near the
    * screen's plane, so the UI stays legible instead of skewing into a diamond */
-  transform: rotateX(-10deg) rotateY(-6deg) rotateZ(0.5deg) translateY(4cqw);
+  transform: rotateX(-4deg) rotateY(-2deg) rotateZ(0.2deg) translateY(4cqw);
   transform-origin: 50% 100%;
 }
 /* soft floor shadow, cancelled back out of the machine's rotation */
@@ -488,7 +488,7 @@ html.light .hero-laptop {
     0 0 0.9cqw oklch(0 0 0 / 0.26);
   transform-style: preserve-3d;
   transform-origin: 50% 100%;
-  transform: rotateX(5deg);
+  transform: rotateX(2deg);
   transition: transform 0.8s cubic-bezier(0.22, 0.9, 0.24, 1);
 }
 /* Shut: the panel folds down until it lies on the deck, so the aluminium back

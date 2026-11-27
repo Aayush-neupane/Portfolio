@@ -678,7 +678,12 @@ export default function MacBook({
     }
   };
 
+  const initialRef = useRef(true);
   useEffect(() => {
+    if (initialRef.current) {
+      initialRef.current = false;
+      return;
+    }
     try { localStorage.setItem('lap-open', open ? '1' : '0'); } catch { /* ignore */ }
   }, [open]);
 

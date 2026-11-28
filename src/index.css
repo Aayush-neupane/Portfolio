@@ -1230,8 +1230,10 @@ html.light .hero-deck-app img { filter: none; }
 /* front lip: a rounded metal front edge with a real thickness face below it */
 .hero-laptop-lip {
   position: absolute;
-  inset: auto 0 0;
-  height: 9%;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 4cqw;
   border-radius: 0 0 2.2cqw 2.2cqw;
   border-top: 1px solid oklch(1 0 0 / 0.18);
   transform-style: preserve-3d;
@@ -1239,22 +1241,6 @@ html.light .hero-deck-app img { filter: none; }
     inset 0 0.16cqw 0 oklch(1 0 0 / 0.2),
     inset 0 -0.18cqw 0 oklch(0 0 0 / 0.4),
     0 -0.4cqw 0.8cqw oklch(0 0 0 / 0.25);
-}
-/* the front edge stands up out of the deck plane, giving the slab thickness */
-.hero-laptop-lip::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 100%;
-  height: 7cqw;
-  transform-origin: 50% 0;
-  transform: rotateX(-90deg);
-  border-radius: 0 0 2.2cqw 2.2cqw;
-  background: linear-gradient(180deg, oklch(0.22 0.006 250), oklch(0.16 0.004 250));
-  box-shadow:
-    inset 0 0.15cqw 0 oklch(1 0 0 / 0.25),
-    inset 0 -0.3cqw 0.5cqw oklch(0 0 0 / 0.6);
 }
 .hero-laptop.is-closed .hero-laptop-lip {
   background: linear-gradient(180deg, oklch(0 0 0 / 0.4), oklch(0 0 0 / 0.12) 60%, var(--lap-metal-low));

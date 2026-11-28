@@ -238,9 +238,13 @@ export default function MacBook({
   const [histAt, setHistAt] = useState(-1);
   const [clock, setClock] = useState(timeNow);
   const bootedAt = useRef(Date.now());
-  const [chatLog, setChatLog] = useState([{ role: 'bot', text: 'Hi! I am Aurora. Ask me anything about Aayush.' }]);
+  const [chatLog, setChatLog] = useState([
+    { role: 'bot', text: "Hey, I'm Aurora — Aayush's portfolio assistant. Ask me about his work, stack, or availability." },
+  ]);
   const [chatInput, setChatInput] = useState('');
+  const [typing, setTyping] = useState(false);
   const chatRef = useRef(null);
+  const chatBodyRef = useRef(null);
   /* the desktop introduces itself in order: bare wallpaper, a drawn hello,
    * a typed welcome, then the apps */
   const WELCOME = 'Welcome to Aayush\'s Portfolio';
@@ -780,32 +784,45 @@ export default function MacBook({
 
   const replyFor = (q) => {
     const t = q.toLowerCase();
-    if (t.includes('skill') || t.includes('stack') || t.includes('tech'))
-      return 'Aayush works with React, TypeScript, Tailwind, Supabase, Node, and Unity (C#) for games.';
-    if (t.includes('available') || t.includes('hire') || t.includes('freelance') || t.includes('book'))
-      return available ? `Yes, he is open for work. Replies in ${reply}.` : 'He is fully booked right now.';
-    if (t.includes('project') || t.includes('work'))
-      return 'Recent work: Pana, Sajilo Damak, Crystal Cabin Detailing, Excurion, RC Panel. Open the Work app to explore.';
-    if (t.includes('contact') || t.includes('email') || t.includes('reach'))
-      return 'Reach him via the Contact section, or WhatsApp. Based in Jhapa, Nepal (UTC+5:45).';
-    if (t.includes('location') || t.includes('where'))
-      return 'Jhapa, Nepal.';
-    if (t.includes('experience') || t.includes('years'))
-      return 'Building for the web since 2022 — 4+ years.';
-    if (t.includes('hello') || t.includes('hi') || t.includes('hey'))
-      return 'Hello! How can I help?';
-    return 'I am not sure about that. Try asking about skills, projects, availability, or contact.';
+    const has = (...words) => words.some((w) => new RegExp(`\\b${w}\\b`).test(t));
+    if (has('thanks', 'thank')) return 'Anytime. Anything else you want to know?';
+    if (has('hi', 'hello', 'hey', 'yo', 'sup'))
+      return "Hello! Ask me about Aayush's skills, projects, availability, or how to reach him.";
+    if (has('available', 'availability', 'hire', 'hiring', 'freelance', 'book', 'booking') || t.includes('work with'))
+      return available ? `Yes — he's open for work. Replies in ${reply}.` : 'He is fully booked right now.';
+    if (has('skill', 'skills', 'stack', 'tech', 'technology', 'tools', 'framework', 'frameworks'))
+      return 'React, TypeScript, Tailwind, Supabase, Node, and Unity (C#) for games.';
+    if (has('project', 'projects', 'work', 'portfolio', 'built', 'build', 'case'))
+      return 'Recent work: Pana, Sajilo Damak, Crystal Cabin Detailing, Excurion, and RC Panel. Open the Work app to explore.';
+    if (has('resume', 'cv')) return 'You can grab the resume from the Resume section of the site.';
+    if (has('service', 'services', 'offer'))
+      return 'Web apps, landing pages, dashboards, and game work — from design through deployment.';
+    if (has('contact', 'email', 'reach', 'whatsapp', 'message'))
+      return 'Use the Contact section or the WhatsApp button. Based in Jhapa, Nepal (UTC+5:45).';
+    if (has('location', 'where', 'based', 'city', 'country')) return 'Jhapa, Nepal — UTC+5:45.';
+    if (has('experience', 'years')) return 'Building for the web since 2022 — 4+ years.';
+    if (has('who', 'about', 'aayush'))
+      return 'Aayush Neupane is a developer in Nepal building web apps, interfaces, and games.';
+    return "I'm not sure about that one. Try skills, projects, availability, or contact.";
   };
 
-  const sendChat = () => {
-    const text = chatInput.trim();
+  const sendChat = (override) => {
+    const text = (override ?? chatInput).trim();
     if (!text) return;
     setChatLog((l) => [...l, { role: 'user', text }]);
     setChatInput('');
+    setTyping(true);
+    chatRef.current?.focus();
     window.setTimeout(() => {
       setChatLog((l) => [...l, { role: 'bot', text: replyFor(text) }]);
-    }, 450);
+      setTyping(false);
+    }, 650);
   };
+
+  useEffect(() => {
+    const el = chatBodyRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [chatLog, typing]);
 
   useEffect(() => {
     if (view === 'aurora') chatRef.current?.focus();
@@ -863,25 +880,27 @@ export default function MacBook({
                 {stage === 'apps' ? (
                   <div className="hero-shell">
                 <div className="hero-menubar">
-                  <button
-                    type="button"
-                    className="hero-menubar-apps"
-                    onClick={() => setAppGrid((v) => !v)}
-                    aria-label="Open app launcher"
-                    title="Apps"
-                  >
-                    Apps
-                  </button>
-                  <button
-                    type="button"
-                    className="hero-menubar-id"
-                    onClick={() => setWin('closed')}
-                    aria-label="Go to desktop"
-                    title="Desktop"
-                  >
-                    <BrandMark className="hero-menubar-mark" />
-                    aayushnp.com
-                  </button>
+                  <div className="hero-menubar-left">
+                    <button
+                      type="button"
+                      className="hero-menubar-id"
+                      onClick={() => setWin('closed')}
+                      aria-label="Go to desktop"
+                      title="Desktop"
+                    >
+                      <BrandMark className="hero-menubar-mark" />
+                      aayushnp.com
+                    </button>
+                    <button
+                      type="button"
+                      className="hero-menubar-apps"
+                      onClick={() => setAppGrid((v) => !v)}
+                      aria-label="Open app launcher"
+                      title="Apps"
+                    >
+                      Apps
+                    </button>
+                  </div>
                   <span className="hero-menubar-meta">
                     <span className="hero-menubar-status">
                       <span
@@ -931,14 +950,33 @@ export default function MacBook({
                         onNext={nextFrame}
                         onZoom={() => setZoom((z) => !z)}
                       />
-                      <div className="hero-chat-body">
+                      <div className="hero-chat-body" ref={chatBodyRef}>
                         {chatLog.map((m, i) => (
                           <div key={i} className={`hero-chat-msg is-${m.role}`}>
                             <span className="hero-chat-role">{m.role === 'bot' ? 'Aurora' : 'You'}</span>
                             <p>{m.text}</p>
                           </div>
                         ))}
+                        {typing ? (
+                          <div className="hero-chat-msg is-bot is-typing" aria-label="Aurora is typing">
+                            <span className="hero-chat-role">Aurora</span>
+                            <p className="hero-chat-dots" aria-hidden="true">
+                              <i />
+                              <i />
+                              <i />
+                            </p>
+                          </div>
+                        ) : null}
                       </div>
+                      {chatLog.length <= 1 && !typing ? (
+                        <div className="hero-chat-suggest">
+                          {['Skills', 'Projects', 'Availability', 'Contact'].map((s) => (
+                            <button key={s} type="button" onClick={() => sendChat(s)}>
+                              {s}
+                            </button>
+                          ))}
+                        </div>
+                      ) : null}
                       <div className="hero-chat-input">
                         <input
                           ref={chatRef}
@@ -950,6 +988,10 @@ export default function MacBook({
                           }}
                           placeholder="Ask Aurora…"
                           aria-label="Chat with Aurora"
+                          autoComplete="off"
+                          spellCheck="false"
+                          maxLength={120}
+                          enterKeyHint="send"
                         />
                         <button type="button" onClick={sendChat} aria-label="Send">
                           <ArrowUpRight aria-hidden="true" />
@@ -1067,6 +1109,7 @@ export default function MacBook({
             <BrandMark className="hero-laptop-logo" />
           </button>
           <span aria-hidden="true" className="hero-laptop-lid-wall" />
+          <span aria-hidden="true" className="hero-laptop-lid-front" />
         </div>
 
         <div className="hero-laptop-base">

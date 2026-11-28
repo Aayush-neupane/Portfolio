@@ -350,7 +350,7 @@ html.light .hero-card {
   font-size: calc(var(--lap-w) / 100);
   max-width: var(--lap-w);
   margin-inline: auto;
-  padding-bottom: calc(42em + 0.35rem);
+  padding-bottom: calc(50em + 0.35rem);
 }
 .hero-device-face {
   box-shadow: 0 30px 60px -40px oklch(0 0 0 / 0.85);
@@ -409,19 +409,19 @@ html.light .hero-card {
   --lap-key-glow: oklch(0.97 0.03 78);
   --lap-logo: oklch(0.19 0.005 250);
   --lap-depth: 1.3cqw;
-  /* the deck is as deep as the lid is tall (22.1 / 31.3cm on a 14"); the
-   * keyboard block takes most of it, the way a real deck is laid out */
-  --lap-base-h: 76cqw;
+  /* the deck is about as long as the lid, so the shut lid still covers it; the
+   * raised camera does the rest of the work of showing the palm rest */
+  --lap-base-h: 68cqw;
   position: relative;
   width: 100%;
   max-width: var(--lap-w);
   margin-inline: auto;
   container-type: inline-size;
   transform-style: preserve-3d;
-  /* one camera for the whole machine: just above the deck, turned so it faces
-   * left, a hair off level. Kept shallow on purpose: product shots sit near the
-   * screen's plane, so the UI stays legible instead of skewing into a diamond */
-  transform: rotateX(-6deg) rotateY(-6deg) rotateZ(0deg) translateY(3cqw);
+  /* one camera for the whole machine: high enough to see the deck keys, turned
+   * left so the AI and terminal keys sit clear of the lid. Negative X lifts the
+   * deck's near edge instead of burying it over the screen */
+  transform: rotateX(-18deg) rotateY(-18deg) rotateZ(0deg) translateY(3cqw);
   transform-origin: 50% 100%;
 }
 /* soft floor shadow, cancelled back out of the machine's rotation */
@@ -494,7 +494,8 @@ html.light .hero-laptop {
     0 0 0.9cqw oklch(0 0 0 / 0.26);
   transform-style: preserve-3d;
   transform-origin: 50% 100%;
-  transform: rotateX(2deg);
+  /* the screen leans back; with the raised camera it reads as ~105deg */
+  transform: rotateX(29deg);
   transition: transform 0.8s cubic-bezier(0.22, 0.9, 0.24, 1);
 }
 /* Shut: the panel folds down until it lies on the deck, so the aluminium back
@@ -581,6 +582,20 @@ html.light .hero-laptop-logo {
   background: linear-gradient(90deg, oklch(0.18 0.005 250), color-mix(in srgb, var(--lap-metal-mid) 52%, var(--lap-metal-low)) 62%, var(--lap-metal-mid));
   box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.07);
 }
+/* the lid's own front edge: bridges the gap to the deck when the lid is shut */
+.hero-laptop-lid-front {
+  position: absolute;
+  left: 1.2cqw;
+  right: 1.2cqw;
+  top: 0;
+  height: var(--lap-depth);
+  transform-origin: 50% 0;
+  transform: rotateX(-90deg);
+  border-radius: 0 0 0.4cqw 0.4cqw;
+  background: linear-gradient(180deg, var(--lap-metal-mid), var(--lap-metal-low));
+  box-shadow: inset 0 0.08cqw 0 oklch(1 0 0 / 0.18);
+  pointer-events: none;
+}
 
 .hero-laptop-bezel {
   position: relative;
@@ -654,6 +669,12 @@ html.light .hero-laptop-logo {
   display: inline-flex;
   align-items: center;
   gap: 1.1cqw;
+  min-width: 0;
+}
+.hero-menubar-left {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
   min-width: 0;
 }
 .hero-menubar-id {
@@ -747,12 +768,27 @@ html.light .hero-laptop-logo {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 1.2cqw;
   padding: 1.6cqw 1.8cqw 1.4cqw;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  scrollbar-width: thin;
+  scrollbar-color: oklch(1 0 0 / 0.18) transparent;
+}
+.hero-desktop::-webkit-scrollbar { width: 0.4cqw; }
+.hero-desktop::-webkit-scrollbar-thumb {
+  background: oklch(1 0 0 / 0.18);
+  border-radius: 999px;
 }
 
 .hero-window {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
   border-radius: 1.2cqw;
   border: 1px solid var(--lap-line);
   background: var(--lap-panel);
@@ -981,7 +1017,6 @@ html.light .hero-laptop-logo {
     radial-gradient(78% 60% at 22% 8%, oklch(1 0 0 / 0.08), transparent 62%),
     linear-gradient(180deg, var(--lap-metal-low) 0%, var(--lap-metal-mid) 30%, var(--lap-metal-mid) 76%, var(--lap-metal-hi) 100%);
   box-shadow: inset 0 0 0 1px var(--lap-edge), var(--lap-shadow);
-  overflow: hidden;
 }
 /* rounded side falloff, so the slab reads as one piece of metal */
 .hero-laptop-base::after {
@@ -1009,7 +1044,7 @@ html.light .hero-laptop-logo {
 .hero-laptop-grille {
   position: absolute;
   top: 4%;
-  height: 60%;
+  height: 50%;
   width: 3%;
   border-radius: 0.4cqw;
   background-image: radial-gradient(circle, oklch(0 0 0 / 0.5) 0 0.085cqw, transparent 0.1cqw);
@@ -1025,7 +1060,7 @@ html.light .hero-laptop-logo {
   left: 4%;
   right: 4%;
   top: 4%;
-  height: 60%;
+  height: 50%;
   padding: 0.6cqw 0.7cqw;
   border-radius: 0.9cqw;
   background: linear-gradient(180deg, oklch(0.17 0.005 250), oklch(0.1 0.004 250));
@@ -1130,9 +1165,9 @@ html.light .hero-laptop-logo {
 /* the two app keys flanking the trackpad, on the deck itself */
 .hero-deck-app {
   position: absolute;
-  top: 62%;
-  width: 11%;
-  height: 20%;
+  top: 60%;
+  width: 12%;
+  height: 24%;
   display: grid;
   place-items: center;
   border: 1px solid oklch(1 0 0 / 0.16);
@@ -1145,24 +1180,24 @@ html.light .hero-laptop-logo {
   transition: background 0.15s ease, transform 0.15s ease;
   -webkit-tap-highlight-color: transparent;
 }
-.hero-deck-app.is-term { left: 8%; }
-.hero-deck-app.is-aurora { right: 8%; }
+.hero-deck-app.is-term { left: 7%; }
+.hero-deck-app.is-aurora { right: 7%; }
 .hero-deck-app:hover {
   background: color-mix(in srgb, var(--color-accent) 42%, transparent);
   transform: translateY(-0.15cqw);
 }
-.hero-deck-app svg { width: 2.6cqw; height: 2.6cqw; }
-.hero-deck-app img { width: 2.8cqw; height: 2.8cqw; filter: brightness(0) invert(1); }
+.hero-deck-app svg { width: 3.1cqw; height: 3.1cqw; }
+.hero-deck-app img { width: 3.3cqw; height: 3.3cqw; filter: brightness(0) invert(1); }
 html.light .hero-deck-app img { filter: none; }
 
 /* glass trackpad on the palm rest */
 .hero-laptop-pad {
   position: absolute;
   left: 50%;
-  top: 62%;
+  top: 57%;
   translate: -50% 0;
-  width: 40%;
-  height: 27%;
+  width: 38%;
+  height: 26%;
   border-radius: 0.8cqw;
   background:
     linear-gradient(180deg, oklch(1 0 0 / 0.07), oklch(0 0 0 / 0.14)),
@@ -1183,17 +1218,15 @@ html.light .hero-deck-app img { filter: none; }
   box-shadow: 0 0.1cqw 0 oklch(0 0 0 / 0.25);
 }
 
-/* front lip: the edge that catches the light, with the opening groove in it */
+/* front lip: a thin rounded front edge with a real thickness face below it */
 .hero-laptop-lip {
   position: absolute;
   inset: auto 0 0;
-  height: 13%;
+  height: 6%;
   border-radius: 0 0 2.2cqw 2.2cqw;
-  background: linear-gradient(180deg, var(--lap-metal-hi) 0%, var(--lap-metal-mid) 34%, var(--lap-metal-low) 100%);
-  border-top: 1px solid oklch(1 0 0 / 0.2);
-  box-shadow:
-    inset 0 -0.16cqw 0 oklch(0 0 0 / 0.35),
-    0 -0.45cqw 0.9cqw oklch(0 0 0 / 0.3);
+  background: transparent;
+  border-top: 0;
+  box-shadow: none;
 }
 /* the front edge stands up out of the deck plane, giving the slab thickness */
 .hero-laptop-lip::after {
@@ -1202,12 +1235,17 @@ html.light .hero-deck-app img { filter: none; }
   left: 0;
   right: 0;
   top: 100%;
-  height: 2.2cqw;
+  height: 3.4cqw;
   transform-origin: 50% 0;
   transform: rotateX(-90deg);
-  border-radius: 0 0 0.6cqw 0.6cqw;
-  background: linear-gradient(180deg, var(--lap-metal-mid), var(--lap-metal-low));
-  box-shadow: inset 0 -1px 0 oklch(0 0 0 / 0.45);
+  border-radius: 0 0 0.9cqw 0.9cqw;
+  background: linear-gradient(180deg, var(--lap-metal-mid), var(--lap-metal-low) 70%);
+  box-shadow:
+    inset 0 0.1cqw 0 oklch(1 0 0 / 0.16),
+    inset 0 -0.2cqw 0.3cqw oklch(0 0 0 / 0.4);
+}
+.hero-laptop.is-closed .hero-laptop-lip {
+  background: linear-gradient(180deg, oklch(0 0 0 / 0.5), oklch(0 0 0 / 0.16) 60%, transparent);
 }
 .hero-laptop-groove {
   position: absolute;
@@ -1314,17 +1352,25 @@ html.light .hero-deck-app img { filter: none; }
   min-height: 0;
   overflow-y: auto;
   display: grid;
-  gap: 1.2cqw;
-  padding: 1.6cqw 2cqw;
+  align-content: start;
+  gap: 1cqw;
+  padding: 1.4cqw 1.6cqw;
+  overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: oklch(1 0 0 / 0.18) transparent;
 }
 .hero-chat-msg {
   display: grid;
   gap: 0.4cqw;
+  justify-items: start;
+  max-width: 92%;
+}
+.hero-chat-msg.is-user {
+  justify-self: end;
+  justify-items: end;
 }
 .hero-chat-role {
-  font: 500 1.35cqw/1 var(--font-mono);
+  font: 500 1.25cqw/1 var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--lap-dim);
@@ -1332,14 +1378,61 @@ html.light .hero-deck-app img { filter: none; }
 .hero-chat-msg.is-bot .hero-chat-role { color: color-mix(in oklch, var(--color-accent) 55%, white); }
 .hero-chat-msg p {
   margin: 0;
-  font: 400 1.85cqw/1.4 var(--font-mono);
+  padding: 0.8cqw 1.1cqw;
+  border-radius: 0.9cqw;
+  border-top-left-radius: 0.25cqw;
+  background: oklch(1 0 0 / 0.07);
+  font: 400 1.75cqw/1.4 var(--font-mono);
   color: var(--lap-ink);
 }
-.hero-chat-msg.is-user p { color: var(--lap-dim); }
+.hero-chat-msg.is-user p {
+  border-radius: 0.9cqw;
+  border-top-right-radius: 0.25cqw;
+  background: color-mix(in srgb, var(--color-accent) 26%, transparent);
+}
+.hero-chat-msg.is-typing p {
+  display: inline-flex;
+  gap: 0.35cqw;
+  padding: 1cqw 1.2cqw;
+}
+.hero-chat-dots i {
+  width: 0.5cqw;
+  height: 0.5cqw;
+  border-radius: 999px;
+  background: var(--lap-dim);
+  animation: auroraDot 1s ease-in-out infinite;
+}
+.hero-chat-dots i:nth-child(2) { animation-delay: 0.15s; }
+.hero-chat-dots i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes auroraDot {
+  0%, 100% { opacity: 0.35; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-0.25cqw); }
+}
+.hero-chat-suggest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6cqw;
+  padding: 0 1.6cqw 1cqw;
+}
+.hero-chat-suggest button {
+  padding: 0.55cqw 0.9cqw;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 40%, transparent);
+  border-radius: 999px;
+  background: oklch(1 0 0 / 0.05);
+  color: var(--lap-ink);
+  font: 500 1.35cqw/1 var(--font-mono);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.hero-chat-suggest button:hover,
+.hero-chat-suggest button:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  border-color: color-mix(in srgb, var(--color-accent) 62%, transparent);
+}
 .hero-chat-input {
   display: flex;
   gap: 0.8cqw;
-  padding: 1.2cqw 1.6cqw;
+  padding: 1cqw 1.6cqw;
   border-top: 1px solid var(--lap-line);
   background: oklch(0 0 0 / 0.18);
 }
@@ -1351,15 +1444,15 @@ html.light .hero-deck-app img { filter: none; }
   border-radius: 0.7cqw;
   background: oklch(0 0 0 / 0.3);
   color: var(--lap-ink);
-  font: 400 1.85cqw/1.2 var(--font-mono);
+  font: 400 1.75cqw/1.2 var(--font-mono);
   outline: none;
 }
 .hero-chat-input input:focus { border-color: color-mix(in srgb, var(--color-accent) 55%, transparent); }
 .hero-chat-input button {
   display: grid;
   place-items: center;
-  width: 3.6cqw;
-  height: 3.6cqw;
+  width: 3.4cqw;
+  height: 3.4cqw;
   border: 0;
   border-radius: 0.7cqw;
   background: color-mix(in srgb, var(--color-accent) 72%, transparent);

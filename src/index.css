@@ -391,9 +391,9 @@ html.light .hero-card {
   --lap-metal-hi: oklch(0.52 0.006 250);
   --lap-metal-mid: oklch(0.36 0.006 250);
   --lap-metal-low: oklch(0.25 0.006 250);
-  --lap-back-hi: oklch(0.39 0.005 250);
-  --lap-back-mid: oklch(0.27 0.004 250);
-  --lap-back-low: oklch(0.17 0.004 250);
+  --lap-back-hi: oklch(0.46 0.005 250);
+  --lap-back-mid: oklch(0.34 0.004 250);
+  --lap-back-low: oklch(0.24 0.004 250);
   --lap-edge: oklch(1 0 0 / 0.16);
   --lap-deck-line: oklch(1 0 0 / 0.09);
   --lap-key: oklch(0.21 0.004 250);
@@ -1008,13 +1008,8 @@ html.light .hero-laptop-logo {
   transform-style: preserve-3d;
   border-radius: 0 0 1.8cqw 1.8cqw / 0 0 1.3cqw 1.3cqw;
   background:
-    /* fine grain: brushed aluminium is never a clean vertical ramp */
-    repeating-linear-gradient(90deg, oklch(1 0 0 / 0.022) 0 0.1cqw, transparent 0.1cqw 0.19cqw),
-    repeating-linear-gradient(90deg, oklch(0 0 0 / 0.03) 0 0.07cqw, transparent 0.07cqw 0.26cqw),
-    radial-gradient(58% 44% at 74% 24%, oklch(1 0 0 / 0.11), transparent 72%),
-    linear-gradient(112deg, oklch(1 0 0 / 0.09) 0%, oklch(1 0 0 / 0.025) 18%, transparent 34%),
-    linear-gradient(96deg, oklch(0 0 0 / 0.16) 0%, transparent 22%),
-    radial-gradient(78% 60% at 22% 8%, oklch(1 0 0 / 0.08), transparent 62%),
+    linear-gradient(112deg, oklch(1 0 0 / 0.06) 0%, transparent 30%),
+    linear-gradient(96deg, oklch(0 0 0 / 0.12) 0%, transparent 18%),
     linear-gradient(180deg, var(--lap-metal-low) 0%, var(--lap-metal-mid) 30%, var(--lap-metal-mid) 76%, var(--lap-metal-hi) 100%);
   box-shadow: inset 0 0 0 1px var(--lap-edge), var(--lap-shadow);
 }
@@ -1025,6 +1020,20 @@ html.light .hero-laptop-logo {
   inset: 0;
   pointer-events: none;
   background: linear-gradient(90deg, oklch(0 0 0 / 0.22), transparent 6%, transparent 94%, oklch(1 0 0 / 0.08));
+}
+/* right side face of the deck, so the slab reads as solid from the side */
+.hero-laptop-base-wall {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--lap-depth);
+  height: 100%;
+  transform-origin: 100% 50%;
+  transform: rotateY(-90deg);
+  border-radius: 0 0 0.4cqw 0.4cqw;
+  background: linear-gradient(180deg, var(--lap-metal-mid), var(--lap-metal-low));
+  box-shadow: inset 0 0.1cqw 0 oklch(1 0 0 / 0.14);
+  pointer-events: none;
 }
 /* subtle white backlight spill on the deck */
 .hero-laptop-base::before {
@@ -1223,8 +1232,7 @@ html.light .hero-deck-app img { filter: none; }
   position: absolute;
   inset: auto 0 0;
   height: 9%;
-  border-radius: 0 0 2.2cqw 2.2cqw;
-  background: linear-gradient(180deg, var(--lap-metal-mid) 0%, var(--lap-metal-low) 100%);
+  border-radius: 0 0 2.2cqw 1.6cqw;
   border-top: 1px solid oklch(1 0 0 / 0.18);
   box-shadow:
     inset 0 0.12cqw 0 oklch(1 0 0 / 0.16),

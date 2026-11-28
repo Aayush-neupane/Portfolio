@@ -1114,6 +1114,7 @@ export default function MacBook({
 
         <div className="hero-laptop-base">
           <span aria-hidden="true" className="hero-laptop-hinge" />
+          <span aria-hidden="true" className="hero-laptop-base-wall" />
           <span aria-hidden="true" className="hero-laptop-grille is-left" />
           <span aria-hidden="true" className="hero-laptop-grille is-right" />
 

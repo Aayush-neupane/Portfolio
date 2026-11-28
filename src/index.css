@@ -421,7 +421,7 @@ html.light .hero-card {
   /* one camera for the whole machine: high enough to see the deck keys, turned
    * left so the AI and terminal keys sit clear of the lid. Negative X lifts the
    * deck's near edge instead of burying it over the screen */
-  transform: rotateX(-15deg) rotateY(-18deg) rotateZ(0deg) translateY(3cqw);
+  transform: rotateX(-16deg) rotateY(-18deg) rotateZ(0deg) translateY(3cqw);
   transform-origin: 50% 100%;
 }
 /* soft floor shadow, cancelled back out of the machine's rotation */
